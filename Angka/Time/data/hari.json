@@ -1,0 +1,10 @@
+[
+  { "furigana": "げつようび", "arti": "Senin" },
+  { "furigana": "かようび", "arti": "Selasa" },
+  { "furigana": "すいようび", "arti": "Rabu" },
+  { "furigana": "もくようび", "arti": "Kamis" },
+  { "furigana": "きんようび", "arti": "Jumat" },
+  { "furigana": "どようび", "arti": "Sabtu" },
+  { "furigana": "にちようび", "arti": "Minggu" },
+  { "furigana": "なんようび", "arti": "Hari apa?" }
+]

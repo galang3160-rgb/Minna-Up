@@ -1,0 +1,93 @@
+{
+  "flashcards": [
+    {
+      "kanji": "長",
+      "furigana": "ながい",
+      "arti": "Panjang"
+    },
+    {
+      "kanji": "高",
+      "furigana": "たかい",
+      "arti": "Tinggi / Mahal"
+    },
+    {
+      "kanji": "円",
+      "furigana": "えん",
+      "arti": "Yen / Lingkaran"
+    },
+    {
+      "kanji": "北",
+      "furigana": "きた",
+      "arti": "Utara"
+    },
+    {
+      "kanji": "南",
+      "furigana": "みなみ",
+      "arti": "Selatan"
+    },
+    {
+      "kanji": "東",
+      "furigana": "ひがし",
+      "arti": "Timur"
+    },
+    {
+      "kanji": "食",
+      "furigana": "たべる",
+      "arti": "Makan"
+    },
+    {
+      "kanji": "飲",
+      "furigana": "のむ",
+      "arti": "Minum"
+    },
+    {
+      "kanji": "駅",
+      "furigana": "えき",
+      "arti": "Stasiun"
+    },
+    {
+      "kanji": "目",
+      "furigana": "め",
+      "arti": "Mata"
+    },
+    {
+      "kanji": "見",
+      "furigana": "みる",
+      "arti": "Melihat"
+    },
+    {
+      "kanji": "聞",
+      "furigana": "きく",
+      "arti": "Mendengar"
+    }
+  ],
+  "dokkai": {
+    "title": "かんじのれんしゅう (Latihan Kanji)",
+    "items": [
+      {
+        "japanese": "駅の 東口で 友だちを 見ます。",
+        "indonesian": "Saya melihat teman di pintu timur stasiun."
+      },
+      {
+        "japanese": "北と 南の 風の 音を 聞きます。",
+        "indonesian": "Saya mendengarkan suara angin utara dan selatan."
+      },
+      {
+        "japanese": "この 長い パンを 食べます。",
+        "indonesian": "Saya memakan roti yang panjang ini."
+      },
+      {
+        "japanese": "高い お茶を 飲みます。五百円です。",
+        "indonesian": "Saya meminum teh yang mahal. Harganya 500 yen."
+      },
+      {
+        "japanese": "駅の 前で 目が 赤い 犬を 見ました。",
+        "indonesian": "Saya melihat anjing bermata merah di depan stasiun."
+      },
+      {
+        "japanese": "音楽を 聞きながら、ごはんを 食べます。",
+        "indonesian": "Saya makan sambil mendengarkan musik."
+      }
+    ]
+  }
+}

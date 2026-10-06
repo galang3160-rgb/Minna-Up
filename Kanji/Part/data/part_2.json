@@ -1,0 +1,78 @@
+{
+  "flashcards": [
+    {
+      "kanji": "千",
+      "furigana": "せん",
+      "arti": "Seribu"
+    },
+    {
+      "kanji": "百",
+      "furigana": "ひゃく",
+      "arti": "Seratus"
+    },
+    {
+      "kanji": "万",
+      "furigana": "まん",
+      "arti": "Sepuluh ribu"
+    },
+    {
+      "kanji": "日",
+      "furigana": "ひ",
+      "arti": "Hari / Matahari"
+    },
+    {
+      "kanji": "火",
+      "furigana": "ひ",
+      "arti": "Api"
+    },
+    {
+      "kanji": "水",
+      "furigana": "みず",
+      "arti": "Air"
+    },
+    {
+      "kanji": "木",
+      "furigana": "き",
+      "arti": "Pohon / Kayu"
+    },
+    {
+      "kanji": "金",
+      "furigana": "かね",
+      "arti": "Uang / Emas"
+    },
+    {
+      "kanji": "土",
+      "furigana": "つち",
+      "arti": "Tanah"
+    }
+  ],
+  "dokkai": {
+    "title": "せん、ひゃく、まんと ようびのれんしゅう (Latihan Angka dan Hari)",
+    "items": [
+      {
+        "japanese": "千円の かねが あります。",
+        "indonesian": "Ada uang seribu yen."
+      },
+      {
+        "japanese": "百円の みずを かいました。",
+        "indonesian": "Saya membeli air seharga seratus yen."
+      },
+      {
+        "japanese": "一万円の かねが あります。",
+        "indonesian": "Ada uang sepuluh ribu yen."
+      },
+      {
+        "japanese": "日よう日に みずを のみます。",
+        "indonesian": "Pada hari Minggu saya minum air."
+      },
+      {
+        "japanese": "火を つかいます。木も つかいます。",
+        "indonesian": "Saya menggunakan api. Saya juga menggunakan kayu."
+      },
+      {
+        "japanese": "水と 土が あります。木も あります。",
+        "indonesian": "Ada air dan tanah. Ada juga pohon."
+      }
+    ]
+  }
+}

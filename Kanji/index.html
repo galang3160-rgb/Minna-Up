@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nihonggo Gakkou — Pilihan Kanji Part</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="cinema-body">
+
+  <!-- BACKGROUND VIDEO / AMBIENT -->
+  <div class="video-backdrop">
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="../../Video/background.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+
+  <!-- NAVBAR KAPSUL MELINGKAR -->
+  <header class="fixed-topbar">
+    <div class="topbar-capsule">
+      
+      <!-- Kiri: Tombol Back Bulat & Logo -->
+      <div class="topbar-left">
+        <a href="../../index.html" class="nav-back-circle" title="Kembali">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </a>
+        <a href="index.html" class="logo">
+          <span class="logo-word">Nihonggo <b>Gakkou</b></span>
+        </a>
+      </div>
+
+      <!-- Kanan: Tombol Pemicu Modal Level Kanji Part -->
+      <div class="topbar-right">
+        <button type="button" id="openChapterModal" class="chapter-trigger-btn" aria-label="Buka Daftar Kanji Part">
+          <span class="trigger-label">Kanji <b id="currentChapterDisplay">Part 01</b></span>
+          <div class="trigger-icon-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA: SLIDER CAROUSEL KARTU -->
+  <main class="flashcard-stage">
+    <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Part Sebelumnya">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <div class="carousel-container" id="carouselContainer"></div>
+
+    <button type="button" class="nav-arrow-btn next-btn" id="nextBtn" aria-label="Part Selanjutnya">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+  </main>
+
+  <!-- MODAL VISUAL GRID LEVEL 1-25 -->
+  <div class="modal-backdrop" id="chapterModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">DAFTAR MATERI KANJI</span>
+          <h3 class="modal-title">Pilih Kanji Part</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Grid 25 Part di-generate via JS -->
+      <div class="modal-grid" id="modalChapterGrid"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

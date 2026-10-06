@@ -1,0 +1,83 @@
+{
+  "flashcards": [
+    {
+      "kanji": "一",
+      "furigana": "いち",
+      "arti": "Satu"
+    },
+    {
+      "kanji": "二",
+      "furigana": "に",
+      "arti": "Dua"
+    },
+    {
+      "kanji": "三",
+      "furigana": "さん",
+      "arti": "Tiga"
+    },
+    {
+      "kanji": "四",
+      "furigana": "よん / し",
+      "arti": "Empat"
+    },
+    {
+      "kanji": "五",
+      "furigana": "ご",
+      "arti": "Lima"
+    },
+    {
+      "kanji": "六",
+      "furigana": "ろく",
+      "arti": "Enam"
+    },
+    {
+      "kanji": "七",
+      "furigana": "なな / しち",
+      "arti": "Tujuh"
+    },
+    {
+      "kanji": "八",
+      "furigana": "はち",
+      "arti": "Delapan"
+    },
+    {
+      "kanji": "九",
+      "furigana": "きゅう / く",
+      "arti": "Sembilan"
+    },
+    {
+      "kanji": "十",
+      "furigana": "じゅう",
+      "arti": "Sepuluh"
+    }
+  ],
+  "dokkai": {
+    "title": "すうじのれんしゅう (Latihan Angka)",
+    "items": [
+      {
+        "japanese": "わたしは一、りんごを たべました。",
+        "indonesian": "Saya makan satu buah apel."
+      },
+      {
+        "japanese": "つくえの うえに、二の ほんが あります。",
+        "indonesian": "Di atas meja ada dua buku."
+      },
+      {
+        "japanese": "へやに、三の がくせいが います。",
+        "indonesian": "Di kamar ada tiga orang siswa."
+      },
+      {
+        "japanese": "わたしは 四の たまごと 五の パンを かいました。",
+        "indonesian": "Saya membeli empat telur dan lima roti."
+      },
+      {
+        "japanese": "あそこに、六の こどもが います。七の おとなも います。",
+        "indonesian": "Di sana ada enam anak. Ada juga tujuh orang dewasa."
+      },
+      {
+        "japanese": "わたしの かぞくは 八の 人です。九の りんごと 十の みかんが あります。",
+        "indonesian": "Keluarga saya berjumlah delapan orang. Ada sembilan apel dan sepuluh jeruk."
+      }
+    ]
+  }
+}

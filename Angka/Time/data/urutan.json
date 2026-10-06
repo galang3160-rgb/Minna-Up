@@ -1,0 +1,13 @@
+[
+  { "furigana": "いちばん", "arti": "Nomor 1 / Pertama" },
+  { "furigana": "にばん", "arti": "Nomor 2 / Kedua" },
+  { "furigana": "さんばん", "arti": "Nomor 3 / Ketiga" },
+  { "furigana": "よんばん", "arti": "Nomor 4 / Keempat" },
+  { "furigana": "ごばん", "arti": "Nomor 5 / Kelima" },
+  { "furigana": "ろくばん", "arti": "Nomor 6 / Keenam" },
+  { "furigana": "ななばん", "arti": "Nomor 7 / Ketujuh" },
+  { "furigana": "はちばん", "arti": "Nomor 8 / Kedelapan" },
+  { "furigana": "きゅうばん", "arti": "Nomor 9 / Kesembilan" },
+  { "furigana": "じゅうばん", "arti": "Nomor 10 / Kesepuluh" },
+  { "furigana": "なんばん", "arti": "Nomor berapa?" }
+]

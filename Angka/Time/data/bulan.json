@@ -1,0 +1,15 @@
+[
+  { "furigana": "いちがつ", "arti": "Januari" },
+  { "furigana": "にがつ", "arti": "Februari" },
+  { "furigana": "さんがつ", "arti": "Maret" },
+  { "furigana": "しがつ", "arti": "April" },
+  { "furigana": "ごがつ", "arti": "Mei" },
+  { "furigana": "ろくがつ", "arti": "Juni" },
+  { "furigana": "しちがつ", "arti": "Juli" },
+  { "furigana": "はちがつ", "arti": "Agustus" },
+  { "furigana": "くがつ", "arti": "September" },
+  { "furigana": "じゅうがつ", "arti": "Oktober" },
+  { "furigana": "じゅういちがつ", "arti": "November" },
+  { "furigana": "じゅうにがつ", "arti": "Desember" },
+  { "furigana": "なんがつ", "arti": "Bulan apa?" }
+]

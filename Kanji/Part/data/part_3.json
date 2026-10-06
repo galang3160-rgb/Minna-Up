@@ -1,0 +1,83 @@
+{
+  "flashcards": [
+    {
+      "kanji": "本",
+      "furigana": "ほん",
+      "arti": "Buku"
+    },
+    {
+      "kanji": "学",
+      "furigana": "がく",
+      "arti": "Belajar / Ilmu"
+    },
+    {
+      "kanji": "語",
+      "furigana": "ご",
+      "arti": "Bahasa"
+    },
+    {
+      "kanji": "人",
+      "furigana": "ひと",
+      "arti": "Orang"
+    },
+    {
+      "kanji": "女",
+      "furigana": "おんな",
+      "arti": "Perempuan"
+    },
+    {
+      "kanji": "男",
+      "furigana": "おとこ",
+      "arti": "Laki-laki"
+    },
+    {
+      "kanji": "子",
+      "furigana": "こ",
+      "arti": "Anak"
+    },
+    {
+      "kanji": "校",
+      "furigana": "こう",
+      "arti": "Sekolah"
+    },
+    {
+      "kanji": "国",
+      "furigana": "くに",
+      "arti": "Negara"
+    },
+    {
+      "kanji": "友",
+      "furigana": "とも",
+      "arti": "Teman"
+    }
+  ],
+  "dokkai": {
+    "title": "ほんと がくせいの れんしゅう (Latihan Buku dan Sekolah)",
+    "items": [
+      {
+        "japanese": "本を よみます。",
+        "indonesian": "Saya membaca buku."
+      },
+      {
+        "japanese": "学校で 学びます。",
+        "indonesian": "Saya belajar di sekolah."
+      },
+      {
+        "japanese": "日本語を 学びます。",
+        "indonesian": "Saya belajar bahasa Jepang."
+      },
+      {
+        "japanese": "男の人と 女の人が います。",
+        "indonesian": "Ada seorang laki-laki dan seorang perempuan."
+      },
+      {
+        "japanese": "男の子と 女の子が います。",
+        "indonesian": "Ada anak laki-laki dan anak perempuan."
+      },
+      {
+        "japanese": "友だちと 学校で 本を よみます。",
+        "indonesian": "Saya membaca buku bersama teman di sekolah."
+      }
+    ]
+  }
+}

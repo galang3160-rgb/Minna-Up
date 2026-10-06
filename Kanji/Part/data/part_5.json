@@ -1,0 +1,83 @@
+{
+  "flashcards": [
+    {
+      "kanji": "山",
+      "furigana": "やま / サン",
+      "arti": "Gunung"
+    },
+    {
+      "kanji": "川",
+      "furigana": "かわ / セン",
+      "arti": "Sungai"
+    },
+    {
+      "kanji": "花",
+      "furigana": "はな / カ",
+      "arti": "Bunga"
+    },
+    {
+      "kanji": "魚",
+      "furigana": "さかな / ギョ",
+      "arti": "Ikan"
+    },
+    {
+      "kanji": "上",
+      "furigana": "うえ / じょう",
+      "arti": "Atas"
+    },
+    {
+      "kanji": "中",
+      "furigana": "なか / チュウ",
+      "arti": "Dalam / Tengah"
+    },
+    {
+      "kanji": "下",
+      "furigana": "した / か",
+      "arti": "Bawah"
+    },
+    {
+      "kanji": "右",
+      "furigana": "みぎ / ウ",
+      "arti": "Kanan"
+    },
+    {
+      "kanji": "左",
+      "furigana": "ひだり / サ",
+      "arti": "Kiri"
+    },
+    {
+      "kanji": "外",
+      "furigana": "そと / ガイ",
+      "arti": "Luar"
+    }
+  ],
+  "dokkai": {
+    "title": "山と川 (Gunung dan Sungai)",
+    "items": [
+      {
+        "japanese": "わたしは山の上に行きました。",
+        "indonesian": "Saya pergi ke atas gunung."
+      },
+      {
+        "japanese": "山の下に川があります。",
+        "indonesian": "Ada sungai di bawah gunung."
+      },
+      {
+        "japanese": "川の中に魚がいます。",
+        "indonesian": "Ada ikan di dalam sungai."
+      },
+      {
+        "japanese": "川の右に花があります。左にも花があります。",
+        "indonesian": "Di sebelah kanan sungai ada bunga. Di sebelah kiri juga ada bunga."
+      },
+      {
+        "japanese": "山の外に小さい川があります。",
+        "indonesian": "Di luar gunung ada sungai kecil."
+      },
+      {
+        "japanese": "わたしは川の中の魚を見ました。山の上にも行きました。",
+        "indonesian": "Saya melihat ikan di dalam sungai. Saya juga pergi ke atas gunung."
+      }
+    ]
+  }
+}

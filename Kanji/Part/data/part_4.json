@@ -1,0 +1,83 @@
+{
+  "flashcards": [
+    {
+      "kanji": "少",
+      "furigana": "すくない",
+      "arti": "Sedikit"
+    },
+    {
+      "kanji": "小",
+      "furigana": "ちいさい",
+      "arti": "Kecil"
+    },
+    {
+      "kanji": "大",
+      "furigana": "おおきい",
+      "arti": "Besar"
+    },
+    {
+      "kanji": "多",
+      "furigana": "おおい",
+      "arti": "Banyak"
+    },
+    {
+      "kanji": "時",
+      "furigana": "とき",
+      "arti": "Waktu / Saat"
+    },
+    {
+      "kanji": "分",
+      "furigana": "ふん / ぶん",
+      "arti": "Menit / Bagian"
+    },
+    {
+      "kanji": "年",
+      "furigana": "とし / ねん",
+      "arti": "Tahun"
+    },
+    {
+      "kanji": "名",
+      "furigana": "な / めい",
+      "arti": "Nama"
+    },
+    {
+      "kanji": "前",
+      "furigana": "まえ",
+      "arti": "Depan / Sebelum"
+    },
+    {
+      "kanji": "後",
+      "furigana": "あと / うしろ",
+      "arti": "Setelah / Belakang"
+    }
+  ],
+  "dokkai": {
+    "title": "じかんと ばしょの れんしゅう (Latihan Waktu dan Tempat)",
+    "items": [
+      {
+        "japanese": "小さい へやです。",
+        "indonesian": "Ini adalah ruangan kecil."
+      },
+      {
+        "japanese": "大きい へやです。",
+        "indonesian": "Ini adalah ruangan besar."
+      },
+      {
+        "japanese": "人が 多いです。",
+        "indonesian": "Orangnya banyak."
+      },
+      {
+        "japanese": "人が 少ないです。",
+        "indonesian": "Orangnya sedikit."
+      },
+      {
+        "japanese": "三時から 五分です。",
+        "indonesian": "Lima menit mulai dari jam tiga."
+      },
+      {
+        "japanese": "今年の 前と 後を みます。",
+        "indonesian": "Saya melihat sebelum dan sesudah tahun ini."
+      }
+    ]
+  }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nihonggo Gakkou</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SPLASH SCREEN ANIMASI -->
+  <div id="splash">
+    <svg class="checkmark-svg" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="24" fill="none"/>
+      <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+    </svg>
+    <h1 class="splash-title">Nihonggo<b>Gakkou</b></h1>
+  </div>
+
+  <!-- Ambient Background & Effects -->
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
+  <canvas id="trail"></canvas>
+
+  <header class="top">
+    <a href="index.html" class="logo" aria-label="Nihonggo Gakkou">
+      <svg viewBox="0 0 48 48" width="40" height="40" fill="none">
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#lg)"/>
+        <path d="M12 24l8 8 16-16" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="48" y2="48">
+            <stop stop-color="#34D399"/>
+            <stop offset="1" stop-color="#059669"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="logo-word">Nihonggo<b>Gakkou</b></span>
+    </a>
+    
+    <!-- TOMBOL GANTI TEMA -->
+    <button id="themeToggle" class="theme-btn" aria-label="Ganti Tema">
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- MENU UTAMA -->
+    <section class="view active" id="viewMain">
+      <div class="bento">
+        
+        <!-- KARTU KOTOBA -->
+        <a href="#kotoba" class="tile" id="btnKotoba" data-tilt>
+          <div class="card-visual">
+            <div class="glossy-overlay"></div>
+            <!-- Masukkan src gambar di folder kamu, contoh: "Kotoba.png" -->
+            <img src="Gambar/Kotoba.png" alt="Card Kotoba" class="tile-img">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Kotoba</h2>
+            <p class="card-desc">Kuasai kosakata esensial untuk memperkaya komunikasi harianmu.</p>
+            <div class="card-btn">
+              <span>Mulai Belajar</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+        
+        <!-- KARTU KANJI -->
+        <a href="Kanji/Part/index.html" class="tile tile-link" data-tilt>
+          <div class="card-visual">
+            <div class="glossy-overlay"></div>
+            <img src="Gambar/Kanji.png" alt="Card Kanji" class="tile-img">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Kanji</h2>
+            <p class="card-desc">Pahami karakter, guratan, dan makna mendalam dari setiap huruf.</p>
+            <div class="card-btn">
+              <span>Mulai Belajar</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+        
+        <!-- KARTU ANGKA -->
+        <a href="Angka/index.html" class="tile tile-link" data-tilt>
+          <div class="card-visual">
+            <div class="glossy-overlay"></div>
+            <img src="Gambar/Angka.png" alt="Card Angka" class="tile-img">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Angka</h2>
+            <p class="card-desc">Latih penyebutan angka, tanggal, dan hitungan spesifik Jepang.</p>
+            <div class="card-btn">
+              <span>Mulai Belajar</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SUBMENU KOTOBA (N5, N4, N3) -->
+    <section class="view" id="viewKotoba">
+      
+      <!-- Header & Judul Pilih Tingkatan -->
+      <div class="sub-header">
+        <button type="button" class="back" id="btnBackToMain" aria-label="Kembali">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <h1 class="section-title">Pilih Tingkatan</h1>
+      </div>
+      
+      <div class="bento">
+        
+        <!-- MATERI N5 -->
+        <a href="Kotoba/Minna 1/index.html" class="tile level-card tile-link" data-tilt>
+          <div class="level-visual">
+            <span class="giant-text">N5</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Dasar (Basic)</h2>
+            <p class="card-desc">Fondasi awal. Kosakata untuk perkenalan dan rutinitas harian.</p>
+            <div class="card-btn">
+              <span>Buka Materi</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- MATERI N4 -->
+        <a href="../Website N5/Kotoba/Minna 2/index.html" class="tile level-card tile-link" data-tilt>
+          <div class="level-visual">
+            <span class="giant-text">N4</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Pra-Menengah</h2>
+            <p class="card-desc">Mulai merangkai kalimat kompleks dan kosakata spesifik.</p>
+            <div class="card-btn">
+              <span>Buka Materi</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- MATERI N3 -->
+        <a href="materi-n3.html" class="tile level-card tile-link" data-tilt>
+          <div class="level-visual n3-target">
+            <span class="giant-text">N3</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Menengah <span class="badge-mini">Target</span></h2>
+            <p class="card-desc">Kosakata tingkat lanjut untuk memahami bahasa Jepang natural.</p>
+            <div class="card-btn">
+              <span>Buka Materi</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{
+  "flashcards": [
+    {
+      "kanji": "雨",
+      "furigana": "あめ",
+      "arti": "Hujan"
+    },
+    {
+      "kanji": "電",
+      "furigana": "でん",
+      "arti": "Listrik"
+    },
+    {
+      "kanji": "天",
+      "furigana": "てん",
+      "arti": "Langit"
+    },
+    {
+      "kanji": "店",
+      "furigana": "みせ",
+      "arti": "Toko"
+    },
+    {
+      "kanji": "手",
+      "furigana": "て",
+      "arti": "Tangan"
+    },
+    {
+      "kanji": "古",
+      "furigana": "ふるい",
+      "arti": "Lama / Tua"
+    },
+    {
+      "kanji": "新",
+      "furigana": "あたらしい",
+      "arti": "Baru"
+    },
+    {
+      "kanji": "買",
+      "furigana": "かう",
+      "arti": "Membeli"
+    },
+    {
+      "kanji": "生",
+      "furigana": "せい",
+      "arti": "Kehidupan / Lahir"
+    },
+    {
+      "kanji": "午",
+      "furigana": "ご",
+      "arti": "Siang"
+    },
+    {
+      "kanji": "口",
+      "furigana": "くち",
+      "arti": "Mulut"
+    },
+    {
+      "kanji": "入",
+      "furigana": "はいる",
+      "arti": "Masuk"
+    },
+    {
+      "kanji": "出",
+      "furigana": "でる",
+      "arti": "Keluar"
+    }
+  ],
+  "dokkai": {
+    "title": "かんじのれんしゅう (Latihan Kanji)",
+    "items": [
+      {
+        "japanese": "雨が ふっています。天気が わるいです。",
+        "indonesian": "Hujan sedang turun. Cuacanya buruk."
+      },
+      {
+        "japanese": "電車で 店へ 行きます。",
+        "indonesian": "Saya pergi ke toko naik kereta."
+      },
+      {
+        "japanese": "店で 新しい 本を 買います。",
+        "indonesian": "Saya membeli buku baru di toko."
+      },
+      {
+        "japanese": "古い 店の 入口に 大きい 口が あります。",
+        "indonesian": "Di pintu masuk toko lama terdapat sebuah mulut besar."
+      },
+      {
+        "japanese": "午前に 学校へ 入ります。午後に 学校を 出ます。",
+        "indonesian": "Saya masuk sekolah pada pagi hari. Saya keluar dari sekolah pada sore hari."
+      },
+      {
+        "japanese": "学生は 手で 口を おさえます。",
+        "indonesian": "Siswa menutup mulut dengan tangan."
+      }
+    ]
+  }
+}

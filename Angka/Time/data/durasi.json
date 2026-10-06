@@ -1,0 +1,21 @@
+[
+  { "furigana": "いちじかん", "arti": "Selama 1 jam" },
+  { "furigana": "にじかん", "arti": "Selama 2 jam" },
+  { "furigana": "なんじかん", "arti": "Berapa jam?" },
+  { "furigana": "いっぷんかん", "arti": "Selama 1 menit" },
+  { "furigana": "じゅっぷんかん", "arti": "Selama 10 menit" },
+  { "furigana": "いちにち", "arti": "Selama 1 hari" },
+  { "furigana": "ふつかかん", "arti": "Selama 2 hari" },
+  { "furigana": "みっかかん", "arti": "Selama 3 hari" },
+  { "furigana": "なんにちかん", "arti": "Berapa hari?" },
+  { "furigana": "いっしゅうかん", "arti": "Selama 1 minggu" },
+  { "furigana": "にしゅうかん", "arti": "Selama 2 minggu" },
+  { "furigana": "なんしゅうかん", "arti": "Berapa minggu?" },
+  { "furigana": "いっかげつ", "arti": "Selama 1 bulan" },
+  { "furigana": "にかげつ", "arti": "Selama 2 bulan" },
+  { "furigana": "さんかげつ", "arti": "Selama 3 bulan" },
+  { "furigana": "なんかげつ", "arti": "Berapa bulan?" },
+  { "furigana": "いちねんかん", "arti": "Selama 1 tahun" },
+  { "furigana": "にねんかん", "arti": "Selama 2 tahun" },
+  { "furigana": "なんねんかん", "arti": "Berapa tahun?" }
+]
