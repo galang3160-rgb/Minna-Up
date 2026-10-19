@@ -1,8 +1,7 @@
 /**
- * NAKAMA GAKKOU — INTERACTIVE LEARNING ENGINE
- * Logika: Level-Scoped Search, Modal Bab 1-25, Flashcard Bersih (Nav Kiri-Kanan),
- * Quiz Pilihan Ganda Split-View (Zoom Kontrol +/-, Feedback Simple),
- * Quiz Mengetik Terpusat, Web Audio API & Mouse Trail
+ * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE
+ * Fitur: Level-Scoped Search, Modal Bab 1-25, Flashcard 3D + Touch Swipe + Keyboard Space,
+ * Japanese Native TTS, Quiz Pilihan Ganda & Mengetik, Web Audio SFX & Smooth Trail
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,31 +21,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalChapters = 25;
   const SAVE_KEY = 'nihonggo:bab';
 
-  const kanjiNumerals = [
-    '一','二','三','四','五','六','七','八','九','十',
-    '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
-    '二十一','二十二','二十三','二十四','二十五'
-  ];
-
   // ---------- STATE UTAMA ----------
   let currentBab = 1;
-  let rawChapterVocab = [];   // Kosakata bab aktif
-  let activeVocab = [];       // Kosakata terfilter pencarian di bab aktif
-  let mode = 'carousel';      // 'carousel', 'mc', 'typing'
+  let rawChapterVocab = [];
+  let activeVocab = [];
+  let mode = 'carousel';
   let audioOn = true;
-  let vocabZoomRem = 3.4;     // Ukuran font kontrol zoom +/-
+  let vocabZoomRem = 3.6;
 
-  // Kuis State
   let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
 
-  // ---------- AUDIO ENGINE ----------
+  // ---------- WEB AUDIO SFX & JAPANESE TTS ----------
   let actx = null;
+  let jpVoice = null;
+
+  function initJapaneseVoice() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    const ja = voices.filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
+    if (ja.length) {
+      ja.sort((a, b) => {
+        const score = v => (v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('google') ? 10 : 0);
+        return score(b) - score(a);
+      });
+      jpVoice = ja[0];
+    }
+  }
+  if ('speechSynthesis' in window) {
+    initJapaneseVoice();
+    window.speechSynthesis.onvoiceschanged = initJapaneseVoice;
+  }
+
+  function speakJapanese(text) {
+    if (!audioOn || !text || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const ut = new SpeechSynthesisUtterance(text);
+    ut.lang = 'ja-JP';
+    if (jpVoice) ut.voice = jpVoice;
+    ut.rate = 0.85;
+    ut.pitch = 1.04;
+    window.speechSynthesis.speak(ut);
+  }
+
   const TONES = {
-    pop: ['sine', 600, 300, 0.1, 0.12],
-    correct: ['sine', 600, 1200, 0.2, 0.2],
-    wrong: ['sawtooth', 300, 150, 0.2, 0.15],
-    flip: ['sine', 400, 200, 0.08, 0.08],
-    win: ['triangle', 523, 1046, 0.4, 0.2]
+    pop: ['sine', 560, 290, 0.08, 0.1],
+    correct: ['sine', 580, 1160, 0.18, 0.16],
+    wrong: ['sawtooth', 280, 150, 0.18, 0.12],
+    flip: ['sine', 420, 240, 0.07, 0.08],
+    win: ['triangle', 523, 1046, 0.35, 0.16]
   };
 
   function playTone(type) {
@@ -73,56 +95,85 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ---------- CANVAS MOUSE TRAIL ----------
-  const canvas = $('mouseTrail');
-  const cctx = canvas.getContext('2d');
-  let particles = [];
-  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  // ---------- VISUAL FX (AMBIENT, SPARKS & SMOOTH TRAIL) ----------
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+  if (!reduce) {
+    const sun = $('sun');
+    if (sun && fine) {
+      addEventListener('pointermove', e => {
+        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -30}px, ${(e.clientY / innerHeight - 0.5) * -30}px)`;
+      });
+    }
 
-  if (!isTouchDevice) {
-    window.addEventListener('mousemove', e => {
-      for (let i = 0; i < 2; i++) {
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: (Math.random() - 0.5) * 1.5,
-          size: Math.random() * 4 + 2,
-          alpha: 0.7,
-          color: Math.random() > 0.4 ? '#10B981' : '#34D399'
-        });
+    const fx = $('fx');
+    const sparkColors = ['#D8F5E0', '#DFF2FE', '#FEF0C7', '#EDE4FF'];
+    addEventListener('pointerdown', e => {
+      if (!fx || e.target.closest('button, input, a')) return;
+      const pulse = document.createElement('div');
+      pulse.className = 'pulse';
+      pulse.style.left = e.clientX + 'px';
+      pulse.style.top = e.clientY + 'px';
+      pulse.onanimationend = () => pulse.remove();
+      fx.appendChild(pulse);
+
+      for (let i = 0; i < 4; i++) {
+        const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.5;
+        const dist = 32 + Math.random() * 40;
+        const sp = document.createElement('span');
+        sp.className = 'spark';
+        sp.style.left = e.clientX + 'px';
+        sp.style.top = e.clientY + 'px';
+        sp.style.background = sparkColors[i % sparkColors.length];
+        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
+        sp.onanimationend = () => sp.remove();
+        fx.appendChild(sp);
       }
     });
 
-    (function renderParticles() {
-      cctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        cctx.save();
-        cctx.globalAlpha = p.alpha;
-        cctx.beginPath();
-        cctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        cctx.fillStyle = p.color;
-        cctx.shadowBlur = 6;
-        cctx.shadowColor = '#10B981';
-        cctx.fill();
-        cctx.restore();
+    const canvas = $('mouseTrail');
+    if (canvas && fine) {
+      const cctx = canvas.getContext('2d');
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
 
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= 0.025;
-        p.size = Math.max(0, p.size - 0.06);
-        if (p.alpha <= 0) particles.splice(i, 1);
-      }
-      requestAnimationFrame(renderParticles);
-    })();
+      let mx = -100, my = -100, x = mx, y = my;
+      const pts = [];
+
+      window.addEventListener('pointermove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      (function drawTrail() {
+        x += (mx - x) * 0.32;
+        y += (my - y) * 0.32;
+        pts.push({ x, y });
+        if (pts.length > 14) pts.shift();
+
+        cctx.clearRect(0, 0, canvas.width, canvas.height);
+        cctx.lineCap = 'round';
+        cctx.lineJoin = 'round';
+
+        for (let i = 1; i < pts.length; i++) {
+          const t = i / pts.length;
+          cctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.lineWidth = t * 8;
+          cctx.beginPath();
+          cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+          cctx.lineTo(pts[i].x, pts[i].y);
+          cctx.stroke();
+        }
+        requestAnimationFrame(drawTrail);
+      })();
+    }
   }
 
   // ---------- NOTIFIKASI STATUS DATA ----------
@@ -155,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.innerHTML = `
       <span class="cgi-num">${padded}</span>
       <span class="cgi-label">BAB</span>
-      <span class="cgi-kanji-bg">${kanjiNumerals[i]}</span>
     `;
 
     btn.addEventListener('click', () => {
@@ -184,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- SISTEM PENCARIAN KOSAKATA (LEVEL-SCOPED) ----------
+  // ---------- SISTEM PENCARIAN KOSAKATA ----------
   const searchInput = $('searchInput');
   const btnClearSearch = $('btnClearSearch');
 
@@ -209,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (query && activeVocab.length === 0) {
-      showNotice(`Tidak ada kosakata yang cocok dengan "${query}" pada Level Bab ${currentBab}.`);
+      showNotice(`Tidak ditemukan "${query}" pada Bab ${currentBab}.`);
     } else {
       hideNotice();
     }
@@ -222,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.focus();
   });
 
-  // ---------- FLASHCARD KOSAKATA (MINIMALIS) ----------
+  // ---------- FLASHCARD KOSAKATA INTERAKTIF ----------
   const Carousel = {
     index: 0,
     render() {
@@ -235,8 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
               <div class="carousel-face front">
-                <span class="c-tag">Status</span>
-                <span class="c-arti">Kosong</span>
+                <div class="face-top-bar"><span class="c-tag">Info</span></div>
+                <div class="face-center-content"><span class="c-arti">Tidak Ada Kata</span></div>
+                <div class="face-bottom-hint">Coba kata kunci lain</div>
               </div>
             </div>
           </div>`;
@@ -249,20 +300,54 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
           <div class="carousel-card-inner">
             <div class="carousel-face front">
-              <span class="c-tag">Arti</span>
-              <span class="c-arti">${esc(v.arti)}</span>
+              <div class="face-top-bar">
+                <span class="c-tag">Bahasa Indonesia</span>
+                <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Bahasa Jepang">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="face-center-content">
+                <span class="c-arti">${esc(v.arti)}</span>
+              </div>
+              <div class="face-bottom-hint">Ketuk kartu untuk melihat bahasa Jepang &rarr;</div>
             </div>
+
             <div class="carousel-face back">
-              <span class="c-tag">Jepang</span>
-              <span class="c-furigana furigana-font">${esc(v.furigana)}</span>
+              <div class="face-top-bar">
+                <span class="c-tag">Bahasa Jepang</span>
+                <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Pengucapan">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="face-center-content">
+                <span class="c-furigana furigana-font">${esc(v.furigana)}</span>
+              </div>
+              <div class="face-bottom-hint">Ketuk untuk kembali ke arti</div>
             </div>
           </div>
         `;
 
+        // Tombol Speaker di dalam kartu
+        card.querySelectorAll('.btn-card-speak').forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            speakJapanese(btn.dataset.speak);
+          });
+        });
+
+        // Klik Kartu untuk Flip
         card.addEventListener('click', () => {
           if (i === this.index) {
+            const willFlipToBack = !card.classList.contains('is-flipped');
             card.classList.toggle('is-flipped');
             playTone('flip');
+            if (willFlipToBack) speakJapanese(v.furigana);
           } else {
             this.index = i;
             this.update();
@@ -291,6 +376,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     },
+    flipCurrent() {
+      const cards = $('carouselContainer').children;
+      const activeCard = cards[this.index];
+      if (activeCard) activeCard.click();
+    },
     go(dir) {
       if (!activeVocab.length) return;
       this.index = (this.index + dir + activeVocab.length) % activeVocab.length;
@@ -301,21 +391,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));$('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
 
+  // Swipe Jari Kiri/Kanan di Flashcard HP
+  let touchStartX = 0;
+  const carouselEl = $('carouselContainer');
+  if (carouselEl) {
+    carouselEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carouselEl.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) Carousel.go(1);
+        else Carousel.go(-1);
+      }
+    }, { passive: true });
+  }
+
   // ---------- KONTROL ZOOM UKURAN TEKS (+ & -) ----------
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
-  $('btnZoomIn').addEventListener('click', () => {
-    if (vocabZoomRem < 5.2) {
-      vocabZoomRem = +(vocabZoomRem + 0.3).toFixed(1);
-      updateVocabFontSize();
-    }
-  });
-  $('btnZoomOut').addEventListener('click', () => {
-    if (vocabZoomRem > 1.8) {
+  $('btnZoomIn').addEventListener('click', () => { if (vocabZoomRem < 5.0) { vocabZoomRem = +(vocabZoomRem + 0.3).toFixed(1); updateVocabFontSize(); } });$('btnZoomOut').addEventListener('click', () => {
+    if (vocabZoomRem > 2.0) {
       vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1);
       updateVocabFontSize();
     }
+  });
+
+  // Tombol Speak di Kuis
+  $('btnMcSpeak')?.addEventListener('click', () => { if (quizPool[qi]) speakJapanese(quizPool[qi].furigana); });$('btnTypingSpeak')?.addEventListener('click', () => {
+    if (quizPool[qi]) speakJapanese(quizPool[qi].furigana);
   });
 
   // ---------- NAVIGASI MODE PEMBELAJARAN ----------
@@ -353,16 +458,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  $('btnAudioToggle').addEventListener('click', function() {
+  $('btnAudioToggle').addEventListener('click', function () {
     audioOn = !audioOn;
     this.querySelector('.icon-unmuted').style.display = audioOn ? 'block' : 'none';
     this.querySelector('.icon-muted').style.display = audioOn ? 'none' : 'block';
   });
 
-  // ---------- SISTEM KUIS (SPLIT-VIEW & CENTERING) ----------
+  // ---------- SISTEM KUIS ----------
   function startQuiz(type) {
     if (activeVocab.length < 4) {
-      showNotice('Dibutuhkan minimal 4 kosakata di level ini untuk memulai latihan.', 4000);
+      showNotice('Minimal 4 kosakata diperlukan untuk latihan kuis.', 4000);
       setMode('carousel');
       return;
     }
@@ -372,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     qScore = 0;
     answered = false;
 
-    $('quizTitle').textContent = type === 'mc' ? `Pilihan Ganda · Bab ${currentBab}` : `Quiz Mengetik · Bab ${currentBab}`;
+    $('quizTitle').textContent = type === 'mc' ? `Pilihan Ganda · Bab ${currentBab}` : `Mengetik · Bab ${currentBab}`;
     $('quizProgressFill').style.width = '0%';
 
     if (type === 'mc') runMC();
@@ -398,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playTone('win');
   }
 
-  // 1. Pilihan Ganda (2 Kolom Desktop, 1 Kolom Mobile)
+  // 1. Pilihan Ganda
   function runMC() {
     if (qi >= quizPool.length) {
       return showResult(qScore, quizPool.length);
@@ -434,11 +539,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (item.id === q.id) {
           qScore++;
-          $('mcFeedback').textContent = 'Benar';$('mcFeedback').classList.add('correct');
+          $('mcFeedback').textContent = '✓ Jawaban Benar!';
+          $('mcFeedback').classList.add('correct');
           playTone('correct');
+          speakJapanese(q.furigana);
         } else {
           btn.classList.add('wrong');
-          $('mcFeedback').textContent = 'Salah';$('mcFeedback').classList.add('wrong');
+          $('mcFeedback').textContent = `✕ Kurang Tepat`;
+          $('mcFeedback').classList.add('wrong');
           playTone('wrong');
         }
 
@@ -456,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     runMC();
   });
 
-  // 2. Mengetik (Centered Single Column)
+  // 2. Mengetik
   const normalize = s => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
 
   function runTyping() {
@@ -496,11 +604,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (accepted.includes(answer)) {
       qScore++;
       input.classList.add('correct');
-      $('typingFeedback').textContent = 'Benar';$('typingFeedback').classList.add('correct');
+      $('typingFeedback').textContent = '✓ Jawaban Benar!';
+      $('typingFeedback').classList.add('correct');
       playTone('correct');
+      speakJapanese(q.furigana);
     } else {
       input.classList.add('wrong');
-      $('typingFeedback').textContent = 'Salah';$('typingFeedback').classList.add('wrong');
+      $('typingFeedback').textContent = `Jawaban: ${q.arti}`;
+      $('typingFeedback').classList.add('wrong');
       playTone('wrong');
     }
 
@@ -509,18 +620,15 @@ document.addEventListener('DOMContentLoaded', () => {
     $('btnTypingNext').focus();
   }
 
-  $('btnTypingCheck').addEventListener('click', checkTyping);$('typingInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkTyping();
-  });
-  $('btnTypingNext').addEventListener('click', () => {
+  $('btnTypingCheck').addEventListener('click', checkTyping);
+  $('typingInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkTyping(); });$('btnTypingNext').addEventListener('click', () => {
     qi++;
     runTyping();
   });
 
-  // Tombol Hasil Kuis
   $('btnRetryQuiz').addEventListener('click', () => setMode(mode));$('btnResultCards').addEventListener('click', () => setMode('carousel'));
 
-  // Keyboard Navigation
+  // Pintasan Keyboard Desktop
   window.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
     if (e.target.matches('input, textarea')) return;
@@ -528,6 +636,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mode === 'carousel') {
       if (e.key === 'ArrowRight') Carousel.go(1);
       else if (e.key === 'ArrowLeft') Carousel.go(-1);
+      else if (e.key === ' ') {
+        e.preventDefault();
+        Carousel.flipCurrent();
+      }
     } else if (mode === 'mc' && /^[1-4]$/.test(e.key)) {
       const opts = document.querySelectorAll('#mcOptions .btn-mc-option');
       const b = opts[+e.key - 1];
@@ -560,7 +672,9 @@ document.addEventListener('DOMContentLoaded', () => {
     { furigana: 'わたし', arti: 'Saya' },
     { furigana: 'あなた', arti: 'Kamu / Anda' },
     { furigana: 'せんせい', arti: 'Guru' },
-    { furigana: 'がくせい', arti: 'Siswa' }
+    { furigana: 'がくせい', arti: 'Siswa / Mahasiswa' },
+    { furigana: 'かいしゃいん', arti: 'Karyawan Perusahaan' },
+    { furigana: 'びょういん', arti: 'Rumah Sakit' }
   ].map((v, idx) => ({ ...v, id: idx }));
 
   async function changeChapter(babNum) {
@@ -572,18 +686,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const res = await fetch(DATA_PATH(currentBab), { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`File ${DATA_PATH(currentBab)} tidak ditemukan (${res.status})`);
+      if (!res.ok) throw new Error(`File ${DATA_PATH(currentBab)} belum tersedia`);
       const data = normalizeData(await res.json());
       if (currentLoad !== loadId) return;
       rawChapterVocab = data;
     } catch (e) {
       if (currentLoad !== loadId) return;
-      console.warn(e);
       rawChapterVocab = EMERGENCY_DATA;
-      failMsg = `Level Bab ${currentBab} gagal dimuat (${e.message}). Menampilkan kosakata cadangan.`;
+      failMsg = `Bab ${currentBab} menggunakan kosakata contoh.`;
     }
 
-    if (failMsg) showNotice(failMsg);
+    if (failMsg) showNotice(failMsg, 3000);
     else hideNotice();
 
     try {

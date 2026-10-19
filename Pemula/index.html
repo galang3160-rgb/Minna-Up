@@ -2,321 +2,798 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nihonggo Gakkou — Belajar Hiragana, Katakana & Kosakata</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=Klee+One:wght@600&family=Noto+Sans+JP:wght@500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ===================== NAVBAR ===================== -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <button class="menu-toggle" id="sidebarToggle" aria-label="Buka navigasi">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <a href="#" class="brand-title" data-view="home">Nihonggo Gakkou</a>
-    </div>
+  <div class="app-shell" id="appShell">
 
-    <div class="navbar-center">
-      <div class="search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="searchInput" placeholder="Cari kana: ka / か / kya..." autocomplete="off">
-        <div class="search-dropdown hidden" id="searchResults"></div>
-      </div>
-    </div>
-
-    <div class="navbar-right">
-      <button class="nav-chip-btn" data-view="vocab-read">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
-        <span>Latihan Kosakata</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- ===================== APP LAYOUT ===================== -->
-  <div class="app-layout">
-    
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="appSidebar">
-      <div class="sidebar-section">
-        <span class="sidebar-label">MENU UTAMA</span>
-        <button class="sidebar-link active" data-view="home">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span>Beranda</span>
-        </button>
-        <button class="sidebar-link" data-view="learn" data-category="hiragana">
-          <span class="kana-badge">あ</span>
-          <span>Hiragana</span>
-        </button>
-        <button class="sidebar-link" data-view="learn" data-category="katakana">
-          <span class="kana-badge">ア</span>
-          <span>Katakana</span>
-        </button>
+    <!-- ===================== SIDEBAR KIRI (ARGON STYLE - MENU FOKUS KANA + GAME) ===================== -->
+    <aside class="argon-sidebar" id="argonSidebar">
+      <div class="sidebar-top">
+        <a href="#" class="mascot-brand" data-view="home" title="NakamaGakkou">
+          <div class="mascot-avatar">
+            <span class="mascot-kanji">語</span>
+            <span class="mascot-status-dot"></span>
+          </div>
+          <div class="mascot-brand-text">
+            <strong>Nakama</strong>
+            <small>Kana Dojo</small>
+          </div>
+        </a>
       </div>
 
-      <div class="sidebar-section">
-        <span class="sidebar-label">LATIHAN</span>
-        <button class="sidebar-link" data-view="quiz-setup">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 2 4 4-12 12H6v-4L18 2z"/></svg>
-          <span>Kuis Karakter</span>
+      <nav class="sidebar-nav" aria-label="Navigasi Utama">
+        <button class="side-nav-btn active" data-view="home" title="Dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <span>Dashboard</span>
         </button>
-        <button class="sidebar-link" data-view="vocab-read">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
-          <span>Baca Kosakata</span>
+
+        <button class="side-nav-btn" data-view="learn" data-category="hiragana" title="Tabel Kana & Goresan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+          <span>HomePage</span>
         </button>
-        <button class="sidebar-link" data-view="progress">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
-          <span>Statistik</span>
+
+        <button class="side-nav-btn" data-view="quiz-setup" title="Latihan & Kuis Kana">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Latihan Kuis</span>
         </button>
+
+        <button class="side-nav-btn" data-view="vocab-read" title="Latihan Baca Kata Kana">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+          <span>Kosakata</span>
+        </button>
+
+        <button class="side-nav-btn" data-view="game" title="Mini Game Interaktif Kana">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4m-2-2v4"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg>
+          <span>Game</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="voice-ready-pill" id="voiceStatusBadge" title="Mesin Suara Jepang Natural Aktif">
+          <span>🔊 JP Natural</span>
+        </div>
       </div>
     </aside>
 
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <!-- ===================== KONTEN UTAMA ===================== -->
+    <div class="content-area">
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="main-viewport">
-
-      <!-- ================= VIEW: HOME ================= -->
-      <section id="view-home" class="view active">
-        <div class="hero-card">
-          <h1>Nihonggo Gakkou</h1>
-          <p>Pelajari karakter kana dan uji kemampuan membaca kosakata dasar Jepang.</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary" data-view="learn" data-category="hiragana">Mulai Hiragana</button>
-            <button class="btn btn-secondary" data-view="vocab-read">Latihan Baca Kosakata</button>
+      <!-- TOPBAR -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <a href="#" class="brand-title mobile-only-brand" data-view="home">
+            <span class="brand-icon">語</span>
+            <span class="brand-text">NakamaGakkou</span>
+          </a>
+          <div class="desktop-breadcrumb">
+            <span class="neo-tag-pill">KANA MASTER</span>
+            <span class="breadcrumb-title">Belajar Huruf Hiragana &amp; Katakana</span>
           </div>
         </div>
 
-        <div class="cards-grid">
-          <div class="item-card" data-view="learn" data-category="hiragana" data-set="seion">
-            <span class="char-preview">あ</span>
-            <div class="card-info">
-              <h3>Hiragana Dasar</h3>
-              <p>46 karakter seion</p>
-            </div>
-          </div>
-          <div class="item-card" data-view="learn" data-category="katakana" data-set="seion">
-            <span class="char-preview">ア</span>
-            <div class="card-info">
-              <h3>Katakana Dasar</h3>
-              <p>46 karakter seion</p>
-            </div>
-          </div>
-          <div class="item-card" data-view="learn" data-category="hiragana" data-set="dakuon">
-            <span class="char-preview">が</span>
-            <div class="card-info">
-              <h3>Dakuon & Handakuon</h3>
-              <p>Huruf turunan bertanda</p>
-            </div>
-          </div>
-          <div class="item-card" data-view="vocab-read">
-            <span class="char-preview font-latin">A-Z</span>
-            <div class="card-info">
-              <h3>Baca Kosakata</h3>
-              <p>Metode kartu latihan mandiri</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= VIEW: LEARN KANA ================= -->
-      <section id="view-learn" class="view">
-        <div class="view-header">
-          <div>
-            <h2 class="view-title" id="learnTitle">Hiragana</h2>
-            <p class="view-subtitle" id="learnSub">Klik pada kartu huruf untuk membuka detail & dengarkan suara</p>
-          </div>
-          <div class="tab-group" id="learnScriptToggle">
-            <button class="tab-btn active" data-category="hiragana">Hiragana</button>
-            <button class="tab-btn" data-category="katakana">Katakana</button>
+        <div class="navbar-center">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="searchInput" placeholder="Cari Guys。。" autocomplete="off">
+            <div class="search-dropdown hidden" id="searchResults"></div>
           </div>
         </div>
 
-        <div class="sub-tab-group" id="subsetTabs">
-          <button class="sub-tab active" data-set="seion">Seion</button>
-          <button class="sub-tab" data-set="dakuon">Dakuon</button>
-          <button class="sub-tab" data-set="handakuon">Handakuon</button>
-          <button class="sub-tab" data-set="youon">Youon</button>
+        <div class="navbar-right">
+          <button class="nav-chip-btn" data-view="learn" data-category="hiragana">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 2 4 4-12 12H6v-4L18 2z"/></svg>
+            <span>Tabel</span>
+          </button>
+          <button class="nav-chip-btn nav-chip-highlight" data-view="quiz-setup">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Mulai</span>
+          </button>
         </div>
+      </header>
 
-        <div class="kana-grid" id="learnGrid"></div>
-      </section>
+      <!-- MAIN VIEWPORT -->
+      <main class="main-viewport" id="mainViewport">
 
-      <!-- ================= VIEW: QUIZ SETUP ================= -->
-      <section id="view-quiz-setup" class="view">
-        <div class="view-header">
-          <div>
-            <h2 class="view-title">Latihan Huruf Kana</h2>
-            <p class="view-subtitle">Centang huruf yang ingin Anda latih</p>
-          </div>
-          <div class="tab-group" id="setupScriptToggle">
-            <button class="tab-btn active" data-category="hiragana">Hiragana</button>
-            <button class="tab-btn" data-category="katakana">Katakana</button>
-          </div>
-        </div>
+        <!-- ===================== VIEW: HOME (FOKUS KANA DASHBOARD) ===================== -->
+        <section id="view-home" class="view active">
 
-        <div class="setup-bar">
-          <button id="selectAllBtn" class="btn btn-sm">Pilih Semua</button>
-          <button id="clearAllBtn" class="btn btn-sm">Kosongkan</button>
-          <span class="selected-badge" id="selectedCount">0 dipilih</span>
-        </div>
-
-        <div class="char-groups-container" id="setupCharGroups"></div>
-
-        <div class="mode-box">
-          <label class="mode-item">
-            <input type="radio" name="quizMode" value="h2r" checked>
-            <span>Karakter ke Romaji</span>
-          </label>
-          <label class="mode-item">
-            <input type="radio" name="quizMode" value="r2h">
-            <span>Romaji ke Karakter</span>
-          </label>
-          <label class="mode-item">
-            <input type="radio" name="quizMode" value="type">
-            <span>Ketik Jawaban</span>
-          </label>
-        </div>
-
-        <button id="startQuizBtn" class="btn btn-primary btn-block" disabled>Mulai Latihan</button>
-      </section>
-
-      <!-- ================= VIEW: QUIZ KANA ================= -->
-      <section id="view-quiz" class="view">
-        <div class="quiz-panel">
-          <div class="quiz-status">
-            <span id="quizCounter">1 / 10</span>
-            <span id="quizScore">Skor: 0</span>
-          </div>
-          <div class="progress-bar"><div id="quizProgressFill" class="progress-fill"></div></div>
-
-          <div class="quiz-core">
-            <p class="quiz-instruction" id="quizInstruction">Pilih bacaan yang benar:</p>
-            <div class="quiz-display" id="quizKana">き</div>
-
-            <div class="typing-box hidden" id="answerInputWrap">
-              <input type="text" id="answerInput" placeholder="Ketik romaji..." autocomplete="off">
-              <button id="submitAnswerBtn" class="btn btn-primary">Kirim</button>
+          <!-- 1. HERO / TOP BANNER -->
+          <div class="neo-hero-banner">
+            <div class="neo-hero-content">
+              <div class="neo-hero-badges">
+                <span class="neo-badge bg-amber">Fokus Huruf Dasar Jepang</span>
+              </div>
+              <h1>Kuasai Hiragana &amp; Katakana dengan Cepat!</h1>
+              <div class="neo-hero-actions">
+                <button class="btn btn-primary btn-lg" data-view="learn" data-category="hiragana" data-set="seion">
+                  <span>Mulai Belajar Hiragana &gt;</span>
+                </button>
+                <button class="btn btn-secondary btn-lg" data-view="learn" data-category="katakana" data-set="seion">
+                  <span>Buka Katakana</span>
+                </button>
+              </div>
             </div>
 
-            <div class="options-grid" id="answerOptions"></div>
+            <div class="neo-hero-illustration" aria-hidden="true">
+              <div class="mascot-card-visual">
+                <div class="mascot-floating-tag">かな</div>
+                <div class="mascot-main-symbol">あア</div>
+                <div class="mascot-sub-caption">Goresan &amp; Suara</div>
+              </div>
+            </div>
           </div>
 
-          <div class="feedback-msg hidden" id="quizFeedback"><p id="quizFeedbackText"></p></div>
-          <button id="quizNextBtn" class="btn btn-primary btn-block" disabled>Berikutnya</button>
-        </div>
-      </section>
+          <!-- 2. QUICK ACTION BAR ("Yuk Latihan!") -->
+          <div class="neo-section-block">
+            <div class="neo-section-header">
+              <h2 class="neo-section-title">⚡ Yuk Latihan!</h2>
+              <span class="neo-section-sub">Pilih menu belajar kana hari ini</span>
+            </div>
+            <div class="quick-action-bar">
+              <button class="quick-mech-btn bg-lavender" data-view="learn" data-category="hiragana" data-set="seion">
+                <span class="qm-icon">あ</span>
+                <div class="qm-text">
+                  <strong>[ Tabel Goresan Kana ]</strong>
+                  <small>Animasi cara tulis</small>
+                </div>
+                <span class="qm-arrow">&rarr;</span>
+              </button>
 
-      <!-- ================= VIEW: LATIHAN BACA KOSAKATA (FLASHCARD) ================= -->
-      <section id="view-vocab-read" class="view">
-        <div class="view-header">
-          <div>
-            <h2 class="view-title">Latihan Baca Kosakata</h2>
-            <p class="view-subtitle">Membaca kata secara mandiri dan dengarkan pelafalannya.</p>
-          </div>
-          <div class="tab-group" id="vocabCategoryFilter">
-            <button class="tab-btn active" data-type="all">Semua</button>
-            <button class="tab-btn" data-type="hiragana">Hiragana</button>
-            <button class="tab-btn" data-type="katakana">Katakana</button>
-          </div>
-        </div>
+              <button class="quick-mech-btn bg-matcha" data-view="vocab-read">
+                <span class="qm-icon">語</span>
+                <div class="qm-text">
+                  <strong>[ Baca Kana ]</strong>
+                  <small>Flashcard kosakata</small>
+                </div>
+                <span class="qm-arrow">&rarr;</span>
+              </button>
 
-        <div class="vocab-card-wrapper">
-          <div class="vocab-card">
-            <div class="vocab-card-header">
-              <span id="vocabCounterText">Kata 1 / 20</span>
-              <button id="vocabAudioBtn" class="sound-action-btn" title="Dengarkan pengucapan">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                <span>Putar Suara</span>
+              <button class="quick-mech-btn bg-amber" data-view="quiz-setup">
+                <span class="qm-icon">問</span>
+                <div class="qm-text">
+                  <strong>[ Kuis Tebak Kana ]</strong>
+                  <small>Pilihan ganda</small>
+                </div>
+                <span class="qm-arrow">&rarr;</span>
               </button>
             </div>
+          </div>
 
-            <div class="vocab-display" id="vocabWordText">ねこ</div>
+          <!-- 3. SMART DAILY DRILL CARD ("Tantangan Hari Ini") -->
+          <div class="smart-drill-card">
+            <div class="drill-left">
+              <div class="drill-meta-row">
+                <span class="neo-badge bg-ink-white">Latihan Harian Kana</span>
+                <span class="drill-srs-tag">🎯 Uji Hafalan Baris Huruf</span>
+              </div>
+              <h3>Tantangan Hari Ini: Tebak Cepat Hiragana &amp; Katakana</h3>
+              <p>Pilih baris huruf yang sudah kamu pelajari, lalu uji kecepatan membacamu lewat <strong>3 mode interaktif</strong>.</p>
+            </div>
+            <div class="drill-right">
+              <button class="btn btn-primary btn-lg" data-view="quiz-setup">
+                <span>Mulai Kuis Sekarang &rarr;</span>
+              </button>
+              <a href="#" class="drill-secondary-link" data-view="vocab-read">Latihan Baca Kosakata &rarr;</a>
+            </div>
+          </div>
 
-            <div class="vocab-answer-box" id="vocabAnswerBox">
-              <div class="vocab-romaji" id="vocabRomajiText">neko</div>
-              <div class="vocab-meaning" id="vocabMeaningText">Arti: Kucing</div>
+          <!-- 4. MODUL KANA GRID (2-COLUMN CARD GRID MURNI KANA) -->
+          <div class="neo-section-block">
+            <div class="neo-section-header">
+              <h2 class="neo-section-title">📚 Modul Pembelajaran Kana</h2>
+              <span class="neo-section-sub">Klik modul untuk langsung membuka tabel dan latihan</span>
             </div>
 
-            <div class="vocab-card-controls">
-              <button id="vocabRevealBtn" class="btn btn-secondary btn-block">Lihat Cara Baca & Arti</button>
-              <button id="vocabNextCardBtn" class="btn btn-primary btn-block hidden">Kata Selanjutnya →</button>
+            <div class="progress-grid-2col">
+              <!-- Card 1: Hiragana Dasar -->
+              <div class="neo-metric-card bg-matcha-soft">
+                <div class="nmc-top">
+                  <span class="nmc-category">MODUL 1 &bull; HIRAGANA DASAR</span>
+                  <span class="neo-badge bg-surface">46 Huruf Seion</span>
+                </div>
+                <div class="nmc-stat-row">
+                  <strong class="nmc-big-number">あ い う え お</strong>
+                  <span class="nmc-unit">Huruf Asli Jepang</span>
+                </div>
+                <div class="neo-progress-bar">
+                  <div class="neo-progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint">Dilengkapi urutan goresan &amp; suara</span>
+                  <button class="btn btn-sm btn-primary" data-view="learn" data-category="hiragana" data-set="seion">Buka Hiragana &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Card 2: Katakana Dasar -->
+              <div class="neo-metric-card bg-surface">
+                <div class="nmc-top">
+                  <span class="nmc-category">MODUL 2 &bull; KATAKANA DASAR</span>
+                  <span class="neo-badge bg-matcha">46 Huruf Seion</span>
+                </div>
+                <div class="nmc-stat-row">
+                  <strong class="nmc-big-number">ア イ ウ エ オ</strong>
+                  <span class="nmc-unit">Kata Serapan Asing</span>
+                </div>
+                <div class="neo-progress-bar">
+                  <div class="neo-progress-fill fill-purple" style="width: 100%;"></div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint">Panduan goresan tegas &amp; presisi</span>
+                  <button class="btn btn-sm btn-secondary" data-view="learn" data-category="katakana" data-set="seion">Buka Katakana &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Card 3: Yōon & Bunyi Gabungan -->
+              <div class="neo-metric-card bg-amber-soft">
+                <div class="nmc-top">
+                  <span class="nmc-category">MODUL 3 &bull; HURUF GABUNGAN</span>
+                  <span class="neo-badge bg-surface">Yōon (ya, yu, yo)</span>
+                </div>
+                <div class="nmc-stat-row">
+                  <strong class="nmc-big-number">きゃ・しゃ・キャ</strong>
+                  <span class="nmc-unit">Kombinasi Bunyi</span>
+                </div>
+                <div class="neo-progress-bar">
+                  <div class="neo-progress-fill fill-amber" style="width: 100%;"></div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint">Dengarkan pelafalan gabungannya</span>
+                  <button class="btn btn-sm btn-secondary" data-view="learn" data-category="hiragana" data-set="youon">Pelajari Yōon &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Card 4: Kuis & Evaluasi Mandiri -->
+              <div class="neo-metric-card bg-lavender-soft">
+                <div class="nmc-top">
+                  <span class="nmc-category">MODUL 4 &bull; UJI KEMAMPUAN</span>
+                  <span class="neo-badge bg-amber">3 Mode Latihan</span>
+                </div>
+                <div class="nmc-stat-row">
+                  <strong class="nmc-big-number">Kuis Interaktif</strong>
+                  <span class="nmc-unit">Bebas Pilih Baris</span>
+                </div>
+                <div class="neo-progress-bar">
+                  <div class="neo-progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint">Uji hafalan huruf pilihanmu</span>
+                  <button class="btn btn-sm btn-primary" data-view="quiz-setup">Mulai Latihan &rarr;</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- ================= VIEW: RESULT ================= -->
-      <section id="view-result" class="view">
-        <div class="quiz-panel result-panel">
-          <h2>Sesi Selesai</h2>
-          <div class="result-number" id="finalScore">0 / 0</div>
-          <p class="result-rate" id="finalAccuracy">Akurasi: 0%</p>
-          <div class="result-actions">
-            <button id="retrySameBtn" class="btn btn-primary btn-block">Ulangi Latihan</button>
-            <button id="backToSelectBtn" class="btn btn-secondary btn-block">Kembali ke Menu</button>
+        </section>
+
+        <!-- ===================== VIEW: LEARN KANA ===================== -->
+        <section id="view-learn" class="view">
+          <div class="view-header neo-panel-header">
+            <div>
+              <h2 class="view-title" id="learnTitle">Hiragana</h2>
+              <p class="view-subtitle" id="learnSub">Klik huruf untuk mendengar suara asli &amp; melihat animasi goresan</p>
+            </div>
+            <div class="header-right-tools">
+              <button class="btn btn-sm btn-study" data-view="quiz-setup">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/></svg>
+                <span>Uji Hafalan Huruf Ini</span>
+              </button>
+              <div class="tab-group" id="learnScriptToggle">
+                <button class="tab-btn active" data-category="hiragana">Hiragana</button>
+                <button class="tab-btn" data-category="katakana">Katakana</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <!-- ================= VIEW: PROGRESS ================= -->
-      <section id="view-progress" class="view">
-        <div class="view-header">
-          <div>
-            <h2 class="view-title">Statistik Sesi</h2>
-            <p class="view-subtitle">Ringkasan riwayat kuis pada browser ini</p>
+          <div class="sub-tab-group" id="subsetTabs">
+            <button class="sub-tab active" data-set="seion">Seion</button>
+            <button class="sub-tab" data-set="dakuon">Dakuon</button>
+            <button class="sub-tab" data-set="handakuon">Handakuon</button>
+            <button class="sub-tab" data-set="youon">Yōon</button>
           </div>
-        </div>
 
-        <div class="stat-boxes">
-          <div class="stat-item"><span id="totalSessions">0</span><p>Total Sesi</p></div>
-          <div class="stat-item"><span id="avgAccuracy">0%</span><p>Rata-rata Akurasi</p></div>
-          <div class="stat-item"><span id="bestAccuracy">0%</span><p>Akurasi Tertinggi</p></div>
-        </div>
+          <div class="table-responsive-scroll">
+            <div class="kana-grid-container" id="learnGrid"></div>
+          </div>
+        </section>
 
-        <div class="history-container">
-          <h3>Riwayat Terakhir</h3>
-          <ul class="history-list" id="historyList"></ul>
-        </div>
-      </section>
+        <!-- ===================== VIEW: QUIZ SETUP ===================== -->
+        <section id="view-quiz-setup" class="view">
+          <div class="view-header neo-panel-header">
+            <div>
+              <h2 class="view-title">Latihan Soal &amp; Kuis Kana</h2>
+              <p class="view-subtitle">Centang karakter atau klik label baris di kiri untuk memilih satu baris penuh</p>
+            </div>
+            <div class="tab-group" id="setupScriptToggle">
+              <button class="tab-btn active" data-category="hiragana">Hiragana</button>
+              <button class="tab-btn" data-category="katakana">Katakana</button>
+            </div>
+          </div>
 
-    </main>
+          <div class="setup-bar">
+            <button id="selectAllBtn" class="btn btn-sm btn-secondary">Pilih Semua Huruf</button>
+            <button id="clearAllBtn" class="btn btn-sm btn-secondary">Kosongkan Pilihan</button>
+            <span class="selected-badge" id="selectedCount">0 dipilih</span>
+          </div>
+
+          <div class="char-groups-container" id="setupCharGroups"></div>
+
+          <div class="mode-box-title">Pilih Format Latihan:</div>
+          <div class="mode-box">
+            <label class="mode-item">
+              <input type="radio" name="quizMode" value="h2r" checked>
+              <div>
+                <strong>Kana &rarr; Romaji</strong>
+                <small>Tebak bacaan romaji dari karakter kana</small>
+              </div>
+            </label>
+            <label class="mode-item">
+              <input type="radio" name="quizMode" value="r2h">
+              <div>
+                <strong>Romaji &rarr; Kana</strong>
+                <small>Pilih karakter kana berdasarkan romaji</small>
+              </div>
+            </label>
+            <label class="mode-item">
+              <input type="radio" name="quizMode" value="type">
+              <div>
+                <strong>Mengetik Jawaban</strong>
+                <small>Ketik manual romaji melalui keyboard</small>
+              </div>
+            </label>
+          </div>
+
+          <div class="setup-actions-dual">
+            <button id="startStudyBtn" class="btn btn-secondary btn-block" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+              <span>Pelajari Goresan Terpilih</span>
+            </button>
+            <button id="startQuizBtn" class="btn btn-primary btn-block" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 2 4 4-12 12H6v-4L18 2z"/></svg>
+              <span>Mulai Kuis Karakter</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ===================== VIEW: QUIZ PLAY ===================== -->
+        <section id="view-quiz" class="view">
+          <div class="quiz-card-container">
+
+            <div class="quiz-top-status-bar">
+              <div class="quiz-status-left">
+                <span class="status-icon-circle">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <div class="status-texts">
+                  <span class="status-label-state">Sedang Mengerjakan</span>
+                  <span class="status-counter-text" id="quizCounter">1 / 20</span>
+                </div>
+              </div>
+
+              <div class="quiz-progress-track">
+                <div id="quizProgressFill" class="quiz-progress-inner"></div>
+              </div>
+
+              <div class="quiz-score-badge" id="quizScore">Skor: 0</div>
+            </div>
+
+            <div class="quiz-split-layout">
+              <div class="quiz-left-panel">
+                <div class="quiz-mode-pill" id="quizModeBadge">Kana &rarr; Romaji</div>
+                <div class="quiz-options-grid-2x2" id="answerOptions"></div>
+
+                <div class="quiz-typing-container hidden" id="answerInputWrap">
+                  <input type="text" id="answerInput" placeholder="Ketik romaji lalu Enter..." autocomplete="off">
+                  <button id="submitAnswerBtn" class="btn btn-primary">Kirim</button>
+                </div>
+              </div>
+
+              <div class="quiz-right-panel">
+                <div class="char-display-canvas-box" id="quizKana">た</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===================== VIEW: VOCAB READ ===================== -->
+        <section id="view-vocab-read" class="view">
+          <div class="view-header neo-panel-header">
+            <div>
+              <h2 class="view-title">Latihan Baca Kata Kana</h2>
+              <p class="view-subtitle">Latih kelancaran membaca gabungan huruf kana &amp; dengarkan pelafalan naturalnya</p>
+            </div>
+            <div class="tab-group" id="vocabCategoryFilter">
+              <button class="tab-btn active" data-type="all">Semua</button>
+              <button class="tab-btn" data-type="hiragana">Hiragana</button>
+              <button class="tab-btn" data-type="katakana">Katakana</button>
+            </div>
+          </div>
+
+          <div class="vocab-card-wrapper">
+            <div class="vocab-card">
+              <div class="vocab-card-header">
+                <span id="vocabCounterText" class="neo-badge bg-amber">Kata 1 / 20</span>
+                <button id="vocabAudioBtn" class="sound-action-btn" title="Dengarkan pengucapan">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <span>Putar Suara</span>
+                </button>
+              </div>
+
+              <div class="vocab-display" id="vocabWordText">ねこ</div>
+
+              <div class="vocab-answer-box" id="vocabAnswerBox">
+                <div class="vocab-romaji" id="vocabRomajiText">neko</div>
+                <div class="vocabMeaningText" id="vocabMeaningText">Arti: Kucing</div>
+              </div>
+
+              <div class="vocab-card-controls">
+                <button id="vocabRevealBtn" class="btn btn-secondary btn-block">Lihat Cara Baca &amp; Arti</button>
+                <button id="vocabNextCardBtn" class="btn btn-primary btn-block hidden">Kata Selanjutnya &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== VIEW: RESULT ===================== -->
+        <section id="view-result" class="view">
+          <div class="quiz-card-container result-panel-wrap">
+            <span class="neo-badge bg-matcha">🎉 Latihan Selesai</span>
+            <h2 style="margin-top:10px;">Hasil Kuis Kana</h2>
+            <div class="result-number" id="finalScore">0 / 0</div>
+            <p class="result-rate" id="finalAccuracy">Akurasi: 0%</p>
+            <div class="result-actions">
+              <button id="retrySameBtn" class="btn btn-primary btn-block">Ulangi Latihan</button>
+              <button id="backToSelectBtn" class="btn btn-secondary btn-block">Pilih Huruf Lain</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== VIEW: GAME (FITUR BARU) ===================== -->
+        <section id="view-game" class="view">
+
+          <!-- 1. GAME HUB / LOBBY -->
+          <div id="nkGameLobby">
+            <div class="view-header neo-panel-header">
+              <div>
+                <h2 class="view-title">🎮 Kana Game Arena</h2>
+                <p class="view-subtitle">Pilih jenis huruf, tingkat kesulitan, dan mainkan 6 tantangan interaktif</p>
+              </div>
+              <div class="header-right-tools">
+                <span class="neo-badge bg-amber" id="nkBestScoreBadge">🏆 Skor Terbaik: 0</span>
+              </div>
+            </div>
+
+            <!-- Bar Pengaturan Kategori & Kesulitan -->
+            <div class="nk-game-config-bar">
+              <div class="nk-config-group">
+                <span class="nk-config-label">Huruf Kana:</span>
+                <div class="tab-group" id="nkGameScriptToggle">
+                  <button class="tab-btn active" data-script="hiragana">Hiragana</button>
+                  <button class="tab-btn" data-script="katakana">Katakana</button>
+                  <button class="tab-btn" data-script="mixed">Campuran</button>
+                </div>
+              </div>
+
+              <div class="nk-config-group">
+                <span class="nk-config-label">Tingkat Kesulitan:</span>
+                <div class="tab-group" id="nkGameDiffToggle">
+                  <button class="tab-btn active" data-diff="easy">Mudah</button>
+                  <button class="tab-btn" data-diff="normal">Sedang</button>
+                  <button class="tab-btn" data-diff="hard">Sulit</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid 6 Kartu Permainan -->
+            <div class="nk-game-cards-grid">
+
+              <!-- Game 1: Tebak Huruf -->
+              <div class="neo-metric-card bg-matcha-soft nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 01 &bull; KLASIK</span>
+                  <span class="neo-badge bg-surface">Ketepatan</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-matcha">あ</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Tebak Huruf</h3>
+                    <p class="nk-game-card-desc">Lihat satu karakter Kana berukuran besar dan pilih bacaan romaji yang paling tepat.</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-guess">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="guess">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Game 2: Memory Match -->
+              <div class="neo-metric-card bg-lavender-soft nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 02 &bull; MEMORI</span>
+                  <span class="neo-badge bg-surface">Pasangan Kartu</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-lavender">対</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Memory Match</h3>
+                    <p class="nk-game-card-desc">Balik kartu tertutup dan cocokkan pasangan huruf Kana dengan bacaan romajinya.</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-memory">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="memory">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Game 3: Kana Speed Challenge -->
+              <div class="neo-metric-card bg-amber-soft nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 03 &bull; KECEPATAN</span>
+                  <span class="neo-badge bg-surface">Lawan Waktu</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-amber">速</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Kana Speed Challenge</h3>
+                    <p class="nk-game-card-desc">Jawab soal Kana sebanyak mungkin sebelum batas waktu hitung mundur habis!</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-speed">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="speed">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Game 4: Susun Huruf -->
+              <div class="neo-metric-card bg-surface nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 04 &bull; KOSAKATA</span>
+                  <span class="neo-badge bg-matcha">Susun Kata</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-matcha">詞</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Susun Huruf</h3>
+                    <p class="nk-game-card-desc">Susun kepingan huruf Kana yang diacak menjadi kosakata bahasa Jepang yang benar.</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-scramble">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="scramble">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Game 5: Cari Huruf -->
+              <div class="neo-metric-card bg-amber-soft nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 05 &bull; FOKUS MATA</span>
+                  <span class="neo-badge bg-surface">Temukan Target</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-amber">探</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Cari Huruf</h3>
+                    <p class="nk-game-card-desc">Temukan semua huruf Kana yang diminta di antara puluhan huruf pengecoh lainnya.</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-find">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="find">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+              <!-- Game 6: Tebak Suara -->
+              <div class="neo-metric-card bg-lavender-soft nk-game-card">
+                <div class="nmc-top">
+                  <span class="nmc-category">GAME 06 &bull; PENDENGARAN</span>
+                  <span class="neo-badge bg-surface">Audio Jepang</span>
+                </div>
+                <div class="nk-game-card-body">
+                  <div class="qm-icon bg-lavender">音</div>
+                  <div>
+                    <h3 class="nk-game-card-title">Tebak Suara</h3>
+                    <p class="nk-game-card-desc">Dengarkan pelafalan suara asli Jepang dan pilih karakter Kana yang sesuai.</p>
+                  </div>
+                </div>
+                <div class="nmc-footer">
+                  <span class="nmc-hint" id="nkBest-sound">Skor Terbaik: 0</span>
+                  <button class="btn btn-sm btn-primary" data-start-game="sound">Mulai Main &rarr;</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 2. ACTIVE GAME STAGE -->
+          <div id="nkGameStage" class="quiz-card-container hidden">
+            <div class="quiz-top-status-bar nk-game-topbar">
+              <button class="btn btn-sm btn-secondary" id="nkGameBackLobbyBtn" title="Kembali ke Menu Game">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span>Menu Game</span>
+              </button>
+
+              <div class="status-texts">
+                <span class="status-label-state" id="nkGameActiveTitle">Tebak Huruf</span>
+                <span class="status-counter-text" id="nkGameProgressText">Soal 1 / 10</span>
+              </div>
+
+              <div class="quiz-progress-track">
+                <div id="nkGameProgressBar" class="quiz-progress-inner" style="width: 0%;"></div>
+              </div>
+
+              <div class="neo-badge bg-surface hidden" id="nkGameTimerBadge">⏱️ 60d</div>
+              <div class="quiz-score-badge" id="nkGameScoreBadge">Skor: 0</div>
+            </div>
+
+            <!-- Umpan Balik Benar / Salah -->
+            <div id="nkGameFeedbackBanner" class="nk-game-feedback hidden"></div>
+
+            <!-- Area Render Dinamis per Permainan -->
+            <div id="nkGameBoard" class="nk-game-board"></div>
+
+            <!-- Footer Kontrol Saat Bermain -->
+            <div class="nk-game-stage-footer">
+              <button class="btn btn-sm btn-secondary" id="nkGameRestartNowBtn">🔄 Ulangi Permainan</button>
+              <button class="btn btn-sm btn-primary hidden" id="nkGameNextStepBtn">Soal Berikutnya &rarr;</button>
+            </div>
+          </div>
+
+          <!-- 3. GAME RESULT SUMMARY -->
+          <div id="nkGameResult" class="quiz-card-container result-panel-wrap hidden">
+            <span class="neo-badge bg-matcha" id="nkResultBadge">🎉 Permainan Selesai</span>
+            <h2 style="margin-top:10px;" id="nkResultTitle">Hasil Permainan</h2>
+            <div class="result-number" id="nkResultScore">0</div>
+            <p class="result-rate" id="nkResultDetail">Jawaban Benar: 0 / 0</p>
+            <div class="result-actions">
+              <button id="nkResultRetryBtn" class="btn btn-primary btn-block">Main Lagi</button>
+              <button id="nkResultLobbyBtn" class="btn btn-secondary btn-block">Kembali ke Menu GAME</button>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ===================== BOTTOM NAVIGATION BAR (KHUSUS HP - 5 MENU) ===================== -->
+    <nav class="mobile-bottom-nav" aria-label="Navigasi Bawah HP">
+      <button class="mob-nav-item active" data-view="home">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="mob-nav-item" data-view="learn" data-category="hiragana">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+        <span>Tabel Kana</span>
+      </button>
+      <button class="mob-nav-item mob-nav-cta" data-view="quiz-setup">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Kuis</span>
+      </button>
+      <button class="mob-nav-item" data-view="vocab-read">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+        <span>Kosakata</span>
+      </button>
+      <button class="mob-nav-item" data-view="game">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4m-2-2v4"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg>
+        <span>Game</span>
+      </button>
+    </nav>
+
   </div>
 
-  <!-- ===================== MODAL DETAIL KARAKTER BESAR ===================== -->
+  <!-- ===================== MODAL BERTAHAP ===================== -->
   <div class="modal-overlay hidden" id="charModalOverlay">
-    <div class="char-modal">
-      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Tutup detail">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+
+    <!-- TAHAP 1: KENALI HURUF -->
+    <div class="step-card-modal" id="modalStep1">
+      <button class="writing-close-btn" id="modalCloseBtnStep1" aria-label="Kembali ke Tabel">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
 
-      <div class="modal-badge-group">
-        <span class="modal-badge" id="modalCategoryBadge">Hiragana</span>
-        <span class="modal-badge modal-badge--alt" id="modalSetBadge">Seion</span>
+      <div class="step-header-tag">TAHAP 1 &bull; KENALI HURUF &amp; SUARA</div>
+
+      <div class="intro-two-col">
+        <div class="intro-left-char">
+          <span class="intro-big-char" id="step1Char">あ</span>
+        </div>
+
+        <div class="intro-right-info">
+          <div class="intro-meta">
+            <span class="intro-label">Cara membaca (Romaji):</span>
+            <span class="intro-romaji" id="step1Romaji">a</span>
+          </div>
+
+          <button class="intro-audio-btn" id="step1SoundBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <span>Dengarkan Pelafalan Asli</span>
+          </button>
+
+          <div class="intro-footer-actions">
+            <button class="btn btn-secondary" id="step1BackBtn">Kembali ke Tabel</button>
+            <button class="btn btn-primary" id="step1NextBtn">
+              <span>Latih Goresan</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="modal-char-giant" id="modalGiantChar">あ</div>
-      <div class="modal-romaji" id="modalRomaji">a</div>
-
-      <div class="modal-action-row">
-        <button class="btn btn-primary modal-sound-btn" id="modalSoundBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          <span>Dengarkan Pelafalan</span>
+    <!-- TAHAP 2: CARA PENULISAN -->
+    <div class="writing-modal-landscape hidden" id="modalStep2">
+      <div class="modal-top-bar">
+        <button class="btn-back-step" id="modalBackToStep1Btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Tahap 1</span>
+        </button>
+        <button class="writing-close-btn relative-close" id="modalCloseBtnStep2" aria-label="Tutup panduan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="modal-examples" id="modalExampleBox">
-        <div class="example-title">Contoh Penggunaan Kata</div>
-        <div class="example-content" id="modalExampleContent">
-          <!-- Diisi otomatis oleh JS -->
+      <div class="landscape-layout-grid">
+        <div class="landscape-left-col">
+          <div class="char-header-row">
+            <span class="main-char-display" id="modalMainChar">あ</span>
+            <span class="main-romaji-display" id="modalMainRomaji">a</span>
+            <button class="sound-speaker-btn" id="modalSoundBtn" title="Dengarkan Pengucapan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </button>
+          </div>
+
+          <div class="practice-strip-boxes" id="practiceStripBoxes">
+            <div class="trace-box opacity-100"><span id="stripTrace1">あ</span></div>
+            <div class="trace-box opacity-60"><span id="stripTrace2">あ</span></div>
+            <div class="trace-box opacity-30"><span id="stripTrace3">あ</span></div>
+            <div class="trace-box opacity-0"><span></span></div>
+            <div class="trace-box opacity-0"><span></span></div>
+          </div>
+
+          <div class="group-row-selector" id="groupRowSelector"></div>
+        </div>
+
+        <div class="landscape-center-col">
+          <div class="col-title-badge">PAPAN LATIHAN &amp; ANIMASI GORESAN</div>
+          <div class="stroke-display-card">
+            <div id="strokeSvgWrapper" class="writing-svg-wrapper"></div>
+            <canvas id="writingCanvas" class="user-writing-canvas"></canvas>
+            <div class="writing-no-anim hidden" id="noAnimationNotice">
+              <span class="no-anim-char font-youon" id="noAnimChar">きゃ</span>
+              <p>Huruf kombinasi tidak memiliki animasi tunggal</p>
+            </div>
+          </div>
+
+          <div class="stroke-pills-row" id="modalLegendPills"></div>
+
+          <div class="center-actions-row">
+            <button class="btn-action-pill" id="modalPlayStrokeBtn" title="Putar ulang animasi">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Putar Ulang</span>
+            </button>
+            <button class="btn-action-pill" id="modalNextStrokeBtn" title="Goresan demi goresan">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <span>Per Goresan</span>
+            </button>
+            <button class="btn-action-pill" id="modalSpeedBtn" title="Ubah kecepatan animasi">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Kecepatan: 1x</span>
+            </button>
+            <button class="btn-clear-canvas" id="clearCanvasBtn" title="Hapus coretan tangan">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <span>Hapus Coretan</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="js/app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

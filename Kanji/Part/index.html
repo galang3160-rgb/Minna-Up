@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nihonggo Gakkou — Ruang Belajar Kanji & Dokkai</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700;900&family=Space+Grotesk:wght@500;600;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="learning-body">
 
-  <!-- Interactive Mouse Particle Canvas -->
+  <!-- AMBIENT & EFEK INTERAKTIF -->
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
   <canvas id="mouseTrail"></canvas>
 
   <div class="app-layout">
@@ -22,28 +23,28 @@
     <header class="fixed-topbar">
       <div class="topbar-capsule">
         
-        <!-- Sisi Kiri: Tombol Back Bulat & Logo -->
+        <!-- Sisi Kiri: Tombol Back & Logo -->
         <div class="topbar-left">
           <button type="button" id="btnBack" class="nav-back-circle" title="Kembali" aria-label="Kembali ke Beranda">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>
           <a href="../index.html" class="logo">
-            <span class="logo-word">Nihonggo <b>Gakkou</b></span>
+            <span class="logo-word">Nihonggo<b>Gakkou</b></span>
           </a>
         </div>
 
         <!-- Bagian Tengah: Pencarian Kanji / Arti pada Part Aktif -->
         <div class="topbar-center">
           <div class="search-box">
-            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="search-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="searchInput" class="search-input" placeholder="Cari kanji / arti di part ini..." autocomplete="off" spellcheck="false">
+            <input type="text" id="searchInput" class="search-input" placeholder="Cari kanji / arti..." autocomplete="off" spellcheck="false">
             <button type="button" id="btnClearSearch" class="btn-clear-search" aria-label="Hapus Pencarian" hidden>
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -54,11 +55,11 @@
         <!-- Sisi Kanan: Audio & Pemicu Modal Kanji Part -->
         <div class="topbar-right">
           <button type="button" id="btnAudioToggle" class="audio-toggle-btn" aria-label="Pengaturan Suara Efek" title="Nyalakan / Matikan Suara">
-            <svg class="icon-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="icon-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
               <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
             </svg>
-            <svg class="icon-muted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <svg class="icon-muted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="display:none">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
               <line x1="23" y1="9" x2="17" y2="15"/>
               <line x1="17" y1="9" x2="23" y2="15"/>
@@ -68,8 +69,11 @@
           <button type="button" id="openChapterModal" class="chapter-trigger-btn" aria-label="Buka Daftar Part">
             <span class="trigger-label">Kanji <b id="currentChapterDisplay">Part 01</b></span>
             <div class="trigger-icon-wrap">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 9l6 6 6-6"/>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.5"/>
               </svg>
             </div>
           </button>
@@ -86,7 +90,7 @@
       <section id="mode-carousel" class="study-view">
         <div class="top-flashcard-toolbar">
           <button type="button" class="action-pill-btn" id="shuffleBtn" title="Acak urutan kartu kanji">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 3 21 3 21 8"></polyline>
               <line x1="4" y1="20" x2="21" y2="3"></line>
               <polyline points="21 16 21 21 16 21"></polyline>
@@ -97,23 +101,27 @@
           </button>
         </div>
 
-        <div class="flashcard-horizontal-stage">
-          <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" aria-label="Kartu Sebelumnya">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
-
+        <div class="flashcard-deck-wrap">
           <div class="carousel-container" id="carouselContainer"></div>
 
-          <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" aria-label="Kartu Berikutnya">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
-        </div>
+          <div class="flashcard-control-bar">
+            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" aria-label="Kartu Sebelumnya">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+              <span class="arrow-label">Sebelumnya</span>
+            </button>
 
-        <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+
+            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" aria-label="Kartu Berikutnya">
+              <span class="arrow-label">Berikutnya</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- STATUS BAR QUIZ PILIHAN GANDA -->
@@ -122,7 +130,7 @@
           <span class="quiz-title-tag" id="quizTitle">Kuis Pilihan Ganda Kanji</span>
           <div class="quiz-meta-group">
             <span class="meta-pill" id="quizCounter">Soal 1 / 10</span>
-            <span class="meta-pill" id="quizScore">Benar 0</span>
+            <span class="meta-pill meta-score" id="quizScore">Benar 0</span>
           </div>
         </div>
         <div class="quiz-progress-track">
@@ -135,21 +143,25 @@
         <div class="mc-split-grid">
           <!-- Kotak Kiri: Kanji Utama + Zoom -->
           <div class="vocab-main-card">
-            <div class="font-zoom-controls">
-              <button type="button" id="btnZoomOut" class="btn-zoom" aria-label="Perkecil Ukuran Teks">−</button>
-              <button type="button" id="btnZoomIn" class="btn-zoom" aria-label="Perbesar Ukuran Teks">+</button>
+            <div class="card-top-Controls">
+              <span class="vocab-question-badge">TEBAK KANJI INI</span>
+              <div class="font-zoom-controls">
+                <button type="button" id="btnZoomOut" class="btn-zoom" aria-label="Perkecil Ukuran Teks">−</button>
+                <button type="button" id="btnZoomIn" class="btn-zoom" aria-label="Perbesar Ukuran Teks">+</button>
+              </div>
             </div>
             <div class="vocab-display-wrap">
               <span class="vocab-text furigana-font" id="mcQuestionText"></span>
             </div>
-            <span class="mc-hint-badge">Tebak Cara Baca & Arti Kanji</span>
           </div>
 
           <!-- Kotak Kanan: Pilihan Jawaban 4 Opsi -->
           <div class="mc-options-card">
             <div class="options-vertical-list" id="mcOptions"></div>
-            <div class="feedback-text" id="mcFeedback" aria-live="polite"></div>
-            <button type="button" id="btnMcNext" class="btn-action-primary" disabled>Lanjut</button>
+            <div class="mc-bottom-bar">
+              <div class="feedback-text" id="mcFeedback" aria-live="polite"></div>
+              <button type="button" id="btnMcNext" class="btn-action-primary" disabled>Lanjut &rarr;</button>
+            </div>
           </div>
         </div>
       </section>
@@ -169,7 +181,7 @@
         </div>
       </section>
 
-      <!-- FITUR 3: UPGRADED DOKKAI SUPER CARD (LATIHAN MEMBACA) -->
+      <!-- FITUR 3: DOKKAI SUPER CARD (LATIHAN MEMBACA) -->
       <section id="mode-dokkai" class="study-view dokkai-view-container" hidden>
         <div class="dokkai-super-card">
           
@@ -183,7 +195,7 @@
               <!-- Kontrol Audio TTS & Zoom Teks Dokkai -->
               <div class="dokkai-tools">
                 <button type="button" id="btnReadAloud" class="dokkai-tool-btn" title="Dengarkan Pelafalan Bahasa Jepang">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
                   </svg>
@@ -215,7 +227,7 @@
           <!-- Footer Kontrol Dokkai -->
           <footer class="dokkai-footer">
             <button type="button" class="btn-action-secondary" id="toggleTransBtn">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
@@ -237,7 +249,7 @@
     <footer class="bottom-dock">
       <nav class="bottom-capsule-nav" aria-label="Menu Pembelajaran">
         <button type="button" class="dock-item active" data-mode="carousel" title="Hafalan Kartu Kanji">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
           </svg>
@@ -245,14 +257,14 @@
         </button>
 
         <button type="button" class="dock-item" data-mode="mc" title="Kuis Pilihan Ganda">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
           </svg>
           <span class="dock-label">Pilihan Ganda</span>
         </button>
 
         <button type="button" class="dock-item" data-mode="dokkai" title="Latihan Membaca Dokkai">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
           </svg>
@@ -272,7 +284,7 @@
       
       <div class="modal-eval-actions">
         <button type="button" class="btn-eval btn-repeat" id="btnRepeatCards">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4">
             <path d="M1 4v6h6M23 20v-6h-6"/>
             <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
           </svg>
@@ -280,7 +292,7 @@
         </button>
 
         <button type="button" class="btn-eval btn-success" id="btnStartDokkaiNow">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <span>Lanjut Dokkai</span>
@@ -294,16 +306,15 @@
     <div class="modal-sheet">
       <div class="modal-header">
         <div>
-          <span class="modal-tag">PILIHAN LEVEL</span>
+          <span class="modal-tag">DAFTAR MATERI KANJI</span>
           <h3 class="modal-title">Pilih Kanji Part</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup Pilihan Part">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <!-- Grid tombol Part 01 - 25 akan dibuat otomatis oleh script.js -->
       <div class="modal-grid" id="modalChapterGrid"></div>
     </div>
   </div>

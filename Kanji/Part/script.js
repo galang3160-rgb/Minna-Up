@@ -1,9 +1,8 @@
 /**
- * NIHONGGO GAKKOU — KANJI & DOKKAI LEARNING ENGINE
- * Lokasi File JSON: kode/part_1.json s.d. kode/part_25.json
+ * NAKAMA GAKKOU — TACTILE NEO-BRUTALIST KANJI & DOKKAI ENGINE
  * Fitur:
- * - Dynamic Infinite Flashcard & Dokkai (Otomatis mengikuti total data di JSON)
- * - Auto-Highlight Kanji yang dipelajari di bacaan Dokkai (Tebal, Hijau, Garis Bawah)
+ * - Dynamic Infinite Flashcard & Dokkai (Otomatis membaca file di folder data/part_X.json)
+ * - Auto-Highlight Kanji yang dipelajari di kalimat Dokkai
  * - Modal Transisi Elegan: "Part Selesai · Dokkai Time"
  * - TTS Suara Bahasa Jepang & Kontrol Zoom Teks
  * - Kuis Pilihan Ganda Interaktif
@@ -25,16 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================
   // 1. KONFIGURASI FILE & STATE
   // =========================================================
-  // Sesuai lokasi folder yang kamu tentukan: kode/part_X.json
   const DATA_PATH = n => `data/part_${n}.json`;
   const totalParts = 25;
   const SAVE_KEY = 'nihonggo:kanji_current_part';
-
-  const kanjiNumerals = [
-    '一','二','三','四','五','六','七','八','九','十',
-    '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
-    '二十一','二十二','二十三','二十四','二十五'
-  ];
 
   let currentPart = 1;
   let rawKanjiList = [];
@@ -44,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let mode = 'carousel'; // 'carousel', 'mc', 'dokkai'
   let audioOn = true;
   let dokkaiFontSizeRem = 1.4;
-  let vocabZoomRem = 4.4;
+  let vocabZoomRem = 5.0;
 
   // State Kuis Pilihan Ganda
   let quizPool = [];
@@ -53,15 +45,45 @@ document.addEventListener('DOMContentLoaded', () => {
   let answered = false;
 
   // =========================================================
-  // 2. AUDIO FEEDBACK (SFX SINE WAVE)
+  // 2. AUDIO FEEDBACK & JAPANESE TTS
   // =========================================================
   let actx = null;
+  let jpVoice = null;
+
+  function initJapaneseVoice() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    const ja = voices.filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
+    if (ja.length) {
+      ja.sort((a, b) => {
+        const score = v => (v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('google') ? 10 : 0);
+        return score(b) - score(a);
+      });
+      jpVoice = ja[0];
+    }
+  }
+  if ('speechSynthesis' in window) {
+    initJapaneseVoice();
+    window.speechSynthesis.onvoiceschanged = initJapaneseVoice;
+  }
+
+  function speakJapanese(text) {
+    if (!audioOn || !text || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const ut = new SpeechSynthesisUtterance(text);
+    ut.lang = 'ja-JP';
+    if (jpVoice) ut.voice = jpVoice;
+    ut.rate = 0.85;
+    ut.pitch = 1.04;
+    window.speechSynthesis.speak(ut);
+  }
+
   const TONES = {
-    pop: ['sine', 600, 300, 0.1, 0.12],
-    correct: ['sine', 600, 1200, 0.2, 0.2],
-    wrong: ['sawtooth', 300, 150, 0.2, 0.15],
-    flip: ['sine', 400, 200, 0.08, 0.08],
-    win: ['triangle', 523, 1046, 0.4, 0.2]
+    pop: ['sine', 580, 290, 0.08, 0.1],
+    correct: ['sine', 600, 1200, 0.18, 0.16],
+    wrong: ['sawtooth', 280, 150, 0.18, 0.12],
+    flip: ['sine', 420, 240, 0.07, 0.08],
+    win: ['triangle', 523, 1046, 0.35, 0.16]
   };
 
   function playTone(type) {
@@ -89,57 +111,84 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // 3. CANVAS MOUSE TRAIL
+  // 3. VISUAL FX (AMBIENT, SPARKS & TRAIL)
   // =========================================================
-  const canvas = $('mouseTrail');
-  if (canvas) {
-    const cctx = canvas.getContext('2d');
-    let particles = [];
-    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+  if (!reduce) {
+    const sun = $('sun');
+    if (sun && fine) {
+      addEventListener('pointermove', e => {
+        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -32}px, ${(e.clientY / innerHeight - 0.5) * -32}px)`;
+      });
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 
-    if (!isTouchDevice) {
-      window.addEventListener('mousemove', e => {
-        for (let i = 0; i < 2; i++) {
-          particles.push({
-            x: e.clientX,
-            y: e.clientY,
-            vx: (Math.random() - 0.5) * 1.5,
-            vy: (Math.random() - 0.5) * 1.5,
-            size: Math.random() * 4 + 2,
-            alpha: 0.7,
-            color: Math.random() > 0.4 ? '#10B981' : '#34D399'
-          });
-        }
+    const fx = $('fx');
+    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF'];
+    addEventListener('pointerdown', e => {
+      if (!fx || e.target.closest('button, input, select, a')) return;
+      const pulse = document.createElement('div');
+      pulse.className = 'pulse';
+      pulse.style.left = e.clientX + 'px';
+      pulse.style.top = e.clientY + 'px';
+      pulse.onanimationend = () => pulse.remove();
+      fx.appendChild(pulse);
+
+      for (let i = 0; i < 4; i++) {
+        const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.4;
+        const dist = 36 + Math.random() * 45;
+        const sp = document.createElement('span');
+        sp.className = 'spark';
+        sp.style.left = e.clientX + 'px';
+        sp.style.top = e.clientY + 'px';
+        sp.style.background = sparkColors[i % sparkColors.length];
+        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
+        sp.onanimationend = () => sp.remove();
+        fx.appendChild(sp);
+      }
+    });
+
+    const canvas = $('mouseTrail');
+    if (canvas && fine) {
+      const cctx = canvas.getContext('2d');
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      let mx = -100, my = -100, x = mx, y = my;
+      const pts = [];
+
+      window.addEventListener('pointermove', e => {
+        mx = e.clientX;
+        my = e.clientY;
       });
 
-      (function renderParticles() {
-        cctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          cctx.save();
-          cctx.globalAlpha = p.alpha;
-          cctx.beginPath();
-          cctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          cctx.fillStyle = p.color;
-          cctx.shadowBlur = 6;
-          cctx.shadowColor = '#10B981';
-          cctx.fill();
-          cctx.restore();
+      (function drawTrail() {
+        x += (mx - x) * 0.32;
+        y += (my - y) * 0.32;
+        pts.push({ x, y });
+        if (pts.length > 14) pts.shift();
 
-          p.x += p.vx;
-          p.y += p.vy;
-          p.alpha -= 0.025;
-          p.size = Math.max(0, p.size - 0.06);
-          if (p.alpha <= 0) particles.splice(i, 1);
+        cctx.clearRect(0, 0, canvas.width, canvas.height);
+        cctx.lineCap = 'round';
+        cctx.lineJoin = 'round';
+
+        for (let i = 1; i < pts.length; i++) {
+          const t = i / pts.length;
+          cctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.lineWidth = t * 8;
+          cctx.beginPath();
+          cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+          cctx.lineTo(pts[i].x, pts[i].y);
+          cctx.stroke();
         }
-        requestAnimationFrame(renderParticles);
+        requestAnimationFrame(drawTrail);
       })();
     }
   }
@@ -183,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.innerHTML = `
         <span class="cgi-num">${padded}</span>
         <span class="cgi-label">PART</span>
-        <span class="cgi-kanji-bg">${kanjiNumerals[i]}</span>
       `;
 
       btn.addEventListener('click', () => {
@@ -259,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // 7. CAROUSEL FLASHCARD KANJI (INFINITE SESUAI ISI JSON)
+  // 7. CAROUSEL FLASHCARD KANJI + TOUCH SWIPE
   // =========================================================
   const Carousel = {
     index: 0,
@@ -274,15 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
               <div class="carousel-face front">
-                <span class="c-tag">Status</span>
-                <span class="c-arti">Data Kosong</span>
+                <div class="face-top-bar"><span class="c-tag">Info</span></div>
+                <div class="face-center-content"><span class="c-arti">Tidak Ada Kanji</span></div>
+                <div class="face-bottom-hint">Coba kata kunci lain</div>
               </div>
             </div>
           </div>`;
         return;
       }
 
-      // Render SEMUA kartu tanpa batasan
       activeKanjiList.forEach((v, i) => {
         const card = document.createElement('div');
         card.className = 'chapter-flashcard hidden';
@@ -297,11 +345,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="c-kanji furigana-font">${esc(v.kanji)}</span>
               </div>
               <div class="card-bot-info">
-                <span class="flip-hint">Ketuk untuk membalik</span>
+                <span class="flip-hint">Ketuk untuk membalik &rarr;</span>
               </div>
             </div>
 
-            <!-- BELAKANG KARTU: TEPAT DI TENGAH -->
+            <!-- BELAKANG KARTU -->
             <div class="carousel-face back">
               <div class="card-top-info">
                 <span class="c-tag">Detail Kanji</span>
@@ -312,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="c-arti">${esc(v.arti)}</span>
               </div>
               <div class="card-bot-info">
-                <span class="flip-hint">Ketuk untuk kembali</span>
+                <span class="flip-hint">&larr; Ketuk untuk kembali</span>
               </div>
             </div>
           </div>
@@ -320,8 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.addEventListener('click', () => {
           if (i === this.index) {
+            const willFlipToBack = !card.classList.contains('is-flipped');
             card.classList.toggle('is-flipped');
             playTone('flip');
+            if (willFlipToBack) speakJapanese(v.furigana);
           } else {
             this.index = i;
             this.update();
@@ -341,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const cards = container.children;
       const total = activeKanjiList.length;
 
-      // Hitungan otomatis 1 / Total (Infinite)
       if ($('carouselCounter')) {$('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
       }
       if (!total) return;
@@ -358,12 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
     go(dir) {
       if (!activeKanjiList.length) return;
 
-      // Saat kartu kanji terakhir selesai -> Tampilkan Modal Part Selesai / Dokkai Time
       if (dir === 1 && this.index === activeKanjiList.length - 1) {
         showCompletionModal();
         return;
       }
-
       if (dir === -1 && this.index === 0) return;
 
       this.index = Math.max(0, Math.min(this.index + dir, activeKanjiList.length - 1));
@@ -381,8 +428,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Touch Swipe di HP
+  let touchStartX = 0;
+  const carouselEl = $('carouselContainer');
+  if (carouselEl) {
+    carouselEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carouselEl.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) Carousel.go(1);
+        else Carousel.go(-1);
+      }
+    }, { passive: true });
+  }
+
   // =========================================================
-  // 8. MODAL SELESAI: PART SELESAI · DOKKAI TIME
+  // 8. MODAL SELESAI HAFALAN KANJI
   // =========================================================
   const completionModal = $('completionModal');
   function showCompletionModal() {
@@ -414,15 +477,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // 9. DOKKAI ENGINE: DYNAMIC, HIGHLIGHT KANJI & AUDIO TTS
+  // 9. DOKKAI ENGINE (LATIHAN MEMBACA)
   // =========================================================
-
-  // Highlight kanji yang dipelajari di dalam kalimat dokkai
   function highlightLearnedKanji(japaneseText) {
     if (!japaneseText) return '';
     if (!rawKanjiList.length) return esc(japaneseText);
 
-    // Ambil daftar kanji dari part aktif
     const kanjiList = rawKanjiList.map(item => item.kanji).filter(Boolean);
     kanjiList.sort((a, b) => b.length - a.length);
 
@@ -442,36 +502,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderDokkaiSentence() {
-    const total = dokkaiData.items.length; // Otomatis berapa pun jumlah kalimat di JSON
+    const total = dokkaiData.items.length;
     const item = dokkaiData.items[currentSentenceIndex];
 
     if ($('dokkaiTitle')) {$('dokkaiTitle').textContent = dokkaiData.title || `Latihan Dokkai — Part ${currentPart}`;
     }
     if ($('dokkaiCounter')) {$('dokkaiCounter').textContent = `Kalimat ${currentSentenceIndex + 1} dari ${total}`;
     }
-
-    // Render Teks dengan Highlight Kanji
     if ($('dokkaiSentenceText')) {$('dokkaiSentenceText').innerHTML = highlightLearnedKanji(item.japanese || '');
     }
-
     if ($('dokkaiMeaningText')) {$('dokkaiMeaningText').textContent = item.indonesian || '';
     }
 
-    // Reset Box Terjemahan
     if ($('dokkaiTranslation'))$('dokkaiTranslation').classList.remove('show');
     if ($('toggleTransBtn')) {
       const span = $('toggleTransBtn').querySelector('span');
       if (span) span.textContent = 'Lihat Terjemahan';
     }
 
-    // Navigasi Prev/Next
     if ($('dokkaiPrevBtn')) {$('dokkaiPrevBtn').style.visibility = currentSentenceIndex === 0 ? 'hidden' : 'visible';
     }
     if ($('dokkaiNextBtn')) {
       if (currentSentenceIndex === total - 1) {
         $('dokkaiNextBtn').textContent = 'Selesai & Ulangi Part';
       } else {
-        $('dokkaiNextBtn').textContent = 'Kalimat Selanjutnya →';
+        $('dokkaiNextBtn').textContent = 'Lanjut';
       }
     }
   }
@@ -506,24 +561,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Audio Speech Synthesis (TTS Suara Jepang)
   if ($('btnReadAloud')) {$('btnReadAloud').addEventListener('click', () => {
       const currentItem = dokkaiData.items[currentSentenceIndex];
-      if (!currentItem || !currentItem.japanese) return;
-
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(currentItem.japanese);
-        utterance.lang = 'ja-JP';
-        utterance.rate = 0.88;
-        window.speechSynthesis.speak(utterance);
-      } else {
-        showNotice('Perangkat Anda tidak mendukung audio percakapan bahasa Jepang.', 3000);
+      if (currentItem && currentItem.japanese) {
+        speakJapanese(currentItem.japanese);
       }
     });
   }
 
-  // Zoom Text Dokkai
   if ($('btnDokkaiZoomIn')) {$('btnDokkaiZoomIn').addEventListener('click', () => {
       if (dokkaiFontSizeRem < 2.5) {
         dokkaiFontSizeRem += 0.15;
@@ -554,7 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
     qScore = 0;
     answered = false;
 
-    if ($('quizTitle'))$('quizTitle').textContent = `Pilihan Ganda · Part ${currentPart}`;
+    if ($('quizTitle'))$('quizTitle').textContent = `Kuis Pilihan Ganda Kanji · Part ${currentPart}`;
     if ($('quizProgressFill'))$('quizProgressFill').style.width = '0%';
     runMC();
   }
@@ -604,11 +649,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (item.id === q.id) {
           qScore++;
-          $('mcFeedback').textContent = 'Benar!';$('mcFeedback').classList.add('correct');
+          $('mcFeedback').textContent = '✓ Benar!';
+          $('mcFeedback').classList.add('correct');
           playTone('correct');
+          speakJapanese(q.furigana);
         } else {
           btn.classList.add('wrong');
-          $('mcFeedback').textContent = 'Kurang Tepat!';$('mcFeedback').classList.add('wrong');
+          $('mcFeedback').textContent = '✕ Kurang Tepat!';
+          $('mcFeedback').classList.add('wrong');
           playTone('wrong');
         }
 
@@ -651,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   if ($('btnZoomOut')) {$('btnZoomOut').addEventListener('click', () => {
-      if (vocabZoomRem > 2.2) {
+      if (vocabZoomRem > 2.5) {
         vocabZoomRem -= 0.3;
         document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
       }
@@ -698,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnAudioToggle')) {$('btnAudioToggle').addEventListener('click', function() {
+  if ($('btnAudioToggle')) {$('btnAudioToggle').addEventListener('click', function () {
       audioOn = !audioOn;
       const unmuted = this.querySelector('.icon-unmuted');
       const muted = this.querySelector('.icon-muted');
@@ -708,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================
-  // 12. FETCH & NORMALISASI DARI kode/part_X.json
+  // 12. FETCH & NORMALISASI DARI data/part_X.json
   // =========================================================
   async function loadPart(partNum) {
     currentPart = parseInt(partNum, 10);
@@ -720,7 +768,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const json = await res.json();
       
-      // Ambil SEMUA kartu kanji yang ada di JSON tanpa batasan
       const cards = json.flashcards || [];
       rawKanjiList = cards.map((item, idx) => ({
         id: idx,
@@ -729,7 +776,6 @@ document.addEventListener('DOMContentLoaded', () => {
         arti: item.arti || ''
       })).filter(c => c.kanji && c.arti);
 
-      // Ambil SEMUA kalimat dokkai yang ada di JSON tanpa batasan
       dokkaiData = {
         title: json.dokkai?.title || `Dokkai Part ${currentPart}`,
         items: (json.dokkai?.items || []).filter(item => item && item.japanese)
@@ -738,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideNotice();
     } catch (e) {
       console.error(e);
-      showNotice(`Gagal membaca ${DATA_PATH(currentPart)}. Pastikan file ada di dalam folder 'kode/'.`, 5000);
+      showNotice(`Gagal membaca ${DATA_PATH(currentPart)}. Pastikan file ada di dalam folder 'data/'.`, 5000);
       rawKanjiList = [];
       dokkaiData = { title: '', items: [] };
     }

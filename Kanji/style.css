@@ -1,177 +1,164 @@
-/* =========================================================
-   NIHONGGO GAKKOU
-   FULL COMPLETE STYLESHEET (TRANSITIONS, CAROUSEL, MODAL & THEMES)
-   ========================================================= */
-
-/* =========================================
-   1. VARIABEL WARNA & TEMA
-========================================= */
+/* =========================================================================
+   NIHONGGO GAKKOU — TACTILE NEO-BRUTALIST KANJI CAROUSEL (LIGHT & DARK)
+   ========================================================================= */
 :root {
-  /* LIGHT MODE (DEFAULT) */
-  --bg: #F5FAF7; 
+  --bg: #FDFBF7;
   --surface: #FFFFFF;
-  --ink: #0F291E;
-  --dim: #5C7065;
-  --green-primary: #10B981;
-  --green-dark: #047857;
-  --green-light: #34D399;
-  --green-glow: rgba(16, 185, 129, 0.25);
-  --border: rgba(16, 185, 129, 0.22);
-  
-  --overlay-bg: rgba(245, 250, 247, 0.88);
-  --topbar-bg: rgba(255, 255, 255, 0.78);
-  --card-bg: rgba(255, 255, 255, 0.92);
-  --card-visual-bg: linear-gradient(145deg, #F0FDF4, #E2E8F0);
-  --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
-  --hover-shadow: 0 25px 50px rgba(16, 185, 129, 0.2);
-  --element-bg: rgba(16, 185, 129, 0.1);
-  
-  --ease: cubic-bezier(.22, 1, .36, 1);
+  --surface-alt: #F5F2EB;
+  --ink: #111111;
+  --dim: #5A5A5A;
+
+  /* Palet Kategori Neo-Brutalism */
+  --c-matcha: #DCFCE7;
+  --c-sky: #E0F2FE;
+  --c-amber: #FEF3C7;
+  --c-lavender: #E9D5FF;
+  --c-rose: #FFE4E6;
+
+  --green-brand: #15803D;
+  --green-light: #22C55E;
+
+  /* Border & Hard Shadows */
+  --border: 2.5px solid #111111;
+  --border-sm: 2px solid #111111;
+  --shadow: 5px 5px 0px 0px #111111;
+  --shadow-sm: 3px 3px 0px 0px #111111;
+  --shadow-lg: 8px 8px 0px 0px #111111;
+
+  --radius-card: 28px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
 [data-theme="dark"] {
-  /* DARK MODE */
-  --bg: #05110A;
-  --surface: #0A1C12;
-  --ink: #F8FAFC;
-  --dim: #94A3B8;
-  --border: rgba(16, 185, 129, 0.2);
-  --green-glow: rgba(16, 185, 129, 0.45);
-  
-  --overlay-bg: rgba(5, 17, 10, 0.8);
-  --topbar-bg: rgba(10, 28, 18, 0.78);
-  --card-bg: rgba(15, 25, 20, 0.78);
-  --card-visual-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.35));
-  --card-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --hover-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.25);
-  --element-bg: rgba(255, 255, 255, 0.06);
+  --bg: #0F1713;
+  --surface: #18221D;
+  --surface-alt: #222E28;
+  --ink: #F9FAFB;
+  --dim: #9CA3AF;
+  --border: 2.5px solid #34D399;
+  --shadow: 5px 5px 0px 0px #34D399;
+  --shadow-sm: 3px 3px 0px 0px #34D399;
+  --shadow-lg: 8px 8px 0px 0px #34D399;
 }
 
-/* =========================================
-   2. DASAR & RESET
-========================================= */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
   height: 100%;
-}
-
-body { 
-  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif; 
-  background-color: var(--bg); 
-  color: var(--ink); 
-  min-height: 100vh; 
-  overflow-x: hidden; 
-  -webkit-font-smoothing: antialiased; 
-  transition: background-color 0.5s var(--ease), color 0.5s var(--ease);
+  overflow-x: hidden;
 }
 
 body.cinema-body {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  background-image: radial-gradient(rgba(17, 17, 17, 0.1) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  min-height: 100vh;
   overflow: hidden;
-  background-color: #000;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
-/* Pola Grid Garis Halus */
-body::before { 
-  content: "";
+[data-theme="dark"] body.cinema-body {
+  background-image: radial-gradient(rgba(52, 211, 153, 0.12) 1.25px, transparent 1.25px);
+}
+
+/* =========================================================================
+   VIDEO BACKDROP & OVERLAY
+   ========================================================================= */
+.video-backdrop {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
-  pointer-events: none;
-  opacity: 0.12;
-  background: repeating-linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0 1px, transparent 1px 90px); 
+  overflow: hidden;
 }
-
-/* Video Backdrop */
-.video-backdrop { 
-  position: fixed; 
-  inset: 0; 
-  width: 100vw; 
-  height: 100vh; 
-  z-index: 0; 
-  overflow: hidden; 
-}
-.bg-video { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  object-position: center; 
+.bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .video-overlay {
-  position: absolute; 
+  position: absolute;
   inset: 0;
-  background: var(--overlay-bg);
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px);
-  transition: background 0.5s var(--ease);
+  background: var(--bg);
+  opacity: 0.88;
+  transition: background 0.4s ease;
 }
 
-/* =========================================
-   3. ANIMASI TRANSISI HALAMAN
-========================================= */
-/* Navbar Masuk dari Atas */
-.fixed-topbar,
-header.top {
-  animation: navSlideDown 0.7s var(--ease) forwards;
-  will-change: transform, opacity;
+/* =========================================================================
+   AMBIENT ORB, SPARKS & MOUSE TRAIL
+   ========================================================================= */
+.sun {
+  position: fixed;
+  z-index: 1;
+  width: 58vmin;
+  height: 58vmin;
+  left: 50%;
+  top: 52%;
+  margin: -29vmin 0 0 -29vmin;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(254, 243, 199, 0.8), transparent 70%);
+  filter: blur(50px);
+  transition: transform 0.3s ease-out;
+}
+.fx {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+#trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 55;
+  pointer-events: none;
 }
 
-@keyframes navSlideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-40px);
-    filter: blur(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+.spark {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: var(--c-amber);
+  pointer-events: none;
+  animation: sparkFly 0.65s var(--ease) forwards;
+}
+@keyframes sparkFly {
+  0% { transform: translate(-50%, -50%) scale(0.6) rotate(0deg); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--r)); opacity: 0; }
+}
+.pulse {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid var(--ink);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseOut 0.5s ease-out forwards;
+}
+@keyframes pulseOut {
+  to { width: 72px; height: 72px; opacity: 0; }
 }
 
-/* Konten Masuk Meluncur dari Bawah */
-.flashcard-stage,
-main {
-  animation: contentSlideUp 0.75s var(--ease) forwards;
-  will-change: transform, opacity;
-}
-
-@keyframes contentSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(60px);
-    filter: blur(12px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* Animasi Transisi Keluar Halaman (Smooth Exit) */
-body.page-leaving .fixed-topbar,
-body.page-leaving header.top {
-  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
-  transform: translateY(-30px);
-  opacity: 0;
-}
-
-body.page-leaving .flashcard-stage,
-body.page-leaving main {
-  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
-  transform: translateY(35px);
-  opacity: 0;
-}
-
-/* =========================================
-   4. NAVBAR KAPSUL MELINGKAR (FLOATING PILL)
-========================================= */
+/* =========================================================================
+   TOPBAR KAPSUL NEO-BRUTALISM
+   ========================================================================= */
 .fixed-topbar {
   position: fixed;
   top: 20px;
@@ -185,130 +172,126 @@ body.page-leaving main {
 
 .topbar-capsule {
   pointer-events: auto;
-  max-width: 1080px;
+  max-width: 980px;
   margin: 0 auto;
-  padding: 10px 24px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  
-  border-radius: 999px; /* Sudut Melingkar Penuh */
-  background: var(--topbar-bg);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06), 0 0 24px var(--green-glow);
-  transition: all 0.4s var(--ease);
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* Tombol Back Melingkar */
-.nav-back-circle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
+  gap: 16px;
+  border-radius: 20px;
   background: var(--surface);
-  border: 1px solid var(--border);
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s var(--ease);
-}
-.nav-back-circle:hover {
-  background: var(--green-primary);
-  color: #FFFFFF;
-  border-color: var(--green-primary);
-  transform: translateX(-3px) scale(1.04);
-  box-shadow: 0 0 15px var(--green-glow);
+  border: var(--border);
+  box-shadow: var(--shadow);
 }
 
-/* Logo Brand */
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-back-circle,
+.theme-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+}
+.theme-btn {
+  background: var(--c-lavender);
+}
+.nav-back-circle:hover,
+.theme-btn:hover {
+  background: var(--c-matcha);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #111111;
+}
+.nav-back-circle:active,
+.theme-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .nav-back-circle { background: #1E3A8A; color: #fff; }
+[data-theme="dark"] .theme-btn { background: #581C87; color: #fff; }
+
+.sun-icon { display: none; }
+.moon-icon { display: block; }
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+
 .logo {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
   color: var(--ink);
-  transition: transform 0.3s var(--ease);
-}
-.logo:hover {
-  transform: scale(1.02);
 }
 .logo-word {
-  font: 900 1.4rem 'Space Grotesk', sans-serif;
-  letter-spacing: 0.5px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 .logo-word b {
-  color: var(--green-primary);
-  font-weight: 900;
-}
-
-/* Sisi Kanan: Tombol Buka Modal Level Bab */
-.topbar-right {
-  display: flex;
-  align-items: center;
+  color: var(--green-brand);
 }
 
 .chapter-trigger-btn {
-  background: var(--surface);
+  background: var(--c-sky);
   color: var(--ink);
-  border: 1.5px solid var(--border);
-  padding: 8px 16px 8px 22px;
-  border-radius: 999px; /* Sudut Melingkar Penuh */
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 7px 12px 7px 16px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s var(--ease);
-  outline: none;
+  font-family: inherit;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
 .chapter-trigger-btn:hover {
-  border-color: var(--green-primary);
-  box-shadow: 0 0 20px var(--green-glow);
-  transform: translateY(-2px);
+  background: var(--c-amber);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #111111;
+}
+.chapter-trigger-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
 }
 
+[data-theme="dark"] .chapter-trigger-btn { background: #065F46; color: #fff; }
+
 .trigger-label {
-  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--ink);
+  font-weight: 700;
 }
 .trigger-label b {
-  color: var(--green-primary);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .trigger-icon-wrap {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  background: var(--element-bg);
-  color: var(--green-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s var(--ease), background 0.3s, color 0.3s;
-}
-.chapter-trigger-btn:hover .trigger-icon-wrap {
-  transform: rotate(180deg);
-  background: var(--green-primary);
-  color: #fff;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
 }
 
-/* =========================================
-   5. SLIDER CAROUSEL LEVEL BAB
-========================================= */
+/* =========================================================================
+   SLIDER CAROUSEL KARTU PART KANJI
+   ========================================================================= */
 .flashcard-stage {
   position: relative;
   z-index: 10;
@@ -316,70 +299,74 @@ body.page-leaving main {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-  padding: 100px 24px 24px;
+  gap: 28px;
+  padding: 96px 24px 24px;
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 .nav-arrow-btn {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  z-index: 25;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  z-index: 30;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--border);
+  box-shadow: var(--shadow);
   color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: all 0.3s var(--ease);
-  box-shadow: var(--card-shadow);
   flex-shrink: 0;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
 .nav-arrow-btn:hover {
-  background: var(--green-primary);
-  color: #FFFFFF;
-  border-color: var(--green-primary);
-  transform: scale(1.08);
-  box-shadow: 0 0 20px var(--green-glow);
+  background: var(--c-amber);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
 }
 .nav-arrow-btn:active {
-  transform: scale(0.94);
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .carousel-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  height: 500px;
+  max-width: 860px;
+  height: 460px;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1300px;
+  perspective: 1200px;
 }
 
-/* Desain Kartu Slide Bab */
+/* Desain Kartu Neo-Brutalist */
 .chapter-flashcard {
+  --card-accent: var(--c-sky);
+
   position: absolute;
-  width: 340px;
-  height: 460px;
-  background: var(--card-bg);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid var(--border);
-  border-radius: 36px;
-  padding: 40px 32px 32px;
+  width: 320px;
+  height: 420px;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  padding: 26px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: var(--ink);
   text-decoration: none;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.6s var(--ease-slider), opacity 0.6s var(--ease-slider), filter 0.6s var(--ease-slider), border-color 0.3s;
+  box-shadow: var(--shadow);
+  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease;
+  user-select: none;
 }
 
-/* Transisi Status Slider */
+.chapter-flashcard:nth-child(4n+1) { --card-accent: var(--c-sky); }
+.chapter-flashcard:nth-child(4n+2) { --card-accent: var(--c-amber); }
+.chapter-flashcard:nth-child(4n+3) { --card-accent: var(--c-lavender); }
+.chapter-flashcard:nth-child(4n+4) { --card-accent: var(--c-matcha); }
+
 .chapter-flashcard.active {
   transform: translateX(0) scale(1) translateZ(0);
   opacity: 1;
@@ -389,140 +376,143 @@ body.page-leaving main {
   pointer-events: auto;
 }
 .chapter-flashcard.active:hover {
-  border-color: var(--green-primary);
-  box-shadow: var(--hover-shadow);
+  box-shadow: var(--shadow-lg);
 }
 
 .chapter-flashcard.prev {
-  transform: translateX(-75%) scale(0.78) translateZ(-100px) rotateY(6deg);
-  opacity: 0.45;
+  transform: translateX(-72%) scale(0.8) translateZ(-80px) rotate(-4deg);
+  opacity: 0.55;
   z-index: 5;
-  filter: blur(3px);
   cursor: pointer;
 }
 .chapter-flashcard.prev:hover {
   opacity: 0.85;
-  transform: translateX(-75%) scale(0.82) translateZ(-60px);
+  transform: translateX(-72%) scale(0.83) translateZ(-50px) rotate(-2deg);
 }
 
 .chapter-flashcard.next {
-  transform: translateX(75%) scale(0.78) translateZ(-100px) rotateY(-6deg);
-  opacity: 0.45;
+  transform: translateX(72%) scale(0.8) translateZ(-80px) rotate(4deg);
+  opacity: 0.55;
   z-index: 5;
-  filter: blur(3px);
   cursor: pointer;
 }
 .chapter-flashcard.next:hover {
   opacity: 0.85;
-  transform: translateX(75%) scale(0.82) translateZ(-60px);
+  transform: translateX(72%) scale(0.83) translateZ(-50px) rotate(2deg);
 }
 
 .chapter-flashcard.hidden-left {
-  transform: translateX(-130%) scale(0.5);
+  transform: translateX(-130%) scale(0.55);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
 }
 
 .chapter-flashcard.hidden-right {
-  transform: translateX(130%) scale(0.5);
+  transform: translateX(130%) scale(0.55);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
 }
 
-/* Isi Kartu (Badge READY di Tengah Atas Bab) */
+.flashcard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--card-accent);
+  color: var(--ink);
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 2px solid var(--ink);
+}
+
 .flashcard-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   margin: auto 0;
+  gap: 14px;
 }
 
-.badge-status {
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  background: var(--element-bg);
-  color: var(--green-primary);
-  padding: 6px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  box-shadow: 0 2px 10px var(--green-glow);
-  margin-bottom: 24px;
+.chapter-icon-box {
+  width: 92px;
+  height: 92px;
+  border-radius: 22px;
+  background: var(--card-accent);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  place-items: center;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--ink);
+  transition: transform 0.25s var(--ease);
 }
-
-.chapter-tag {
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 3.5px;
-  color: var(--dim);
-  margin-bottom: 8px;
+.chapter-flashcard.active:hover .chapter-icon-box {
+  transform: scale(1.06) rotate(-3deg);
 }
 
 .chapter-title {
-  font-size: 4.2rem;
-  font-weight: 900;
-  letter-spacing: -2px;
-  color: var(--green-primary);
-  line-height: 1;
-  text-shadow: 0 4px 20px var(--green-glow);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
 }
 
-/* Footer Kartu */
 .flashcard-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 22px;
-  border-top: 1px dashed var(--border);
+  padding-top: 16px;
+  border-top: 2px dashed #DEDAD0;
 }
 
 .action-hint {
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--ink);
-  letter-spacing: 0.5px;
 }
 
 .action-icon-circle {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: var(--element-bg);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg);
   color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  transition: all 0.3s var(--ease);
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  transition: transform 0.2s var(--ease), background-color 0.2s ease;
 }
 .chapter-flashcard.active:hover .action-icon-circle {
-  background: var(--green-primary);
-  border-color: var(--green-primary);
-  color: #FFFFFF;
-  transform: translateX(5px);
-  box-shadow: 0 0 15px var(--green-glow);
+  background: var(--card-accent);
+  transform: translate(2px, -2px);
 }
 
-/* =========================================
-   6. MODAL POPUP LEVEL BAB 1-25
-========================================= */
+/* =========================================================================
+   MODAL POPUP GRID PART KANJI (NEO-BRUTALISM)
+   ========================================================================= */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(5, 17, 10, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(17, 17, 17, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s var(--ease), visibility 0.4s;
+  transition: opacity 0.28s var(--ease), visibility 0.28s;
 }
 
 .modal-backdrop.open {
@@ -531,18 +521,18 @@ body.page-leaving main {
 }
 
 .modal-sheet {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25), 0 0 40px var(--green-glow);
-  border-radius: 36px;
+  background: var(--bg);
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-card);
   width: 100%;
-  max-width: 780px;
+  max-width: 720px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  padding: 32px;
-  transform: scale(0.92) translateY(20px);
-  transition: transform 0.4s var(--ease);
+  padding: 26px;
+  transform: scale(0.94) translateY(14px);
+  transition: transform 0.28s var(--ease);
   overflow: hidden;
 }
 
@@ -554,267 +544,132 @@ body.page-leaving main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .modal-tag {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--green-primary);
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--c-amber);
+  border: 2px solid var(--ink);
+  padding: 2px 10px;
+  border-radius: 99px;
+  margin-bottom: 4px;
 }
 
 .modal-title {
-  font-size: 1.8rem;
-  font-weight: 900;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: var(--ink);
 }
 
 .modal-close-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--surface);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  background: var(--c-rose);
   color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: all 0.3s var(--ease);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 .modal-close-btn:hover {
-  background: var(--green-primary);
-  color: #fff;
-  border-color: var(--green-primary);
-  transform: rotate(90deg);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px 0px #111111;
 }
 
-/* Grid 5 Kolom Bab */
+/* Grid Part Kanji */
 .modal-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
+  gap: 12px;
   overflow-y: auto;
-  padding-right: 6px;
+  padding: 4px 6px 6px 2px;
 }
-
-.modal-grid::-webkit-scrollbar { width: 6px; }
-.modal-grid::-webkit-scrollbar-track { background: transparent; }
-.modal-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
 .chapter-grid-item {
   position: relative;
   background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 16px 12px;
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  border-radius: 14px;
+  padding: 14px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.3s var(--ease);
+  font-family: inherit;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
-
 .chapter-grid-item:hover {
-  border-color: var(--green-primary);
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 10px 25px var(--green-glow);
+  background: var(--c-amber);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px 0px #111111;
 }
 
 .cgi-num {
-  font-size: 1.15rem;
-  font-weight: 900;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--ink);
-  z-index: 2;
+  line-height: 1.1;
 }
 
 .cgi-label {
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: 0.68rem;
+  font-weight: 700;
   color: var(--dim);
-  letter-spacing: 1px;
-  z-index: 2;
+  letter-spacing: 0.06em;
   margin-top: 2px;
 }
 
-/* Kanji Transparan di Belakang Nomor */
-.cgi-kanji-bg {
-  position: absolute;
-  font-family: 'Noto Serif JP', serif;
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: var(--green-primary);
-  opacity: 0.08;
-  pointer-events: none;
-  right: 6px;
-  bottom: -6px;
-  line-height: 1;
-  transition: opacity 0.3s;
-}
-.chapter-grid-item:hover .cgi-kanji-bg {
-  opacity: 0.2;
-}
-
-/* Status Bab yang Sedang Aktif di Grid */
 .chapter-grid-item.active {
-  background: var(--green-primary);
-  border-color: var(--green-primary);
-  box-shadow: 0 8px 25px var(--green-glow);
+  background: var(--c-sky);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  transform: translate(2px, 2px);
 }
-.chapter-grid-item.active .cgi-num { color: #FFFFFF; }
-.chapter-grid-item.active .cgi-label { color: rgba(255, 255, 255, 0.85); }
-.chapter-grid-item.active .cgi-kanji-bg { color: #FFFFFF; opacity: 0.25; }
-
-/* =========================================
-   7. HALAMAN MATERI BENTO GRID
-========================================= */
-.top {
-  position: relative;
-  z-index: 5;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.sub-header.back {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  transition: all 0.3s var(--ease);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-.sub-header.back:hover {
-  background: var(--green-primary);
-  color: #fff;
-  border-color: var(--green-primary);
-  transform: translateX(-4px);
-}
-
-.section-title {
-  font: 900 2.4rem 'Space Grotesk', sans-serif;
-  letter-spacing: -0.5px;
+.chapter-grid-item.active .cgi-num,
+.chapter-grid-item.active .cgi-label {
   color: var(--ink);
 }
 
-.bento {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  width: 100%;
-  max-width: 1150px;
-  margin: 0 auto;
-}
-
-.tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  border-radius: 28px;
-  text-decoration: none;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--card-shadow);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.3s;
-}
-.tile:hover {
-  transform: translateY(-8px);
-  border-color: var(--green-primary);
-  box-shadow: var(--hover-shadow);
-}
-
-.card-visual {
-  position: relative;
-  width: 100%;
-  height: 180px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  background: var(--card-visual-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-
-.giant-text {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: var(--green-primary);
-  text-shadow: 0 4px 20px var(--green-glow);
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.card-title {
-  font: 900 1.6rem 'Space Grotesk', sans-serif;
-  color: var(--ink);
-  margin-bottom: 6px;
-}
-.card-desc {
-  font-size: 0.95rem;
-  color: var(--dim);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.badge-mini {
-  display: inline-block;
-  background: var(--green-primary);
-  color: #FFFFFF;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-
-/* =========================================
-   8. RESPONSIVE DESIGN
-========================================= */
-@media (max-width: 900px) {
-  .bento { grid-template-columns: repeat(2, 1fr); }
-}
-
+/* =========================================================================
+   RESPONSIVE DESIGN (TABLET & HP)
+   ========================================================================= */
 @media (max-width: 768px) {
-  .topbar-capsule { padding: 8px 18px; }
-  .logo-word { font-size: 1.2rem; }
-  .chapter-trigger-btn { padding: 6px 14px 6px 18px; font-size: 0.85rem; }
-  .chapter-flashcard { width: 290px; height: 420px; padding: 32px 24px 24px; }
-  .chapter-title { font-size: 3.4rem; }
-  .chapter-flashcard.prev { transform: translateX(-60%) scale(0.75); }
-  .chapter-flashcard.next { transform: translateX(60%) scale(0.75); }
+  .fixed-topbar { padding: 0 14px; top: 14px; }
+  .topbar-capsule { padding: 8px 14px; border-radius: 16px; }
+  .logo-word { font-size: 1.1rem; }
+  .chapter-trigger-btn { padding: 6px 10px 6px 14px; }
+  .chapter-flashcard { width: 280px; height: 380px; padding: 22px; }
+  .chapter-title { font-size: 2.1rem; }
+  .chapter-icon-box { width: 78px; height: 78px; font-size: 2rem; }
+  .chapter-flashcard.prev { transform: translateX(-58%) scale(0.76) rotate(-3deg); }
+  .chapter-flashcard.next { transform: translateX(58%) scale(0.76) rotate(3deg); }
 }
 
 @media (max-width: 680px) {
   .modal-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .modal-sheet { padding: 24px 18px; border-radius: 28px; }
-  .modal-title { font-size: 1.4rem; }
+  .modal-sheet { padding: 20px 16px; }
+  .modal-title { font-size: 1.35rem; }
 }
 
 @media (max-width: 600px) {
-  .bento { grid-template-columns: 1fr; }
-  .flashcard-stage { gap: 8px; padding: 95px 10px 20px; }
-  .nav-arrow-btn { width: 46px; height: 46px; }
+  .flashcard-stage { gap: 10px; padding: 84px 12px 20px; }
+  .nav-arrow-btn { width: 46px; height: 46px; border-radius: 14px; }
+  .chapter-flashcard { width: 250px; height: 340px; }
   .chapter-flashcard.prev,
   .chapter-flashcard.next { opacity: 0; pointer-events: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

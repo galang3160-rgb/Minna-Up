@@ -2,47 +2,49 @@
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Nakama Gakkou — Ruang Belajar Kosakata</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="learning-body">
 
-  <!-- Interactive Mouse Canvas -->
+  <!-- AMBIENT & EFEK INTERAKTIF -->
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
   <canvas id="mouseTrail"></canvas>
 
   <div class="app-layout">
-    <!-- NAVBAR PANJANG -->
+    <!-- ===================== TOPBAR ===================== -->
     <header class="fixed-topbar">
       <div class="topbar-capsule">
         
-        <!-- Sisi Kiri: Tombol Kembali & Brand -->
+        <!-- Kiri: Tombol Kembali & Brand -->
         <div class="topbar-left">
           <button type="button" id="btnBack" class="nav-back-circle" title="Kembali" aria-label="Kembali">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>
           <a href="../index.html" class="logo">
-            <span class="logo-word">Nakama <b>Gakkou</b></span>
+            <span class="logo-badge">学</span>
+            <span class="logo-word">Nakama<b>Gakkou</b></span>
           </a>
         </div>
 
-        <!-- Bagian Tengah: Pencarian Kosakata Sesuai Level -->
+        <!-- Tengah: Pencarian Kosakata -->
         <div class="topbar-center">
           <div class="search-box">
-            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="search-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="searchInput" class="search-input" placeholder="Cari kosakata di level ini..." autocomplete="off" spellcheck="false">
+            <input type="text" id="searchInput" class="search-input" placeholder="Cari arti atau kosakata..." autocomplete="off" spellcheck="false">
             <button type="button" id="btnClearSearch" class="btn-clear-search" aria-label="Hapus Pencarian" hidden>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -50,9 +52,9 @@
           </div>
         </div>
 
-        <!-- Sisi Kanan: Audio & Trigger Level -->
+        <!-- Kanan: Audio & Trigger Level -->
         <div class="topbar-right">
-          <button type="button" id="btnAudioToggle" class="audio-toggle-btn" aria-label="Pengaturan Suara">
+          <button type="button" id="btnAudioToggle" class="audio-toggle-btn" title="Aktifkan/Matikan Suara" aria-label="Pengaturan Suara">
             <svg class="icon-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
               <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
@@ -65,10 +67,13 @@
           </button>
 
           <button type="button" id="openChapterModal" class="chapter-trigger-btn" aria-label="Buka Daftar Level">
-            <span class="trigger-label">Level <b id="currentChapterDisplay">Bab 01</b></span>
+            <span class="trigger-label"><b id="currentChapterDisplay">Bab 01</b></span>
             <div class="trigger-icon-wrap">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 9l6 6 6-6"/>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.5"/>
               </svg>
             </div>
           </button>
@@ -77,29 +82,34 @@
       </div>
     </header>
 
-    <!-- AREA MATERI UTAMA -->
+    <!-- ===================== AREA MATERI UTAMA ===================== -->
     <main class="main-stage">
       <div id="dataNotice" class="data-notice" role="alert" hidden></div>
 
-      <!-- FITUR 1: FLASHCARD KOSAKATA (MINIMALIS & NAVIGASI KIRI KANAN) -->
+      <!-- FITUR 1: FLASHCARD KOSAKATA -->
       <section id="mode-carousel" class="study-view">
-        <div class="flashcard-horizontal-stage">
-          <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" aria-label="Sebelumnya">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
-
+        <div class="flashcard-deck-wrap">
           <div class="carousel-container" id="carouselContainer"></div>
 
-          <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" aria-label="Berikutnya">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
-        </div>
+          <!-- Bilah Navigasi Ergonomis (Nyaman di Jempol HP & Desktop) -->
+          <div class="flashcard-control-bar">
+            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" title="Kata Sebelumnya (Panah Kiri)" aria-label="Sebelumnya">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+              <span class="arrow-label">Sebelumnya</span>
+            </button>
 
-        <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+
+            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" title="Kata Berikutnya (Panah Kanan)" aria-label="Berikutnya">
+              <span class="arrow-label">Berikutnya</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- QUIZ HEADER STATUS -->
@@ -108,7 +118,7 @@
           <span class="quiz-title-tag" id="quizTitle">Pilihan Ganda</span>
           <div class="quiz-meta-group">
             <span class="meta-pill" id="quizCounter">Soal 1 / 10</span>
-            <span class="meta-pill" id="quizScore">Benar 0</span>
+            <span class="meta-pill meta-score" id="quizScore">Benar 0</span>
           </div>
         </div>
         <div class="quiz-progress-track">
@@ -116,16 +126,25 @@
         </div>
       </div>
 
-      <!-- FITUR 2: QUIZ PILIHAN GANDA (2 KOLOM DESKTOP, 1 KOLOM MOBILE) -->
+      <!-- FITUR 2: QUIZ PILIHAN GANDA -->
       <section id="mode-mc" class="study-view mc-view-container" hidden>
         <div class="mc-split-grid">
-          <!-- Kolom Kiri: Kotak Kosakata Utama + Kontrol Zoom Teks -->
+          <!-- Kolom Kiri: Kotak Kosakata Utama + Kontrol Zoom & Audio -->
           <div class="vocab-main-card">
-            <div class="font-zoom-controls">
-              <button type="button" id="btnZoomOut" class="btn-zoom" aria-label="Perkecil Ukuran Teks">−</button>
-              <button type="button" id="btnZoomIn" class="btn-zoom" aria-label="Perbesar Ukuran Teks">+</button>
+            <div class="card-top-Controls">
+              <button type="button" id="btnMcSpeak" class="btn-card-speak" title="Dengarkan Pengucapan">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </button>
+              <div class="font-zoom-controls">
+                <button type="button" id="btnZoomOut" class="btn-zoom" aria-label="Perkecil Ukuran Teks">−</button>
+                <button type="button" id="btnZoomIn" class="btn-zoom" aria-label="Perbesar Ukuran Teks">+</button>
+              </div>
             </div>
             <div class="vocab-display-wrap">
+              <span class="vocab-question-badge">APA ARTI KATA INI?</span>
               <span class="vocab-text furigana-font" id="mcQuestionText"></span>
             </div>
           </div>
@@ -133,26 +152,37 @@
           <!-- Kolom Kanan: 4 Pilihan Jawaban Vertikal & Aksi -->
           <div class="mc-options-card">
             <div class="options-vertical-list" id="mcOptions"></div>
-            <div class="feedback-text" id="mcFeedback" aria-live="polite"></div>
-            <button type="button" id="btnMcNext" class="btn-action-primary" disabled>Lanjut</button>
+            <div class="mc-bottom-bar">
+              <div class="feedback-text" id="mcFeedback" aria-live="polite"></div>
+              <button type="button" id="btnMcNext" class="btn-action-primary" disabled>Soal Berikutnya &rarr;</button>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- FITUR 3: QUIZ MENGETIK (TERPUSAT DI TENGAH) -->
+      <!-- FITUR 3: QUIZ MENGETIK -->
       <section id="mode-typing" class="study-view typing-view-container" hidden>
         <div class="typing-centered-card">
           <div class="typing-vocab-box">
+            <button type="button" id="btnTypingSpeak" class="btn-card-speak typing-speak" title="Dengarkan Pengucapan">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+            <span class="vocab-question-badge">KETIK ARTI BAHASA INDONESIANYA</span>
             <span class="vocab-text furigana-font" id="typingQuestionText"></span>
           </div>
 
           <div class="typing-form-wrap">
-            <input type="text" id="typingInput" class="input-typing-field" placeholder="Ketik arti di sini..." autocomplete="off" autocapitalize="off" spellcheck="false">
+            <input type="text" id="typingInput" class="input-typing-field" placeholder="Ketik arti lalu tekan Enter..." autocomplete="off" autocapitalize="off" spellcheck="false">
             <button type="button" id="btnTypingCheck" class="btn-action-primary btn-check">Periksa</button>
           </div>
 
-          <div class="feedback-text" id="typingFeedback" aria-live="polite"></div>
-          <button type="button" id="btnTypingNext" class="btn-action-primary btn-next-typing" disabled>Lanjut</button>
+          <div class="typing-bottom-bar">
+            <div class="feedback-text" id="typingFeedback" aria-live="polite"></div>
+            <button type="button" id="btnTypingNext" class="btn-action-primary btn-next-typing" disabled>Soal Berikutnya &rarr;</button>
+          </div>
         </div>
       </section>
 
@@ -162,25 +192,26 @@
           <div class="result-ring" id="resultRing">
             <span id="resultPct">0%</span>
           </div>
-          <h2 class="result-title" id="resultTitle">Latihan Selesai</h2>
+          <h2 class="result-title" id="resultTitle">Latihan Selesai!</h2>
           <p class="result-score" id="resultScore">Skor: 0 / 0</p>
           <div class="result-actions">
-            <button type="button" id="btnResultCards" class="btn-action-secondary">Kembali ke Kartu</button>
-            <button type="button" id="btnRetryQuiz" class="btn-action-primary">Ulangi</button>
+            <button type="button" id="btnResultCards" class="btn-action-secondary">Buka Kartu</button>
+            <button type="button" id="btnRetryQuiz" class="btn-action-primary">Ulangi Kuis</button>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- NAVIGASI FITUR BAWAH -->
+    <!-- ===================== NAVIGASI FITUR BAWAH ===================== -->
     <footer class="bottom-dock">
       <nav class="bottom-capsule-nav" aria-label="Menu Pembelajaran">
-        <button type="button" class="dock-item active" data-mode="carousel" title="Kosakata">
+        <button type="button" class="dock-item active" data-mode="carousel" title="Kartu Kosakata">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <rect x="4" y="4" width="16" height="16" rx="3"/>
+            <line x1="8" y1="10" x2="16" y2="10"/>
+            <line x1="8" y1="14" x2="13" y2="14"/>
           </svg>
-          <span class="dock-label">Kosakata</span>
+          <span class="dock-label">Flashcard</span>
         </button>
 
         <button type="button" class="dock-item" data-mode="mc" title="Pilihan Ganda">
@@ -192,7 +223,8 @@
 
         <button type="button" class="dock-item" data-mode="typing" title="Quiz Mengetik">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 20h16M4 16h10M4 12h16M4 8h10"/>
+            <rect x="2" y="6" width="20" height="12" rx="2"/>
+            <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/>
           </svg>
           <span class="dock-label">Mengetik</span>
         </button>
@@ -200,16 +232,16 @@
     </footer>
   </div>
 
-  <!-- MODAL POPUP LEVEL BAB 1-25 -->
+  <!-- ===================== MODAL POPUP LEVEL BAB 1-25 ===================== -->
   <div class="modal-backdrop" id="chapterModal">
     <div class="modal-sheet">
       <div class="modal-header">
         <div>
-          <span class="modal-tag">PILIHAN LEVEL</span>
+          <span class="modal-tag">DAFTAR MATERI</span>
           <h3 class="modal-title">Pilih Level Bab</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>

@@ -3,46 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nihonggo Gakkou — Pilihan Bab</title>
+  <title>Nakama Gakkou — Pilihan Bab</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="cinema-body">
 
-  <!-- BACKGROUND VIDEO / AMBIENT -->
-  <div class="video-backdrop">
-    <video autoplay muted loop playsinline class="bg-video">
-      <source src="../../Video/background.mp4" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
-  </div>
+  <!-- AMBIENT & EFEK INTERAKTIF -->
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
+  <canvas id="trail"></canvas>
 
-  <!-- NAVBAR KAPSUL MELINGKAR -->
+  <!-- TOPBAR KAPSUL NEO-BRUTALISM -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
       
-      <!-- Kiri: Tombol Back Bulat & Logo -->
+      <!-- Kiri: Tombol Back & Brand -->
       <div class="topbar-left">
         <a href="../../index.html" class="nav-back-circle" title="Kembali">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
         </a>
         <a href="index.html" class="logo">
-          <span class="logo-word">Nihonggo <b>Gakkou</b></span>
+          <span class="logo-word">Nakama<b>Gakkou</b></span>
         </a>
       </div>
 
-      <!-- Kanan: Tombol Pemicu Modal Level Bab (Bukan select kaku lagi) -->
+      <!-- Kanan: Tombol Pemicu Modal Level Bab -->
       <div class="topbar-right">
         <button type="button" id="openChapterModal" class="chapter-trigger-btn" aria-label="Buka Daftar Bab">
-          <span class="trigger-label">Level <b id="currentChapterDisplay">Bab 01</b></span>
+          <span class="trigger-label"><b id="currentChapterDisplay">Bab 01</b></span>
           <div class="trigger-icon-wrap">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 9l6 6 6-6"/>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
           </div>
         </button>
@@ -51,10 +51,10 @@
     </div>
   </header>
 
-  <!-- KONTEN UTAMA: SLIDER CAROUSEL KARTU -->
+  <!-- KONTEN UTAMA: SLIDER CAROUSEL KARTU BAB -->
   <main class="flashcard-stage">
     <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Bab Sebelumnya">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M15 18l-6-6 6-6"/>
       </svg>
     </button>
@@ -62,22 +62,22 @@
     <div class="carousel-container" id="carouselContainer"></div>
 
     <button type="button" class="nav-arrow-btn next-btn" id="nextBtn" aria-label="Bab Selanjutnya">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 18l6-6-6-6"/>
       </svg>
     </button>
   </main>
 
-  <!-- MODAL VISUAL GRID LEVEL 1-25 (POPUP MEWAH) -->
+  <!-- MODAL VISUAL GRID LEVEL 1-25 -->
   <div class="modal-backdrop" id="chapterModal">
     <div class="modal-sheet">
       <div class="modal-header">
         <div>
-          <span class="modal-tag">DAFTAR MATERI</span>
-          <h3 class="modal-title">Pilih Level Bab</h3>
+          <span class="modal-tag">25 BAB</span>
+          <h3 class="modal-title">Pilih Bab</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>

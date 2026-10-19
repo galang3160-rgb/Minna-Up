@@ -1,398 +1,551 @@
-/* =========================================================
-   NAKAMAGAKKOU N5 — Modern Wide Carousel (No Kanji / No Bab)
-   ========================================================= */
-
+/* =========================================================================
+   NAKAMAGAKKOU — TACTILE NEO-BRUTALIST CAROUSEL LEVEL N5
+   ========================================================================= */
 :root {
-  /* LIGHT THEME */
-  --green-primary: #10B981;
-  --green-glow: rgba(16, 185, 129, 0.4);
-  --green-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  
-  --overlay-bg: rgba(245, 250, 247, 0.85);
-  --topbar-bg: rgba(255, 255, 255, 0.75);
-  --text-main: #05110A;
-  --text-muted: #5C7065;
-  
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --card-border: rgba(16, 185, 129, 0.25);
-  --card-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
-  --element-bg: rgba(16, 185, 129, 0.08);
-  
-  --ease-slider: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg: #FDFBF7;
+  --surface: #FFFFFF;
+  --surface-alt: #F5F2EB;
+  --ink: #111111;
+  --dim: #5A5A5A;
+
+  /* Palet Kategori Neo-Brutalism */
+  --c-matcha: #DCFCE7;
+  --c-sky: #E0F2FE;
+  --c-amber: #FEF3C7;
+  --c-lavender: #E9D5FF;
+  --c-rose: #FFE4E6;
+
+  --green-brand: #15803D;
+  --green-light: #22C55E;
+
+  /* Border & Hard Shadows */
+  --border: 2.5px solid #111111;
+  --border-sm: 2px solid #111111;
+  --shadow: 5px 5px 0px 0px #111111;
+  --shadow-sm: 3px 3px 0px 0px #111111;
+  --shadow-lg: 8px 8px 0px 0px #111111;
+
+  --radius-card: 28px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
 [data-theme="dark"] {
-  /* DARK THEME */
-  --overlay-bg: rgba(5, 17, 10, 0.8);
-  --topbar-bg: rgba(7, 20, 13, 0.7);
-  --text-main: #F8FAFC;
-  --text-muted: #94A3B8;
-  
-  --card-bg: rgba(13, 27, 19, 0.78);
-  --card-border: rgba(255, 255, 255, 0.12);
-  --card-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
-  --element-bg: rgba(255, 255, 255, 0.06);
+  --bg: #0F1713;
+  --surface: #18221D;
+  --surface-alt: #222E28;
+  --ink: #F9FAFB;
+  --dim: #9CA3AF;
+  --border: 2.5px solid #34D399;
+  --shadow: 5px 5px 0px 0px #34D399;
+  --shadow-sm: 3px 3px 0px 0px #34D399;
+  --shadow-lg: 8px 8px 0px 0px #34D399;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
 
 body.cinema-body {
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  color: var(--text-main);
+  background-color: var(--bg);
+  background-image: radial-gradient(rgba(17, 17, 17, 0.1) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  color: var(--ink);
   min-height: 100vh;
   overflow: hidden;
-  position: relative;
-  background-color: #030a05;
   -webkit-font-smoothing: antialiased;
-  transition: color 0.4s ease;
+  position: relative;
 }
 
-/* ── VIDEO BACKGROUND ── */
-.video-backdrop { 
-  position: fixed; 
-  inset: 0; 
-  width: 100vw; 
-  height: 100vh; 
-  z-index: 0; 
-  overflow: hidden; 
+[data-theme="dark"] body.cinema-body {
+  background-image: radial-gradient(rgba(52, 211, 153, 0.12) 1.25px, transparent 1.25px);
 }
-.bg-video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.video-overlay {
-  position: absolute; 
+
+/* =========================================================================
+   VIDEO BACKDROP
+   ========================================================================= */
+.video-backdrop {
+  position: fixed;
   inset: 0;
-  background: var(--overlay-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0.88;
   transition: background 0.4s ease;
 }
 
-/* ── TOPBAR ── */
-.fixed-topbar {
-  position: fixed; 
-  top: 0; left: 0; right: 0; 
-  width: 100%; 
-  z-index: 50;
-  background: var(--topbar-bg); 
-  backdrop-filter: blur(20px); 
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--card-border);
-  transition: background 0.4s ease, border-color 0.4s ease;
+/* =========================================================================
+   AMBIENT ORB, SPARKS & MOUSE TRAIL
+   ========================================================================= */
+.sun {
+  position: fixed;
+  z-index: 1;
+  width: 58vmin;
+  height: 58vmin;
+  left: 50%;
+  top: 52%;
+  margin: -29vmin 0 0 -29vmin;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(254, 243, 199, 0.8), transparent 70%);
+  filter: blur(50px);
+  transition: transform 0.3s ease-out;
 }
-.topbar-capsule { 
-  width: 100%; 
-  max-width: 1300px; 
-  margin: 0 auto; 
-  padding: 14px 28px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  gap: 16px; 
+.fx {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+#trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 55;
+  pointer-events: none;
 }
 
-.topbar-left, .topbar-right { display: flex; align-items: center; gap: 14px; }
-.capsule-back-btn, .theme-btn {
-  width: 44px; 
-  height: 44px; 
+.spark {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: var(--c-amber);
+  pointer-events: none;
+  animation: sparkFly 0.65s var(--ease) forwards;
+}
+@keyframes sparkFly {
+  0% { transform: translate(-50%, -50%) scale(0.6) rotate(0deg); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--r)); opacity: 0; }
+}
+.pulse {
+  position: absolute;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: var(--card-bg); 
-  border: 1px solid var(--card-border); 
-  color: var(--text-main);
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
+  border: 2.5px solid var(--ink);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseOut 0.5s ease-out forwards;
+}
+@keyframes pulseOut {
+  to { width: 72px; height: 72px; opacity: 0; }
+}
+
+/* =========================================================================
+   TOPBAR KAPSUL NEO-BRUTALISM
+   ========================================================================= */
+.fixed-topbar {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 60;
+  pointer-events: none;
+  padding: 0 24px;
+}
+
+.topbar-capsule {
+  pointer-events: auto;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 22px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.capsule-back-btn,
+.theme-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
-.capsule-back-btn:hover, .theme-btn:hover { 
-  background: var(--green-primary); 
-  color: #fff; 
-  border-color: var(--green-primary); 
-  transform: translateY(-2px); 
-  box-shadow: 0 6px 16px var(--green-glow);
+.theme-btn {
+  background: var(--c-lavender);
 }
+.capsule-back-btn:hover,
+.theme-btn:hover {
+  background: var(--c-matcha);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px #111111;
+}
+.capsule-back-btn:active,
+.theme-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .capsule-back-btn { background: #1E3A8A; color: #fff; }
+[data-theme="dark"] .theme-btn { background: #581C87; color: #fff; }
 
 .sun-icon { display: none; }
 .moon-icon { display: block; }
 [data-theme="dark"] .sun-icon { display: block; }
 [data-theme="dark"] .moon-icon { display: none; }
 
-.headline-box { display: flex; flex-direction: column; }
-.headline-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 1px; color: var(--text-main); line-height: 1.1; }
-.headline-badge { font-size: 0.8rem; font-weight: 700; color: var(--green-primary); margin-top: 3px; }
-
-.chapter-dropdown {
-  appearance: none; 
-  background: var(--card-bg); 
-  color: var(--text-main);
-  border: 1px solid var(--card-border); 
-  padding: 9px 38px 9px 14px; 
-  border-radius: 12px;
-  font-family: inherit; 
-  font-weight: 700; 
-  font-size: 0.9rem; 
-  cursor: pointer;
-  transition: all 0.25s ease;
+.headline-box {
+  display: flex;
+  flex-direction: column;
 }
-.chapter-dropdown:focus { outline: none; border-color: var(--green-primary); }
-.chapter-dropdown option { background: var(--card-bg); color: var(--text-main); }
-.dropdown-chevron { position: absolute; right: 12px; color: var(--green-primary); pointer-events: none; }
+.headline-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.headline-title b {
+  color: var(--green-brand);
+}
+.headline-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--green-brand);
+  margin-top: 2px;
+}
+
+/* Dropdown Bab */
+.chapter-select-wrap {
+  position: relative;
+}
+.custom-select-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.chapter-dropdown {
+  appearance: none;
+  background: var(--surface-alt);
+  color: var(--ink);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 8px 36px 8px 14px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
+}
+.chapter-dropdown:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #111111;
+}
+.chapter-dropdown option {
+  background: var(--surface);
+  color: var(--ink);
+}
+.dropdown-chevron {
+  position: absolute;
+  right: 12px;
+  color: var(--ink);
+  pointer-events: none;
+}
 
 .counter-box {
-  background: var(--element-bg); 
-  border: 1px solid var(--card-border); 
-  color: var(--green-primary);
-  padding: 8px 16px; 
-  border-radius: 12px; 
-  font-weight: 800; 
-  font-size: 0.95rem; 
-  display: flex; 
-  gap: 5px;
+  background: var(--c-matcha);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 4px;
 }
-.counter-box .sep { color: var(--text-muted); }
+.counter-box .sep {
+  color: var(--dim);
+}
+[data-theme="dark"] .counter-box { background: #064E3B; color: #fff; }
 
-/* ── STAGE & LEBAR CAROUSEL ── */
+/* =========================================================================
+   SLIDER CAROUSEL KARTU
+   ========================================================================= */
 .flashcard-stage {
-  position: relative; 
-  z-index: 10; 
-  height: 100vh; 
-  display: flex; 
-  align-items: center; 
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 28px; 
-  padding: 90px 24px 20px; 
+  gap: 28px;
+  padding: 96px 24px 24px;
   overflow: hidden;
 }
 
 .nav-arrow-btn {
-  width: 58px; 
-  height: 58px; 
-  border-radius: 50%; 
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
   z-index: 30;
-  background: var(--card-bg); 
-  border: 1px solid var(--card-border); 
-  color: var(--text-main);
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: all 0.25s ease; 
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
   flex-shrink: 0;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
-.nav-arrow-btn:hover { 
-  background: var(--green-primary); 
-  color: #fff; 
-  transform: scale(1.08); 
-  box-shadow: 0 10px 24px var(--green-glow);
+.nav-arrow-btn:hover {
+  background: var(--c-amber);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
 }
-.nav-arrow-btn:active { transform: scale(0.92); }
+.nav-arrow-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
 
-/* Container Carousel Diperlebar */
 .carousel-container {
-  position: relative; 
-  width: 100%; 
-  max-width: 1100px; 
-  height: 500px;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  perspective: 1400px;
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  height: 460px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1300px;
+  touch-action: pan-y;
 }
 
-/* Card Lebih Lebar & Modern */
+/* Desain Kartu Neo-Brutalist (Lebar & Luas) */
 .chapter-flashcard {
-  position: absolute; 
-  width: 420px; 
-  height: 480px;
-  background: var(--card-bg); 
-  backdrop-filter: blur(28px); 
-  -webkit-backdrop-filter: blur(28px);
-  border: 1.5px solid var(--card-border);
-  border-radius: 36px; 
-  padding: 40px 36px; 
-  display: flex; 
-  flex-direction: column; 
+  --card-accent: var(--c-matcha);
+
+  position: absolute;
+  width: 420px;
+  height: 440px;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  color: var(--text-main); 
+  color: var(--ink);
   text-decoration: none;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow);
+  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease;
   user-select: none;
-  transition: transform 0.65s var(--ease-slider), 
-              opacity 0.65s var(--ease-slider), 
-              filter 0.65s var(--ease-slider),
-              border-color 0.3s ease;
 }
 
-/* =========================================
-   POSISI SLIDER (LEBAR & LEBIH TAMPAK)
-========================================= */
+/* Rotasi Warna Aksen Kartu */
+.chapter-flashcard:nth-child(4n+1) { --card-accent: var(--c-matcha); }
+.chapter-flashcard:nth-child(4n+2) { --card-accent: var(--c-sky); }
+.chapter-flashcard:nth-child(4n+3) { --card-accent: var(--c-amber); }
+.chapter-flashcard:nth-child(4n+4) { --card-accent: var(--c-lavender); }
 
-/* Kartu Tengah (Aktif) */
+/* Posisi Status Kartu di Carousel */
 .chapter-flashcard.active {
   transform: translateX(0) scale(1) translateZ(0);
-  opacity: 1; 
-  z-index: 20; 
+  opacity: 1;
+  z-index: 20;
   filter: blur(0);
-  cursor: pointer; 
+  cursor: pointer;
   pointer-events: auto;
-  border-color: var(--green-primary);
-  box-shadow: 0 25px 60px rgba(16, 185, 129, 0.18), var(--card-shadow);
+}
+.chapter-flashcard.active:hover {
+  box-shadow: var(--shadow-lg);
 }
 
-/* Kartu Kiri (Side Card Lebih Lebar & Terlihat Jelas) */
 .chapter-flashcard.prev {
-  transform: translateX(-78%) scale(0.88) translateZ(-60px) rotateY(6deg);
-  opacity: 0.65; 
-  z-index: 10; 
-  filter: blur(0.8px);
-  cursor: pointer; 
-  pointer-events: auto;
+  transform: translateX(-75%) scale(0.85) translateZ(-60px) rotate(-4deg);
+  opacity: 0.55;
+  z-index: 10;
+  cursor: pointer;
 }
-.chapter-flashcard.prev:hover { 
-  opacity: 0.95; 
-  transform: translateX(-78%) scale(0.91) translateZ(-20px) rotateY(3deg); 
+.chapter-flashcard.prev:hover {
+  opacity: 0.85;
+  transform: translateX(-75%) scale(0.88) translateZ(-30px) rotate(-2deg);
 }
 
-/* Kartu Kanan (Side Card Lebih Lebar & Terlihat Jelas) */
 .chapter-flashcard.next {
-  transform: translateX(78%) scale(0.88) translateZ(-60px) rotateY(-6deg);
-  opacity: 0.65; 
-  z-index: 10; 
-  filter: blur(0.8px);
-  cursor: pointer; 
-  pointer-events: auto;
+  transform: translateX(75%) scale(0.85) translateZ(-60px) rotate(4deg);
+  opacity: 0.55;
+  z-index: 10;
+  cursor: pointer;
 }
-.chapter-flashcard.next:hover { 
-  opacity: 0.95; 
-  transform: translateX(78%) scale(0.91) translateZ(-20px) rotateY(-3deg); 
+.chapter-flashcard.next:hover {
+  opacity: 0.85;
+  transform: translateX(75%) scale(0.88) translateZ(-30px) rotate(2deg);
 }
 
-/* Tersembunyi di kejauhan */
 .chapter-flashcard.hidden-left {
-  transform: translateX(-140%) scale(0.65) translateZ(-150px); 
-  opacity: 0; 
-  z-index: 1; 
+  transform: translateX(-140%) scale(0.55);
+  opacity: 0;
+  z-index: 1;
   pointer-events: none;
 }
+
 .chapter-flashcard.hidden-right {
-  transform: translateX(140%) scale(0.65) translateZ(-150px); 
-  opacity: 0; 
-  z-index: 1; 
+  transform: translateX(140%) scale(0.55);
+  opacity: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
-/* ── KONTEN DALAM KARTU (NO KANJI & NO BAB) ── */
-.flashcard-header { 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-}
-.topic-counter { 
-  font-size: 0.85rem; 
-  font-weight: 800; 
-  letter-spacing: 2px; 
-  color: var(--green-primary); 
-  background: var(--element-bg);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--card-border);
-}
-.badge-status { 
-  font-size: 0.75rem; 
-  font-weight: 800; 
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: var(--element-bg); 
-  color: var(--green-primary); 
-  padding: 6px 14px; 
-  border-radius: 999px; 
-  border: 1px solid var(--card-border); 
+/* Isi Kartu */
+.flashcard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.flashcard-body { 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center;
-  text-align: center; 
-  margin: auto 0; 
-  padding: 10px 0;
+.badge-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--card-accent);
+  color: var(--ink);
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 2px solid var(--ink);
 }
-.chapter-tag { 
-  font-size: 0.85rem; 
-  font-weight: 800; 
-  letter-spacing: 3px; 
+
+.topic-counter {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dim);
+}
+
+.flashcard-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: auto 0;
+  gap: 10px;
+}
+
+.chapter-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--dim);
   text-transform: uppercase;
-  color: var(--text-muted); 
-  margin-bottom: 12px; 
 }
-.chapter-title { 
-  font-size: 2.8rem; 
-  font-weight: 900; 
-  letter-spacing: -1px; 
-  color: var(--text-main); 
-  line-height: 1.15; 
-  margin-bottom: 14px; 
-  transition: color 0.3s;
+
+.chapter-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
 }
-.chapter-flashcard.active .chapter-title {
-  color: var(--green-primary);
-}
-.chapter-desc { 
-  font-size: 0.95rem; 
-  color: var(--text-muted); 
-  font-weight: 600; 
+
+.chapter-desc {
+  font-size: 0.92rem;
+  color: var(--dim);
+  font-weight: 600;
   max-width: 280px;
   line-height: 1.4;
 }
 
-.flashcard-footer { 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  padding-top: 20px; 
-  border-top: 1px dashed var(--card-border); 
-}
-.action-hint { 
-  font-size: 0.95rem; 
-  font-weight: 700; 
-  color: var(--text-main); 
-}
-.action-icon-circle { 
-  width: 44px; 
-  height: 44px; 
-  border-radius: 50%; 
-  background: var(--element-bg); 
-  color: var(--text-main); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  border: 1px solid var(--card-border); 
-  transition: all 0.3s ease; 
-}
-.chapter-flashcard.active:hover .action-icon-circle { 
-  background: var(--green-primary); 
-  border-color: var(--green-primary); 
-  color: #fff; 
-  transform: translateX(4px); 
+/* Footer Kartu */
+.flashcard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 2px dashed #DEDAD0;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 992px) {
-  .carousel-container { max-width: 820px; }
-  .chapter-flashcard { width: 360px; height: 450px; padding: 32px 28px; }
-  .chapter-title { font-size: 2.3rem; }
-  .chapter-flashcard.prev { transform: translateX(-68%) scale(0.85); }
-  .chapter-flashcard.next { transform: translateX(68%) scale(0.85); }
+.action-hint {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.action-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  transition: transform 0.2s var(--ease), background-color 0.2s ease;
+}
+.chapter-flashcard.active:hover .action-icon-circle {
+  background: var(--card-accent);
+  transform: translate(2px, -2px);
+}
+
+/* =========================================================================
+   RESPONSIVE DESIGN (TABLET & HP)
+   ========================================================================= */
+@media (max-width: 960px) {
+  .fixed-topbar { padding: 0 14px; top: 14px; }
+  .topbar-capsule { padding: 8px 14px; border-radius: 16px; }
+  .headline-title { font-size: 1.05rem; }
+  .chapter-flashcard { width: 340px; height: 420px; padding: 28px; }
+  .chapter-title { font-size: 2.35rem; }
+  .chapter-flashcard.prev { transform: translateX(-60%) scale(0.78) rotate(-3deg); }
+  .chapter-flashcard.next { transform: translateX(60%) scale(0.78) rotate(3deg); }
 }
 
 @media (max-width: 640px) {
-  .topbar-capsule { padding: 10px 16px; }
   .counter-box { display: none; }
   .nav-arrow-btn { display: none; }
-  .chapter-flashcard { width: 310px; height: 420px; padding: 28px 20px; }
+  .chapter-flashcard { width: 300px; height: 390px; padding: 24px; }
   .chapter-title { font-size: 2rem; }
-  .chapter-flashcard.prev { transform: translateX(-45%) scale(0.85); opacity: 0.25; }
-  .chapter-flashcard.next { transform: translateX(45%) scale(0.85); opacity: 0.25; }
+  .chapter-flashcard.prev,
+  .chapter-flashcard.next { opacity: 0; pointer-events: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
