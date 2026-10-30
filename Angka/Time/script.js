@@ -1,11 +1,12 @@
 /**
- * NAKAMA GAKKOU — INTERACTIVE LEARNING ENGINE
- * Mode: Pembacaan Berkas JSON Kategori (data/*.json)
+ * NAKAMA GAKKOU — TACTILE NEO-BRUTALIST VOCABULARY ENGINE
+ * Fitur: Pilihan Kategori JSON (data/*.json), Pencarian Level-Scoped,
+ * Flashcard 3D + Touch Swipe, Kuis Pilihan Ganda & Mengetik, Web Audio SFX
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const shuffle = a => {
     const r = [...a];
     for (let i = r.length - 1; i > 0; i--) {
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return r;
   };
 
-  // ---------- DAFTAR KATEGORI SESUAI GAMBAR & FOLDER DATA ----------
+  // ---------- DAFTAR KATEGORI SESUAI FOLDER DATA ----------
   const vocabList = [
     { title: "Angka", path: "angka" },
     { title: "Batang", path: "batang" },
@@ -36,29 +37,27 @@ document.addEventListener('DOMContentLoaded', () => {
     { title: "Waktu", path: "waktu" }
   ];
 
-  // Penunjuk path data ke folder data/<nama>.json
   const DATA_PATH = item => `data/${item.path}.json`;
   const SAVE_KEY = 'nihonggo:selected_category';
 
   // ---------- STATE UTAMA ----------
   let currentCategory = vocabList[0];
-  let rawChapterVocab = [];   // Kosakata asli dari file JSON
-  let activeVocab = [];       // Kosakata terfilter pencarian
-  let mode = 'carousel';      // 'carousel', 'mc', 'typing'
+  let rawChapterVocab = [];
+  let activeVocab = [];
+  let mode = 'carousel'; // 'carousel', 'mc', 'typing'
   let audioOn = true;
-  let vocabZoomRem = 3.4;
+  let vocabZoomRem = 4.0;
 
-  // Kuis State
   let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
 
-  // ---------- AUDIO ENGINE ----------
+  // ---------- AUDIO FEEDBACK ----------
   let actx = null;
   const TONES = {
-    pop: ['sine', 600, 300, 0.1, 0.12],
-    correct: ['sine', 600, 1200, 0.2, 0.2],
-    wrong: ['sawtooth', 300, 150, 0.2, 0.15],
-    flip: ['sine', 400, 200, 0.08, 0.08],
-    win: ['triangle', 523, 1046, 0.4, 0.2]
+    pop: ['sine', 580, 290, 0.08, 0.1],
+    correct: ['sine', 600, 1200, 0.18, 0.16],
+    wrong: ['sawtooth', 280, 150, 0.18, 0.12],
+    flip: ['sine', 420, 240, 0.07, 0.08],
+    win: ['triangle', 523, 1046, 0.35, 0.16]
   };
 
   function playTone(type) {
@@ -85,68 +84,101 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ---------- CANVAS MOUSE TRAIL ----------
-  const canvas = $('mouseTrail');
-  const cctx = canvas.getContext('2d');
-  let particles = [];
-  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  // ---------- VISUAL FX (AMBIENT, SPARKS & TRAIL) ----------
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+  if (!reduce) {
+    const sun = $('sun');
+    if (sun && fine) {
+      addEventListener('pointermove', e => {
+        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -32}px, ${(e.clientY / innerHeight - 0.5) * -32}px)`;
+      });
+    }
 
-  if (!isTouchDevice) {
-    window.addEventListener('mousemove', e => {
-      for (let i = 0; i < 2; i++) {
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: (Math.random() - 0.5) * 1.5,
-          size: Math.random() * 4 + 2,
-          alpha: 0.7,
-          color: Math.random() > 0.4 ? '#10B981' : '#34D399'
-        });
+    const fx = $('fx');
+    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF'];
+    addEventListener('pointerdown', e => {
+      if (!fx || e.target.closest('button, input, select, a')) return;
+      const pulse = document.createElement('div');
+      pulse.className = 'pulse';
+      pulse.style.left = e.clientX + 'px';
+      pulse.style.top = e.clientY + 'px';
+      pulse.onanimationend = () => pulse.remove();
+      fx.appendChild(pulse);
+
+      for (let i = 0; i < 4; i++) {
+        const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.4;
+        const dist = 36 + Math.random() * 45;
+        const sp = document.createElement('span');
+        sp.className = 'spark';
+        sp.style.left = e.clientX + 'px';
+        sp.style.top = e.clientY + 'px';
+        sp.style.background = sparkColors[i % sparkColors.length];
+        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
+        sp.onanimationend = () => sp.remove();
+        fx.appendChild(sp);
       }
     });
 
-    (function renderParticles() {
-      cctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        cctx.save();
-        cctx.globalAlpha = p.alpha;
-        cctx.beginPath();
-        cctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        cctx.fillStyle = p.color;
-        cctx.shadowBlur = 6;
-        cctx.shadowColor = '#10B981';
-        cctx.fill();
-        cctx.restore();
+    const canvas = $('mouseTrail');
+    if (canvas && fine) {
+      const cctx = canvas.getContext('2d');
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
 
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= 0.025;
-        p.size = Math.max(0, p.size - 0.06);
-        if (p.alpha <= 0) particles.splice(i, 1);
-      }
-      requestAnimationFrame(renderParticles);
-    })();
+      let mx = -100, my = -100, x = mx, y = my;
+      const pts = [];
+
+      window.addEventListener('pointermove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+
+      (function drawTrail() {
+        x += (mx - x) * 0.32;
+        y += (my - y) * 0.32;
+        pts.push({ x, y });
+        if (pts.length > 14) pts.shift();
+
+        cctx.clearRect(0, 0, canvas.width, canvas.height);
+        cctx.lineCap = 'round';
+        cctx.lineJoin = 'round';
+
+        for (let i = 1; i < pts.length; i++) {
+          const t = i / pts.length;
+          cctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.lineWidth = t * 8;
+          cctx.beginPath();
+          cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+          cctx.lineTo(pts[i].x, pts[i].y);
+          cctx.stroke();
+        }
+        requestAnimationFrame(drawTrail);
+      })();
+    }
   }
 
-  // ---------- STATUS NOTICE ----------
+  // ---------- NOTIFIKASI BANNER ----------
   let noticeTimer = null;
   function showNotice(msg, autoHide = 0) {
     const n = $('dataNotice');
+    if (!n) return;
     clearTimeout(noticeTimer);
     n.textContent = msg;
     n.hidden = false;
     if (autoHide) noticeTimer = setTimeout(() => { n.hidden = true; }, autoHide);
   }
-  const hideNotice = () => { clearTimeout(noticeTimer); $('dataNotice').hidden = true; };
+  const hideNotice = () => {
+    clearTimeout(noticeTimer);
+    if ($('dataNotice'))$('dataNotice').hidden = true;
+  };
 
   // ---------- MODAL PILIHAN KATEGORI JSON ----------
   const modalGrid = $('modalCategoryGrid');
@@ -156,36 +188,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentCategoryDisplay = $('currentCategoryDisplay');
   const gridButtons = [];
 
-  vocabList.forEach(item => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'category-card-btn';
-    btn.dataset.path = item.path;
-    btn.innerHTML = `
-      <span class="cat-title">${esc(item.title)}</span>
-      <span class="cat-file">data/${esc(item.path)}.json</span>
-    `;
+  if (modalGrid) {
+    vocabList.forEach(item => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'category-card-btn';
+      btn.dataset.path = item.path;
+      btn.innerHTML = `
+        <span class="cat-title">${esc(item.title)}</span>
+        <span class="cat-file">data/${esc(item.path)}.json</span>
+      `;
 
-    btn.addEventListener('click', () => {
-      changeCategory(item);
-      closeModal();
+      btn.addEventListener('click', () => {
+        changeCategory(item);
+        closeModal();
+      });
+
+      modalGrid.appendChild(btn);
+      gridButtons.push(btn);
     });
+  }
 
-    modalGrid.appendChild(btn);
-    gridButtons.push(btn);
-  });
+  function openModal() { if (categoryModal) categoryModal.classList.add('open'); }
+  function closeModal() { if (categoryModal) categoryModal.classList.remove('open'); }
 
-  function openModal() { categoryModal.classList.add('open'); }
-  function closeModal() { categoryModal.classList.remove('open'); }
-
-  openModalBtn.addEventListener('click', openModal);
-  closeModalBtn.addEventListener('click', closeModal);
-  categoryModal.addEventListener('click', e => {
-    if (e.target === categoryModal) closeModal();
-  });
+  if (openModalBtn) openModalBtn.addEventListener('click', openModal);
+  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+  if (categoryModal) {
+    categoryModal.addEventListener('click', e => {
+      if (e.target === categoryModal) closeModal();
+    });
+  }
 
   function updateCategoryUI() {
-    currentCategoryDisplay.textContent = currentCategory.title;
+    if (currentCategoryDisplay) currentCategoryDisplay.textContent = currentCategory.title;
     gridButtons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.path === currentCategory.path);
     });
@@ -196,8 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClearSearch = $('btnClearSearch');
 
   function applySearchFilter() {
-    const query = searchInput.value.trim().toLowerCase();
-    btnClearSearch.hidden = !query;
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    if (btnClearSearch) btnClearSearch.hidden = !query;
 
     if (!query) {
       activeVocab = [...rawChapterVocab];
@@ -211,38 +247,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mode === 'carousel') {
       Carousel.render();
-    } else {
-      startQuiz(mode);
+    } else if (mode === 'mc') {
+      startQuiz('mc');
     }
 
     if (query && activeVocab.length === 0) {
-      showNotice(`Tidak ada hasil untuk "${query}" di topik ${currentCategory.title}.`);
+      showNotice(`Tidak ditemukan "${query}" pada topik ${currentCategory.title}.`);
     } else {
       hideNotice();
     }
   }
 
-  searchInput.addEventListener('input', applySearchFilter);
-  btnClearSearch.addEventListener('click', () => {
-    searchInput.value = '';
-    applySearchFilter();
-    searchInput.focus();
-  });
+  if (searchInput) searchInput.addEventListener('input', applySearchFilter);
+  if (btnClearSearch) {
+    btnClearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      applySearchFilter();
+      searchInput.focus();
+    });
+  }
 
-  // ---------- FLASHCARD KOSAKATA ----------
+  // ---------- FLASHCARD 3D FLIP KOSAKATA + SWIPE ----------
   const Carousel = {
     index: 0,
     render() {
       const container = $('carouselContainer');
+      if (!container) return;
       container.innerHTML = '';
 
       if (!activeVocab.length) {
-        $('carouselCounter').textContent = '0 / 0';
+        if ($('carouselCounter'))$('carouselCounter').textContent = '0 / 0';
         container.innerHTML = `
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
               <div class="carousel-face front">
-                <span class="c-tag">Status</span>
+                <span class="c-tag">Info</span>
                 <span class="c-arti">Kosong</span>
               </div>
             </div>
@@ -284,10 +323,14 @@ document.addEventListener('DOMContentLoaded', () => {
       this.update();
     },
     update() {
-      const cards = $('carouselContainer').children;
-      const n = cards.length;
-      $('carouselCounter').textContent = n ? `${Math.min(this.index + 1, n)} / ${n}` : '0 / 0';
-      if (!n) return;
+      const container = $('carouselContainer');
+      if (!container) return;
+      const cards = container.children;
+      const total = activeVocab.length;
+
+      if ($('carouselCounter')) {$('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
+      }
+      if (!total) return;
 
       [...cards].forEach((c, i) => {
         if (i === this.index) {
@@ -306,26 +349,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));$('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
+  if ($('btnCarouselNext'))$('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
+  if ($('btnCarouselPrev'))$('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
 
-  // ---------- ZOOM UKURAN TEKS ----------
+  // Touch Swipe di HP
+  let touchStartX = 0;
+  const carouselEl = $('carouselContainer');
+  if (carouselEl) {
+    carouselEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carouselEl.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) Carousel.go(1);
+        else Carousel.go(-1);
+      }
+    }, { passive: true });
+  }
+
+  // ---------- ZOOM UKURAN TEKS (+ & -) ----------
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
-  $('btnZoomIn').addEventListener('click', () => {
-    if (vocabZoomRem < 5.2) {
-      vocabZoomRem = +(vocabZoomRem + 0.3).toFixed(1);
-      updateVocabFontSize();
-    }
-  });
-  $('btnZoomOut').addEventListener('click', () => {
-    if (vocabZoomRem > 1.8) {
-      vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1);
-      updateVocabFontSize();
-    }
-  });
+  if ($('btnZoomIn')) {$('btnZoomIn').addEventListener('click', () => {
+      if (vocabZoomRem < 5.2) {
+        vocabZoomRem = +(vocabZoomRem + 0.3).toFixed(1);
+        updateVocabFontSize();
+      }
+    });
+  }
+  if ($('btnZoomOut')) {$('btnZoomOut').addEventListener('click', () => {
+      if (vocabZoomRem > 1.8) {
+        vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1);
+        updateVocabFontSize();
+      }
+    });
+  }
 
-  // ---------- KONTROL MODE DOCK NAVIGASI ----------
+  // ---------- NAVIGASI MODE PEMBELAJARAN ----------
   function setMode(newMode) {
     mode = newMode;
     runId++;
@@ -334,10 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', btn.dataset.mode === newMode);
     });
 
-    $('mode-carousel').hidden = (newMode !== 'carousel');$('mode-result').hidden = true;
-    $('quiz-global-header').hidden = (newMode === 'carousel');
+    if ($('mode-carousel'))$('mode-carousel').hidden = (newMode !== 'carousel');
+    if ($('mode-result'))$('mode-result').hidden = true;
+    if ($('quiz-global-header'))$('quiz-global-header').hidden = (newMode === 'carousel');
 
-    $('mode-mc').hidden = (newMode !== 'mc');$('mode-typing').hidden = (newMode !== 'typing');
+    if ($('mode-mc'))$('mode-mc').hidden = (newMode !== 'mc');
+    if ($('mode-typing'))$('mode-typing').hidden = (newMode !== 'typing');
 
     if (newMode === 'carousel') {
       Carousel.update();
@@ -350,23 +414,27 @@ document.addEventListener('DOMContentLoaded', () => {
     b.addEventListener('click', () => setMode(b.dataset.mode));
   });
 
-  $('btnBack').addEventListener('click', () => {
-    if (mode !== 'carousel') {
-      setMode('carousel');
-    } else if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = '../index.html';
-    }
-  });
+  if ($('btnBack')) {$('btnBack').addEventListener('click', () => {
+      if (mode !== 'carousel') {
+        setMode('carousel');
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '../index.html';
+      }
+    });
+  }
 
-  $('btnAudioToggle').addEventListener('click', function() {
-    audioOn = !audioOn;
-    this.querySelector('.icon-unmuted').style.display = audioOn ? 'block' : 'none';
-    this.querySelector('.icon-muted').style.display = audioOn ? 'none' : 'block';
-  });
+  if ($('btnAudioToggle')) {$('btnAudioToggle').addEventListener('click', function () {
+      audioOn = !audioOn;
+      const unmuted = this.querySelector('.icon-unmuted');
+      const muted = this.querySelector('.icon-muted');
+      if (unmuted) unmuted.style.display = audioOn ? 'block' : 'none';
+      if (muted) muted.style.display = audioOn ? 'none' : 'block';
+    });
+  }
 
-  // ---------- SISTEM LATIHAN & KUIS ----------
+  // ---------- SISTEM KUIS ----------
   function startQuiz(type) {
     if (activeVocab.length < 4) {
       showNotice('Dibutuhkan minimal 4 kosakata di topik ini untuk kuis.', 4000);
@@ -379,33 +447,35 @@ document.addEventListener('DOMContentLoaded', () => {
     qScore = 0;
     answered = false;
 
-    $('quizTitle').textContent = type === 'mc' ? `Pilihan Ganda · ${currentCategory.title}` : `Quiz Mengetik · ${currentCategory.title}`;
-    $('quizProgressFill').style.width = '0%';
+    if ($('quizTitle'))$('quizTitle').textContent = type === 'mc' ? `Pilihan Ganda · ${currentCategory.title}` : `Quiz Mengetik · ${currentCategory.title}`;
+    if ($('quizProgressFill'))$('quizProgressFill').style.width = '0%';
 
     if (type === 'mc') runMC();
     else if (type === 'typing') runTyping();
   }
 
   function setQuizProgress() {
-    $('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
-    $('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
-    $('quizScore').textContent = `Benar ${qScore}`;
+    if ($('quizProgressFill'))$('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
+    if ($('quizCounter'))$('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
+    if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
   }
 
   function showResult(score, total) {
     runId++;
-    $('quizProgressFill').style.width = '100\%';$('mode-mc').hidden = true;
-    $('mode-typing').hidden = true;
-    $('mode-result').hidden = false;
+    if ($('quizProgressFill'))$('quizProgressFill').style.width = '100%';
+    if ($('mode-mc'))$('mode-mc').hidden = true;
+    if ($('mode-typing'))$('mode-typing').hidden = true;
+    if ($('mode-result'))$('mode-result').hidden = false;
 
-    $('resultScore').textContent = `Skor: ${score} / ${total}`;
+    if ($('resultScore'))$('resultScore').textContent = `Skor: ${score} / ${total}`;
     const pct = Math.round((score / total) * 100);
-    $('resultRing').style.setProperty('--pct', pct);$('resultPct').textContent = pct + '%';
+    if ($('resultRing'))$('resultRing').style.setProperty('--pct', pct);
+    if ($('resultPct'))$('resultPct').textContent = pct + '%';
 
     playTone('win');
   }
 
-  // 1. Logika Pilihan Ganda
+  // 1. Pilihan Ganda
   function runMC() {
     if (qi >= quizPool.length) {
       return showResult(qScore, quizPool.length);
@@ -414,12 +484,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setQuizProgress();
     answered = false;
     const q = quizPool[qi];
-    $('mcQuestionText').textContent = q.furigana;
-    $('mcFeedback').textContent = '';
-    $('mcFeedback').className = 'feedback-text';$('btnMcNext').disabled = true;
+    if ($('mcQuestionText'))$('mcQuestionText').textContent = q.furigana;
+    if ($('mcFeedback')) {
+      $('mcFeedback').textContent = '';$('mcFeedback').className = 'feedback-text';
+    }
+    if ($('btnMcNext'))$('btnMcNext').disabled = true;
 
     const wrongs = shuffle(rawChapterVocab.filter(v => v.id !== q.id && v.arti !== q.arti)).slice(0, 3);
     const optionsBox = $('mcOptions');
+    if (!optionsBox) return;
     optionsBox.innerHTML = '';
 
     shuffle([q, ...wrongs]).forEach((item, i) => {
@@ -441,29 +514,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (item.id === q.id) {
           qScore++;
-          $('mcFeedback').textContent = 'Benar';$('mcFeedback').classList.add('correct');
+          if ($('mcFeedback')) {
+            $('mcFeedback').textContent = 'Benar';$('mcFeedback').classList.add('correct');
+          }
           playTone('correct');
         } else {
           btn.classList.add('wrong');
-          $('mcFeedback').textContent = 'Salah';$('mcFeedback').classList.add('wrong');
+          if ($('mcFeedback')) {
+            $('mcFeedback').textContent = 'Salah';$('mcFeedback').classList.add('wrong');
+          }
           playTone('wrong');
         }
 
-        $('quizScore').textContent = `Benar ${qScore}`;
-        $('btnMcNext').disabled = false;
-        $('btnMcNext').focus();
+        if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
+        if ($('btnMcNext')) {$('btnMcNext').disabled = false;
+          $('btnMcNext').focus();
+        }
       });
 
       optionsBox.appendChild(btn);
     });
   }
 
-  $('btnMcNext').addEventListener('click', () => {
-    qi++;
-    runMC();
-  });
+  if ($('btnMcNext')) {$('btnMcNext').addEventListener('click', () => {
+      qi++;
+      runMC();
+    });
+  }
 
-  // 2. Logika Mengetik
+  // 2. Mengetik
   const normalize = s => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
 
   function runTyping() {
@@ -473,16 +552,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setQuizProgress();
     answered = false;
-    $('typingQuestionText').textContent = quizPool[qi].furigana;
-    $('typingFeedback').textContent = '';$('typingFeedback').className = 'feedback-text';
+    if ($('typingQuestionText'))$('typingQuestionText').textContent = quizPool[qi].furigana;
+    if ($('typingFeedback')) {
+      $('typingFeedback').textContent = '';$('typingFeedback').className = 'feedback-text';
+    }
 
     const input = $('typingInput');
+    if (!input) return;
     input.value = '';
     input.className = 'input-typing-field';
     input.disabled = false;
 
-    $('btnTypingCheck').disabled = false;
-    $('btnTypingNext').disabled = true;
+    if ($('btnTypingCheck'))$('btnTypingCheck').disabled = false;
+    if ($('btnTypingNext'))$('btnTypingNext').disabled = true;
 
     setTimeout(() => input.focus(), 60);
   }
@@ -490,12 +572,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkTyping() {
     if (answered) return;
     const input = $('typingInput');
+    if (!input) return;
     const answer = normalize(input.value);
     if (!answer) return;
 
     answered = true;
     input.disabled = true;
-    $('btnTypingCheck').disabled = true;
+    if ($('btnTypingCheck'))$('btnTypingCheck').disabled = true;
 
     const q = quizPool[qi];
     const accepted = [normalize(q.arti), ...q.arti.split(/[\/,]/).map(normalize)].filter(Boolean);
@@ -503,28 +586,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (accepted.includes(answer)) {
       qScore++;
       input.classList.add('correct');
-      $('typingFeedback').textContent = 'Benar';$('typingFeedback').classList.add('correct');
+      if ($('typingFeedback')) {
+        $('typingFeedback').textContent = 'Benar';$('typingFeedback').classList.add('correct');
+      }
       playTone('correct');
     } else {
       input.classList.add('wrong');
-      $('typingFeedback').textContent = 'Salah';$('typingFeedback').classList.add('wrong');
+      if ($('typingFeedback')) {
+        $('typingFeedback').textContent = 'Salah';$('typingFeedback').classList.add('wrong');
+      }
       playTone('wrong');
     }
 
-    $('quizScore').textContent = `Benar ${qScore}`;
-    $('btnTypingNext').disabled = false;
-    $('btnTypingNext').focus();
+    if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
+    if ($('btnTypingNext')) {$('btnTypingNext').disabled = false;
+      $('btnTypingNext').focus();
+    }
   }
 
-  $('btnTypingCheck').addEventListener('click', checkTyping);$('typingInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkTyping();
-  });
-  $('btnTypingNext').addEventListener('click', () => {
-    qi++;
-    runTyping();
-  });
+  if ($('btnTypingCheck'))$('btnTypingCheck').addEventListener('click', checkTyping);
+  if ($('typingInput')) {$('typingInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkTyping();
+    });
+  }
+  if ($('btnTypingNext')) {$('btnTypingNext').addEventListener('click', () => {
+      qi++;
+      runTyping();
+    });
+  }
 
-  $('btnRetryQuiz').addEventListener('click', () => setMode(mode));$('btnResultCards').addEventListener('click', () => setMode('carousel'));
+  if ($('btnRetryQuiz'))$('btnRetryQuiz').addEventListener('click', () => setMode(mode));
+  if ($('btnResultCards'))$('btnResultCards').addEventListener('click', () => setMode('carousel'));
 
   // Keyboard Shortcuts
   window.addEventListener('keydown', e => {
@@ -541,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---------- PEMUATAN DATA JSON (data/*.json) ----------
+  // ---------- PEMUATAN DATA JSON ----------
   function normalizeData(raw) {
     const list = Array.isArray(raw) ? raw : Object.values(raw || {}).find(Array.isArray);
     if (!list) throw new Error('Format JSON harus berupa array');
@@ -562,6 +654,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .map((v, idx) => ({ ...v, id: idx }));
   }
 
+  const EMERGENCY_DATA = [
+    { furigana: 'いち', arti: 'Satu' },
+    { furigana: 'に', arti: 'Dua' },
+    { furigana: 'さん', arti: 'Tiga' },
+    { furigana: 'し / よん', arti: 'Empat' }
+  ].map((v, idx) => ({ ...v, id: idx }));
+
   async function changeCategory(categoryObj) {
     currentCategory = categoryObj;
     updateCategoryUI();
@@ -580,8 +679,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       if (currentLoad !== loadId) return;
       console.warn(e);
-      rawChapterVocab = [];
-      failMsg = `Gagal memuat "${path}" (${e.message}). Pastikan folder data/ sudah tersedia.`;
+      rawChapterVocab = EMERGENCY_DATA;
+      failMsg = `Gagal memuat "${path}" (${e.message}). Menampilkan data cadangan.`;
     }
 
     if (failMsg) showNotice(failMsg);
@@ -597,7 +696,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applySearchFilter();
   }
 
-  // Cek parameter topik aktif saat pertama load
   const urlParam = new URLSearchParams(location.search).get('topik');
   let savedCat = null;
   try { savedCat = localStorage.getItem(SAVE_KEY); } catch (e) {}

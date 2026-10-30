@@ -1,5 +1,5 @@
 /* =========================================================================
-   NakamaGakkou - Alur Belajar Bertahap, Slow Elongated Japanese Audio & Engine
+   NakamaGakkou - Alur Belajar Bertahap, Minimalist Flashcard, & Audio Engine
    ========================================================================= */
 
 const SET_ORDER = ["seion", "dakuon", "handakuon", "youon"];
@@ -11,13 +11,13 @@ const YOON_COLS = ["a", "u", "o"];
 const YOON_HEAD = ["ya", "yu", "yo"];
 
 const STROKE_COLORS = [
-  "#2563EB", // Goresan 1
-  "#DC2626", // Goresan 2
-  "#059669", // Goresan 3
-  "#D97706", // Goresan 4
-  "#7C3AED", // Goresan 5
-  "#0891B2", // Goresan 6
-  "#DB2777"  // Goresan 7+
+  "#2563EB",
+  "#DC2626",
+  "#059669",
+  "#D97706",
+  "#7C3AED",
+  "#0891B2",
+  "#DB2777"
 ];
 
 function getStrokeColor(index) {
@@ -55,7 +55,7 @@ const BUILTIN_CHARACTERS = [
   { character: "に", romaji: "ni", group: "na", category: "hiragana", set: "seion" },
   { character: "ぬ", romaji: "nu", group: "na", category: "hiragana", set: "seion" },
   { character: "ね", romaji: "ne", group: "na", category: "hiragana", set: "seion" },
-  { character: "no", romaji: "no", group: "na", category: "hiragana", set: "seion" }.character === "no" ? { character: "の", romaji: "no", group: "na", category: "hiragana", set: "seion" } : null,
+  { character: "の", romaji: "no", group: "na", category: "hiragana", set: "seion" },
 
   { character: "は", romaji: "ha", group: "ha", category: "hiragana", set: "seion" },
   { character: "ひ", romaji: "hi", group: "ha", category: "hiragana", set: "seion" },
@@ -122,7 +122,7 @@ const BUILTIN_CHARACTERS = [
   { character: "キャ", romaji: "kya", group: "kya", category: "katakana", set: "youon" },
   { character: "キュ", romaji: "kyu", group: "kya", category: "katakana", set: "youon" },
   { character: "キョ", romaji: "kyo", group: "kya", category: "katakana", set: "youon" }
-].filter(Boolean);
+];
 
 const BUILTIN_VOCAB = [
   { word: "あめ", romaji: "ame", meaning: "Hujan / Permen", type: "hiragana" },
@@ -157,7 +157,7 @@ let sessionQueue = [];
 let currentIndex = 0;
 let score = 0;
 let correctCount = 0;
-let currentMode = "h2r";
+let currentMode = "h2r"; // h2r | r2h | type | flashcard
 let currentItem = null;
 let hasAnswered = false;
 
@@ -171,6 +171,27 @@ let currentStepStrokeIdx = 0;
 let canvasEl = null;
 let canvasCtx = null;
 let isDrawing = false;
+
+/* ===================== FUNGSI TOMBOL BACK KE WEBSITE SEBELUMNYA ===================== */
+function goBackToPreviousSite() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else if (document.referrer) {
+    window.location.href = document.referrer;
+  } else {
+    window.location.href = "../index.html";
+  }
+}
+
+const backPrevSiteBtn = document.getElementById("backPrevSiteBtn");
+if (backPrevSiteBtn) {
+  backPrevSiteBtn.addEventListener("click", goBackToPreviousSite);
+}
+
+const sidebarBackWebBtn = document.getElementById("sidebarBackWebBtn");
+if (sidebarBackWebBtn) {
+  sidebarBackWebBtn.addEventListener("click", goBackToPreviousSite);
+}
 
 /* ===================== LOAD DATA ===================== */
 async function loadData() {
@@ -197,18 +218,16 @@ async function loadData() {
     allVocabularies = [...BUILTIN_VOCAB];
   }
 
-  // Centang default baris 'a' Hiragana seion
   allCharacters
     .filter(c => c.category === "hiragana" && c.set === "seion" && c.group === "a")
     .forEach(c => selectedChars.add(`${c.category}|${c.character}`));
 }
 
 /* =========================================================================
-   NATURAL & ELONGATED JAPANESE AUDIO ENGINE (SUARA LAMBAT & PANJANG "AAA~")
+   NATURAL & ELONGATED JAPANESE AUDIO ENGINE
    ========================================================================= */
 let bestJapaneseVoice = null;
 let currentAudioObj = null;
-const audioBufferCache = new Map();
 
 function selectBestJapaneseVoice() {
   if (!("speechSynthesis" in window)) return;
@@ -233,7 +252,7 @@ function selectBestJapaneseVoice() {
 
   const badge = document.getElementById("voiceStatusBadge");
   if (badge && bestJapaneseVoice) {
-    badge.innerHTML = `<span>🔊 JP Natural</span>`;
+    badge.innerHTML = `<span>JP Natural</span>`;
     badge.title = `Suara aktif: ${bestJapaneseVoice.name}`;
   }
 }
@@ -243,64 +262,12 @@ if ("speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = selectBestJapaneseVoice;
 }
 
-function findRomajiForKana(text) {
-  const found = allCharacters.find(c => c.character === text);
-  if (!found) return null;
-  const mapRomaji = {
-    "shi": "shi", "chi": "chi", "tsu": "tsu", "fu": "fu", "wo": "o"
-  };
-  return mapRomaji[found.romaji] || found.romaji;
-}
-
 function makeElongatedKana(text) {
   const clean = text === "を" ? "お" : text.trim();
   const isSingleKanaOrYoon = allCharacters.some(c => c.character === text);
   if (!isSingleKanaOrYoon) return clean;
   if (clean === "ん" || clean === "ン") return "んー";
   return `${clean}ー。`;
-}
-
-function tryPlayHumanKanaAudio(romaji) {
-  return new Promise((resolve) => {
-    if (!romaji) return resolve(false);
-
-    const sources = [
-      `audio/${romaji}.mp3`,
-      `data/audio/${romaji}.mp3`,
-      `https://cdn.jsdelivr.net/gh/imos/japanese-kana-audio@master/mp3/${romaji}.mp3`
-    ];
-
-    const MP3_SLOW_RATE = 0.78;
-
-    let idx = 0;
-    const tryNext = () => {
-      if (idx >= sources.length) return resolve(false);
-      const url = sources[idx++];
-
-      if (audioBufferCache.has(url)) {
-        const cachedAudio = audioBufferCache.get(url);
-        cachedAudio.currentTime = 0;
-        cachedAudio.preservesPitch = true;
-        cachedAudio.playbackRate = MP3_SLOW_RATE;
-        currentAudioObj = cachedAudio;
-        cachedAudio.play().then(() => resolve(true)).catch(() => tryNext());
-        return;
-      }
-
-      const audio = new Audio(url);
-      audio.preload = "auto";
-      audio.oncanplaythrough = () => {
-        audio.preservesPitch = true;
-        audio.playbackRate = MP3_SLOW_RATE;
-        audioBufferCache.set(url, audio);
-        currentAudioObj = audio;
-        audio.play().then(() => resolve(true)).catch(() => tryNext());
-      };
-      audio.onerror = () => tryNext();
-    };
-
-    tryNext();
-  });
 }
 
 async function speak(text, triggerBtn = null) {
@@ -337,11 +304,6 @@ async function speak(text, triggerBtn = null) {
 
 /* ===================== ROUTING ===================== */
 function showView(viewId, opts = {}) {
-  // Pastikan timer GAME dihentikan ketika pengguna meninggalkan halaman game
-  if (typeof stopNkGameTimer === "function" && viewId !== "game") {
-    stopNkGameTimer();
-  }
-
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
   const target = document.getElementById("view-" + viewId);
   if (target) target.classList.add("active");
@@ -358,7 +320,6 @@ function showView(viewId, opts = {}) {
   }
   if (viewId === "quiz-setup") renderSetup();
   if (viewId === "vocab-read") initVocabReading();
-  if (viewId === "game") openNkGameLobby();
 
   window.scrollTo(0, 0);
 }
@@ -982,11 +943,11 @@ function shuffle(arr) {
 }
 
 /* =========================================================================
-   KUIS LOGIC (GRID 2x2, OTOMATIS GANTI SOAL)
+   KUIS & FLASHCARD MINIMALIS LOGIC
    ========================================================================= */
 document.getElementById("startQuizBtn").addEventListener("click", () => {
-  const chosen = allCharacters.filter(i => 
-    selectedChars.has(`${i.category}|${i.character}`) && 
+  const chosen = allCharacters.filter(i =>
+    selectedChars.has(`${i.category}|${i.character}`) &&
     i.category === setupCategory
   );
 
@@ -998,7 +959,7 @@ document.getElementById("startQuizBtn").addEventListener("click", () => {
   const modeVal = document.querySelector('input[name="quizMode"]:checked').value;
 
   if ((modeVal === "h2r" || modeVal === "r2h") && chosen.length < 2) {
-    alert("Mode Pilihan Ganda membutuhkan minimal 2 karakter berbeda yang dicentang. Untuk 1 karakter, gunakan mode 'Mengetik Jawaban' atau centang karakter tambahan.");
+    alert("Mode Pilihan Ganda membutuhkan minimal 2 karakter berbeda yang dicentang. Untuk 1 karakter, gunakan mode 'Mengetik Jawaban', 'Flashcard', atau centang karakter tambahan.");
     return;
   }
 
@@ -1021,8 +982,29 @@ function generateQuizItem() {
 
   currentItem = sessionQueue[currentIndex];
   document.getElementById("quizCounter").textContent = `${currentIndex + 1} / ${sessionQueue.length}`;
-  document.getElementById("quizScore").textContent = `Skor: ${score}`;
   document.getElementById("quizProgressFill").style.width = `${Math.round(((currentIndex + 1) / sessionQueue.length) * 100)}%`;
+
+  const standardLayout = document.getElementById("quizStandardLayout");
+  const flashcardLayout = document.getElementById("quizFlashcardLayout");
+  const stateLabel = document.getElementById("quizStateLabel");
+  const scoreBadge = document.getElementById("quizScore");
+
+  // Mode Flashcard Minimalis (Tanpa Skor, Tanpa Benar/Salah)
+  if (currentMode === "flashcard") {
+    stateLabel.textContent = "Flashcard Kana";
+    scoreBadge.classList.add("hidden");
+    standardLayout.classList.add("hidden");
+    flashcardLayout.classList.remove("hidden");
+    renderQuizFlashcardItem();
+    return;
+  }
+
+  // Mode Standar (h2r, r2h, type)
+  stateLabel.textContent = "Sedang Mengerjakan";
+  scoreBadge.classList.remove("hidden");
+  scoreBadge.textContent = `Skor: ${score}`;
+  standardLayout.classList.remove("hidden");
+  flashcardLayout.classList.add("hidden");
 
   const inputWrap = document.getElementById("answerInputWrap");
   const optionsWrap = document.getElementById("answerOptions");
@@ -1059,6 +1041,86 @@ function generateQuizItem() {
   }
 }
 
+/* --- LOGIKA FLASHCARD KANA MINIMALIS (MURNI FLIP & NAVIGASI) --- */
+const quizFlashcardCard = document.getElementById("quizFlashcardCard");
+const quizFcFlipBtn = document.getElementById("quizFcFlipBtn");
+const quizFcSoundBtn = document.getElementById("quizFcSoundBtn");
+const quizFcPrevBtn = document.getElementById("quizFcPrevBtn");
+const quizFcNextBtn = document.getElementById("quizFcNextBtn");
+
+function renderQuizFlashcardItem() {
+  quizFlashcardCard.classList.remove("is-flipped");
+
+  const frontCharEl = document.getElementById("quizFcFrontChar");
+  frontCharEl.textContent = currentItem.character;
+  frontCharEl.classList.toggle("is-youon", currentItem.character.length > 1);
+
+  document.getElementById("quizFcBackRomaji").textContent = currentItem.romaji;
+  document.getElementById("quizFcBackMeta").textContent = `${CATEGORY_LABELS[currentItem.category]} \u2022 ${SET_LABELS[currentItem.set]}`;
+
+  if (quizFcPrevBtn) {
+    quizFcPrevBtn.disabled = currentIndex === 0;
+  }
+  if (quizFcNextBtn) {
+    quizFcNextBtn.innerHTML = currentIndex === sessionQueue.length - 1
+      ? "Selesai"
+      : "Selanjutnya &rarr;";
+  }
+}
+
+function toggleQuizFlashcardFlip() {
+  if (!currentItem) return;
+  const flipped = quizFlashcardCard.classList.toggle("is-flipped");
+  if (flipped) {
+    speak(currentItem.character);
+  }
+}
+
+if (quizFlashcardCard) {
+  quizFlashcardCard.addEventListener("click", (e) => {
+    if (e.target.closest("#quizFcSoundBtn")) return;
+    toggleQuizFlashcardFlip();
+  });
+  quizFlashcardCard.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.key === "Enter") {
+      e.preventDefault();
+      toggleQuizFlashcardFlip();
+    }
+  });
+}
+
+if (quizFcFlipBtn) {
+  quizFcFlipBtn.addEventListener("click", toggleQuizFlashcardFlip);
+}
+
+if (quizFcSoundBtn) {
+  quizFcSoundBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (currentItem) speak(currentItem.character, quizFcSoundBtn);
+  });
+}
+
+if (quizFcPrevBtn) {
+  quizFcPrevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      generateQuizItem();
+    }
+  });
+}
+
+if (quizFcNextBtn) {
+  quizFcNextBtn.addEventListener("click", () => {
+    currentIndex++;
+    if (currentIndex >= sessionQueue.length) {
+      finishQuiz();
+    } else {
+      generateQuizItem();
+    }
+  });
+}
+
+/* --- LOGIKA PILIHAN GANDA & KETIK --- */
 function buildChoicesStrict(field) {
   const wrap = document.getElementById("answerOptions");
   wrap.innerHTML = "";
@@ -1152,16 +1214,36 @@ document.getElementById("answerInput").addEventListener("keydown", e => { if (e.
 
 function finishQuiz() {
   const total = sessionQueue.length;
-  const acc = Math.round((correctCount / total) * 100);
-  document.getElementById("finalScore").textContent = `${correctCount} / ${total}`;
-  document.getElementById("finalAccuracy").textContent = `Akurasi: ${acc}%`;
+  const titleHeading = document.getElementById("resultTitleHeading");
+  const finalScoreEl = document.getElementById("finalScore");
+  const finalAccuracyEl = document.getElementById("finalAccuracy");
+
+  if (currentMode === "flashcard") {
+    if (titleHeading) titleHeading.textContent = "Sesi Flashcard Selesai";
+    finalScoreEl.textContent = `${total} Kartu`;
+    finalAccuracyEl.textContent = "Seluruh kartu karakter pilihan telah dipelajari";
+  } else {
+    const acc = Math.round((correctCount / total) * 100);
+    if (titleHeading) titleHeading.textContent = "Hasil Kuis Kana";
+    finalScoreEl.textContent = `${correctCount} / ${total}`;
+    finalAccuracyEl.textContent = `Akurasi: ${acc}%`;
+  }
+
   showView("result");
 }
 
 document.getElementById("retrySameBtn").addEventListener("click", () => startQuiz(activeQuizPool, currentMode));
 document.getElementById("backToSelectBtn").addEventListener("click", () => showView("quiz-setup"));
 
-/* ===================== FLASHCARD KOSAKATA ===================== */
+/* =========================================================================
+   FLASHCARD KOSAKATA MINIMALIS
+   ========================================================================= */
+const vocabFlashcard = document.getElementById("vocabFlashcard");
+const vocabFlipBtn = document.getElementById("vocabFlipBtn");
+const vocabPrevCardBtn = document.getElementById("vocabPrevCardBtn");
+const vocabNextCardBtn = document.getElementById("vocabNextCardBtn");
+const vocabShuffleBtn = document.getElementById("vocabShuffleBtn");
+
 function initVocabReading() {
   let list = allVocabularies;
   if (vocabFilter !== "all") list = list.filter(v => v.type === vocabFilter);
@@ -1173,27 +1255,73 @@ function initVocabReading() {
 function renderVocabCard() {
   if (!vocabList.length) return;
   const cur = vocabList[vocabIndex];
-  document.getElementById("vocabCounterText").textContent = `Kata ${vocabIndex + 1} / ${vocabList.length}`;
-  document.getElementById("vocabWordText").textContent = cur.word;
-  document.getElementById("vocabRomajiText").textContent = cur.romaji;
-  document.getElementById("vocabMeaningText").textContent = `Arti: ${cur.meaning}`;
 
-  document.getElementById("vocabAnswerBox").classList.remove("revealed");
-  document.getElementById("vocabRevealBtn").classList.remove("hidden");
-  document.getElementById("vocabNextCardBtn").classList.add("hidden");
+  if (vocabFlashcard) {
+    vocabFlashcard.classList.remove("is-flipped");
+  }
+
+  document.getElementById("vocabCounterText").textContent = `${vocabIndex + 1} / ${vocabList.length}`;
+  document.getElementById("vocabWordText").textContent = cur.word;
+  document.getElementById("vocabBackWordMini").textContent = cur.word;
+  document.getElementById("vocabRomajiText").textContent = cur.romaji;
+  document.getElementById("vocabMeaningText").textContent = cur.meaning;
+
+  const typeTag = document.getElementById("vocabFrontTypeTag");
+  if (typeTag) {
+    typeTag.textContent = (cur.type || "kana").toUpperCase();
+  }
 }
 
-document.getElementById("vocabRevealBtn").addEventListener("click", () => {
-  document.getElementById("vocabAnswerBox").classList.add("revealed");
-  document.getElementById("vocabRevealBtn").classList.add("hidden");
-  document.getElementById("vocabNextCardBtn").classList.remove("hidden");
-  speak(vocabList[vocabIndex].word, document.getElementById("vocabAudioBtn"));
-});
-document.getElementById("vocabNextCardBtn").addEventListener("click", () => {
-  vocabIndex = (vocabIndex + 1) % vocabList.length;
-  renderVocabCard();
-});
+function toggleVocabCardFlip() {
+  if (!vocabList.length || !vocabFlashcard) return;
+  const flipped = vocabFlashcard.classList.toggle("is-flipped");
+  if (flipped) {
+    speak(vocabList[vocabIndex].word, document.getElementById("vocabAudioBtn"));
+  }
+}
+
+if (vocabFlashcard) {
+  vocabFlashcard.addEventListener("click", () => {
+    toggleVocabCardFlip();
+  });
+  vocabFlashcard.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.key === "Enter") {
+      e.preventDefault();
+      toggleVocabCardFlip();
+    }
+  });
+}
+
+if (vocabFlipBtn) {
+  vocabFlipBtn.addEventListener("click", toggleVocabCardFlip);
+}
+
+if (vocabPrevCardBtn) {
+  vocabPrevCardBtn.addEventListener("click", () => {
+    if (!vocabList.length) return;
+    vocabIndex = (vocabIndex - 1 + vocabList.length) % vocabList.length;
+    renderVocabCard();
+  });
+}
+
+if (vocabNextCardBtn) {
+  vocabNextCardBtn.addEventListener("click", () => {
+    if (!vocabList.length) return;
+    vocabIndex = (vocabIndex + 1) % vocabList.length;
+    renderVocabCard();
+  });
+}
+
+if (vocabShuffleBtn) {
+  vocabShuffleBtn.addEventListener("click", () => {
+    vocabList = shuffle(vocabList);
+    vocabIndex = 0;
+    renderVocabCard();
+  });
+}
+
 document.getElementById("vocabAudioBtn").addEventListener("click", (e) => {
+  e.stopPropagation();
   if (vocabList[vocabIndex]) speak(vocabList[vocabIndex].word, e.currentTarget);
 });
 
@@ -1237,768 +1365,9 @@ document.addEventListener("click", e => {
   if (!e.target.closest(".search-box")) searchResults.classList.add("hidden");
 });
 
-/* =========================================================================
-   FITUR BARU: GAME ENGINE (6 PERMAINAN INTERAKTIF KANA)
-   ========================================================================= */
-const NK_GAME_TITLES = {
-  guess: "Tebak Huruf",
-  memory: "Memory Match",
-  speed: "Kana Speed Challenge",
-  scramble: "Susun Huruf",
-  find: "Cari Huruf",
-  sound: "Tebak Suara"
-};
-
-let nkGameScript = "hiragana"; // hiragana | katakana | mixed
-let nkGameDiff = "easy";       // easy | normal | hard
-let nkActiveGameType = null;
-let nkGameTimerId = null;
-let nkGameTimeLeft = 0;
-
-let nkGameScore = 0;
-let nkGameStep = 0;
-let nkGameTotalSteps = 10;
-let nkGameCorrectCount = 0;
-let nkGameLocked = false;
-let nkGamePool = [];
-let nkGameQuestions = [];
-
-function stopNkGameTimer() {
-  if (nkGameTimerId) {
-    clearInterval(nkGameTimerId);
-    nkGameTimerId = null;
-  }
-}
-
-function getNkBestScores() {
-  try {
-    return JSON.parse(localStorage.getItem("nk_kana_game_best") || "{}");
-  } catch (_) {
-    return {};
-  }
-}
-
-function saveNkBestScore(gameType, newScore) {
-  const bests = getNkBestScores();
-  if (!bests[gameType] || newScore > bests[gameType]) {
-    bests[gameType] = newScore;
-    try {
-      localStorage.setItem("nk_kana_game_best", JSON.stringify(bests));
-    } catch (_) {}
-  }
-  updateNkLobbyBestBadges();
-}
-
-function updateNkLobbyBestBadges() {
-  const bests = getNkBestScores();
-  let totalBest = 0;
-  Object.keys(NK_GAME_TITLES).forEach(key => {
-    const val = bests[key] || 0;
-    if (val > totalBest) totalBest = val;
-    const el = document.getElementById(`nkBest-${key}`);
-    if (el) el.textContent = `Skor Terbaik: ${val}`;
-  });
-  const topBadge = document.getElementById("nkBestScoreBadge");
-  if (topBadge) topBadge.textContent = `🏆 Skor Terbaik: ${totalBest}`;
-}
-
-function openNkGameLobby() {
-  stopNkGameTimer();
-  updateNkLobbyBestBadges();
-  document.getElementById("nkGameLobby").classList.remove("hidden");
-  document.getElementById("nkGameStage").classList.add("hidden");
-  document.getElementById("nkGameResult").classList.add("hidden");
-}
-
-function buildNkFilteredCharPool() {
-  let pool = allCharacters.filter(c => {
-    if (nkGameScript === "mixed") return true;
-    return c.category === nkGameScript;
-  });
-
-  if (nkGameDiff === "easy") {
-    const easyGroups = ["a", "ka", "sa", "ta", "na"];
-    const filtered = pool.filter(c => c.set === "seion" && easyGroups.includes(c.group));
-    if (filtered.length >= 6) pool = filtered;
-  } else if (nkGameDiff === "normal") {
-    const filtered = pool.filter(c => c.set === "seion");
-    if (filtered.length >= 6) pool = filtered;
-  }
-  return pool.length >= 4 ? pool : [...allCharacters];
-}
-
-function buildNkFilteredVocabPool() {
-  let vPool = [...allVocabularies, ...BUILTIN_VOCAB];
-  // Hilangkan duplikat kata
-  const seen = new Set();
-  vPool = vPool.filter(v => {
-    if (!v || !v.word || seen.has(v.word)) return false;
-    seen.add(v.word);
-    return true;
-  });
-
-  if (nkGameScript !== "mixed") {
-    const byType = vPool.filter(v => v.type === nkGameScript);
-    if (byType.length >= 4) vPool = byType;
-  }
-  return vPool;
-}
-
-function showNkFeedback(message, isCorrect) {
-  const banner = document.getElementById("nkGameFeedbackBanner");
-  banner.textContent = message;
-  banner.className = `nk-game-feedback ${isCorrect ? "is-correct" : "is-wrong"}`;
-  banner.classList.remove("hidden");
-}
-
-function hideNkFeedback() {
-  const banner = document.getElementById("nkGameFeedbackBanner");
-  if (banner) banner.classList.add("hidden");
-}
-
-function updateNkTopHUD(progressLabel, progressPercent) {
-  document.getElementById("nkGameActiveTitle").textContent = NK_GAME_TITLES[nkActiveGameType] || "Game";
-  document.getElementById("nkGameProgressText").textContent = progressLabel;
-  document.getElementById("nkGameProgressBar").style.width = `${Math.max(0, Math.min(100, progressPercent))}%`;
-  document.getElementById("nkGameScoreBadge").textContent = `Skor: ${nkGameScore}`;
-}
-
-function startNkGame(gameType) {
-  stopNkGameTimer();
-  nkActiveGameType = gameType;
-  nkGameScore = 0;
-  nkGameStep = 0;
-  nkGameCorrectCount = 0;
-  nkGameLocked = false;
-  nkGamePool = buildNkFilteredCharPool();
-
-  document.getElementById("nkGameLobby").classList.add("hidden");
-  document.getElementById("nkGameResult").classList.add("hidden");
-  document.getElementById("nkGameStage").classList.remove("hidden");
-  document.getElementById("nkGameTimerBadge").classList.add("hidden");
-  document.getElementById("nkGameNextStepBtn").classList.add("hidden");
-  hideNkFeedback();
-
-  if (gameType === "guess") initNkGuessGame();
-  else if (gameType === "memory") initNkMemoryGame();
-  else if (gameType === "speed") initNkSpeedGame();
-  else if (gameType === "scramble") initNkScrambleGame();
-  else if (gameType === "find") initNkFindGame();
-  else if (gameType === "sound") initNkSoundGame();
-}
-
-function finishNkGame(detailSummaryText) {
-  stopNkGameTimer();
-  saveNkBestScore(nkActiveGameType, nkGameScore);
-
-  document.getElementById("nkGameStage").classList.add("hidden");
-  document.getElementById("nkGameResult").classList.remove("hidden");
-
-  document.getElementById("nkResultTitle").textContent = `Hasil ${NK_GAME_TITLES[nkActiveGameType]}`;
-  document.getElementById("nkResultScore").textContent = `Skor: ${nkGameScore}`;
-  document.getElementById("nkResultDetail").textContent = detailSummaryText;
-}
-
-/* --- GAME 1: TEBAK HURUF --- */
-function initNkGuessGame() {
-  nkGameTotalSteps = nkGameDiff === "easy" ? 8 : (nkGameDiff === "normal" ? 12 : 16);
-  nkGameQuestions = [];
-  for (let i = 0; i < nkGameTotalSteps; i++) {
-    const shuffled = shuffle(nkGamePool);
-    nkGameQuestions.push(shuffled[0]);
-  }
-  renderNkGuessStep();
-}
-
-function renderNkGuessStep() {
-  nkGameLocked = false;
-  hideNkFeedback();
-  document.getElementById("nkGameNextStepBtn").classList.add("hidden");
-
-  const target = nkGameQuestions[nkGameStep];
-  const pct = Math.round(((nkGameStep + 1) / nkGameTotalSteps) * 100);
-  updateNkTopHUD(`Soal ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-  const distractors = shuffle(nkGamePool.filter(c => c.romaji !== target.romaji))
-    .filter((v, idx, arr) => arr.findIndex(x => x.romaji === v.romaji) === idx)
-    .slice(0, 3);
-  const options = shuffle([target, ...distractors]);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `
-    <div class="quiz-split-layout">
-      <div class="quiz-left-panel">
-        <div class="quiz-mode-pill">Pilih Bacaan Romaji yang Tepat</div>
-        <div class="quiz-options-grid-2x2" id="nkGuessOptions"></div>
-      </div>
-      <div class="quiz-right-panel">
-        <div class="char-display-canvas-box ${target.character.length > 1 ? "is-youon" : ""}">${target.character}</div>
-      </div>
-    </div>
-  `;
-
-  const optWrap = document.getElementById("nkGuessOptions");
-  options.forEach(opt => {
-    const btn = document.createElement("div");
-    btn.className = "quiz-radio-option";
-    btn.textContent = opt.romaji;
-    btn.addEventListener("click", () => {
-      if (nkGameLocked) return;
-      nkGameLocked = true;
-
-      const isOk = opt.romaji === target.romaji;
-      optWrap.querySelectorAll(".quiz-radio-option").forEach(el => {
-        el.classList.add("disabled");
-        if (el.textContent === target.romaji) el.classList.add("correct");
-      });
-
-      if (isOk) {
-        nkGameScore += 10;
-        nkGameCorrectCount++;
-        btn.classList.add("correct");
-        speak(target.character);
-        showNkFeedback(`Benar! ${target.character} dibaca "${target.romaji}". (+10 Poin)`, true);
-      } else {
-        btn.classList.add("wrong");
-        showNkFeedback(`Kurang tepat! ${target.character} dibaca "${target.romaji}".`, false);
-      }
-
-      updateNkTopHUD(`Soal ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-      setTimeout(() => {
-        nkGameStep++;
-        if (nkGameStep >= nkGameTotalSteps) {
-          const acc = Math.round((nkGameCorrectCount / nkGameTotalSteps) * 100);
-          finishNkGame(`Jawaban Benar: ${nkGameCorrectCount} dari ${nkGameTotalSteps} (${acc}%)`);
-        } else {
-          renderNkGuessStep();
-        }
-      }, 950);
-    });
-    optWrap.appendChild(btn);
-  });
-}
-
-/* --- GAME 2: MEMORY MATCH --- */
-let nkMemoryFlipped = [];
-let nkMemoryMatchedPairs = 0;
-let nkMemoryTotalPairs = 6;
-let nkMemoryMoves = 0;
-
-function initNkMemoryGame() {
-  nkMemoryTotalPairs = nkGameDiff === "easy" ? 4 : (nkGameDiff === "normal" ? 6 : 8);
-  nkMemoryMatchedPairs = 0;
-  nkMemoryMoves = 0;
-  nkMemoryFlipped = [];
-  nkGameLocked = false;
-
-  const uniqueChars = [];
-  const usedRomaji = new Set();
-  shuffle(nkGamePool).forEach(c => {
-    if (!usedRomaji.has(c.romaji) && uniqueChars.length < nkMemoryTotalPairs) {
-      usedRomaji.add(c.romaji);
-      uniqueChars.push(c);
-    }
-  });
-
-  const deck = [];
-  uniqueChars.forEach((c, idx) => {
-    deck.push({ pairId: idx, label: c.character, kind: "Kana", audioChar: c.character });
-    deck.push({ pairId: idx, label: c.romaji, kind: "Romaji", audioChar: c.character });
-  });
-
-  const shuffledDeck = shuffle(deck);
-  updateNkTopHUD(`Pasangan: 0 / ${nkMemoryTotalPairs} (Langkah: 0)`, 0);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `<div class="nk-memory-grid" id="nkMemoryGrid"></div>`;
-  const grid = document.getElementById("nkMemoryGrid");
-
-  shuffledDeck.forEach((cardData) => {
-    const cardEl = document.createElement("button");
-    cardEl.type = "button";
-    cardEl.className = "nk-memory-card";
-    cardEl.innerHTML = `<span>?</span><span class="nk-memory-sub">BUKA</span>`;
-
-    cardEl.addEventListener("click", () => {
-      if (nkGameLocked || cardEl.classList.contains("is-flipped") || cardEl.classList.contains("is-matched")) return;
-
-      cardEl.classList.add("is-flipped");
-      cardEl.innerHTML = `<span>${cardData.label}</span><span class="nk-memory-sub">${cardData.kind}</span>`;
-      nkMemoryFlipped.push({ el: cardEl, data: cardData });
-
-      if (nkMemoryFlipped.length === 2) {
-        nkGameLocked = true;
-        nkMemoryMoves++;
-        const [first, second] = nkMemoryFlipped;
-
-        if (first.data.pairId === second.data.pairId && first.data.kind !== second.data.kind) {
-          first.el.classList.add("is-matched");
-          second.el.classList.add("is-matched");
-          nkMemoryMatchedPairs++;
-          nkGameScore += 20;
-          speak(first.data.audioChar);
-          showNkFeedback(`Pasangan cocok! ${first.data.audioChar} = ${second.data.kind === "Romaji" ? second.data.label : first.data.label} (+20 Poin)`, true);
-          nkMemoryFlipped = [];
-          nkGameLocked = false;
-
-          const pct = Math.round((nkMemoryMatchedPairs / nkMemoryTotalPairs) * 100);
-          updateNkTopHUD(`Pasangan: ${nkMemoryMatchedPairs} / ${nkMemoryTotalPairs} (Langkah: ${nkMemoryMoves})`, pct);
-
-          if (nkMemoryMatchedPairs >= nkMemoryTotalPairs) {
-            setTimeout(() => {
-              finishNkGame(`Semua ${nkMemoryTotalPairs} pasangan ditemukan dalam ${nkMemoryMoves} langkah!`);
-            }, 700);
-          }
-        } else {
-          first.el.classList.add("is-mismatch");
-          second.el.classList.add("is-mismatch");
-          const pct = Math.round((nkMemoryMatchedPairs / nkMemoryTotalPairs) * 100);
-          updateNkTopHUD(`Pasangan: ${nkMemoryMatchedPairs} / ${nkMemoryTotalPairs} (Langkah: ${nkMemoryMoves})`, pct);
-
-          setTimeout(() => {
-            [first.el, second.el].forEach(el => {
-              el.classList.remove("is-flipped", "is-mismatch");
-              el.innerHTML = `<span>?</span><span class="nk-memory-sub">BUKA</span>`;
-            });
-            nkMemoryFlipped = [];
-            nkGameLocked = false;
-          }, 700);
-        }
-      }
-    });
-
-    grid.appendChild(cardEl);
-  });
-}
-
-/* --- GAME 3: KANA SPEED CHALLENGE --- */
-let nkSpeedAnswered = 0;
-
-function initNkSpeedGame() {
-  nkGameTimeLeft = nkGameDiff === "easy" ? 45 : (nkGameDiff === "normal" ? 35 : 25);
-  const totalTime = nkGameTimeLeft;
-  nkSpeedAnswered = 0;
-  nkGameCorrectCount = 0;
-
-  const timerBadge = document.getElementById("nkGameTimerBadge");
-  timerBadge.classList.remove("hidden");
-  timerBadge.textContent = `⏱️ ${nkGameTimeLeft}d`;
-
-  updateNkTopHUD(`Terjawab: 0 Soal`, 100);
-  renderNkSpeedQuestion();
-
-  nkGameTimerId = setInterval(() => {
-    nkGameTimeLeft--;
-    timerBadge.textContent = `⏱️ ${nkGameTimeLeft}d`;
-    const pct = Math.round((nkGameTimeLeft / totalTime) * 100);
-    document.getElementById("nkGameProgressBar").style.width = `${Math.max(0, pct)}%`;
-
-    if (nkGameTimeLeft <= 0) {
-      stopNkGameTimer();
-      finishNkGame(`Waktu Habis! Kamu menjawab benar ${nkGameCorrectCount} dari ${nkSpeedAnswered} soal.`);
-    }
-  }, 1000);
-}
-
-function renderNkSpeedQuestion() {
-  nkGameLocked = false;
-  const target = shuffle(nkGamePool)[0];
-  const distractors = shuffle(nkGamePool.filter(c => c.romaji !== target.romaji))
-    .filter((v, idx, arr) => arr.findIndex(x => x.romaji === v.romaji) === idx)
-    .slice(0, 3);
-  const options = shuffle([target, ...distractors]);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `
-    <div class="quiz-split-layout">
-      <div class="quiz-left-panel">
-        <div class="quiz-mode-pill">⚡ Jawab Secepat Mungkin!</div>
-        <div class="quiz-options-grid-2x2" id="nkSpeedOptions"></div>
-      </div>
-      <div class="quiz-right-panel">
-        <div class="char-display-canvas-box ${target.character.length > 1 ? "is-youon" : ""}">${target.character}</div>
-      </div>
-    </div>
-  `;
-
-  const optWrap = document.getElementById("nkSpeedOptions");
-  options.forEach(opt => {
-    const btn = document.createElement("div");
-    btn.className = "quiz-radio-option";
-    btn.textContent = opt.romaji;
-    btn.addEventListener("click", () => {
-      if (nkGameLocked || nkGameTimeLeft <= 0) return;
-      nkGameLocked = true;
-      nkSpeedAnswered++;
-
-      if (opt.romaji === target.romaji) {
-        nkGameScore += 15;
-        nkGameCorrectCount++;
-        btn.classList.add("correct");
-        showNkFeedback(` Cepat & Tepat! ${target.character} = ${target.romaji} (+15 Poin)`, true);
-      } else {
-        nkGameScore = Math.max(0, nkGameScore - 5);
-        btn.classList.add("wrong");
-        showNkFeedback(`Melenceng! ${target.character} = ${target.romaji} (-5 Poin)`, false);
-      }
-
-      document.getElementById("nkGameScoreBadge").textContent = `Skor: ${nkGameScore}`;
-      document.getElementById("nkGameProgressText").textContent = `Benar: ${nkGameCorrectCount} / ${nkSpeedAnswered}`;
-
-      setTimeout(() => {
-        if (nkGameTimeLeft > 0) renderNkSpeedQuestion();
-      }, 260);
-    });
-    optWrap.appendChild(btn);
-  });
-}
-
-/* --- GAME 4: SUSUN HURUF (WORD SCRAMBLE) --- */
-let nkScrambleTarget = null;
-let nkScramblePickedIndices = [];
-let nkScrambleTiles = [];
-
-function initNkScrambleGame() {
-  const vPool = buildNkFilteredVocabPool();
-  nkGameTotalSteps = Math.min(vPool.length, nkGameDiff === "easy" ? 5 : (nkGameDiff === "normal" ? 8 : 10));
-  nkGameQuestions = shuffle(vPool).slice(0, nkGameTotalSteps);
-  renderNkScrambleStep();
-}
-
-function renderNkScrambleStep() {
-  nkGameLocked = false;
-  hideNkFeedback();
-  document.getElementById("nkGameNextStepBtn").classList.add("hidden");
-
-  nkScrambleTarget = nkGameQuestions[nkGameStep];
-  nkScramblePickedIndices = [];
-
-  const pct = Math.round(((nkGameStep + 1) / nkGameTotalSteps) * 100);
-  updateNkTopHUD(`Kata ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-  const realChars = Array.from(nkScrambleTarget.word);
-  const extraCount = nkGameDiff === "easy" ? 1 : (nkGameDiff === "normal" ? 2 : 3);
-  const distractorChars = shuffle(nkGamePool)
-    .map(c => c.character)
-    .filter(ch => ch.length === 1 && !realChars.includes(ch))
-    .slice(0, extraCount);
-
-  nkScrambleTiles = shuffle([...realChars, ...distractorChars]);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `
-    <div class="nk-scramble-wrap">
-      <div class="nk-scramble-clue-card">
-        <div class="nk-scramble-meaning">Arti: "${nkScrambleTarget.meaning}"</div>
-        <div class="nk-scramble-hint">Petunjuk Romaji: <strong>${nkScrambleTarget.romaji}</strong> (${realChars.length} huruf)</div>
-      </div>
-
-      <div class="nk-scramble-slots" id="nkScrambleSlots"></div>
-      <div class="nk-scramble-pool" id="nkScramblePool"></div>
-
-      <div style="display:flex;gap:10px;">
-        <button type="button" class="btn btn-sm btn-secondary" id="nkScrambleClearBtn">Kosongkan Susunan</button>
-        <button type="button" class="btn btn-sm btn-study" id="nkScrambleAudioBtn">🔊 Dengarkan Kata</button>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("nkScrambleClearBtn").addEventListener("click", () => {
-    if (nkGameLocked) return;
-    nkScramblePickedIndices = [];
-    updateNkScrambleUI();
-  });
-
-  document.getElementById("nkScrambleAudioBtn").addEventListener("click", (e) => {
-    speak(nkScrambleTarget.word, e.currentTarget);
-  });
-
-  updateNkScrambleUI();
-}
-
-function updateNkScrambleUI() {
-  const slotsEl = document.getElementById("nkScrambleSlots");
-  const poolEl = document.getElementById("nkScramblePool");
-  const targetLen = Array.from(nkScrambleTarget.word).length;
-
-  slotsEl.innerHTML = "";
-  nkScramblePickedIndices.forEach((tileIdx, pos) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "nk-tile-btn in-slot";
-    b.textContent = nkScrambleTiles[tileIdx];
-    b.addEventListener("click", () => {
-      if (nkGameLocked) return;
-      nkScramblePickedIndices.splice(pos, 1);
-      updateNkScrambleUI();
-    });
-    slotsEl.appendChild(b);
-  });
-
-  poolEl.innerHTML = "";
-  nkScrambleTiles.forEach((ch, idx) => {
-    const isUsed = nkScramblePickedIndices.includes(idx);
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = `nk-tile-btn ${isUsed ? "used-tile" : ""}`;
-    b.textContent = ch;
-    b.addEventListener("click", () => {
-      if (nkGameLocked || isUsed || nkScramblePickedIndices.length >= targetLen) return;
-      nkScramblePickedIndices.push(idx);
-      updateNkScrambleUI();
-
-      if (nkScramblePickedIndices.length === targetLen) {
-        checkNkScrambleAnswer();
-      }
-    });
-    poolEl.appendChild(b);
-  });
-}
-
-function checkNkScrambleAnswer() {
-  nkGameLocked = true;
-  const formed = nkScramblePickedIndices.map(i => nkScrambleTiles[i]).join("");
-  const isCorrect = formed === nkScrambleTarget.word;
-
-  if (isCorrect) {
-    nkGameScore += 20;
-    nkGameCorrectCount++;
-    speak(nkScrambleTarget.word);
-    showNkFeedback(`Hebat! "${nkScrambleTarget.word}" (${nkScrambleTarget.romaji}) artinya ${nkScrambleTarget.meaning}. (+20 Poin)`, true);
-  } else {
-    showNkFeedback(`Susunan belum tepat. Jawaban yang benar: ${nkScrambleTarget.word} (${nkScrambleTarget.romaji}).`, false);
-  }
-
-  const pct = Math.round(((nkGameStep + 1) / nkGameTotalSteps) * 100);
-  updateNkTopHUD(`Kata ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-  setTimeout(() => {
-    nkGameStep++;
-    if (nkGameStep >= nkGameTotalSteps) {
-      finishNkGame(`Kamu berhasil menyusun ${nkGameCorrectCount} dari ${nkGameTotalSteps} kosakata dengan benar!`);
-    } else {
-      renderNkScrambleStep();
-    }
-  }, 1250);
-}
-
-/* --- GAME 5: CARI HURUF (FIND KANA) --- */
-let nkFindRemaining = 0;
-
-function initNkFindGame() {
-  nkGameTotalSteps = nkGameDiff === "easy" ? 5 : (nkGameDiff === "normal" ? 7 : 10);
-  nkGameQuestions = [];
-  for (let i = 0; i < nkGameTotalSteps; i++) {
-    nkGameQuestions.push(shuffle(nkGamePool)[0]);
-  }
-  renderNkFindRound();
-}
-
-function renderNkFindRound() {
-  nkGameLocked = false;
-  hideNkFeedback();
-
-  const target = nkGameQuestions[nkGameStep];
-  const totalCells = nkGameDiff === "easy" ? 12 : (nkGameDiff === "normal" ? 16 : 20);
-  const targetCount = nkGameDiff === "easy" ? 3 : 4;
-  nkFindRemaining = targetCount;
-
-  const pct = Math.round(((nkGameStep + 1) / nkGameTotalSteps) * 100);
-  updateNkTopHUD(`Ronde ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-  const others = nkGamePool.filter(c => c.character !== target.character);
-  const cellsData = [];
-  for (let i = 0; i < targetCount; i++) cellsData.push(target);
-  for (let i = targetCount; i < totalCells; i++) {
-    cellsData.push(shuffle(others)[0]);
-  }
-
-  const shuffledCells = shuffle(cellsData);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `
-    <div class="nk-find-header-box">
-      <div class="nk-find-target-Prompt">
-        <span>Cari semua huruf berbunyi:</span>
-        <strong class="nk-find-big-romaji">${target.romaji}</strong>
-      </div>
-      <span class="neo-badge bg-surface" id="nkFindCounterBadge">Tersisa: ${nkFindRemaining}</span>
-    </div>
-    <div class="nk-find-grid" id="nkFindGrid"></div>
-  `;
-
-  const grid = document.getElementById("nkFindGrid");
-  shuffledCells.forEach(item => {
-    const cell = document.createElement("button");
-    cell.type = "button";
-    cell.className = "nk-find-cell";
-    cell.textContent = item.character;
-
-    cell.addEventListener("click", () => {
-      if (nkGameLocked || cell.disabled) return;
-
-      if (item.character === target.character) {
-        cell.disabled = true;
-        cell.classList.add("found-ok");
-        nkFindRemaining--;
-        nkGameScore += 10;
-        speak(target.character);
-
-        document.getElementById("nkFindCounterBadge").textContent = `Tersisa: ${nkFindRemaining}`;
-        document.getElementById("nkGameScoreBadge").textContent = `Skor: ${nkGameScore}`;
-
-        if (nkFindRemaining <= 0) {
-          nkGameLocked = true;
-          nkGameCorrectCount++;
-          showNkFeedback(`Mantap! Semua huruf "${target.character}" (${target.romaji}) sudah ditemukan!`, true);
-          setTimeout(() => {
-            nkGameStep++;
-            if (nkGameStep >= nkGameTotalSteps) {
-              finishNkGame(`Kamu menyelesaikan seluruh ${nkGameTotalSteps} ronde pencarian huruf!`);
-            } else {
-              renderNkFindRound();
-            }
-          }, 900);
-        }
-      } else {
-        cell.disabled = true;
-        cell.classList.add("found-err");
-        nkGameScore = Math.max(0, nkGameScore - 5);
-        document.getElementById("nkGameScoreBadge").textContent = `Skor: ${nkGameScore}`;
-        showNkFeedback(`Itu huruf ${item.character} (${item.romaji}). Cari huruf yang dibaca "${target.romaji}"! (-5 Poin)`, false);
-      }
-    });
-
-    grid.appendChild(cell);
-  });
-}
-
-/* --- GAME 6: TEBAK SUARA (AUDIO LISTENING) --- */
-function initNkSoundGame() {
-  nkGameTotalSteps = nkGameDiff === "easy" ? 8 : (nkGameDiff === "normal" ? 10 : 14);
-  nkGameQuestions = [];
-  for (let i = 0; i < nkGameTotalSteps; i++) {
-    nkGameQuestions.push(shuffle(nkGamePool)[0]);
-  }
-  renderNkSoundStep();
-}
-
-function renderNkSoundStep() {
-  nkGameLocked = false;
-  hideNkFeedback();
-
-  const target = nkGameQuestions[nkGameStep];
-  const pct = Math.round(((nkGameStep + 1) / nkGameTotalSteps) * 100);
-  updateNkTopHUD(`Suara ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-  const distractors = shuffle(nkGamePool.filter(c => c.romaji !== target.romaji && c.character !== target.character))
-    .filter((v, idx, arr) => arr.findIndex(x => x.character === v.character) === idx)
-    .slice(0, 3);
-  const options = shuffle([target, ...distractors]);
-
-  const board = document.getElementById("nkGameBoard");
-  board.innerHTML = `
-    <div class="quiz-split-layout">
-      <div class="quiz-left-panel">
-        <div class="quiz-mode-pill">🔊 Dengarkan Suara &amp; Pilih Hurufnya</div>
-        <div class="quiz-options-grid-2x2" id="nkSoundOptions"></div>
-      </div>
-      <div class="quiz-right-panel">
-        <button type="button" class="nk-sound-hero-btn" id="nkPlayPromptSoundBtn">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-          <span>Putar Suara</span>
-        </button>
-      </div>
-    </div>
-  `;
-
-  const soundBtn = document.getElementById("nkPlayPromptSoundBtn");
-  soundBtn.addEventListener("click", () => speak(target.character, soundBtn));
-
-  // Putar otomatis saat soal muncul
-  setTimeout(() => speak(target.character, soundBtn), 150);
-
-  const optWrap = document.getElementById("nkSoundOptions");
-  options.forEach(opt => {
-    const btn = document.createElement("div");
-    btn.className = "quiz-radio-option";
-    btn.textContent = opt.character;
-
-    btn.addEventListener("click", () => {
-      if (nkGameLocked) return;
-      nkGameLocked = true;
-
-      const isOk = opt.character === target.character;
-      optWrap.querySelectorAll(".quiz-radio-option").forEach(el => {
-        el.classList.add("disabled");
-        if (el.textContent === target.character) el.classList.add("correct");
-      });
-
-      if (isOk) {
-        nkGameScore += 15;
-        nkGameCorrectCount++;
-        btn.classList.add("correct");
-        speak(target.character);
-        showNkFeedback(`Tepat sekali! Suara tadi adalah "${target.character}" (${target.romaji}). (+15 Poin)`, true);
-      } else {
-        btn.classList.add("wrong");
-        showNkFeedback(`Salah pilih! Suara tadi adalah "${target.character}" (${target.romaji}).`, false);
-      }
-
-      updateNkTopHUD(`Suara ${nkGameStep + 1} / ${nkGameTotalSteps}`, pct);
-
-      setTimeout(() => {
-        nkGameStep++;
-        if (nkGameStep >= nkGameTotalSteps) {
-          const acc = Math.round((nkGameCorrectCount / nkGameTotalSteps) * 100);
-          finishNkGame(`Pendengaranmu menjawab benar ${nkGameCorrectCount} dari ${nkGameTotalSteps} soal (${acc}%)!`);
-        } else {
-          renderNkSoundStep();
-        }
-      }, 950);
-    });
-
-    optWrap.appendChild(btn);
-  });
-}
-
-/* --- EVENT LISTENERS KONTROL GAME --- */
-document.querySelectorAll("#nkGameScriptToggle .tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll("#nkGameScriptToggle .tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    nkGameScript = btn.dataset.script;
-  });
-});
-
-document.querySelectorAll("#nkGameDiffToggle .tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll("#nkGameDiffToggle .tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    nkGameDiff = btn.dataset.diff;
-  });
-});
-
-document.querySelectorAll("[data-start-game]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    startNkGame(btn.dataset.startGame);
-  });
-});
-
-document.getElementById("nkGameBackLobbyBtn").addEventListener("click", openNkGameLobby);
-document.getElementById("nkGameRestartNowBtn").addEventListener("click", () => {
-  if (nkActiveGameType) startNkGame(nkActiveGameType);
-});
-document.getElementById("nkResultRetryBtn").addEventListener("click", () => {
-  if (nkActiveGameType) startNkGame(nkActiveGameType);
-});
-document.getElementById("nkResultLobbyBtn").addEventListener("click", openNkGameLobby);
-
 /* ===================== INISIALISASI ===================== */
 async function init() {
   await loadData();
-  updateNkLobbyBestBadges();
   showView("home");
 }
 

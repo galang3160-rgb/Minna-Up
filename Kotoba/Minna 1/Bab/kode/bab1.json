@@ -15,5 +15,7 @@
   { "furigana": "～さい", "arti": "Umur" },
   { "furigana": "はい", "arti": "Ya" },
   { "furigana": "いいえ", "arti": "Tidak" },
-  { "furigana": "はじめまして", "arti": "Salam kenal" }
+  { "furigana": "はじめまして", "arti": "Perkenalkan" },
+  { "furigana": "なまえ", "arti": "Nama" },
+  { "furigana": "よろしく", "arti": "Salam kenal" }
 ]
