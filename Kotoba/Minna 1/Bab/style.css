@@ -37,6 +37,7 @@
   --radius-sm: 12px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 *, *::before, *::after {
@@ -70,6 +71,12 @@ body.learning-body {
 .furigana-font {
   font-family: 'Zen Maru Gothic', sans-serif !important;
 }
+
+.bg-matcha   { background-color: var(--c-matcha) !important; }
+.bg-sky      { background-color: var(--c-sky) !important; }
+.bg-amber    { background-color: var(--c-amber) !important; }
+.bg-lavender { background-color: var(--c-lavender) !important; }
+.bg-surface  { background-color: var(--surface) !important; }
 
 /* =========================================================================
    AMBIENT ORB, CLICK SPARKS & MOUSE TRAIL
@@ -328,7 +335,7 @@ body.learning-body {
 }
 
 /* =========================================================================
-   MAIN STAGE
+   MAIN STAGE & CONTROL PILLS
    ========================================================================= */
 .main-stage {
   flex: 1;
@@ -368,6 +375,52 @@ body.learning-body {
   text-align: center;
 }
 
+/* Tombol Pill Kontrol Atas Kartu & Checklist */
+.top-card-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 10;
+}
+
+.ctrl-pill {
+  height: 36px;
+  padding: 0 13px;
+  border-radius: 12px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease);
+}
+.ctrl-pill:hover {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.ctrl-pill:active {
+  transform: translate(2.5px, 2.5px);
+  box-shadow: none;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green-light);
+  border: 1.5px solid var(--ink);
+}
+.status-dot.is-off {
+  background: #EF4444;
+}
+
 /* =========================================================================
    1. FLASHCARD DENGAN EFEK TUMPUKAN KERTAS (LAYERED DECK)
    ========================================================================= */
@@ -377,13 +430,13 @@ body.learning-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
 .carousel-container {
   position: relative;
   width: 100%;
-  height: clamp(270px, 46vh, 380px);
+  height: clamp(250px, 43vh, 360px);
   perspective: 1400px;
   touch-action: pan-y;
 }
@@ -436,7 +489,7 @@ body.learning-body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 28px;
+  padding: 20px 26px;
   text-align: center;
 }
 
@@ -498,22 +551,60 @@ body.learning-body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   width: 100%;
 }
 
 .c-arti {
-  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-size: clamp(1.85rem, 4.2vw, 3rem);
   font-weight: 800;
   color: var(--ink);
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
-.c-furigana {
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
+.c-kanji,
+.c-kana-only {
+  font-size: clamp(2.6rem, 6.2vw, 4.3rem);
   font-weight: 900;
   color: var(--ink);
+  line-height: 1.12;
+  transition: all 0.2s var(--ease);
+}
+
+.c-furigana-pill {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 4px 16px;
+  border-radius: 99px;
+  transition: all 0.22s var(--ease-spring);
+}
+
+.c-arti-sub {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+/* LOGIKA KANJI OFF & FURIGANA OFF PADA KARTU BER-KANJI */
+.kanji-off .has-kanji .c-kanji {
+  display: none;
+}
+.kanji-off .has-kanji .c-furigana-pill {
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem);
   line-height: 1.15;
+  padding: 8px 22px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.furi-off .has-kanji .c-furigana-pill {
+  display: none;
 }
 
 .face-bottom-hint {
@@ -585,6 +676,149 @@ body.learning-body {
 }
 
 /* =========================================================================
+   2. MODE PILIH KATA (CHECKLIST BERSIH + FILTER KANJI / KANA)
+   ========================================================================= */
+.checklist-card {
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  padding: 18px 20px;
+  width: 100%;
+  max-width: 760px;
+  height: clamp(290px, 64dvh, 470px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.checklist-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: var(--border);
+}
+
+.checklist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checklist-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  gap: 10px;
+  align-content: start;
+  padding: 2px;
+}
+
+.check-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 15px;
+  border: var(--border);
+  background: var(--surface-alt);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.14s var(--ease), background-color 0.18s var(--ease), box-shadow 0.14s var(--ease);
+}
+.check-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.check-tile:active {
+  transform: scale(0.97);
+}
+.check-tile.is-checked {
+  background: var(--c-matcha);
+}
+
+.anim-check-box {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: var(--border);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--ease-spring), background-color 0.15s var(--ease);
+}
+.check-tile.is-checked .anim-check-box {
+  background: var(--green-light);
+  transform: scale(1.08);
+}
+.anim-check-box svg {
+  width: 16px;
+  height: 16px;
+  stroke: #141413;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.24s var(--ease-spring);
+}
+.check-tile.is-checked .anim-check-box svg {
+  stroke-dashoffset: 0;
+}
+
+.tile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+.tile-jp {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tile-kanji {
+  font-size: 1.12rem;
+  font-weight: 900;
+}
+.tile-furi {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--dim);
+}
+.tile-type-badge {
+  margin-left: auto;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 99px;
+  border: 1.5px solid var(--ink);
+}
+.tile-type-badge.is-kanji {
+  background: var(--c-amber);
+}
+.tile-type-badge.is-kana {
+  background: var(--c-sky);
+}
+.tile-arti {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================================
    STATUS BAR KUIS
    ========================================================================= */
 .quiz-status-bar {
@@ -641,7 +875,7 @@ body.learning-body {
 }
 
 /* =========================================================================
-   2. QUIZ PILIHAN GANDA (RESPONSIVE SPLIT-VIEW)
+   3. QUIZ PILIHAN GANDA (RESPONSIVE SPLIT-VIEW)
    ========================================================================= */
 .mc-view-container {
   width: 100%;
@@ -705,7 +939,7 @@ body.learning-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   word-break: break-word;
 }
 .vocab-question-badge {
@@ -723,6 +957,15 @@ body.learning-body {
   font-weight: 900;
   color: var(--ink);
   line-height: 1.15;
+}
+.vocab-sub-furi {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: 1.5px solid var(--ink);
+  padding: 2px 12px;
+  border-radius: 99px;
 }
 
 /* Kolom Kanan: Pilihan Jawaban */
@@ -815,7 +1058,7 @@ body.learning-body {
 }
 
 /* =========================================================================
-   3. QUIZ MENGETIK
+   4. QUIZ MENGETIK
    ========================================================================= */
 .typing-view-container {
   width: 100%;
@@ -843,7 +1086,7 @@ body.learning-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-align: center;
 }
 .typing-speak {
@@ -1007,14 +1250,14 @@ body.learning-body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
+  padding: 8px 16px;
   border-radius: 11px;
   background: transparent;
   border: 1.5px solid transparent;
   color: var(--dim);
   font-family: inherit;
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   cursor: pointer;
   transition: all 0.14s var(--ease);
 }
@@ -1168,10 +1411,18 @@ body.learning-body {
 
   /* Flashcard di HP */
   .flashcard-deck-wrap {
-    gap: 14px;
+    gap: 10px;
+  }
+  .top-card-controls {
+    gap: 6px;
+  }
+  .ctrl-pill {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 0.72rem;
   }
   .carousel-container {
-    height: clamp(230px, 42dvh, 310px);
+    height: clamp(210px, 39dvh, 295px);
   }
   .carousel-container::before {
     transform: translate(5px, 5px) rotate(1deg);
@@ -1180,7 +1431,7 @@ body.learning-body {
     padding: 16px 20px;
   }
 
-  /* Pilihan Ganda di HP: Muat Tanpa Scroll Panjang */
+  /* Pilihan Ganda di HP */
   .mc-split-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -1240,8 +1491,9 @@ body.learning-body {
   .dock-item {
     flex: 1;
     justify-content: center;
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    padding: 8px 6px;
+    font-size: 0.74rem;
+    gap: 4px;
   }
 
   .mc-bottom-bar,
