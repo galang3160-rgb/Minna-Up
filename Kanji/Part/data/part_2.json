@@ -1,77 +1,108 @@
 {
+  "part": 2,
   "flashcards": [
     {
-      "kanji": "千",
-      "furigana": "せん",
-      "arti": "Seribu"
+      "kanji": "分",
+      "furigana": "ふん / ぷん",
+      "arti": "Menit / Bagian"
     },
     {
-      "kanji": "百",
-      "furigana": "ひゃく",
-      "arti": "Seratus"
+      "kanji": "年",
+      "furigana": "ねん",
+      "arti": "Tahun"
     },
     {
-      "kanji": "万",
-      "furigana": "まん",
-      "arti": "Sepuluh ribu"
+      "kanji": "月",
+      "furigana": "がつ / げつ",
+      "arti": "Bulan"
     },
     {
       "kanji": "日",
-      "furigana": "ひ",
-      "arti": "Hari / Matahari"
+      "furigana": "にち / じつ",
+      "arti": "Matahari / Hari"
     },
     {
-      "kanji": "火",
-      "furigana": "ひ",
-      "arti": "Api"
+      "kanji": "週",
+      "furigana": "しゅう",
+      "arti": "Minggu"
     },
     {
-      "kanji": "水",
-      "furigana": "みず",
-      "arti": "Air"
+      "kanji": "間",
+      "furigana": "かん / あいだ",
+      "arti": "Antara / Jarak waktu"
     },
     {
-      "kanji": "木",
-      "furigana": "き",
-      "arti": "Pohon / Kayu"
+      "kanji": "今",
+      "furigana": "いま",
+      "arti": "Sekarang"
     },
     {
-      "kanji": "金",
-      "furigana": "かね",
-      "arti": "Uang / Emas"
+      "kanji": "半",
+      "furigana": "はん",
+      "arti": "Setengah"
     },
     {
-      "kanji": "土",
-      "furigana": "つち",
-      "arti": "Tanah"
+      "kanji": "先",
+      "furigana": "せん",
+      "arti": "Sebelumnya / Depan"
+    },
+    {
+      "kanji": "後",
+      "furigana": "あと / ご",
+      "arti": "Belakang / Setelah"
+    },
+    {
+      "kanji": "前",
+      "furigana": "まえ",
+      "arti": "Depan / Sebelumnya"
+    },
+    {
+      "kanji": "午",
+      "furigana": "ご",
+      "arti": "Tengah hari"
+    },
+    {
+      "kanji": "毎",
+      "furigana": "まい",
+      "arti": "Setiap"
+    },
+    {
+      "kanji": "何",
+      "furigana": "なに / なん",
+      "arti": "Apa"
+    },
+    {
+      "kanji": "週末",
+      "furigana": "しゅうまつ",
+      "arti": "Akhir pekan"
     }
   ],
   "dokkai": {
-    "title": "せん、ひゃく、まんと ようびのれんしゅう (Latihan Angka dan Hari)",
+    "title": "Part 2 no renshu",
     "items": [
       {
-        "japanese": "千円の かねが あります。",
-        "indonesian": "Ada uang seribu yen."
+        "japanese": "いまは、午前 の じゅうじ 半 です。",
+        "indonesian": "Sekarang pukul setengah 10 pagi."
       },
       {
-        "japanese": "百円の みずを かいました。",
-        "indonesian": "Saya membeli air seharga seratus yen."
+        "japanese": "まい週 の 月 から 金 の 間 、日 が あります。",
+        "indonesian": "Setiap minggu dari hari Senin sampai Jumat, ada hari."
       },
       {
-        "japanese": "一万円の かねが あります。",
-        "indonesian": "Ada uang sepuluh ribu yen."
+        "japanese": "ごふん の 後 に 、何 を しますか。",
+        "indonesian": "Setelah 5 menit, apa yang akan dilakukan?"
       },
       {
-        "japanese": "日よう日に みずを のみます。",
-        "indonesian": "Pada hari Minggu saya minum air."
+        "japanese": "せん週 の 日 に 、今 の 年 を みました。",
+        "indonesian": "Pada hari di minggu lalu, saya melihat tahun sekarang."
       },
       {
-        "japanese": "火を つかいます。木も つかいます。",
-        "indonesian": "Saya menggunakan api. Saya juga menggunakan kayu."
+        "japanese": "前 の 月 に 、いつか の 間 やすみました。",
+        "indonesian": "Pada bulan sebelumnya, saya beristirahat selama 5 hari."
       },
       {
-        "japanese": "水と 土が あります。木も あります。",
-        "indonesian": "Ada air dan tanah. Ada juga pohon."
+        "japanese": "週末 に 、何 を つくりますか。",
+        "indonesian": "Apa yang akan kamu buat di akhir pekan?"
       }
     ]
   }

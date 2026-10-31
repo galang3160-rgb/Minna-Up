@@ -1,0 +1,109 @@
+{
+  "part": 10,
+  "flashcards": [
+    {
+      "kanji": "行",
+      "furigana": "いく / こう",
+      "arti": "Pergi"
+    },
+    {
+      "kanji": "来",
+      "furigana": "くる / らい",
+      "arti": "Datang"
+    },
+    {
+      "kanji": "帰",
+      "furigana": "かえる / き",
+      "arti": "Pulang"
+    },
+    {
+      "kanji": "入",
+      "furigana": "はいる / にゅう",
+      "arti": "Masuk"
+    },
+    {
+      "kanji": "出",
+      "furigana": "でる / しゅつ",
+      "arti": "Keluar"
+    },
+    {
+      "kanji": "立",
+      "furigana": "たつ / りつ",
+      "arti": "Berdiri"
+    },
+    {
+      "kanji": "座",
+      "furigana": "すわる / ざ",
+      "arti": "Duduk"
+    },
+    {
+      "kanji": "走",
+      "furigana": "はしる / そう",
+      "arti": "Berlari"
+    },
+    {
+      "kanji": "歩",
+      "furigana": "あるく / ほ",
+      "arti": "Berjalan"
+    },
+    {
+      "kanji": "泳",
+      "furigana": "およぐ / えい",
+      "arti": "Berenang"
+    },
+    {
+      "kanji": "飛",
+      "furigana": "とぶ / ひ",
+      "arti": "Terbang"
+    },
+    {
+      "kanji": "止",
+      "furigana": "とまる / し",
+      "arti": "Berhenti"
+    },
+    {
+      "kanji": "動",
+      "furigana": "うおる / どう",
+      "arti": "Bergerak"
+    },
+    {
+      "kanji": "転",
+      "furigana": "ころがる / てん",
+      "arti": "Berguling / Berputar"
+    },
+    {
+      "kanji": "働",
+      "furigana": "はたらく / どう",
+      "arti": "Bekerja"
+    }
+  ],
+  "dokkai": {
+    "title": "Part 10 no renshu",
+    "items": [
+      {
+        "japanese": "えきへ 行 とき、車 が 来 ました。",
+        "indonesian": "Saat pergi ke stasiun, mobil datang."
+      },
+      {
+        "japanese": "家へ 帰 、部屋に 入 と 出 を します。",
+        "indonesian": "Pulang ke rumah, melakukan masuk dan keluar kamar."
+      },
+      {
+        "japanese": "ここに 立 と 座 を します。",
+        "indonesian": "Berdiri dan duduk di sini."
+      },
+      {
+        "japanese": "道を通るとき、走 と 歩 をします。海で 泳 ぎます。",
+        "indonesian": "Saat melewati jalan, berlari dan berjalan. Berenang di laut."
+      },
+      {
+        "japanese": "そらで 鳥が 飛 びます。車が 止 まります。",
+        "indonesian": "Burung terbang di langit. Mobil berhenti."
+      },
+      {
+        "japanese": "会社で 働 とき、よく 動 きます。",
+        "indonesian": "Saat bekerja di perusahaan, sering bergerak."
+      }
+    ]
+  }
+}

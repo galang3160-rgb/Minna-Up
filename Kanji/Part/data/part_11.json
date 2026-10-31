@@ -1,0 +1,109 @@
+{
+  "part": 11,
+  "flashcards": [
+    {
+      "kanji": "休",
+      "furigana": "やすむ / きゅう",
+      "arti": "Istirahat"
+    },
+    {
+      "kanji": "始",
+      "furigana": "はじまる / し",
+      "arti": "Dimulai"
+    },
+    {
+      "kanji": "終",
+      "furigana": "おわる / しゅう",
+      "arti": "Selesai / Berakhir"
+    },
+    {
+      "kanji": "起",
+      "furigana": "おきる / き",
+      "arti": "Bangun tidur"
+    },
+    {
+      "kanji": "寝",
+      "furigana": "ねる / しん",
+      "arti": "Tidur"
+    },
+    {
+      "kanji": "食",
+      "furigana": "たべる / しょく",
+      "arti": "Makan"
+    },
+    {
+      "kanji": "飲",
+      "furigana": "のむ / いん",
+      "arti": "Minum"
+    },
+    {
+      "kanji": "見",
+      "furigana": "みる / けん",
+      "arti": "Melihat"
+    },
+    {
+      "kanji": "聞",
+      "furigana": "きく / ぶん",
+      "arti": "Mendengar"
+    },
+    {
+      "kanji": "話",
+      "furigana": "はなし / わ",
+      "arti": "Berbicara / Pembicaraan"
+    },
+    {
+      "kanji": "読",
+      "furigana": "よむ / どく",
+      "arti": "Membaca"
+    },
+    {
+      "kanji": "書",
+      "furigana": "かく / しょ",
+      "arti": "Menulis"
+    },
+    {
+      "kanji": "言",
+      "furigana": "いう / げん",
+      "arti": "Kata / Mengucapkan"
+    },
+    {
+      "kanji": "語",
+      "furigana": "かたる / ご",
+      "arti": "Berbicara / Bahasa"
+    },
+    {
+      "kanji": "答",
+      "furigana": "こたえる / とう",
+      "arti": "Menjawab"
+    }
+  ],
+  "dokkai": {
+    "title": "Part 11 no renshu",
+    "items": [
+      {
+        "japanese": "朝早く 起 とき、夜遅く 寝 ます。日曜日によく 休 みます。",
+        "indonesian": "Saat bangun pagi-pagi sekali, tidur larut malam. Sering beristirahat pada hari Minggu."
+      },
+      {
+        "japanese": "じゅぎょうが 始 ときから、終 まで みます。",
+        "indonesian": "Melihat dari saat pelajaran dimulai sampai selesai."
+      },
+      {
+        "japanese": "食堂で ごはんを 食 と 水を 飲 ります。",
+        "indonesian": "Makan nasi dan minum air di ruang makan."
+      },
+      {
+        "japanese": "テレビを 見 て、ラジオを 聞 きます。",
+        "indonesian": "Menonton TV dan mendengarkan radio."
+      },
+      {
+        "japanese": "ともだちと 話 をして、本を 読 と 書 をします。",
+        "indonesian": "Berbicara dengan teman, lalu membaca dan menulis buku."
+      },
+      {
+        "japanese": "先生が 言 とき、日本語で 答 えます。",
+        "indonesian": "Saat guru berkata, menjawab dalam bahasa Jepang."
+      }
+    ]
+  }
+}

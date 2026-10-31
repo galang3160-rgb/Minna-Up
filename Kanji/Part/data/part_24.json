@@ -1,0 +1,49 @@
+{
+  "part": 24,
+  "flashcards": [
+    { "kanji": "時間", "furigana": "じかん", "arti": "Waktu" },
+    { "kanji": "遅刻", "furigana": "ちこく", "arti": "Terlambat" },
+    { "kanji": "欠席", "furigana": "けっせき", "arti": "Tidak hadir / Absen" },
+    { "kanji": "出勤", "furigana": "しゅっきん", "arti": "Masuk kerja / Ke kantor" },
+    { "kanji": "退勤", "furigana": "たいきん", "arti": "Pulang kerja" },
+    { "kanji": "残業", "furigana": "ざんぎょう", "arti": "Lembur" },
+    { "kanji": "休憩", "furigana": "きゅうけい", "arti": "Istirahat" },
+    { "kanji": "給料", "furigana": "きゅうりょう", "arti": "Gaji" },
+    { "kanji": "手当", "furigana": "てあて", "arti": "Tunjangan" },
+    { "kanji": "貯金", "furigana": "ちょきん", "arti": "Menabung" },
+    { "kanji": "生活", "furigana": "せいかつ", "arti": "Kehidupan sehari-hari" },
+    { "kanji": "健康", "furigana": "けんこう", "arti": "Kesehatan" },
+    { "kanji": "病気", "furigana": "びょうき", "arti": "Penyakit / Sakit" },
+    { "kanji": "怪我", "furigana": "けが", "arti": "Luka / Cedera" },
+    { "kanji": "薬", "furigana": "くすり", "arti": "Obat" }
+  ],
+  "dokkai": {
+    "title": "Part 24 no renshu",
+    "items": [
+      {
+        "japanese": "たいせつな 時間 です。遅刻 や 欠席 を しません。",
+        "indonesian": "Waktu yang penting. Tidak melakukan keterlambatan ataupun ketidakhadiran."
+      },
+      {
+        "japanese": "まいにち 朝早く 出勤 をして、夜に 退勤 を します。",
+        "indonesian": "Setiap hari pergi masuk kerja pagi-pagi, dan pulang kerja pada malam hari."
+      },
+      {
+        "japanese": "しごとが おおきいとき、残業 を します。ひるに 休憩 を とります。",
+        "indonesian": "Saat pekerjaan banyak, melakukan lembur. Beristirahat pada siang hari."
+      },
+      {
+        "japanese": "たいせつな 給料 と 手当 を もらって、少し 貯金 を します。",
+        "indonesian": "Menerima gaji dan tunjangan yang penting, lalu sedikit menabung."
+      },
+      {
+        "japanese": "毎日の 生活 で 健康 に 気 を つけます。",
+        "indonesian": "Menjaga kesehatan dalam kehidupan sehari-hari."
+      },
+      {
+        "japanese": "病気 や 怪我 を したとき、病院 で 薬 を もらいます。",
+        "indonesian": "Ketika sakit atau terluka, mendapatkan obat di rumah sakit."
+      }
+    ]
+  }
+}

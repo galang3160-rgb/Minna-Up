@@ -1,0 +1,49 @@
+{
+  "part": 14,
+  "flashcards": [
+    { "kanji": "降", "furigana": "おりる / ふる / こう", "arti": "Turun (hujan/kendaraan)" },
+    { "kanji": "引", "furigana": "ひく / いん", "arti": "Menarik" },
+    { "kanji": "押", "furigana": "おす / おう", "arti": "Mendorong" },
+    { "kanji": "曲", "furigana": "まがる / きょく", "arti": "Berbelok / Bengkok" },
+    { "kanji": "折", "furigana": "おる / せつ", "arti": "Patah / Melipat" },
+    { "kanji": "集", "furigana": "あつめる / しゅう", "arti": "Mengumpulkan" },
+    { "kanji": "決", "furigana": "きめる / けつ", "arti": "Memutuskan" },
+    { "kanji": "始", "furigana": "はじめる / し", "arti": "Memulai" },
+    { "kanji": "終", "furigana": "おわる / しゅう", "arti": "Menyelesaikan" },
+    { "kanji": "続", "furigana": "つづく / ぞく", "arti": "Melanjutkan" },
+    { "kanji": "変", "furigana": "かわる / かえる / へん", "arti": "Berubah / Mengubah" },
+    { "kanji": "困", "furigana": "こまる / こん", "arti": "Kesulitan / Bingung" },
+    { "kanji": "違", "furigana": "ちがう / い", "arti": "Berbeda" },
+    { "kanji": "間", "furigana": "ま / かん", "arti": "Antara / Jarak waktu" },
+    { "kanji": "答", "furigana": "こたえ / とう", "arti": "Jawaban"}
+  ],
+  "dokkai": {
+    "title": "Part 14 no renshu",
+    "items": [
+      {
+        "japanese": "あめが 降 って、バスを 降 ります。",
+        "indonesian": "Hujan turun, dan turun dari bus."
+      },
+      {
+        "japanese": "ドアを 引 いて、おします。かどを 曲 がります。",
+        "indonesian": "Menarik dan mendorong pintu. Berbelok di sudut jalan."
+      },
+      {
+        "japanese": "かみを 折 って、ともだちを 集 めます。",
+        "indonesian": "Melipat kertas dan mengumpulkan teman-teman."
+      },
+      {
+        "japanese": "しごとを 決 めて、始 めて、終 えて、続 けます。",
+        "indonesian": "Memutuskan pekerjaan, memulai, menyelesaikannya, dan melanjutkannya."
+      },
+      {
+        "japanese": "きもちを 変 えて、こまります。",
+        "indonesian": "Mengubah perasaan dan merasa kesulitan."
+      },
+      {
+        "japanese": "こたえが 違 って、間 の 時間を かんがえます。",
+        "indonesian": "Jawabannya berbeda, lalu memikirkan waktu di antaranya."
+      }
+    ]
+  }
+}

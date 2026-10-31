@@ -1,0 +1,49 @@
+{
+  "part": 18,
+  "flashcards": [
+    { "kanji": "文", "furigana": "ぶん", "arti": "Kalimat / Sastra" },
+    { "kanji": "話", "furigana": "はなし", "arti": "Cerita / Pembicaraan" },
+    { "kanji": "答", "furigana": "こたえ", "arti": "Jawaban" },
+    { "kanji": "用", "furigana": "よう", "arti": "Urusan / Kegunaan" },
+    { "kanji": "事", "furigana": "こと", "arti": "Hal / Perkara" },
+    { "kanji": "物", "furigana": "もの", "arti": "Barang / Benda" },
+    { "kanji": "者", "furigana": "もの", "arti": "Orang (konteks profesi)" },
+    { "kanji": "度", "furigana": "ど", "arti": "Derajat / Kali" },
+    { "kanji": "回", "furigana": "かい", "arti": "Putaran / Frekuensi (kali)" },
+    { "kanji": "番", "furigana": "ばん", "arti": "Nomor / Giliran" },
+    { "kanji": "号", "furigana": "ごう", "arti": "Nomor / Tanda" },
+    { "kanji": "点", "furigana": "てん", "arti": "Poin / Nilai" },
+    { "kanji": "交通", "furigana": "こうつう", "arti": "Lalu lintas" },
+    { "kanji": "事故", "furigana": "じこ", "arti": "Kecelakaan" },
+    { "kanji": "計画", "furigana": "けいかく", "arti": "Rencana" }
+  ],
+  "dokkai": {
+    "title": "Part 18 no renshu",
+    "items": [
+      {
+        "japanese": "文 を よんで、話 を ききます。正しい 答 を かきます。",
+        "indonesian": "Membaca kalimat dan mendengarkan cerita. Menulis jawaban yang benar."
+      },
+      {
+        "japanese": "たいせつな 用 が あります。いろんな 事 や 物 が あります。",
+        "indonesian": "Ada urusan yang penting. Ada berbagai hal dan benda."
+      },
+      {
+        "japanese": "あの 者 は 一度 に 二回 いきます。",
+        "indonesian": "Orang itu pergi dua kali sekaligus."
+      },
+      {
+        "japanese": "一番 の 号 の 点 を みます。",
+        "indonesian": "Melihat poin nomor satu."
+      },
+      {
+        "japanese": "交通 が おおくて、事故 に 気 を つけます。",
+        "indonesian": "Lalu lintasnya padat, berhati-hatilah terhadap kecelakaan."
+      },
+      {
+        "japanese": "らいしゅうの 計画 を たてます。",
+        "indonesian": "Membuat rencana untuk minggu depan."
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "part": 13,
+  "flashcards": [
+    { "kanji": "洗", "furigana": "あらう / せん", "arti": "Mencuci" },
+    { "kanji": "掃除", "furigana": "そうじ", "arti": "Membersihkan" },
+    { "kanji": "習", "furigana": "ならう / しゅう", "arti": "Belajar / Mempelajari" },
+    { "kanji": "勉", "furigana": "つとめる / べん", "arti": "Berusaha / Belajar" },
+    { "kanji": "試", "furigana": "ためす / し", "arti": "Mencoba / Ujian" },
+    { "kanji": "験", "furigana": "けん", "arti": "Ujian / Efek" },
+    { "kanji": "問", "furigana": "とう / もん", "arti": "Pertanyaan / Soal" },
+    { "kanji": "題", "furigana": "だい", "arti": "Topik / Soal" },
+    { "kanji": "知", "furigana": "しる / ち", "arti": "Mengetahui / Kenal" },
+    { "kanji": "重", "furigana": "かさねる / じゅう", "arti": "Menumpuk / Berat" },
+    { "kanji": "迎", "furigana": "むかえる / げい", "arti": "Menjemput" },
+    { "kanji": "送", "furigana": "おくる / そう", "arti": "Mengirim / Mengantar" },
+    { "kanji": "運", "furigana": "はこぶ / うん", "arti": "Membawa / Takdir" },
+    { "kanji": "転", "furigana": "ころがる / てん", "arti": "Berputar / Pindah" },
+    { "kanji": "乗", "furigana": "のる / じょう", "arti": "Naik (kendaraan)" }
+  ],
+  "dokkai": {
+    "title": "Part 13 no renshu",
+    "items": [
+      {
+        "japanese": "ふくを 洗 って、へやを 掃除 します。",
+        "indonesian": "Mencuci pakaian dan membersihkan kamar."
+      },
+      {
+        "japanese": "にほんごを 習 って、がっこうで 勉 強いを します。",
+        "indonesian": "Belajar bahasa Jepang dan giat belajar di sekolah."
+      },
+      {
+        "japanese": "テストを 試 して、しけんの 問 と 題 を よみます。",
+        "indonesian": "Mencoba tes dan membaca pertanyaan serta soal ujian."
+      },
+      {
+        "japanese": "その ことに 知 って、ものを 重 ねます。",
+        "indonesian": "Mengetahui hal tersebut dan menumpuk barang."
+      },
+      {
+        "japanese": "えきで ともだちを 迎 えて、にも心を 送 ります。",
+        "indonesian": "Menjemput teman di stasiun dan mengirim barang bawaan."
+      },
+      {
+        "japanese": "くるまを 運 んで、じてんしゃを 転 がして、くるまに 乗 ります。",
+        "indonesian": "Mengangkut mobil, menggulingkan sepeda, dan naik mobil."
+      }
+    ]
+  }
+}

@@ -1,92 +1,108 @@
 {
+  "part": 7,
   "flashcards": [
     {
-      "kanji": "長",
-      "furigana": "ながい",
-      "arti": "Panjang"
+      "kanji": "大",
+      "furigana": "おお / だい",
+      "arti": "Besar"
+    },
+    {
+      "kanji": "小",
+      "furigana": "こ / しょう",
+      "arti": "Kecil"
     },
     {
       "kanji": "高",
-      "furigana": "たかい",
+      "furigana": "たか / こう",
       "arti": "Tinggi / Mahal"
     },
     {
-      "kanji": "円",
-      "furigana": "えん",
-      "arti": "Yen / Lingkaran"
+      "kanji": "安",
+      "furigana": "やす / あん",
+      "arti": "Murah / Damai"
     },
     {
-      "kanji": "北",
-      "furigana": "きた",
-      "arti": "Utara"
+      "kanji": "新",
+      "furigana": "あたらしい / しん",
+      "arti": "Baru"
     },
     {
-      "kanji": "南",
-      "furigana": "みなみ",
-      "arti": "Selatan"
+      "kanji": "古",
+      "furigana": "ふるい / こ",
+      "arti": "Lama / Tua"
     },
     {
-      "kanji": "東",
-      "furigana": "ひがし",
-      "arti": "Timur"
+      "kanji": "多",
+      "furigana": "おおい / た",
+      "arti": "Banyak"
     },
     {
-      "kanji": "食",
-      "furigana": "たべる",
-      "arti": "Makan"
+      "kanji": "少",
+      "furigana": "すない / すこし / しょう",
+      "arti": "Sedikit"
     },
     {
-      "kanji": "飲",
-      "furigana": "のむ",
-      "arti": "Minum"
+      "kanji": "長",
+      "furigana": "ながい / ちょう",
+      "arti": "Panjang"
     },
     {
-      "kanji": "駅",
-      "furigana": "えき",
-      "arti": "Stasiun"
+      "kanji": "短",
+      "furigana": "みじかい / たん",
+      "arti": "Pendek"
     },
     {
-      "kanji": "目",
-      "furigana": "め",
-      "arti": "Mata"
+      "kanji": "明",
+      "furigana": "あかるい / めい",
+      "arti": "Terang / Ceria"
     },
     {
-      "kanji": "見",
-      "furigana": "みる",
-      "arti": "Melihat"
+      "kanji": "暗",
+      "furigana": "くらい / あん",
+      "arti": "Gelap"
     },
     {
-      "kanji": "聞",
-      "furigana": "きく",
-      "arti": "Mendengar"
+      "kanji": "広",
+      "furigana": "ひろい / こう",
+      "arti": "Luas"
+    },
+    {
+      "kanji": "狭",
+      "furigana": "せまい",
+      "arti": "Sempit"
+    },
+    {
+      "kanji": "重",
+      "furigana": "おもい / じゅう",
+      "arti": "Berat"
     }
   ],
   "dokkai": {
-    "title": "かんじのれんしゅう (Latihan Kanji)",
+    "title": "Part 7 no renshu",
     "items": [
       {
-        "japanese": "駅の 東口で 友だちを 見ます。",
-        "indonesian": "Saya melihat teman di pintu timur stasiun."
+        "japanese": "大 な 家 と 小 な 家 が あります。",
+        "indonesian": "Ada rumah yang besar dan rumah yang kecil."
       },
       {
-        "japanese": "北と 南の 風の 音を 聞きます。",
-        "indonesian": "Saya mendengarkan suara angin utara dan selatan."
+        "japanese": "この 本 は 高 ですが、あれ は 安 です。",
+        "indonesian": "Buku ini mahal, tapi yang itu murah."
       },
       {
-        "japanese": "この 長い パンを 食べます。",
-        "indonesian": "Saya memakan roti yang panjang ini."
+        "japanese": "新 な 部屋 は 明るい ですが、古 な 部屋 は 暗い です。",
+        "indonesian": "Kamar yang baru terang, tapi kamar yang lama gelap."
       },
       {
-        "japanese": "高い お茶を 飲みます。五百円です。",
-        "indonesian": "Saya meminum teh yang mahal. Harganya 500 yen."
+        "japanese": "道 に 人 が 多 ですが、ここ は 少 です。",
+        "indonesian": "Di jalan banyak orang, tapi di sini sedikit."
       },
       {
-        "japanese": "駅の 前で 目が 赤い 犬を 見ました。",
-        "indonesian": "Saya melihat anjing bermata merah di depan stasiun."
+        "japanese": "長 な 道 と 短 な 道 が あります。",
+        "indonesian": "Ada jalan yang panjang dan jalan yang pendek."
       },
       {
-        "japanese": "音楽を 聞きながら、ごはんを 食べます。",
-        "indonesian": "Saya makan sambil mendengarkan musik."
+        "japanese": "広 な 所 に 重 な 物 が あります。",
+        "indonesian": "Di tempat yang luas ada barang yang berat."
       }
     ]
   }

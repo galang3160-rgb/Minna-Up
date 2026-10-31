@@ -1,0 +1,49 @@
+{
+  "part": 21,
+  "flashcards": [
+    { "kanji": "会社", "furigana": "かいしゃ", "arti": "Perusahaan" },
+    { "kanji": "社員", "furigana": "しゃいん", "arti": "Karyawan perusahaan" },
+    { "kanji": "工場", "furigana": "こうじょう", "arti": "Pabrik" },
+    { "kanji": "仕事", "furigana": "しごと", "arti": "Pekerjaan" },
+    { "kanji": "商品", "furigana": "しょうひん", "arti": "Barang / Produk dagangan" },
+    { "kanji": "価格", "furigana": "かかく", "arti": "Harga" },
+    { "kanji": "値段", "furigana": "ねだん", "arti": "Harga" },
+    { "kanji": "品物", "furigana": "しなもの", "arti": "Barang" },
+    { "kanji": "書類", "furigana": "しょるい", "arti": "Dokumen / Berkas" },
+    { "kanji": "資料", "furigana": "しりょう", "arti": "Materi / Data" },
+    { "kanji": "報告", "furigana": "ほうこく", "arti": "Laporan" },
+    { "kanji": "連絡", "furigana": "れんらく", "arti": "Kontak / Hubungi" },
+    { "kanji": "相談", "furigana": "そうだん", "arti": "Konsultasi / Diskusi" },
+    { "kanji": "会議", "furigana": "かいぎ", "arti": "Rapat / Pertemuan" },
+    { "kanji": "予定", "furigana": "よてい", "arti": "Rencana / Jadwal" }
+  ],
+  "dokkai": {
+    "title": "Part 21 no renshu",
+    "items": [
+      {
+        "japanese": "大きな 会社 で 社員 が 働 いています。工場 で 仕事 を します。",
+        "indonesian": "Karyawan bekerja di perusahaan besar. Bekerja di pabrik."
+      },
+      {
+        "japanese": "すばらしい 商品 を つくります。価格 や 値段 を かくにん します。",
+        "indonesian": "Membuat produk yang luar biasa. Memastikan harga dan banderolnya."
+      },
+      {
+        "japanese": "大切な 品物 や 書類 を まもります。",
+        "indonesian": "Menjaga barang dan dokumen yang penting."
+      },
+      {
+        "japanese": "会議 の 資料 を つくって、上司 へ 報告 を します。",
+        "indonesian": "Membuat materi rapat dan memberikan laporan kepada atasan."
+      },
+      {
+        "japanese": "たいせつな よい 連絡 を まちます。",
+        "indonesian": "Menunggu kontak yang penting dan baik."
+      },
+      {
+        "japanese": "しごとについて 相談 をして、今日の 予定 を きめます。",
+        "indonesian": "Berkonsultasi tentang pekerjaan dan memutuskan jadwal hari ini."
+      }
+    ]
+  }
+}

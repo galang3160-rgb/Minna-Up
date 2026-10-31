@@ -1,0 +1,49 @@
+{
+  "part": 19,
+  "flashcards": [
+    { "kanji": "予約", "furigana": "よやく", "arti": "Reservasi / Pesanan" },
+    { "kanji": "案内", "furigana": "あんない", "arti": "Petunjuk / Informasi" },
+    { "kanji": "連絡", "furigana": "れんらく", "arti": "Kontak / Menghubungi" },
+    { "kanji": "相談", "furigana": "そうだん", "arti": "Konsultasi / Berdiskusi" },
+    { "kanji": "理由", "furigana": "りゆう", "arti": "Alasan" },
+    { "kanji": "方法", "furigana": "ほうほう", "arti": "Metode / Cara" },
+    { "kanji": "準備", "furigana": "じゅんび", "arti": "Persiapan" },
+    { "kanji": "都合", "furigana": "つごう", "arti": "Keadaan / Waktu luang" },
+    { "kanji": "具合", "furigana": "ぐあい", "arti": "Kondisi (badan/barang)" },
+    { "kanji": "割引", "furigana": "わりびき", "arti": "Diskon / Potongan harga" },
+    { "kanji": "特別", "furigana": "とくべつ", "arti": "Spesial / Khusus" },
+    { "kanji": "普通", "furigana": "ふつう", "arti": "Biasa / Umum" },
+    { "kanji": "危険", "furigana": "きけん", "arti": "Bahaya" },
+    { "kanji": "安全", "furigana": "あんぜん", "arti": "Aman" },
+    { "kanji": "健康", "furigana": "けんこう", "arti": "Kesehatan" }]
+  ,
+  "dokkai": {
+    "title": "Part 19 no renshu",
+    "items": [
+      {
+        "japanese": "ホテルを 予約 して、案内 を うけます。",
+        "indonesian": "Membuat reservasi hotel dan menerima panduan."
+      },
+      {
+        "japanese": "ともだちへ 連絡 をして、相談 を します。",
+        "indonesian": "Menghubungi teman dan melakukan konsultasi."
+      },
+      {
+        "japanese": "その 理由 と 方法 を かんがえます。",
+        "indonesian": "Memikirkan alasan dan caranya."
+      },
+      {
+        "japanese": "しごとの 準備 をして、都合 の よい 日 を えらbます。",
+        "indonesian": "Menyiapkan pekerjaan dan memilih hari yang kondusif."
+      },
+      {
+        "japanese": "体の 具合 が わるいとき、病院 へ いきます。割引 の 切符 を かいます。",
+        "indonesian": "Saat kondisi tubuh kurang baik, pergi ke rumah sakit. Membeli tiket diskon."
+      },
+      {
+        "japanese": "特別 な 日 です。普通 の 所 は 危険 ですが、ここ は 安全 で 健康 です。",
+        "indonesian": "Ini adalah hari spesial. Tempat biasa berbahaya, tapi di sini aman dan sehat."
+      }
+    ]
+  }
+}

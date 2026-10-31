@@ -1,0 +1,49 @@
+{
+  "part": 15,
+  "flashcards": [
+    { "kanji": "口", "furigana": "くち / こう", "arti": "Mulut" },
+    { "kanji": "目", "furigana": "め / もく", "arti": "Mata" },
+    { "kanji": "耳", "furigana": "みみ / じ", "arti": "Telinga" },
+    { "kanji": "手", "furigana": "て / しゅ", "arti": "Tangan" },
+    { "kanji": "足", "furigana": "あし / そく", "arti": "Kaki" },
+    { "kanji": "体", "furigana": "からだ / たい", "arti": "Tubuh" },
+    { "kanji": "心", "furigana": "こころ / しん", "arti": "Hati / Pikiran" },
+    { "kanji": "声", "furigana": "こえ / せい", "arti": "Suara (manusia)" },
+    { "kanji": "音", "furigana": "おと / おん", "arti": "Suara / Bunyi" },
+    { "kanji": "顔", "furigana": "かお / がん", "arti": "Wajah" },
+    { "kanji": "頭", "furigana": "あたま / ず", "arti": "Kepala" },
+    { "kanji": "髪", "furigana": "かみ / はつ", "arti": "Rambut" },
+    { "kanji": "首", "furigana": "くび / しゅ", "arti": "Leher" },
+    { "kanji": "腕", "furigana": "うで / わん", "arti": "Lengan" },
+    { "kanji": "指", "furigana": "ゆび / し", "arti": "Jari" }
+  ],
+  "dokkai": {
+    "title": "Part 15 no renshu",
+    "items": [
+      {
+        "japanese": "口 で たべて、目 で みて、耳 で ききます。",
+        "indonesian": "Makan dengan mulut, melihat dengan mata, dan mendengar dengan telinga."
+      },
+      {
+        "japanese": "手 と 足 を つかって、体 を 動 かします。",
+        "indonesian": "Menggunakan tangan dan kaki untuk menggerakkan tubuh."
+      },
+      {
+        "japanese": "心 が やさしくて、きれいな 声 が 聞 こえます。",
+        "indonesian": "Hatinya baik, dan terdengar suara yang indah."
+      },
+      {
+        "japanese": "おんがくの 音 が します。顔 が わらいます。",
+        "indonesian": "Terdengar suara musik. Wajahnya tersenyum."
+      },
+      {
+        "japanese": "頭 が よくて、髪 が ながいです。",
+        "indonesian": "Kepalanya pintar, dan rambutnya panjang."
+      },
+      {
+        "japanese": "首 と 腕 と 指 を つかいます。",
+        "indonesian": "Menggunakan leher, lengan, dan jari."
+      }
+    ]
+  }
+}

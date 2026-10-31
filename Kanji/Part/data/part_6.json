@@ -1,97 +1,108 @@
 {
+  "part": 6,
   "flashcards": [
     {
-      "kanji": "雨",
-      "furigana": "あめ",
-      "arti": "Hujan"
+      "kanji": "上",
+      "furigana": "うえ / じょう",
+      "arti": "Atas"
     },
     {
-      "kanji": "電",
-      "furigana": "でん",
-      "arti": "Listrik"
+      "kanji": "中",
+      "furigana": "なか / ちゅう",
+      "arti": "Tengah / Dalam"
     },
     {
-      "kanji": "天",
-      "furigana": "てん",
-      "arti": "Langit"
+      "kanji": "下",
+      "furigana": "した / か",
+      "arti": "Bawah"
     },
     {
-      "kanji": "店",
-      "furigana": "みせ",
-      "arti": "Toko"
+      "kanji": "左",
+      "furigana": "ひだり",
+      "arti": "Kiri"
     },
     {
-      "kanji": "手",
-      "furigana": "て",
-      "arti": "Tangan"
+      "kanji": "右",
+      "furigana": "みぎ",
+      "arti": "Kanan"
     },
     {
-      "kanji": "古",
-      "furigana": "ふるい",
-      "arti": "Lama / Tua"
+      "kanji": "外",
+      "furigana": "そと / がい",
+      "arti": "Luar"
     },
     {
-      "kanji": "新",
-      "furigana": "あたらしい",
-      "arti": "Baru"
+      "kanji": "北",
+      "furigana": "きた / ほく",
+      "arti": "Utara"
     },
     {
-      "kanji": "買",
-      "furigana": "かう",
-      "arti": "Membeli"
+      "kanji": "南",
+      "furigana": "みなみ / なん",
+      "arti": "Selatan"
     },
     {
-      "kanji": "生",
-      "furigana": "せい",
-      "arti": "Kehidupan / Lahir"
+      "kanji": "東",
+      "furigana": "ひがし / とう",
+      "arti": "Timur"
     },
     {
-      "kanji": "午",
-      "furigana": "ご",
-      "arti": "Siang"
+      "kanji": "西",
+      "furigana": "にし / さい",
+      "arti": "Barat"
     },
     {
-      "kanji": "口",
-      "furigana": "くち",
-      "arti": "Mulut"
+      "kanji": "近",
+      "furigana": "ちかい / きん",
+      "arti": "Dekat"
     },
     {
-      "kanji": "入",
-      "furigana": "はいる",
-      "arti": "Masuk"
+      "kanji": "遠",
+      "furigana": "とおい / えん",
+      "arti": "Jauh"
     },
     {
-      "kanji": "出",
-      "furigana": "でる",
-      "arti": "Keluar"
+      "kanji": "側",
+      "furigana": "かわ / がわ",
+      "arti": "Sisi / Sebelah"
+    },
+    {
+      "kanji": "角",
+      "furigana": "かど / かく",
+      "arti": "Sudut / Pojok"
+    },
+    {
+      "kanji": "所",
+      "furigana": "ところ / しょ",
+      "arti": "Tempat"
     }
   ],
   "dokkai": {
-    "title": "かんじのれんしゅう (Latihan Kanji)",
+    "title": "Part 6 no renshu",
     "items": [
       {
-        "japanese": "雨が ふっています。天気が わるいです。",
-        "indonesian": "Hujan sedang turun. Cuacanya buruk."
+        "japanese": "つくえの 上 に ほうとく が あります。下 にも あります。",
+        "indonesian": "Di atas meja ada buku. Di bawah juga ada."
       },
       {
-        "japanese": "電車で 店へ 行きます。",
-        "indonesian": "Saya pergi ke toko naik kereta."
+        "japanese": "部屋の 中 から 外 を みます。",
+        "indonesian": "Melihat ke luar dari dalam ruangan."
       },
       {
-        "japanese": "店で 新しい 本を 買います。",
-        "indonesian": "Saya membeli buku baru di toko."
+        "japanese": "左 の 方 と 右 の 方 が います。",
+        "indonesian": "Ada orang di sebelah kiri dan sebelah kanan."
       },
       {
-        "japanese": "古い 店の 入口に 大きい 口が あります。",
-        "indonesian": "Di pintu masuk toko lama terdapat sebuah mulut besar."
+        "japanese": "北 と 南 、東 と 西 に いきます。",
+        "indonesian": "Pergi ke utara dan selatan, timur dan barat."
       },
       {
-        "japanese": "午前に 学校へ 入ります。午後に 学校を 出ます。",
-        "indonesian": "Saya masuk sekolah pada pagi hari. Saya keluar dari sekolah pada sore hari."
+        "japanese": "近 の 所 に お店 が ありますが、遠 の 所 には ありません。",
+        "indonesian": "Ada toko di tempat yang dekat, tapi di tempat yang jauh tidak ada."
       },
       {
-        "japanese": "学生は 手で 口を おさえます。",
-        "indonesian": "Siswa menutup mulut dengan tangan."
+        "japanese": "道の 角 の 側 に ともだち が います。",
+        "indonesian": "Teman ada di sisi sudut jalan."
       }
     ]
   }

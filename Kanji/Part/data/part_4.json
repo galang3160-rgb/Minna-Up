@@ -1,82 +1,108 @@
 {
+  "part": 4,
   "flashcards": [
     {
-      "kanji": "少",
-      "furigana": "すくない",
-      "arti": "Sedikit"
+      "kanji": "国",
+      "furigana": "くに / こく",
+      "arti": "Negara"
     },
     {
-      "kanji": "小",
-      "furigana": "ちいさい",
-      "arti": "Kecil"
+      "kanji": "会",
+      "furigana": "かい / あう",
+      "arti": "Pertemuan / Berkumpul"
     },
     {
-      "kanji": "大",
-      "furigana": "おおきい",
-      "arti": "Besar"
+      "kanji": "社",
+      "furigana": "しゃ",
+      "arti": "Perusahaan / Kuil"
     },
     {
-      "kanji": "多",
-      "furigana": "おおい",
-      "arti": "Banyak"
+      "kanji": "駅",
+      "furigana": "えき",
+      "arti": "Stasiun"
     },
     {
-      "kanji": "時",
-      "furigana": "とき",
-      "arti": "Waktu / Saat"
+      "kanji": "店",
+      "furigana": "みせ / てん",
+      "arti": "Toko"
     },
     {
-      "kanji": "分",
-      "furigana": "ふん / ぶん",
-      "arti": "Menit / Bagian"
+      "kanji": "銀行",
+      "furigana": "ぎんこう",
+      "arti": "Bank"
     },
     {
-      "kanji": "年",
-      "furigana": "とし / ねん",
-      "arti": "Tahun"
+      "kanji": "病院",
+      "furigana": "びょういん",
+      "arti": "Rumah sakit"
     },
     {
-      "kanji": "名",
-      "furigana": "な / めい",
-      "arti": "Nama"
+      "kanji": "空港",
+      "furigana": "くうこう",
+      "arti": "Bandara"
     },
     {
-      "kanji": "前",
-      "furigana": "まえ",
-      "arti": "Depan / Sebelum"
+      "kanji": "道",
+      "furigana": "みち / どう",
+      "arti": "Jalan"
     },
     {
-      "kanji": "後",
-      "furigana": "あと / うしろ",
-      "arti": "Setelah / Belakang"
+      "kanji": "町",
+      "furigana": "まち / ちょう",
+      "arti": "Kota kecil"
+    },
+    {
+      "kanji": "村",
+      "furigana": "むら / そん",
+      "arti": "Desa"
+    },
+    {
+      "kanji": "都",
+      "furigana": "と / みやこ",
+      "arti": "Ibukota / Metropolitan"
+    },
+    {
+      "kanji": "県",
+      "furigana": "けん",
+      "arti": "Prefektur"
+    },
+    {
+      "kanji": "部屋",
+      "furigana": "へや",
+      "arti": "Kamar / Ruangan"
+    },
+    {
+      "kanji": "建物",
+      "furigana": "たてもの",
+      "arti": "Bangunan"
     }
   ],
   "dokkai": {
-    "title": "じかんと ばしょの れんしゅう (Latihan Waktu dan Tempat)",
+    "title": "Part 4 no renshu",
     "items": [
       {
-        "japanese": "小さい へやです。",
-        "indonesian": "Ini adalah ruangan kecil."
+        "japanese": "この 国 の 町 は とても きれいです。",
+        "indonesian": "Kota di negara ini sangat bersih."
       },
       {
-        "japanese": "大きい へやです。",
-        "indonesian": "Ini adalah ruangan besar."
+        "japanese": "会社 の 人 と 駅 の 店 で 会います。",
+        "indonesian": "Saya bertemu dengan orang perusahaan di toko stasiun."
       },
       {
-        "japanese": "人が 多いです。",
-        "indonesian": "Orangnya banyak."
+        "japanese": "銀行 や 病院 は あの 道 の よこに あります。",
+        "indonesian": "Bank dan rumah sakit ada di sebelah jalan itu."
       },
       {
-        "japanese": "人が 少ないです。",
-        "indonesian": "Orangnya sedikit."
+        "japanese": "村 から 都 や 県 へ いきます。",
+        "indonesian": "Dari desa pergi ke ibukota atau prefektur."
       },
       {
-        "japanese": "三時から 五分です。",
-        "indonesian": "Lima menit mulai dari jam tiga."
+        "japanese": "空港 の 近く に 大きな 建物 が あります。",
+        "indonesian": "Ada bangunan besar di dekat bandara."
       },
       {
-        "japanese": "今年の 前と 後を みます。",
-        "indonesian": "Saya melihat sebelum dan sesudah tahun ini."
+        "japanese": "自分の 部屋 で 本 を よみます。",
+        "indonesian": "Saya membaca buku di kamar sendiri."
       }
     ]
   }

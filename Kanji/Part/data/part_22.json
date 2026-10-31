@@ -1,0 +1,49 @@
+{
+  "part": 22,
+  "flashcards": [
+    { "kanji": "時間", "furigana": "じかん", "arti": "Waktu / Jam" },
+    { "kanji": "期間", "furigana": "きかん", "arti": "Jangka waktu / Periode" },
+    { "kanji": "場合", "furigana": "ばあい", "arti": "Kasus / Situasi / Jika" },
+    { "kanji": "理由", "furigana": "りゆう", "arti": "Alasan" },
+    { "kanji": "方法", "furigana": "ほうほう", "arti": "Cara / Metode" },
+    { "kanji": "手段", "furigana": "しゅだん", "arti": "Sarana / Cara" },
+    { "kanji": "目的", "furigana": "もくてき", "arti": "Tujuan" },
+    { "kanji": "目標", "furigana": "もくひょう", "arti": "Target / Sasaran" },
+    { "kanji": "結果", "furigana": "けっか", "arti": "Hasil" },
+    { "kanji": "成功", "furigana": "せいこう", "arti": "Kesuksesan" },
+    { "kanji": "失敗", "furigana": "しっぱい", "arti": "Kegagalan" },
+    { "kanji": "問題", "furigana": "もんだい", "arti": "Masalah / Soal" },
+    { "kanji": "答え", "furigana": "こたえ", "arti": "Jawaban" },
+    { "kanji": "意見", "furigana": "いけん", "arti": "Pendapat" },
+    { "kanji": "希望", "furigana": "きぼう", "arti": "Harapan / Keinginan" }
+  ],
+  "dokkai": {
+    "title": "Part 22 no renshu",
+    "items": [
+      {
+        "japanese": "じゅうとな 時間 と 期間 を かんがえます。",
+        "indonesian": "Memikirkan waktu dan jangka waktu yang penting."
+      },
+      {
+        "japanese": "こんな 場合 の 理由 と 方法 を しらべます。",
+        "indonesian": "Memeriksa alasan dan cara untuk situasi seperti ini."
+      },
+      {
+        "japanese": "目的に 向かって、新しい 手段 や 目標 を つくります。",
+        "indonesian": "Menuju tujuan, membuat sarana dan target baru."
+      },
+      {
+        "japanese": "しけんの 結果 は 成功 や 失敗 が あります。",
+        "indonesian": "Hasil ujian bisa berupa kesuksesan atau kegagalan."
+      },
+      {
+        "japanese": "むずかしい 問題 の 正しい 答え を かきます。",
+        "indonesian": "Menulis jawaban yang benar untuk soal yang sulit."
+      },
+      {
+        "japanese": "いろんな 意見 を きいて、希望 を もちます。",
+        "indonesian": "Mendengarkan berbagai pendapat dan menaruh harapan."
+      }
+    ]
+  }
+}

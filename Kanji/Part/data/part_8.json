@@ -1,0 +1,109 @@
+{
+  "part": 8,
+  "flashcards": [
+    {
+      "kanji": "軽",
+      "furigana": "かるい / けい",
+      "arti": "Ringan"
+    },
+    {
+      "kanji": "早",
+      "furigana": "はやい / そう",
+      "arti": "Cepat / Pagi"
+    },
+    {
+      "kanji": "遅",
+      "furigana": "おそい / ち",
+      "arti": "Lambat / Terlambat"
+    },
+    {
+      "kanji": "良",
+      "furigana": "よい / りょう",
+      "arti": "Baik / Bagus"
+    },
+    {
+      "kanji": "悪",
+      "furigana": "わるい / あく",
+      "arti": "Buruk / Jahat"
+    },
+    {
+      "kanji": "暑",
+      "furigana": "あつい",
+      "arti": "Panas (cuaca)"
+    },
+    {
+      "kanji": "寒",
+      "furigana": "さむい",
+      "arti": "Dingin (cuaca)"
+    },
+    {
+      "kanji": "暖",
+      "furigana": "あたたかい",
+      "arti": "Hangat"
+    },
+    {
+      "kanji": "涼",
+      "furigana": "すずしい",
+      "arti": "Sejuk"
+    },
+    {
+      "kanji": "白",
+      "furigana": "しろい / はく",
+      "arti": "Putih"
+    },
+    {
+      "kanji": "黒",
+      "furigana": "くろい / こく",
+      "arti": "Hitam"
+    },
+    {
+      "kanji": "赤",
+      "furigana": "あかい / せき",
+      "arti": "Merah"
+    },
+    {
+      "kanji": "青",
+      "furigana": "あおい / せい",
+      "arti": "Biru"
+    },
+    {
+      "kanji": "色",
+      "furigana": "いろ / しょく",
+      "arti": "Warna"
+    },
+    {
+      "kanji": "強",
+      "furigana": "つよい / きょう",
+      "arti": "Kuat"
+    }
+  ],
+  "dokkai": {
+    "title": "Part 8 no renshu",
+    "items": [
+      {
+        "japanese": "この 荷物は 軽 ですが、あれは 重 です。",
+        "indonesian": "Barang ini ringan, tapi yang itu berat."
+      },
+      {
+        "japanese": "朝は 早 ですが、夜は 遅 です。",
+        "indonesian": "Pagi itu cepat/pagi, tapi malam itu lambat/terlambat."
+      },
+      {
+        "japanese": "良 な 人 と 悪 な 人 が います。",
+        "indonesian": "Ada orang yang baik dan orang yang buruk."
+      },
+      {
+        "japanese": "今日は 暑 ですが、冬は 寒 です。",
+        "indonesian": "Hari ini panas, tapi musim dingin itu dingin."
+      },
+      {
+        "japanese": "暖 な 所 や 涼 な 所 が あります。",
+        "indonesian": "Ada tempat yang hangat dan ada tempat yang sejuk."
+      },
+      {
+        "japanese": "白 な 物 と 黒 な 物 の 色 が あります。赤 と 青 も あります。",
+        "indonesian": "Ada warna barang yang putih dan hitam. Ada juga merah dan biru."
+      }
+    ]
+  }
+}

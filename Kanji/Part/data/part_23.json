@@ -1,0 +1,49 @@
+{
+  "part": 23,
+  "flashcards": [
+    { "kanji": "安全", "furigana": "あんぜん", "arti": "Aman" },
+    { "kanji": "危険", "furigana": "きけん", "arti": "Bahaya" },
+    { "kanji": "注意", "furigana": "ちゅうい", "arti": "Perhatian / Hati-hati" },
+    { "kanji": "確認", "furigana": "かくにん", "arti": "Memastikan / Konfirmasi" },
+    { "kanji": "点検", "furigana": "てんけん", "arti": "Pemeriksaan / Inspeksi" },
+    { "kanji": "清掃", "furigana": "せいそう", "arti": "Pembersihan / Bersih-bersih" },
+    { "kanji": "整理", "furigana": "せいり", "arti": "Merapikan / Penataan" },
+    { "kanji": "整頓", "furigana": "せいとん", "arti": "Pengaturan / Menyusun rapi" },
+    { "kanji": "準備", "furigana": "じゅんび", "arti": "Persiapan" },
+    { "kanji": "片付", "furigana": "かたづける", "arti": "Membereskan" },
+    { "kanji": "故障", "furigana": "こしょう", "arti": "Kerusakan (mesin/alat)" },
+    { "kanji": "修理", "furigana": "しゅうり", "arti": "Perbaikan" },
+    { "kanji": "操作", "furigana": "そうさ", "arti": "Pengoperasian (alat/mesin)" },
+    { "kanji": "運転", "furigana": "うんてん", "arti": "Mengemudi / Mengoperasikan" },
+    { "kanji": "停止", "furigana": "ていし", "arti": "Berhenti (operasi/mesin)" }
+  ],
+  "dokkai": {
+    "title": "Part 23 no renshu",
+    "items": [
+      {
+        "japanese": "安全 な 所 ですが、危険 な 場所 も あります。注意 します。",
+        "indonesian": "Ini adalah tempat yang aman, tapi ada juga tempat yang berbahaya. Berhati-hatilah."
+      },
+      {
+        "japanese": "きかいを かくにん して、てんけん を おこないます。",
+        "indonesian": "Memastikan mesin dan melakukan pemeriksaan."
+      },
+      {
+        "japanese": "へやの 清掃 と 整理整頓 を します。",
+        "indonesian": "Melakukan pembersihan serta penataan dan penyusunan rapi di ruangan."
+      },
+      {
+        "japanese": "しごとの 準備 をして、ものを 片付 けます。",
+        "indonesian": "Menyiapkan pekerjaan dan membereskan barang-barang."
+      },
+      {
+        "japanese": "きかいが 故障 したとき、すぐに 修理 を します。",
+        "indonesian": "Saat mesin mengalami kerusakan, segera lakukan perbaikan."
+      },
+      {
+        "japanese": "ただしく 操作 をして、車 を 運転 します。そして 一時 停止 を まもります。",
+        "indonesian": "Mengoperasikan dengan benar dan mengemudikan mobil. Lalu mematuhi berhenti sesaat."
+      }
+    ]
+  }
+}

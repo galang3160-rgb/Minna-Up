@@ -1,0 +1,49 @@
+{
+  "part": 20,
+  "flashcards": [
+    { "kanji": "経験", "furigana": "けいけん", "arti": "Pengalaman" },
+    { "kanji": "失敗", "furigana": "しっぱい", "arti": "Kegagalan" },
+    { "kanji": "成功", "furigana": "せいこう", "arti": "Kesuksesan" },
+    { "kanji": "意見", "furigana": "いけん", "arti": "Pendapat" },
+    { "kanji": "約束", "furigana": "やくそく", "arti": "Janji" },
+    { "kanji": "返事", "furigana": "へんじ", "arti": "Jawaban / Balasan" },
+    { "kanji": "世話", "furigana": "せわ", "arti": "Perawatan / Menjaga" },
+    { "kanji": "掃除", "furigana": "そうじ", "arti": "Bersih-bersih" },
+    { "kanji": "洗濯", "furigana": "せんたく", "arti": "Mencuci pakaian" },
+    { "kanji": "料理", "furigana": "りょうり", "arti": "Memasak" },
+    { "kanji": "買物", "furigana": "かいもの", "arti": "Berbelanja" },
+    { "kanji": "散歩", "furigana": "さんぽ", "arti": "Jalan-jalan" },
+    { "kanji": "旅行", "furigana": "りょこう", "arti": "Perjalanan / Wisata" },
+    { "kanji": "働", "furigana": "はたらく", "arti": "Bekerja" },
+    { "kanji": "勉強", "furigana": "べんきょう", "arti": "Belajar" }
+  ],
+  "dokkai": {
+    "title": "Part 20 no renshu",
+    "items": [
+      {
+        "japanese": "いろんな 経験 をして、失敗 から まなびます。そして 成功 を めざします。",
+        "indonesian": "Mengalami berbagai hal dan belajar dari kegagalan. Lalu mengincar kesuksesan."
+      },
+      {
+        "japanese": "たいせつな 意見 を きいて、約束 を まもります。",
+        "indonesian": "Mendengarkan pendapat yang penting dan menepati janji."
+      },
+      {
+        "japanese": "メールの 返事 を かいて、ともだちの 世話 を します。",
+        "indonesian": "Menulis balasan email dan merawat teman."
+      },
+      {
+        "japanese": "へやの 掃除 や 洗濯 を します。",
+        "indonesian": "Membersihkan kamar dan mencuci pakaian."
+      },
+      {
+        "japanese": "おいしい 料理 を つくって、スーパーへ 買物 に いきます。",
+        "indonesian": "Membuat masakan yang enak dan pergi berbelanja ke supermarket."
+      },
+      {
+        "japanese": "こうえんを 散歩 して、週末 に 旅行 へ いきます。会社 で 働 き、がっこう で 勉強 します。",
+        "indonesian": "Berjalan-jalan di taman dan pergi berwisata di akhir pekan. Bekerja di perusahaan dan belajar di sekolah."
+      }
+    ]
+  }
+}

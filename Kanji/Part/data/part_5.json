@@ -1,82 +1,108 @@
 {
+  "part": 5,
   "flashcards": [
     {
       "kanji": "山",
-      "furigana": "やま / サン",
+      "furigana": "やま / さん",
       "arti": "Gunung"
     },
     {
       "kanji": "川",
-      "furigana": "かわ / セン",
+      "furigana": "かわ / せん",
       "arti": "Sungai"
     },
     {
+      "kanji": "海",
+      "furigana": "うみ / かい",
+      "arti": "Laut"
+    },
+    {
+      "kanji": "空",
+      "furigana": "そら / くう",
+      "arti": "Kosong / Udara"
+    },
+    {
+      "kanji": "天",
+      "furigana": "てん",
+      "arti": "Langit / Surga"
+    },
+    {
+      "kanji": "雨",
+      "furigana": "あめ / う",
+      "arti": "Hujan"
+    },
+    {
       "kanji": "花",
-      "furigana": "はな / カ",
+      "furigana": "はな / か",
       "arti": "Bunga"
     },
     {
       "kanji": "魚",
-      "furigana": "さかな / ギョ",
+      "furigana": "さかな / ぎょ",
       "arti": "Ikan"
     },
     {
-      "kanji": "上",
-      "furigana": "うえ / じょう",
-      "arti": "Atas"
+      "kanji": "木",
+      "furigana": "き / もく",
+      "arti": "Pohon"
     },
     {
-      "kanji": "中",
-      "furigana": "なか / チュウ",
-      "arti": "Dalam / Tengah"
+      "kanji": "水",
+      "furigana": "みず / すい",
+      "arti": "Air"
     },
     {
-      "kanji": "下",
-      "furigana": "した / か",
-      "arti": "Bawah"
+      "kanji": "火",
+      "furigana": "ひ / か",
+      "arti": "Api"
     },
     {
-      "kanji": "右",
-      "furigana": "みぎ / ウ",
-      "arti": "Kanan"
+      "kanji": "土",
+      "furigana": "つち / ど",
+      "arti": "Tanah"
     },
     {
-      "kanji": "左",
-      "furigana": "ひだり / サ",
-      "arti": "Kiri"
+      "kanji": "金",
+      "furigana": "かね / きん",
+      "arti": "Emas / Uang"
     },
     {
-      "kanji": "外",
-      "furigana": "そと / ガイ",
-      "arti": "Luar"
+      "kanji": "電",
+      "furigana": "でん",
+      "arti": "Listrik"
+    },
+    {
+      "kanji": "気",
+      "furigana": "き",
+      "arti": "Perasaan / Semangat / Udara"
     }
   ],
   "dokkai": {
-    "title": "山と川 (Gunung dan Sungai)",
+    "title": "Part 5 no renshu",
     "items": [
       {
-        "japanese": "わたしは山の上に行きました。",
-        "indonesian": "Saya pergi ke atas gunung."
+        "japanese": "山 と 川 の あいだ に 海 が あります。",
+        "indonesian": "Di antara gunung dan sungai ada laut."
       },
       {
-        "japanese": "山の下に川があります。",
-        "indonesian": "Ada sungai di bawah gunung."
+        "japanese": "空 は 青く て 、きょう は 雨 が ふります。",
+        "indonesian": "Langitnya biru, dan hari ini turun hujan."
       },
       {
-        "japanese": "川の中に魚がいます。",
-        "indonesian": "Ada ikan di dalam sungai."
+        "japanese": "木 の うえ に きれいな 花 が あります。",
+        "indonesian": "Ada bunga yang indah di atas pohon."
       },
       {
-        "japanese": "川の右に花があります。左にも花があります。",
-        "indonesian": "Di sebelah kanan sungai ada bunga. Di sebelah kiri juga ada bunga."
+        "japanese": "水 と 魚 を かいました。",
+        "indonesian": "Saya membeli air dan ikan."
       },
       {
-        "japanese": "山の外に小さい川があります。",
-        "indonesian": "Di luar gunung ada sungai kecil."
+        "japanese": "火 と 土 を つかいます。",
+        "indonesian": "Menggunakan api dan tanah."
       },
       {
-        "japanese": "わたしは川の中の魚を見ました。山の上にも行きました。",
-        "indonesian": "Saya melihat ikan di dalam sungai. Saya juga pergi ke atas gunung."
+        "japanese": "金 や 電気 を つかいます。",
+        "indonesian": "Menggunakan uang dan listrik."
       }
     ]
   }

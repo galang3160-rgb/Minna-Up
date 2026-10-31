@@ -1,0 +1,49 @@
+{
+  "part": 25,
+  "flashcards": [
+    { "kanji": "案内", "furigana": "あんない", "arti": "Panduan / Informasi" },
+    { "kanji": "予約", "furigana": "よやく", "arti": "Reservasi / Pesanan" },
+    { "kanji": "受付", "furigana": "うけつけ", "arti": "Resepsionis / Pendaftaran" },
+    { "kanji": "切符", "furigana": "きっぷ", "arti": "Tiket" },
+    { "kanji": "乗車", "furigana": "じょうしゃ", "arti": "Naik kendaraan" },
+    { "kanji": "下車", "furigana": "げしゃ", "arti": "Turun kendaraan" },
+    { "kanji": "乗り換え", "furigana": "のりかえ", "arti": "Transit / Ganti kendaraan" },
+    { "kanji": "出発", "furigana": "しゅっぱつ", "arti": "Keberangkatan" },
+    { "kanji": "到着", "furigana": "とうちゃく", "arti": "Kedatangan" },
+    { "kanji": "指定", "furigana": "してい", "arti": "Penunjukan / Reservasi (kursi)" },
+    { "kanji": "普通", "furigana": "ふつう", "arti": "Biasa / Regular" },
+    { "kanji": "特別", "furigana": "とくべつ", "arti": "Khusus / Spesial" },
+    { "kanji": "無料", "furigana": "むりょう", "arti": "Gratis / Cuma-cuma" },
+    { "kanji": "有料", "furigana": "ゆうりょう", "arti": "Berbayar" },
+    { "kanji": "期限", "furigana": "きげん", "arti": "Batas waktu / Tenggat" }}
+  ],
+  "dokkai": {
+    "title": "Part 25 no renshu",
+    "items": [
+      {
+        "japanese": "えきの 受付 で 案内 を よんで、きっぷ を よやく します。",
+        "indonesian": "Membaca panduan di resepsionis stasiun dan memesan tiket."
+      },
+      {
+        "japanese": "電車 の 乗車 と 下車 を します。途中で 乗り換え を します。",
+        "indonesian": "Naik dan turun kereta. Melakukan transit di tengah jalan."
+      },
+      {
+        "japanese": "バスの 出発 と 到着 の 時間 を かくにん します。",
+        "indonesian": "Memastikan waktu keberangkatan dan kedatangan bus."
+      },
+      {
+        "japanese": "指定 の せき を えらんで、普通 の 電車 に のります。",
+        "indonesian": "Memilih kursi yang ditentukan dan naik kereta biasa."
+      },
+      {
+        "japanese": "特別 な ばしょは 有料 ですが、ここは 無料 です。",
+        "indonesian": "Tempat yang spesial berbayar, tapi tempat ini gratis."
+      },
+      {
+        "japanese": "大切な きっぷ の 期限 を まもります。",
+        "indonesian": "Mematuhi batas waktu tiket yang penting."
+      }
+    ]
+  }
+}

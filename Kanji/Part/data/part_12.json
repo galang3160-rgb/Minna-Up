@@ -1,0 +1,49 @@
+{
+  "part": 12,
+  "flashcards": [
+    { "kanji": "買", "furigana": "かう / ばい", "arti": "Membeli" },
+    { "kanji": "売", "furigana": "うる / ばい", "arti": "Menjual" },
+    { "kanji": "払", "furigana": "はらう / はつ", "arti": "Membayar" },
+    { "kanji": "借", "furigana": "かりる / しゃく", "arti": "Meminjam" },
+    { "kanji": "貸", "furigana": "かす / たい", "arti": "Meminjamkan" },
+    { "kanji": "作", "furigana": "つくる / さく", "arti": "Membuat" },
+    { "kanji": "使", "furigana": "つかう / し", "arti": "Menggunakan" },
+    { "kanji": "持", "furigana": "もつ / じ", "arti": "Membawa / Memiliki" },
+    { "kanji": "貼", "furigana": "はる / ちょう", "arti": "Menempelkan" },
+    { "kanji": "切", "furigana": "きる / せつ", "arti": "Memotong / Penting" },
+    { "kanji": "開", "furigana": "あける / かい", "arti": "Membuka" },
+    { "kanji": "閉", "furigana": "しめる / へい", "arti": "Menutup" },
+    { "kanji": "消", "furigana": "けす / しょう", "arti": "Menghapus / Mematikan" },
+    { "kanji": "着", "furigana": "きる / ちゃく", "arti": "Memakai (baju) / Tiba" },
+    { "kanji": "脱", "furigana": "ぬぐ / だつ", "arti": "Melepaskan (pakaian)" }
+  ],
+  "dokkai": {
+    "title": "Part 12 no renshu",
+    "items": [
+      {
+        "japanese": "スーパーで ものを 買 って、おかねを 払 います。",
+        "indonesian": "Membeli barang di supermarket dan membayar uang."
+      },
+      {
+        "japanese": "ともだちから 本を 借 て、お金を 貸 します。",
+        "indonesian": "Meminjam buku dari teman dan meminjamkan uang."
+      },
+      {
+        "japanese": "りょうりを作って、はしを使います。にもつを持っています。",
+        "indonesian": "Membuat masakan dan menggunakan sumpit. Membawa barang."
+      },
+      {
+        "japanese": "かみに きってを 貼 って、かみを 切 ります。",
+        "indonesian": "Menempelkan perangko pada kertas dan memotong kertas."
+      },
+      {
+        "japanese": "ドアを 開 て、まどを 閉 めて、でんきを 消 します。",
+        "indonesian": "Membuka pintu, menutup jendela, dan mematikan listrik."
+      },
+      {
+        "japanese": "ふくを 着 て、くつを 脱 ぎます。",
+        "indonesian": "Memakai pakaian dan melepas sepatu."
+      }
+    ]
+  }
+}

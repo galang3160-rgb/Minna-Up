@@ -1,0 +1,109 @@
+{
+  "part": 9,
+  "flashcards": [
+    {
+      "kanji": "弱",
+      "furigana": "よわい / じゃく",
+      "arti": "Lemah"
+    },
+    {
+      "kanji": "忙",
+      "furigana": "いそがしい / ぼう",
+      "arti": "Sibuk"
+    },
+    {
+      "kanji": "暇",
+      "furigana": "ひま / か",
+      "arti": "Luang / Waktu senggang"
+    },
+    {
+      "kanji": "静",
+      "furigana": "しずか / せい",
+      "arti": "Sunyi / Tenang"
+    },
+    {
+      "kanji": "賑",
+      "furigana": "にぎやか",
+      "arti": "Ramai"
+    },
+    {
+      "kanji": "便",
+      "furigana": "べん / 便",
+      "arti": "Praktis / Surat"
+    },
+    {
+      "kanji": "病",
+      "furigana": "びょう",
+      "arti": "Sakit"
+    },
+    {
+      "kanji": "痛",
+      "furigana": "いたい / つう",
+      "arti": "Sakit (rasa nyeri)"
+    },
+    {
+      "kanji": "元",
+      "furigana": "げん / もと",
+      "arti": "Sehat / Asal"
+    },
+    {
+      "kanji": "幸",
+      "furigana": "しあわせ / こう",
+      "arti": "Bahagia / Untung"
+    },
+    {
+      "kanji": "好",
+      "furigana": "すき / こう",
+      "arti": "Suka"
+    },
+    {
+      "kanji": "嫌",
+      "furigana": "きらい / けん",
+      "arti": "Benci / Tidak suka"
+    },
+    {
+      "kanji": "楽",
+      "furigana": "たのしい / らく",
+      "arti": "Senang / Mudah"
+    },
+    {
+      "kanji": "難",
+      "furigana": "むずかしい / なん",
+      "arti": "Sulit / Susah"
+    },
+    {
+      "kanji": "正",
+      "furigana": "ただしい / せい",
+      "arti": "Benar / Tepat"
+    }
+  ],
+  "dokkai": {
+    "title": "Part 9 no renshu",
+    "items": [
+      {
+        "japanese": "強 な 人 と 弱 な 人 が います。",
+        "indonesian": "Ada orang yang kuat dan orang yang lemah."
+      },
+      {
+        "japanese": "今日は 忙 ですが、あすは 暇 です。",
+        "indonesian": "Hari ini sibuk, tapi besok senggang."
+      },
+      {
+        "japanese": "静 な 所 と 賑 な 所 が あります。",
+        "indonesian": "Ada tempat yang tenang dan tempat yang ramai."
+      },
+      {
+        "japanese": "病 の 人 が います。頭 が 痛 です。",
+        "indonesian": "Ada orang yang sakit. Kepalanya sakit."
+      },
+      {
+        "japanese": "元 な 人 は 幸 です。",
+        "indonesian": "Orang yang sehat itu bahagia."
+      },
+      {
+        "japanese": "好 な 物 と 嫌 な 物 が あります。日本語 は 楽 ですが、漢字 は 難 です。正 な 答え を かきます。",
+        "indonesian": "Ada barang yang disukai dan yang dibenci. Bahasa Jepang itu mudah, tapi kanji itu sulit. Menulis jawaban yang benar."
+      }
+    ]
+  }
+}

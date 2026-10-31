@@ -1,0 +1,49 @@
+{
+  "part": 17,
+  "flashcards": [
+    { "kanji": "服", "furigana": "ふく", "arti": "Pakaian" },
+    { "kanji": "靴", "furigana": "くつ", "arti": "Sepatu" },
+    { "kanji": "帽子", "furigana": "ぼうし", "arti": "Topi" },
+    { "kanji": "眼鏡", "furigana": "めがね", "arti": "Kacamata" },
+    { "kanji": "鞄", "furigana": "かばん", "arti": "Tas" },
+    { "kanji": "財布", "furigana": "さいふ", "arti": "Dompet" },
+    { "kanji": "傘", "furigana": "かさ", "arti": "Payung" },
+    { "kanji": "時計", "furigana": "とけい", "arti": "Jam" },
+    { "kanji": "紙", "furigana": "かみ", "arti": "Kertas" },
+    { "kanji": "手紙", "furigana": "てがみ", "arti": "Surat" },
+    { "kanji": "写真", "furigana": "しゃしん", "arti": "Foto" },
+    { "kanji": "歌", "furigana": "うた", "arti": "Lagu" },
+    { "kanji": "音楽", "furigana": "おんがく", "arti": "Musik" },
+    { "kanji": "絵", "furigana": "え", "arti": "Gambar / Lukisan" },
+    { "kanji": "字", "furigana": "じ", "arti": "Huruf / Karakter" }
+  ],
+  "dokkai": {
+    "title": "Part 17 no renshu",
+    "items": [
+      {
+        "japanese": "あたらしい 服 と 靴 を かいました。",
+        "indonesian": "Membeli pakaian dan sepatu yang baru."
+      },
+      {
+        "japanese": "帽子 を かぶって、眼鏡 を かけます。",
+        "indonesian": "Memakai topi dan memakai kacamata."
+      },
+      {
+        "japanese": "鞄 の 中 に 財布 と 傘 が あります。",
+        "indonesian": "Di dalam tas ada dompet dan payung."
+      },
+      {
+        "japanese": "時計 を みて、紙 に 手紙 を かきます。",
+        "indonesian": "Melihat jam dan menulis surat di atas kertas."
+      },
+      {
+        "japanese": "写真 を とって、絵 を かきます。",
+        "indonesian": "Mengambil foto dan menggambar lukisan."
+      },
+      {
+        "japanese": "歌 を うたって、音楽 を ききながら 字 を かきます。",
+        "indonesian": "Menyanyikan lagu dan menulis huruf sambil mendengarkan musik."
+      }
+    ]
+  }
+}

@@ -2,8 +2,8 @@
  * NAKAMA GAKKOU — TACTILE NEO-BRUTALIST KANJI & DOKKAI ENGINE
  * Fitur:
  * - Dynamic Infinite Flashcard & Dokkai (Otomatis membaca file di folder data/part_X.json)
- * - Auto-Highlight Kanji yang dipelajari di kalimat Dokkai
- * - Modal Transisi Elegan: "Part Selesai · Dokkai Time"
+ * - Dokkai Editorial Bunkobon Studio (Mode Per Kalimat & Wacana Utuh + Kamus Kanji Kontekstual)
+ * - Modal Transisi Bebas Emoji
  * - TTS Suara Bahasa Jepang & Kontrol Zoom Teks
  * - Kuis Pilihan Ganda Interaktif
  */
@@ -33,9 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeKanjiList = [];
   let dokkaiData = { title: '', items: [] };
   let currentSentenceIndex = 0;
+  let dokkaiViewMode = 'focus'; // 'focus' | 'passage'
   let mode = 'carousel'; // 'carousel', 'mc', 'dokkai'
   let audioOn = true;
-  let dokkaiFontSizeRem = 1.4;
+  let dokkaiFontSizeRem = 1.55;
   let vocabZoomRem = 5.0;
 
   // State Kuis Pilihan Ganda
@@ -145,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sp.style.background = sparkColors[i % sparkColors.length];
         sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
         sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
+        sp.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
         sp.onanimationend = () => sp.remove();
         fx.appendChild(sp);
       }
@@ -207,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const hideNotice = () => {
     clearTimeout(noticeTimer);
-    if ($('dataNotice'))$('dataNotice').hidden = true;
+    if ($('dataNotice')) $('dataNotice').hidden = true;
   };
 
   // =========================================================
@@ -317,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '';
 
       if (!activeKanjiList.length) {
-        if ($('carouselCounter'))$('carouselCounter').textContent = '0 / 0';
+        if ($('carouselCounter')) $('carouselCounter').textContent = '0 / 0';
         container.innerHTML = `
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
@@ -391,7 +392,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const cards = container.children;
       const total = activeKanjiList.length;
 
-      if ($('carouselCounter')) {$('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
+      if ($('carouselCounter')) {
+        $('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
       }
       if (!total) return;
 
@@ -419,9 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  if ($('btnCarouselNext'))$('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
-  if ($('btnCarouselPrev'))$('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
-  if ($('shuffleBtn')) {$('shuffleBtn').addEventListener('click', () => {
+  if ($('btnCarouselNext')) $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
+  if ($('btnCarouselPrev')) $('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
+  if ($('shuffleBtn')) {
+    $('shuffleBtn').addEventListener('click', () => {
       activeKanjiList = shuffle(activeKanjiList);
       Carousel.render();
       playTone('pop');
@@ -463,21 +466,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if ($('btnRepeatCards')) {$('btnRepeatCards').addEventListener('click', () => {
+  if ($('btnRepeatCards')) {
+    $('btnRepeatCards').addEventListener('click', () => {
       hideCompletionModal();
       Carousel.index = 0;
       Carousel.update();
     });
   }
 
-  if ($('btnStartDokkaiNow')) {$('btnStartDokkaiNow').addEventListener('click', () => {
+  if ($('btnStartDokkaiNow')) {
+    $('btnStartDokkaiNow').addEventListener('click', () => {
       hideCompletionModal();
       setMode('dokkai');
     });
   }
 
   // =========================================================
-  // 9. DOKKAI ENGINE (LATIHAN MEMBACA)
+  // 9. DOKKAI EDITORIAL BUNKOBON STUDIO ENGINE
   // =========================================================
   function highlightLearnedKanji(japaneseText) {
     if (!japaneseText) return '';
@@ -486,10 +491,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const kanjiList = rawKanjiList.map(item => item.kanji).filter(Boolean);
     kanjiList.sort((a, b) => b.length - a.length);
 
+    if (!kanjiList.length) return esc(japaneseText);
+
     const escapedKanjis = kanjiList.map(k => k.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
     const regex = new RegExp(`(${escapedKanjis.join('|')})`, 'g');
 
-    return japaneseText.replace(regex, '<span class="dokkai-highlight-kanji" title="Kanji yang dipelajari">$1</span>');
+    return japaneseText
+      .split(regex)
+      .map(part => {
+        const found = rawKanjiList.find(k => k.kanji === part);
+        if (found) {
+          return `<span class="dokkai-highlight-kanji" data-reading="${esc(found.furigana)}" title="${esc(found.furigana)} — ${esc(found.arti)}">${esc(part)}</span>`;
+        }
+        return esc(part);
+      })
+      .join('');
+  }
+
+  function extractMatchedKanji(japaneseText) {
+    if (!japaneseText || !rawKanjiList.length) return [];
+    const matched = [];
+    const seen = new Set();
+    rawKanjiList.forEach(item => {
+      if (item.kanji && japaneseText.includes(item.kanji) && !seen.has(item.kanji)) {
+        seen.add(item.kanji);
+        matched.push(item);
+      }
+    });
+    return matched;
   }
 
   function initDokkai() {
@@ -498,43 +527,141 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     currentSentenceIndex = 0;
-    renderDokkaiSentence();
+    renderDokkaiStudio();
   }
 
-  function renderDokkaiSentence() {
+  function setDokkaiViewMode(viewMode) {
+    dokkaiViewMode = viewMode;
+    if ($('btnViewFocus')) $('btnViewFocus').classList.toggle('active', viewMode === 'focus');
+    if ($('btnViewPassage')) $('btnViewPassage').classList.toggle('active', viewMode === 'passage');
+    if ($('dokkaiFocusStage')) $('dokkaiFocusStage').hidden = (viewMode !== 'focus');
+    if ($('dokkaiPassageStage')) $('dokkaiPassageStage').hidden = (viewMode !== 'passage');
+    renderDokkaiStudio();
+  }
+
+  if ($('btnViewFocus')) $('btnViewFocus').addEventListener('click', () => setDokkaiViewMode('focus'));
+  if ($('btnViewPassage')) $('btnViewPassage').addEventListener('click', () => setDokkaiViewMode('passage'));
+
+  function setTranslationRevealed(reveal) {
+    const vault = $('dokkaiTranslation');
+    const label = $('toggleTransLabel');
+    if (!vault) return;
+    vault.classList.toggle('is-revealed', reveal);
+    if (label) label.textContent = reveal ? 'Tutup Arti' : 'Buka Arti';
+  }
+
+  function renderDokkaiStudio() {
+    if (!dokkaiData.items.length) return;
     const total = dokkaiData.items.length;
     const item = dokkaiData.items[currentSentenceIndex];
+    const padIdx = String(currentSentenceIndex + 1).padStart(2, '0');
+    const padTotal = String(total).padStart(2, '0');
 
-    if ($('dokkaiTitle')) {$('dokkaiTitle').textContent = dokkaiData.title || `Latihan Dokkai — Part ${currentPart}`;
+    if ($('dokkaiTitle')) {
+      $('dokkaiTitle').textContent = dokkaiData.title || `Latihan Dokkai — Part ${currentPart}`;
     }
-    if ($('dokkaiCounter')) {$('dokkaiCounter').textContent = `Kalimat ${currentSentenceIndex + 1} dari ${total}`;
+    if ($('dokkaiCounter')) {
+      $('dokkaiCounter').textContent = `KALIMAT ${padIdx} / ${padTotal}`;
     }
-    if ($('dokkaiSentenceText')) {$('dokkaiSentenceText').innerHTML = highlightLearnedKanji(item.japanese || '');
-    }
-    if ($('dokkaiMeaningText')) {$('dokkaiMeaningText').textContent = item.indonesian || '';
-    }
-
-    if ($('dokkaiTranslation'))$('dokkaiTranslation').classList.remove('show');
-    if ($('toggleTransBtn')) {
-      const span = $('toggleTransBtn').querySelector('span');
-      if (span) span.textContent = 'Lihat Terjemahan';
+    if ($('dokkaiLineNumber')) {
+      $('dokkaiLineNumber').textContent = padIdx;
     }
 
-    if ($('dokkaiPrevBtn')) {$('dokkaiPrevBtn').style.visibility = currentSentenceIndex === 0 ? 'hidden' : 'visible';
-    }
-    if ($('dokkaiNextBtn')) {
-      if (currentSentenceIndex === total - 1) {
-        $('dokkaiNextBtn').textContent = 'Selesai & Ulangi Part';
-      } else {
-        $('dokkaiNextBtn').textContent = 'Lanjut';
+    // Render Progress Segments
+    const segTrack = $('dokkaiSegmentTrack');
+    if (segTrack) {
+      segTrack.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'dokkai-seg-pill' + (i < currentSentenceIndex ? ' done' : '') + (i === currentSentenceIndex ? ' active' : '');
+        seg.title = `Lompat ke Kalimat ${i + 1}`;
+        seg.addEventListener('click', () => {
+          currentSentenceIndex = i;
+          renderDokkaiStudio();
+          playTone('pop');
+        });
+        segTrack.appendChild(seg);
       }
+    }
+
+    // Render Fokus Kalimat Tunggal
+    const sentenceEl = $('dokkaiSentenceText');
+    if (sentenceEl) {
+      sentenceEl.innerHTML = highlightLearnedKanji(item.japanese || '');
+      sentenceEl.querySelectorAll('.dokkai-highlight-kanji').forEach(span => {
+        span.addEventListener('click', e => {
+          e.stopPropagation();
+          speakJapanese(span.dataset.reading || span.textContent);
+        });
+      });
+    }
+
+    // Render Wacana Utuh (Full Passage)
+    const passageEl = $('dokkaiFullPassage');
+    if (passageEl) {
+      passageEl.innerHTML = '';
+      dokkaiData.items.forEach((line, idx) => {
+        const sSpan = document.createElement('span');
+        sSpan.className = 'passage-sentence-item' + (idx === currentSentenceIndex ? ' is-current' : '');
+        sSpan.innerHTML = highlightLearnedKanji(line.japanese || '');
+        sSpan.addEventListener('click', () => {
+          currentSentenceIndex = idx;
+          renderDokkaiStudio();
+          speakJapanese(line.japanese);
+        });
+        passageEl.appendChild(sSpan);
+      });
+    }
+
+    // Render Terjemahan Indonesia
+    if ($('dokkaiMeaningText')) {
+      $('dokkaiMeaningText').textContent = item.indonesian || '';
+    }
+    setTranslationRevealed(false);
+
+    // Render Kanji Part Ini yang Ditemukan dalam Kalimat
+    const matched = extractMatchedKanji(item.japanese || '');
+    if ($('dokkaiKanjiCount')) $('dokkaiKanjiCount').textContent = matched.length;
+    const chipsBox = $('dokkaiMatchedKanji');
+    if (chipsBox) {
+      chipsBox.innerHTML = '';
+      if (!matched.length) {
+        chipsBox.innerHTML = `<div class="dokkai-empty-vocab">Kalimat penghubung — tidak ada kanji target baru pada baris ini.</div>`;
+      } else {
+        matched.forEach(v => {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'dokkai-vocab-chip';
+          chip.title = 'Klik untuk mendengar pelafalan';
+          chip.innerHTML = `
+            <span class="dvc-kanji furigana-font">${esc(v.kanji)}</span>
+            <div class="dvc-meta">
+              <span class="dvc-reading furigana-font">${esc(v.furigana)}</span>
+              <span class="dvc-meaning">${esc(v.arti)}</span>
+            </div>
+          `;
+          chip.addEventListener('click', () => speakJapanese(v.furigana));
+          chipsBox.appendChild(chip);
+        });
+      }
+    }
+
+    // Kontrol Tombol Navigasi Bawah
+    if ($('dokkaiPrevBtn')) {
+      $('dokkaiPrevBtn').style.visibility = currentSentenceIndex === 0 ? 'hidden' : 'visible';
+    }
+    if ($('dokkaiNextLabel')) {
+      $('dokkaiNextLabel').textContent = currentSentenceIndex === total - 1
+        ? 'Selesai & Kembali ke Kartu'
+        : 'Kalimat Berikutnya';
     }
   }
 
-  if ($('dokkaiNextBtn')) {$('dokkaiNextBtn').addEventListener('click', () => {
+  if ($('dokkaiNextBtn')) {
+    $('dokkaiNextBtn').addEventListener('click', () => {
       if (currentSentenceIndex < dokkaiData.items.length - 1) {
         currentSentenceIndex++;
-        renderDokkaiSentence();
+        renderDokkaiStudio();
         playTone('pop');
       } else {
         setMode('carousel');
@@ -542,26 +669,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('dokkaiPrevBtn')) {$('dokkaiPrevBtn').addEventListener('click', () => {
+  if ($('dokkaiPrevBtn')) {
+    $('dokkaiPrevBtn').addEventListener('click', () => {
       if (currentSentenceIndex > 0) {
         currentSentenceIndex--;
-        renderDokkaiSentence();
+        renderDokkaiStudio();
         playTone('pop');
       }
     });
   }
 
-  if ($('toggleTransBtn')) {$('toggleTransBtn').addEventListener('click', () => {
-      const box = $('dokkaiTranslation');
-      if (box) {
-        const isShowing = box.classList.toggle('show');
-        const span = $('toggleTransBtn').querySelector('span');
-        if (span) span.textContent = isShowing ? 'Tutup Terjemahan' : 'Lihat Terjemahan';
+  if ($('toggleTransBtn')) {
+    $('toggleTransBtn').addEventListener('click', () => {
+      const vault = $('dokkaiTranslation');
+      if (vault) setTranslationRevealed(!vault.classList.contains('is-revealed'));
+    });
+  }
+
+  if ($('dokkaiTranslation')) {
+    $('dokkaiTranslation').addEventListener('click', function () {
+      if (!this.classList.contains('is-revealed')) {
+        setTranslationRevealed(true);
+        playTone('pop');
       }
     });
   }
 
-  if ($('btnReadAloud')) {$('btnReadAloud').addEventListener('click', () => {
+  if ($('btnReadAloud')) {
+    $('btnReadAloud').addEventListener('click', () => {
       const currentItem = dokkaiData.items[currentSentenceIndex];
       if (currentItem && currentItem.japanese) {
         speakJapanese(currentItem.japanese);
@@ -569,16 +704,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnDokkaiZoomIn')) {$('btnDokkaiZoomIn').addEventListener('click', () => {
-      if (dokkaiFontSizeRem < 2.5) {
-        dokkaiFontSizeRem += 0.15;
+  if ($('btnDokkaiZoomIn')) {
+    $('btnDokkaiZoomIn').addEventListener('click', () => {
+      if (dokkaiFontSizeRem < 2.4) {
+        dokkaiFontSizeRem = +(dokkaiFontSizeRem + 0.15).toFixed(2);
         document.documentElement.style.setProperty('--dokkai-font-size', `${dokkaiFontSizeRem}rem`);
       }
     });
   }
-  if ($('btnDokkaiZoomOut')) {$('btnDokkaiZoomOut').addEventListener('click', () => {
-      if (dokkaiFontSizeRem > 1.0) {
-        dokkaiFontSizeRem -= 0.15;
+  if ($('btnDokkaiZoomOut')) {
+    $('btnDokkaiZoomOut').addEventListener('click', () => {
+      if (dokkaiFontSizeRem > 1.1) {
+        dokkaiFontSizeRem = +(dokkaiFontSizeRem - 0.15).toFixed(2);
         document.documentElement.style.setProperty('--dokkai-font-size', `${dokkaiFontSizeRem}rem`);
       }
     });
@@ -599,15 +736,15 @@ document.addEventListener('DOMContentLoaded', () => {
     qScore = 0;
     answered = false;
 
-    if ($('quizTitle'))$('quizTitle').textContent = `Kuis Pilihan Ganda Kanji · Part ${currentPart}`;
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = '0%';
+    if ($('quizTitle')) $('quizTitle').textContent = `Kuis Pilihan Ganda Kanji · Part ${currentPart}`;
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = '0%';
     runMC();
   }
 
   function setQuizProgress() {
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
-    if ($('quizCounter'))$('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
-    if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
+    if ($('quizCounter')) $('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
+    if ($('quizScore')) $('quizScore').textContent = `Benar ${qScore}`;
   }
 
   function runMC() {
@@ -619,11 +756,12 @@ document.addEventListener('DOMContentLoaded', () => {
     answered = false;
     const q = quizPool[qi];
 
-    if ($('mcQuestionText'))$('mcQuestionText').textContent = q.kanji;
+    if ($('mcQuestionText')) $('mcQuestionText').textContent = q.kanji;
     if ($('mcFeedback')) {
-      $('mcFeedback').textContent = '';$('mcFeedback').className = 'feedback-text';
+      $('mcFeedback').textContent = '';
+      $('mcFeedback').className = 'feedback-text';
     }
-    if ($('btnMcNext'))$('btnMcNext').disabled = true;
+    if ($('btnMcNext')) $('btnMcNext').disabled = true;
 
     const wrongs = shuffle(rawKanjiList.filter(v => v.id !== q.id && v.arti !== q.arti)).slice(0, 3);
     const optionsBox = $('mcOptions');
@@ -649,19 +787,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (item.id === q.id) {
           qScore++;
-          $('mcFeedback').textContent = '✓ Benar!';
+          $('mcFeedback').textContent = 'Benar!';
           $('mcFeedback').classList.add('correct');
           playTone('correct');
           speakJapanese(q.furigana);
         } else {
           btn.classList.add('wrong');
-          $('mcFeedback').textContent = '✕ Kurang Tepat!';
+          $('mcFeedback').textContent = 'Kurang Tepat!';
           $('mcFeedback').classList.add('wrong');
           playTone('wrong');
         }
 
-        if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
-        if ($('btnMcNext')) {$('btnMcNext').disabled = false;
+        if ($('quizScore')) $('quizScore').textContent = `Benar ${qScore}`;
+        if ($('btnMcNext')) {
+          $('btnMcNext').disabled = false;
           $('btnMcNext').focus();
         }
       });
@@ -670,35 +809,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnMcNext')) {$('btnMcNext').addEventListener('click', () => {
+  if ($('btnMcNext')) {
+    $('btnMcNext').addEventListener('click', () => {
       qi++;
       runMC();
     });
   }
 
   function showResult(score, total) {
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = '100%';
-    if ($('mode-mc'))$('mode-mc').hidden = true;
-    if ($('mode-result'))$('mode-result').hidden = false;
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = '100%';
+    if ($('mode-mc')) $('mode-mc').hidden = true;
+    if ($('mode-result')) $('mode-result').hidden = false;
 
-    if ($('resultScore'))$('resultScore').textContent = `Skor Akhir: ${score} / ${total}`;
+    if ($('resultScore')) $('resultScore').textContent = `Skor Akhir: ${score} / ${total}`;
     const pct = Math.round((score / total) * 100);
-    if ($('resultRing'))$('resultRing').style.setProperty('--pct', pct);
-    if ($('resultPct'))$('resultPct').textContent = pct + '%';
+    if ($('resultRing')) $('resultRing').style.setProperty('--pct', pct);
+    if ($('resultPct')) $('resultPct').textContent = pct + '%';
     playTone('win');
   }
 
-  if ($('btnRetryQuiz'))$('btnRetryQuiz').addEventListener('click', () => startQuiz());
-  if ($('btnResultCards'))$('btnResultCards').addEventListener('click', () => setMode('carousel'));
+  if ($('btnRetryQuiz')) $('btnRetryQuiz').addEventListener('click', () => startQuiz());
+  if ($('btnResultCards')) $('btnResultCards').addEventListener('click', () => setMode('carousel'));
 
-  if ($('btnZoomIn')) {$('btnZoomIn').addEventListener('click', () => {
+  if ($('btnZoomIn')) {
+    $('btnZoomIn').addEventListener('click', () => {
       if (vocabZoomRem < 6.0) {
         vocabZoomRem += 0.3;
         document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
       }
     });
   }
-  if ($('btnZoomOut')) {$('btnZoomOut').addEventListener('click', () => {
+  if ($('btnZoomOut')) {
+    $('btnZoomOut').addEventListener('click', () => {
       if (vocabZoomRem > 2.5) {
         vocabZoomRem -= 0.3;
         document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
@@ -716,11 +858,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', btn.dataset.mode === newMode);
     });
 
-    if ($('mode-carousel'))$('mode-carousel').hidden = (newMode !== 'carousel');
-    if ($('mode-mc'))$('mode-mc').hidden = (newMode !== 'mc');
-    if ($('mode-dokkai'))$('mode-dokkai').hidden = (newMode !== 'dokkai');
-    if ($('mode-result'))$('mode-result').hidden = true;
-    if ($('quiz-global-header'))$('quiz-global-header').hidden = (newMode !== 'mc');
+    if ($('mode-carousel')) $('mode-carousel').hidden = (newMode !== 'carousel');
+    if ($('mode-mc')) $('mode-mc').hidden = (newMode !== 'mc');
+    if ($('mode-dokkai')) $('mode-dokkai').hidden = (newMode !== 'dokkai');
+    if ($('mode-result')) $('mode-result').hidden = true;
+    if ($('quiz-global-header')) $('quiz-global-header').hidden = (newMode !== 'mc');
 
     if (newMode === 'carousel') {
       Carousel.update();
@@ -735,7 +877,8 @@ document.addEventListener('DOMContentLoaded', () => {
     b.addEventListener('click', () => setMode(b.dataset.mode));
   });
 
-  if ($('btnBack')) {$('btnBack').addEventListener('click', () => {
+  if ($('btnBack')) {
+    $('btnBack').addEventListener('click', () => {
       if (mode !== 'carousel') {
         setMode('carousel');
       } else if (window.history.length > 1) {
@@ -746,7 +889,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnAudioToggle')) {$('btnAudioToggle').addEventListener('click', function () {
+  if ($('btnAudioToggle')) {
+    $('btnAudioToggle').addEventListener('click', function () {
       audioOn = !audioOn;
       const unmuted = this.querySelector('.icon-unmuted');
       const muted = this.querySelector('.icon-muted');
@@ -818,10 +962,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (mode === 'dokkai') {
       if (e.code === 'ArrowRight' || e.code === 'Space') {
         e.preventDefault();
-        if ($('dokkaiNextBtn'))$('dokkaiNextBtn').click();
+        if ($('dokkaiNextBtn')) $('dokkaiNextBtn').click();
       } else if (e.code === 'ArrowLeft') {
         e.preventDefault();
-        if ($('dokkaiPrevBtn'))$('dokkaiPrevBtn').click();
+        if ($('dokkaiPrevBtn')) $('dokkaiPrevBtn').click();
       }
     }
   });

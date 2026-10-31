@@ -1,0 +1,49 @@
+{
+  "part": 16,
+  "flashcards": [
+    { "kanji": "肉", "furigana": "にく", "arti": "Daging" },
+    { "kanji": "野菜", "furigana": "やさい", "arti": "Sayuran" },
+    { "kanji": "果物", "furigana": "くだもの", "arti": "Buah-buahan" },
+    { "kanji": "料理", "furigana": "りょうり", "arti": "Masakan" },
+    { "kanji": "酒", "furigana": "さけ / しゅ", "arti": "Minuman beralkohol / Sake" },
+    { "kanji": "茶", "furigana": "ちゃ / さ", "arti": "Teh" },
+    { "kanji": "飯", "furigana": "はん", "arti": "Nasi / Makanan" },
+    { "kanji": "卵", "furigana": "たまご", "arti": "Telur" },
+    { "kanji": "水", "furigana": "みず / すい", "arti": "Air" },
+    { "kanji": "塩", "furigana": "しお", "arti": "Garam" },
+    { "kanji": "砂糖", "furigana": "さとう", "arti": "Gula" },
+    { "kanji": "味", "furigana": "あじ / み", "arti": "Rasa" },
+    { "kanji": "甘", "furigana": "あまい / かん", "arti": "Manis" },
+    { "kanji": "辛", "furigana": "からい / しん", "arti": "Pedas / Asin" },
+    { "kanji": "苦", "furigana": "にがい / く", "arti": "Pahit" }
+  ],
+  "dokkai": {
+    "title": "Part 16 no renshu",
+    "items": [
+      {
+        "japanese": "肉 と 野菜 を つかって、料理 を つくります。",
+        "indonesian": "Membuat masakan menggunakan daging dan sayuran."
+      },
+      {
+        "japanese": "果物 を 食 べて、お酒 や お茶 を 飲 みます。",
+        "indonesian": "Makan buah-buahan dan minum sake atau teh."
+      },
+      {
+        "japanese": "ごはん と 卵 と 水 を 用意 します。",
+        "indonesian": "Menyiapkan nasi, telur, dan air."
+      },
+      {
+        "japanese": "塩 と 砂糖 を いれます。",
+        "indonesian": "Memasukkan garam dan gula."
+      },
+      {
+        "japanese": "その 料理 の 味 は どうですか。",
+        "indonesian": "Bagaimana rasa masakan tersebut?"
+      },
+      {
+        "japanese": "甘い もの と 辛い もの と 苦い もの が あります。",
+        "indonesian": "Ada makanan yang manis, pedas, dan pahit."
+      }
+    ]
+  }
+}
