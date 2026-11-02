@@ -33,8 +33,27 @@
         </a>
       </div>
 
-      <!-- Kanan: Tombol Pemicu Modal Level Bab -->
+      <!-- Kanan: Tombol Mode Malam & Pemicu Modal Level Bab -->
       <div class="topbar-right">
+        <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Ganti Tema" title="Ganti Mode Siang/Malam">
+          <!-- Ikon Bulan (Tampil saat Mode Terang) -->
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Ikon Matahari (Tampil saat Mode Malam) -->
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
         <button type="button" id="openChapterModal" class="chapter-trigger-btn" aria-label="Buka Daftar Bab">
           <span class="trigger-label"><b id="currentChapterDisplay">Bab 01</b></span>
           <div class="trigger-icon-wrap">
@@ -73,7 +92,7 @@
     <div class="modal-sheet">
       <div class="modal-header">
         <div>
-          <span class="modal-tag">25 BAB</span>
+          <span class="modal-tag">BAB 1 - 25</span>
           <h3 class="modal-title">Pilih Bab</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
@@ -83,7 +102,7 @@
         </button>
       </div>
 
-      <!-- Grid 25 Bab yang di-generate via JS -->
+      <!-- Grid 25 Bab (1-25) yang di-generate via JS -->
       <div class="modal-grid" id="modalChapterGrid"></div>
     </div>
   </div>

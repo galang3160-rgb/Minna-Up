@@ -5,7 +5,10 @@
   --bg: #FDFBF7;
   --surface: #FFFFFF;
   --ink: #111111;
+  --ink-badge: #111111;
   --dim: #5A5A5A;
+  --dot-grid: #1111111a;
+  --dashed-line: #DEDAD0;
 
   /* Palet Kategori Neo-Brutalism */
   --c-matcha: #DCFCE7;
@@ -17,11 +20,13 @@
   --green-light: #22C55E;
 
   /* Border & Hard Shadows */
-  --border: 2.5px solid #111111;
-  --border-sm: 2px solid #111111;
-  --shadow: 5px 5px 0px 0px #111111;
-  --shadow-sm: 3px 3px 0px 0px #111111;
-  --shadow-lg: 8px 8px 0px 0px #111111;
+  --border-color: #111111;
+  --shadow-color: #111111;
+  --border: 2.5px solid var(--border-color);
+  --border-sm: 2px solid var(--border-color);
+  --shadow: 5px 5px 0px 0px var(--shadow-color);
+  --shadow-sm: 3px 3px 0px 0px var(--shadow-color);
+  --shadow-lg: 8px 8px 0px 0px var(--shadow-color);
 
   --radius-card: 24px;
   --radius-md: 16px;
@@ -29,6 +34,30 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+/* =========================================================================
+   VARIABEL MODE MALAM (DARK MODE NEO-BRUTALISM)
+   ========================================================================= */
+html[data-theme="dark"] {
+  --bg: #0F1115;
+  --surface: #1A1D24;
+  --ink: #F3F4F6;
+  --ink-badge: #111111; /* Teks di atas warna pastel tetap gelap agar kontras */
+  --dim: #9CA3AF;
+  --dot-grid: #ffffff14;
+  --dashed-line: #2E3440;
+
+  /* Palet Aksen Lebih Vivid di Mode Malam */
+  --c-matcha: #86EFAC;
+  --c-sky: #7DD3FC;
+  --c-amber: #FDE047;
+  --c-lavender: #D8B4FE;
+  --c-rose: #FDA4AF;
+  --green-brand: #4ADE80;
+
+  --border-color: #384152;
+  --shadow-color: #050608;
 }
 
 *, *::before, *::after {
@@ -46,11 +75,12 @@ html, body {
 body {
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   background-color: var(--bg);
-  background-image: radial-gradient(#1111111a 1.25px, transparent 1.25px);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
   background-size: 22px 22px;
   color: var(--ink);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 body.cinema-body {
@@ -72,8 +102,12 @@ body.cinema-body {
   pointer-events: none;
   background: radial-gradient(circle, rgba(254, 243, 199, 0.8), transparent 70%);
   filter: blur(50px);
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, background 0.3s ease;
 }
+html[data-theme="dark"] .sun {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.14), rgba(56, 189, 248, 0.06), transparent 70%);
+}
+
 .fx {
   position: fixed;
   inset: 0;
@@ -94,7 +128,7 @@ body.cinema-body {
   position: absolute;
   width: 9px;
   height: 9px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--ink-badge);
   border-radius: 3px;
   background: var(--c-amber);
   pointer-events: none;
@@ -179,6 +213,7 @@ body.page-leaving main {
   background: var(--surface);
   border: var(--border);
   box-shadow: var(--shadow);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .topbar-left {
@@ -193,7 +228,7 @@ body.page-leaving main {
   border-radius: 12px;
   display: grid;
   place-items: center;
-  color: var(--ink);
+  color: var(--ink-badge);
   background: var(--c-amber);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
@@ -204,7 +239,7 @@ body.page-leaving main {
 .nav-back-circle:hover {
   background: var(--c-matcha);
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px #111111;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
 }
 .nav-back-circle:active {
   transform: translate(3px, 3px);
@@ -229,11 +264,52 @@ body.page-leaving main {
 .topbar-right {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+/* Tombol Toggle Mode Malam */
+.theme-toggle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--c-lavender);
+  color: var(--ink-badge);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+}
+.theme-toggle-btn:hover {
+  background: var(--c-sky);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
+}
+.theme-toggle-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.theme-toggle-btn .icon-sun {
+  display: none;
+}
+.theme-toggle-btn .icon-moon {
+  display: block;
+}
+html[data-theme="dark"] .theme-toggle-btn {
+  background: var(--c-amber);
+}
+html[data-theme="dark"] .theme-toggle-btn .icon-sun {
+  display: block;
+}
+html[data-theme="dark"] .theme-toggle-btn .icon-moon {
+  display: none;
 }
 
 .chapter-trigger-btn {
   background: var(--c-matcha);
-  color: var(--ink);
+  color: var(--ink-badge);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
   padding: 7px 12px 7px 16px;
@@ -248,7 +324,7 @@ body.page-leaving main {
 .chapter-trigger-btn:hover {
   background: var(--c-amber);
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px #111111;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
 }
 .chapter-trigger-btn:active {
   transform: translate(3px, 3px);
@@ -267,9 +343,9 @@ body.page-leaving main {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: var(--surface);
-  border: 2px solid var(--ink);
-  color: var(--ink);
+  background: #FFFFFF;
+  border: 2px solid var(--ink-badge);
+  color: var(--ink-badge);
   display: grid;
   place-items: center;
 }
@@ -302,10 +378,11 @@ body.page-leaving main {
   place-items: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease, color 0.15s ease;
 }
 .nav-arrow-btn:hover {
   background: var(--c-amber);
+  color: var(--ink-badge);
   transform: translate(2px, 2px);
   box-shadow: var(--shadow-sm);
 }
@@ -343,7 +420,7 @@ body.page-leaving main {
   color: var(--ink);
   text-decoration: none;
   box-shadow: var(--shadow);
-  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease;
+  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease, background-color 0.25s ease;
   user-select: none;
 }
 
@@ -414,10 +491,10 @@ body.page-leaving main {
   font-weight: 700;
   letter-spacing: 0.06em;
   background: var(--card-accent);
-  color: var(--ink);
+  color: var(--ink-badge);
   padding: 4px 12px;
   border-radius: 99px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--border-color);
 }
 
 .flashcard-body {
@@ -443,7 +520,7 @@ body.page-leaving main {
 .chapter-icon-box svg {
   width: 42px;
   height: 42px;
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 .chapter-flashcard.active:hover .chapter-icon-box {
   transform: scale(1.06) rotate(-3deg);
@@ -463,7 +540,7 @@ body.page-leaving main {
   align-items: center;
   justify-content: space-between;
   padding-top: 16px;
-  border-top: 2px dashed #DEDAD0;
+  border-top: 2px dashed var(--dashed-line);
 }
 
 .action-hint {
@@ -480,22 +557,23 @@ body.page-leaving main {
   color: var(--ink);
   display: grid;
   place-items: center;
-  border: 2px solid var(--ink);
-  transition: transform 0.2s var(--ease), background-color 0.2s ease;
+  border: 2px solid var(--border-color);
+  transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
 }
 .chapter-flashcard.active:hover .action-icon-circle {
   background: var(--card-accent);
+  color: var(--ink-badge);
   transform: translate(2px, -2px);
 }
 
 /* =========================================================================
-   MODAL POPUP GRID LEVEL 1-25 (NEO-BRUTALISM)
+   MODAL POPUP GRID LEVEL 26-50 (NEO-BRUTALISM)
    ========================================================================= */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(17, 17, 17, 0.65);
+  background: rgba(10, 11, 14, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -522,7 +600,7 @@ body.page-leaving main {
   flex-direction: column;
   padding: 26px;
   transform: scale(0.94) translateY(14px);
-  transition: transform 0.28s var(--ease);
+  transition: transform 0.28s var(--ease), background-color 0.25s ease;
   overflow: hidden;
 }
 
@@ -543,7 +621,8 @@ body.page-leaving main {
   font-weight: 700;
   letter-spacing: 0.06em;
   background: var(--c-amber);
-  border: 2px solid var(--ink);
+  color: var(--ink-badge);
+  border: 2px solid var(--border-color);
   padding: 2px 10px;
   border-radius: 99px;
   margin-bottom: 4px;
@@ -562,7 +641,7 @@ body.page-leaving main {
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
   background: var(--c-rose);
-  color: var(--ink);
+  color: var(--ink-badge);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -570,7 +649,7 @@ body.page-leaving main {
 }
 .modal-close-btn:hover {
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px 0px #111111;
+  box-shadow: 1px 1px 0px 0px var(--shadow-color);
 }
 
 /* Grid 5 Kolom Bab */
@@ -600,7 +679,11 @@ body.page-leaving main {
 .chapter-grid-item:hover {
   background: var(--c-amber);
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px #111111;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
+}
+.chapter-grid-item:hover .cgi-num,
+.chapter-grid-item:hover .cgi-label {
+  color: var(--ink-badge);
 }
 
 .cgi-num {
@@ -620,12 +703,12 @@ body.page-leaving main {
 
 .chapter-grid-item.active {
   background: var(--c-matcha);
-  box-shadow: inset 0 0 0 1px var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink-badge);
   transform: translate(2px, 2px);
 }
 .chapter-grid-item.active .cgi-num,
 .chapter-grid-item.active .cgi-label {
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 /* =========================================================================
@@ -650,7 +733,7 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--ink-badge);
   background: var(--c-amber);
   border: var(--border);
   box-shadow: var(--shadow-sm);
@@ -681,7 +764,7 @@ body.page-leaving main {
   border: var(--border);
   box-shadow: var(--shadow);
   color: var(--ink);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.25s ease;
 }
 .tile:hover {
   transform: translate(-2px, -2px);
@@ -699,6 +782,7 @@ body.page-leaving main {
   .fixed-topbar { padding: 0 14px; top: 14px; }
   .topbar-capsule { padding: 8px 14px; border-radius: 16px; }
   .logo-word { font-size: 1.1rem; }
+  .theme-toggle-btn { width: 38px; height: 38px; border-radius: 10px; }
   .chapter-trigger-btn { padding: 6px 10px 6px 14px; }
   .chapter-flashcard { width: 280px; height: 380px; padding: 22px; }
   .chapter-title { font-size: 2.35rem; }

@@ -1,0 +1,1522 @@
+/* =========================================================================
+   NAKAMAGAKKOU — REFINED TACTILE BENTO DESIGN SYSTEM (PC & MOBILE OPTIMIZED)
+   ========================================================================= */
+:root {
+  --bg: #FAF7F0;
+  --surface: #FFFFFF;
+  --surface-alt: #F3EFE6;
+  --ink: #141413;
+  --ink-soft: #3D3D3A;
+  --dim: #6E6D68;
+
+  /* Palet Kategori yang Hangat & Enak Dilihat */
+  --c-matcha: #D8F5E0;
+  --c-sky: #DFF2FE;
+  --c-amber: #FEF0C7;
+  --c-lavender: #EDE4FF;
+  --c-rose: #FFE2E6;
+
+  --green-brand: #15803D;
+  --green-light: #22C55E;
+
+  /* Status Kuis */
+  --c-correct: #146C32;
+  --c-correct-bg: #D8F5E0;
+  --c-wrong: #C92A2A;
+  --c-wrong-bg: #FFE3E3;
+
+  /* Garis & Bayangan Taktil Proporsional */
+  --border: 2px solid #141413;
+  --border-subtle: 1.5px solid #141413;
+  --shadow: 4px 4px 0px 0px #141413;
+  --shadow-sm: 2.5px 2.5px 0px 0px #141413;
+  --shadow-lg: 6px 6px 0px 0px #141413;
+
+  --radius-card: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body.learning-body {
+  font-family: 'Plus Jakarta Sans', 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  background-image: radial-gradient(#14141317 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  min-height: 100dvh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+.furigana-font {
+  font-family: 'Zen Maru Gothic', sans-serif !important;
+}
+
+.bg-matcha   { background-color: var(--c-matcha) !important; }
+.bg-sky      { background-color: var(--c-sky) !important; }
+.bg-amber    { background-color: var(--c-amber) !important; }
+.bg-lavender { background-color: var(--c-lavender) !important; }
+.bg-surface  { background-color: var(--surface) !important; }
+
+/* =========================================================================
+   AMBIENT ORB, CLICK SPARKS & MOUSE TRAIL
+   ========================================================================= */
+.sun {
+  position: fixed;
+  z-index: 0;
+  width: 65vmin;
+  height: 65vmin;
+  left: 50%;
+  top: 50%;
+  margin: -32.5vmin 0 0 -32.5vmin;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(216, 245, 224, 0.65) 0%, rgba(254, 240, 199, 0.45) 45%, transparent 70%);
+  filter: blur(55px);
+  transition: transform 0.3s ease-out;
+}
+.fx {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+#mouseTrail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 55;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  background: var(--c-amber);
+  pointer-events: none;
+  animation: sparkFly 0.6s var(--ease) forwards;
+}
+@keyframes sparkFly {
+  0% { transform: translate(-50%, -50%) scale(0.7) rotate(0deg); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--r)); opacity: 0; }
+}
+.pulse {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseOut 0.45s ease-out forwards;
+}
+@keyframes pulseOut {
+  to { width: 64px; height: 64px; opacity: 0; }
+}
+
+/* =========================================================================
+   LAYOUT UTAMA & TOPBAR
+   ========================================================================= */
+.app-layout {
+  position: relative;
+  z-index: 10;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 28px;
+  max-width: 1240px;
+  margin: 0 auto;
+  gap: 12px;
+}
+
+.fixed-topbar {
+  width: 100%;
+  z-index: 60;
+  flex-shrink: 0;
+}
+
+.topbar-capsule {
+  width: 100%;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.nav-back-circle,
+.audio-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
+}
+.audio-toggle-btn {
+  background: var(--c-lavender);
+}
+.nav-back-circle:hover,
+.audio-toggle-btn:hover {
+  background: var(--c-matcha);
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.nav-back-circle:active,
+.audio-toggle-btn:active {
+  transform: translate(2.5px, 2.5px);
+  box-shadow: none;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.logo-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--c-matcha);
+  border: var(--border);
+  display: grid;
+  place-items: center;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+.logo-word {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.logo-word b {
+  color: var(--green-brand);
+}
+
+/* Search Box */
+.topbar-center {
+  flex: 1;
+  max-width: 420px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.search-icon {
+  position: absolute;
+  left: 13px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  padding: 8px 34px 8px 38px;
+  border-radius: 12px;
+  border: var(--border);
+  background: var(--bg);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.search-input:focus {
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.search-input::placeholder {
+  color: var(--dim);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 8px;
+  background: var(--c-rose);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 7px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+/* Kanan Topbar */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.chapter-trigger-btn {
+  background: var(--c-matcha);
+  color: var(--ink);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 6px 10px 6px 14px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
+}
+.chapter-trigger-btn:hover {
+  background: var(--c-amber);
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.trigger-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.trigger-icon-wrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+/* =========================================================================
+   MAIN STAGE & CONTROL PILLS
+   ========================================================================= */
+.main-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.study-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  width: 100%;
+}
+
+.data-notice {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 16px;
+  border-radius: 10px;
+  background: var(--c-amber);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  z-index: 50;
+  text-align: center;
+}
+
+/* Tombol Pill Kontrol Atas Kartu & Checklist */
+.top-card-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 10;
+}
+
+.ctrl-pill {
+  height: 36px;
+  padding: 0 13px;
+  border-radius: 12px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease);
+}
+.ctrl-pill:hover {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.ctrl-pill:active {
+  transform: translate(2.5px, 2.5px);
+  box-shadow: none;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green-light);
+  border: 1.5px solid var(--ink);
+}
+.status-dot.is-off {
+  background: #EF4444;
+}
+
+/* =========================================================================
+   1. FLASHCARD DENGAN EFEK TUMPUKAN KERTAS (LAYERED DECK)
+   ========================================================================= */
+.flashcard-deck-wrap {
+  width: 100%;
+  max-width: 660px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: clamp(250px, 43vh, 360px);
+  perspective: 1400px;
+  touch-action: pan-y;
+}
+
+/* Efek Tumpukan Kartu di Belakang */
+.carousel-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--c-amber);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  transform: translate(8px, 8px) rotate(1.2deg);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.chapter-flashcard {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+  user-select: none;
+  transform-style: preserve-3d;
+  transition: transform 0.35s var(--ease), opacity 0.25s ease;
+}
+
+.carousel-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chapter-flashcard.is-flipped .carousel-card-inner {
+  transform: rotateY(180deg);
+}
+
+.carousel-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 26px;
+  text-align: center;
+}
+
+.carousel-face.front {
+  background: var(--surface);
+}
+
+.carousel-face.back {
+  transform: rotateY(180deg);
+  background: var(--c-matcha);
+}
+
+.face-top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.c-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--c-lavender);
+  border: 1.5px solid var(--ink);
+  padding: 4px 12px;
+  border-radius: 99px;
+  text-transform: uppercase;
+}
+.carousel-face.back .c-tag {
+  background: var(--surface);
+}
+
+.btn-card-speak {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.12s var(--ease), background-color 0.12s ease;
+}
+.btn-card-speak:hover {
+  background: var(--c-amber);
+  transform: scale(1.05);
+}
+.btn-card-speak:active {
+  transform: scale(0.95);
+}
+
+.face-center-content {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.c-arti {
+  font-size: clamp(1.85rem, 4.2vw, 3rem);
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.c-kanji,
+.c-kana-only {
+  font-size: clamp(2.6rem, 6.2vw, 4.3rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.12;
+  transition: all 0.2s var(--ease);
+}
+
+.c-furigana-pill {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 4px 16px;
+  border-radius: 99px;
+  transition: all 0.22s var(--ease-spring);
+}
+
+.c-arti-sub {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+/* LOGIKA KANJI OFF & FURIGANA OFF PADA KARTU BER-KANJI */
+.kanji-off .has-kanji .c-kanji {
+  display: none;
+}
+.kanji-off .has-kanji .c-furigana-pill {
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+  line-height: 1.15;
+  padding: 8px 22px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.furi-off .has-kanji .c-furigana-pill {
+  display: none;
+}
+
+.face-bottom-hint {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chapter-flashcard.center {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+.chapter-flashcard.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Bilah Kontrol Navigasi Bawah Kartu */
+.flashcard-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.nav-arrow-btn {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
+}
+.nav-arrow-btn:hover {
+  background: var(--c-amber);
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.nav-arrow-btn:active {
+  transform: translate(2.5px, 2.5px);
+  box-shadow: none;
+}
+
+.carousel-counter {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--c-amber);
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================================
+   2. MODE PILIH KATA (CHECKLIST BERSIH + FILTER KANJI / KANA)
+   ========================================================================= */
+.checklist-card {
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  padding: 18px 20px;
+  width: 100%;
+  max-width: 760px;
+  height: clamp(290px, 64dvh, 470px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.checklist-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: var(--border);
+}
+
+.checklist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checklist-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  gap: 10px;
+  align-content: start;
+  padding: 2px;
+}
+
+.check-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 15px;
+  border: var(--border);
+  background: var(--surface-alt);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.14s var(--ease), background-color 0.18s var(--ease), box-shadow 0.14s var(--ease);
+}
+.check-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.check-tile:active {
+  transform: scale(0.97);
+}
+.check-tile.is-checked {
+  background: var(--c-matcha);
+}
+
+.anim-check-box {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: var(--border);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--ease-spring), background-color 0.15s var(--ease);
+}
+.check-tile.is-checked .anim-check-box {
+  background: var(--green-light);
+  transform: scale(1.08);
+}
+.anim-check-box svg {
+  width: 16px;
+  height: 16px;
+  stroke: #141413;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.24s var(--ease-spring);
+}
+.check-tile.is-checked .anim-check-box svg {
+  stroke-dashoffset: 0;
+}
+
+.tile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+.tile-jp {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tile-kanji {
+  font-size: 1.12rem;
+  font-weight: 900;
+}
+.tile-furi {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--dim);
+}
+.tile-type-badge {
+  margin-left: auto;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 99px;
+  border: 1.5px solid var(--ink);
+}
+.tile-type-badge.is-kanji {
+  background: var(--c-amber);
+}
+.tile-type-badge.is-kana {
+  background: var(--c-sky);
+}
+.tile-arti {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================================
+   STATUS BAR KUIS
+   ========================================================================= */
+.quiz-status-bar {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto 12px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+.quiz-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.quiz-title-tag {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.quiz-meta-group {
+  display: flex;
+  gap: 8px;
+}
+.meta-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface-alt);
+  padding: 3px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--ink);
+}
+.meta-pill.meta-score {
+  background: var(--c-matcha);
+}
+.quiz-progress-track {
+  height: 8px;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--ink);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--green-light);
+  width: 0%;
+  transition: width 0.28s var(--ease);
+}
+
+/* =========================================================================
+   3. QUIZ PILIHAN GANDA (RESPONSIVE SPLIT-VIEW)
+   ========================================================================= */
+.mc-view-container {
+  width: 100%;
+  max-width: 980px;
+}
+
+.mc-split-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.vocab-main-card {
+  position: relative;
+  background: var(--c-matcha);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+}
+
+.card-top-Controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.font-zoom-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-zoom {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: 2px 2px 0px #141413;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.btn-zoom:hover {
+  background: var(--c-amber);
+}
+
+.vocab-display-wrap {
+  margin: auto 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  word-break: break-word;
+}
+.vocab-question-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid var(--ink);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+.vocab-text {
+  font-size: var(--vocab-font-size, 3.6rem);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.vocab-sub-furi {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--c-amber);
+  border: 1.5px solid var(--ink);
+  padding: 2px 12px;
+  border-radius: 99px;
+}
+
+/* Kolom Kanan: Pilihan Jawaban */
+.mc-options-card {
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.options-vertical-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.btn-mc-option {
+  position: relative;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease), background-color 0.12s ease;
+}
+.btn-mc-option::before {
+  content: attr(data-key);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--c-amber);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.btn-mc-option:hover:not(:disabled) {
+  background: var(--c-amber);
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+
+.btn-mc-option.correct {
+  background: var(--c-correct-bg) !important;
+  color: var(--ink) !important;
+}
+.btn-mc-option.correct::before {
+  background: var(--green-light);
+}
+.btn-mc-option.wrong {
+  background: var(--c-wrong-bg) !important;
+  color: var(--c-wrong) !important;
+}
+.btn-mc-option.wrong::before {
+  background: #FFA8A8;
+  color: var(--ink);
+}
+.btn-mc-option:disabled {
+  cursor: default;
+}
+.btn-mc-option:disabled:not(.correct):not(.wrong) {
+  opacity: 0.5;
+}
+
+.mc-bottom-bar,
+.typing-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 2px dashed var(--surface-alt);
+}
+
+/* =========================================================================
+   4. QUIZ MENGETIK
+   ========================================================================= */
+.typing-view-container {
+  width: 100%;
+  max-width: 640px;
+}
+
+.typing-centered-card {
+  width: 100%;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.typing-vocab-box {
+  position: relative;
+  background: var(--c-sky);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  padding: 26px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.typing-speak {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.typing-vocab-box .vocab-text {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.typing-form-wrap {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.input-typing-field {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: var(--border);
+  background: var(--bg);
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  outline: none;
+}
+.input-typing-field:focus {
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.input-typing-field.correct {
+  background: var(--c-correct-bg);
+}
+.input-typing-field.wrong {
+  background: var(--c-wrong-bg);
+  color: var(--c-wrong);
+}
+
+/* =========================================================================
+   FEEDBACK & TOMBOL AKSI
+   ========================================================================= */
+.feedback-text {
+  font-size: 0.95rem;
+  font-weight: 800;
+  min-height: 22px;
+}
+.feedback-text.correct { color: var(--c-correct); }
+.feedback-text.wrong { color: var(--c-wrong); }
+
+.btn-action-primary,
+.btn-action-secondary {
+  padding: 11px 22px;
+  border-radius: 12px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease), background-color 0.12s ease;
+}
+.btn-action-primary {
+  background: var(--green-light);
+  color: var(--ink);
+}
+.btn-action-secondary {
+  background: var(--surface);
+  color: var(--ink);
+}
+.btn-action-primary:hover:not(:disabled),
+.btn-action-secondary:hover:not(:disabled) {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0px #141413;
+}
+.btn-action-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* =========================================================================
+   HASIL KUIS
+   ========================================================================= */
+.result-box {
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  padding: 28px;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+}
+.result-ring {
+  width: 116px;
+  height: 116px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--green-light) calc(var(--pct, 0) * 1%), var(--surface-alt) 0);
+}
+.result-ring span {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.result-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.result-score {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--green-brand);
+  margin-bottom: 18px;
+}
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* =========================================================================
+   BOTTOM DOCK
+   ========================================================================= */
+.bottom-dock {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bottom-capsule-nav {
+  background: var(--surface);
+  border: var(--border);
+  border-radius: 16px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow);
+}
+
+.dock-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 11px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  color: var(--dim);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.14s var(--ease);
+}
+.dock-item:hover {
+  color: var(--ink);
+  background: var(--surface-alt);
+}
+.dock-item.active {
+  background: var(--c-matcha);
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0px #141413;
+}
+
+/* =========================================================================
+   MODAL LEVEL BAB 1-25
+   ========================================================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(20, 20, 19, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s var(--ease), visibility 0.22s;
+}
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-sheet {
+  background: var(--bg);
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-card);
+  width: 100%;
+  max-width: 680px;
+  max-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.22s var(--ease);
+  overflow: hidden;
+}
+.modal-backdrop.open .modal-sheet {
+  transform: scale(1) translateY(0);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.modal-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: var(--c-amber);
+  border: 1.5px solid var(--ink);
+  padding: 2px 9px;
+  border-radius: 99px;
+  margin-bottom: 4px;
+}
+.modal-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+.modal-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  background: var(--c-rose);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+  padding: 2px 4px 6px 2px;
+}
+.chapter-grid-item {
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.12s var(--ease), background-color 0.12s ease;
+}
+.chapter-grid-item:hover {
+  background: var(--c-amber);
+  transform: translate(1px, 1px);
+}
+.cgi-num {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.cgi-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--dim);
+}
+.chapter-grid-item.active {
+  background: var(--c-matcha);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+/* =========================================================================
+   RESPONSIVE TABLET & HP (NYAMAN DI SATU LAYAR)
+   ========================================================================= */
+@media (max-width: 860px) {
+  .app-layout {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .topbar-capsule {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+  .topbar-center {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-input {
+    padding: 7px 32px 7px 34px;
+    font-size: 0.85rem;
+  }
+
+  /* Flashcard di HP */
+  .flashcard-deck-wrap {
+    gap: 10px;
+  }
+  .top-card-controls {
+    gap: 6px;
+  }
+  .ctrl-pill {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 0.72rem;
+  }
+  .carousel-container {
+    height: clamp(210px, 39dvh, 295px);
+  }
+  .carousel-container::before {
+    transform: translate(5px, 5px) rotate(1deg);
+  }
+  .carousel-face {
+    padding: 16px 20px;
+  }
+
+  /* Pilihan Ganda di HP */
+  .mc-split-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .vocab-main-card {
+    min-height: 125px;
+    padding: 12px 16px;
+    border-radius: 18px;
+  }
+  .vocab-text {
+    font-size: calc(var(--vocab-font-size, 3.6rem) * 0.64);
+  }
+  .mc-options-card {
+    padding: 12px;
+    border-radius: 18px;
+    gap: 10px;
+  }
+  .options-vertical-list {
+    gap: 7px;
+  }
+  .btn-mc-option {
+    padding: 9px 12px;
+    font-size: 0.92rem;
+    border-radius: 11px;
+  }
+  .btn-mc-option::before {
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+  }
+
+  /* Quiz Mengetik di HP */
+  .typing-centered-card {
+    padding: 16px;
+    border-radius: 18px;
+    gap: 12px;
+  }
+  .typing-vocab-box {
+    padding: 20px 14px 16px;
+  }
+
+  .modal-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .logo-badge { display: none; }
+  .logo-word { font-size: 1.05rem; }
+  .arrow-label { display: none; }
+  .nav-arrow-btn { padding: 0 14px; }
+
+  .bottom-capsule-nav {
+    width: 100%;
+    justify-content: space-around;
+  }
+  .dock-item {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 6px;
+    font-size: 0.74rem;
+    gap: 4px;
+  }
+
+  .mc-bottom-bar,
+  .typing-bottom-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .feedback-text {
+    text-align: center;
+  }
+  .btn-action-primary {
+    width: 100%;
+  }
+
+  .modal-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

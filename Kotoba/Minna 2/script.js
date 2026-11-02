@@ -3,14 +3,36 @@
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const totalChapters = 25;
-  let currentIndex = 0; // Dimulai dari Bab 1 (Index 0)
+  const startChapter = 26; // Dimulai dari Bab 26
+  const totalChapters = 25; // Total 25 bab (Bab 26 s/d Bab 50)
+  let currentIndex = 0; // Index 0 = Bab 26
 
   const container = document.getElementById('carouselContainer');
   const modalGrid = document.getElementById('modalChapterGrid');
   const currentChapterDisplay = document.getElementById('currentChapterDisplay');
   const cards = [];
   const gridItems = [];
+
+  // === 0. INISIALISASI & TOGGLE MODE MALAM (DARK MODE) ===
+  const htmlEl = document.documentElement;
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const savedTheme = localStorage.getItem('nakama_theme');
+
+  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    htmlEl.setAttribute('data-theme', 'dark');
+  } else {
+    htmlEl.setAttribute('data-theme', 'light');
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('nakama_theme', nextTheme);
+      playPopSound();
+    });
+  }
 
   // Ikon SVG Vektor Bergantian (Tanpa Kanji)
   const vectorIcons = [
@@ -30,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === 2. GENERATE KARTU SLIDER & MODAL GRID ===
   for (let i = 0; i < totalChapters; i++) {
-    const babNumber = i + 1;
+    const babNumber = startChapter + i;
     const paddedNum = babNumber < 10 ? `0${babNumber}` : babNumber;
     const svgIcon = vectorIcons[i % vectorIcons.length];
 
@@ -134,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const currentBabFormatted = (currentIndex + 1) < 10 ? `0${currentIndex + 1}` : (currentIndex + 1);
+    const activeBabNum = startChapter + currentIndex;
+    const currentBabFormatted = activeBabNum < 10 ? `0${activeBabNum}` : activeBabNum;
     if (currentChapterDisplay) {
       currentChapterDisplay.textContent = `Bab ${currentBabFormatted}`;
     }
@@ -302,9 +325,13 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
+          const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+
           for (let i = 1; i < pts.length; i++) {
             const t = i / pts.length;
-            ctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.22})`;
+            ctx.strokeStyle = isDark
+              ? `rgba(74, 222, 128, ${t * 0.28})`
+              : `rgba(21, 128, 61, ${t * 0.22})`;
             ctx.lineWidth = t * 9;
             ctx.beginPath();
             ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
