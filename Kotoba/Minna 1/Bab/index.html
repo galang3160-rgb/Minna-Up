@@ -9,6 +9,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Membuat font-face khusus untuk mendeteksi karakter Kanji */
+    @font-face {
+      font-family: 'KanjiTimes';
+      src: local('Times New Roman');
+      /* Rentang Unicode untuk Kanji (CJK Unified Ideographs) */
+      unicode-range: U+4E00-9FAF, U+3400-4DBF; 
+    }
+
+    /* Menerapkan font alfabet bawaan, dan Kanji akan otomatis memakai KanjiTimes */
+    body, .vocab-text, .furigana-font {
+      font-family: 'Plus Jakarta Sans', 'Space Grotesk', 'KanjiTimes', 'Times New Roman', sans-serif !important;
+    }
+    
+    /* Memastikan teks Kanji memiliki ketebalan normal (tidak bold) */
+    .kanji, .kanji-text, .japanese-text, .vocab-text, .furigana-font {
+      font-weight: normal !important;
+    }
+  </style>
 </head>
 <body class="learning-body">
 

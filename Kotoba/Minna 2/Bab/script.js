@@ -1,7 +1,7 @@
 /**
- * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE (N5 UPGRADED)
- * Koneksi Tetap: kode/bab${n}.json, localStorage 'nihonggo:bab', ?bab=, Modal Bab 1-25
- * Fitur Baru: Kanji ON/OFF [K], Furigana ON/OFF [F], Arah ID<->JP, Acak [R], Checklist Filter (Semua/Kanji/Kana)
+ * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE (BAB 26-50)
+ * Koneksi: Minna2/Bab/kode/bab${n}.json (fallback otomatis ke kode/bab${n}.json), localStorage 'nihonggo:bab', ?bab=, Modal Bab 26-50
+ * Fitur: Kanji ON/OFF [K], Furigana ON/OFF [F], Arah ID<->JP, Acak [R], Checklist Filter (Semua/Kanji/Kana)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,13 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Deteksi apakah string mengandung karakter Kanji Jepang
   const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
 
-  // ---------- KONFIGURASI DATA & MODAL (TETAP SAMA) ----------
-  const DATA_PATH = n => `kode/bab${n}.json`;
-  const totalChapters = 25;
+  // ---------- KONFIGURASI DATA & MODAL (BAB 26 - 50) ----------
+  const DATA_PATH = n => `Minna2/Bab/kode/bab${n}.json`;
+  const FALLBACK_PATH = n => `kode/bab${n}.json`;
+  const START_CHAPTER = 26;
+  const END_CHAPTER = 50;
   const SAVE_KEY = 'nihonggo:bab';
 
   // ---------- STATE UTAMA ----------
-  let currentBab = 1;
+  let currentBab = START_CHAPTER;
   let rawChapterVocab = [];
   let selectedIds = new Set();
   let activeVocab = [];
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioOn = true;
   let vocabZoomRem = 3.6;
 
-  // State Fitur Kartu Baru
+  // State Fitur Kartu
   let isKanjiVisible = true;   // Toggle tombol K
   let isFuriVisible = true;    // Toggle tombol F
   let isReversedCard = false;  // false = ID -> JP | true = JP -> ID
@@ -196,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const hideNotice = () => { clearTimeout(noticeTimer); $('dataNotice').hidden = true; };
 
-  // ---------- MODAL LEVEL BAB 1-25 ----------
+  // ---------- MODAL LEVEL BAB 26-50 ----------
   const modalGrid = $('modalChapterGrid');
   const chapterModal = $('chapterModal');
   const openModalBtn = $('openChapterModal');
@@ -204,8 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentChapterDisplay = $('currentChapterDisplay');
   const gridButtons = [];
 
-  for (let i = 0; i < totalChapters; i++) {
-    const babNum = i + 1;
+  for (let babNum = START_CHAPTER; babNum <= END_CHAPTER; babNum++) {
     const padded = babNum < 10 ? `0${babNum}` : babNum;
 
     const btn = document.createElement('button');
@@ -262,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleKanjiVisibility() {
     isKanjiVisible = !isKanjiVisible;
-    // Pengaman: Jangan biarkan Kanji dan Furigana mati bersamaan
     if (!isKanjiVisible && !isFuriVisible) {
       isFuriVisible = true;
     }
@@ -272,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleFuriVisibility() {
     isFuriVisible = !isFuriVisible;
-    // Pengaman: Jika Furigana dimatikan saat Kanji mati, nyalakan Kanji
     if (!isFuriVisible && !isKanjiVisible) {
       isKanjiVisible = true;
     }
@@ -386,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         playTone('pop');
         $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
-        // Perbarui daftar aktif tanpa merender ulang seluruh DOM checklist agar animasi mulus
         const q = searchInput.value.trim().toLowerCase();
         activeVocab = rawChapterVocab.filter(v =>
           selectedIds.has(v.id) &&
@@ -398,14 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tombol Pilih Semua
   $('selectAllBtn').addEventListener('click', () => {
     selectedIds = new Set(rawChapterVocab.map(v => v.id));
     playTone('pop');
     syncActiveVocab();
   });
 
-  // Tombol Kanji Saja
   $('selectKanjiOnlyBtn').addEventListener('click', () => {
     const kanjiItems = rawChapterVocab.filter(v => v.hasKanji);
     if (!kanjiItems.length) {
@@ -417,7 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
     syncActiveVocab();
   });
 
-  // Tombol Kana Saja
   $('selectKanaOnlyBtn').addEventListener('click', () => {
     const kanaItems = rawChapterVocab.filter(v => !v.hasKanji);
     if (!kanaItems.length) {
@@ -429,7 +424,6 @@ document.addEventListener('DOMContentLoaded', () => {
     syncActiveVocab();
   });
 
-  // Tombol Reset Pilihan
   $('deselectAllBtn').addEventListener('click', () => {
     selectedIds.clear();
     playTone('pop');
@@ -438,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- FLASHCARD KOSAKATA INTERAKTIF ----------
   function buildJapaneseContentHTML(v, includeSubArti = false) {
-    // Jika kata memiliki Kanji berbeda dari Furigana
     if (v.hasKanji) {
       return `
         <span class="c-kanji furigana-font">${esc(v.kanji)}</span>
@@ -446,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
       `;
     }
-    // Jika murni Kana (Hiragana/Katakana), tampilkan sebagai teks utama yang selalu terlihat
     return `
       <span class="c-kana-only furigana-font">${esc(v.furigana)}</span>
       ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
@@ -883,9 +875,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---------- PEMUATAN DATA JSON LEVEL BAB (MENDUKUNG KANJI & FURIGANA FLEKSIBEL) ----------
+  // ---------- PEMUATAN DATA JSON LEVEL BAB 26-50 ----------
   function parseBracketedJapanese(str) {
-    // Mendukung format gabungan seperti "私（わたし）" atau "先生 [せんせい]" jika JSON hanya punya 1 field
     const match = str.match(/^(.+?)[（(\[](.+?)[）)\]]$/);
     if (match) {
       return { kanji: match[1].trim(), furigana: match[2].trim() };
@@ -910,7 +901,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let rawFuri = pick(o, ['furigana', 'hiragana', 'kana', 'bacaan', 'cara_baca', 'jepang', 'kata', 'word']);
         const arti = pick(o, ['arti', 'indonesia', 'meaning', 'terjemahan']);
 
-        // Jika furigana berisi format "漢字(かんじ)" dan field kanji kosong
         if (!rawKanji && rawFuri) {
           const parsed = parseBracketedJapanese(rawFuri);
           if (parsed) {
@@ -932,17 +922,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const EMERGENCY_DATA = [
-    { kanji: '私', furigana: 'わたし', arti: 'Saya' },
-    { kanji: 'あなた', furigana: 'あなた', arti: 'Kamu / Anda' },
-    { kanji: '先生', furigana: 'せんせい', arti: 'Guru' },
-    { kanji: '学生', furigana: 'がくせい', arti: 'Siswa / Mahasiswa' },
-    { kanji: '会社員', furigana: 'かいしゃいん', arti: 'Karyawan Perusahaan' },
-    { kanji: '病院', furigana: 'びょういん', arti: 'Rumah Sakit' }
+    { kanji: '見ます', furigana: 'みます', arti: 'Memeriksa / Melihat' },
+    { kanji: '探します', furigana: 'さがします', arti: 'Mencari' },
+    { kanji: '遅れます', furigana: 'おくれます', arti: 'Terlambat' },
+    { kanji: '間に合います', furigana: 'まにあいます', arti: 'Tepat waktu' },
+    { kanji: 'やります', furigana: 'やります', arti: 'Melakukan' },
+    { kanji: '拾います', furigana: 'ひろいます', arti: 'Memungut / Mengambil' }
   ].map((v, idx) => ({
     ...v,
     hasKanji: KANJI_REGEX.test(v.kanji),
     id: idx
   }));
+
+  async function fetchChapterJSON(babNum) {
+    // 1. Coba baca dari Minna2/Bab/kode/bab${babNum}.json
+    let res = await fetch(DATA_PATH(babNum), { cache: 'no-cache' });
+    if (res.ok) return res.json();
+
+    // 2. Fallback ke kode/bab${babNum}.json jika file HTML berada di dalam folder Minna2/Bab/
+    res = await fetch(FALLBACK_PATH(babNum), { cache: 'no-cache' });
+    if (res.ok) return res.json();
+
+    throw new Error(`File ${DATA_PATH(babNum)} belum tersedia`);
+  }
 
   async function changeChapter(babNum) {
     currentBab = parseInt(babNum, 10);
@@ -952,9 +954,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let failMsg = '';
 
     try {
-      const res = await fetch(DATA_PATH(currentBab), { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`File ${DATA_PATH(currentBab)} belum tersedia`);
-      const data = normalizeData(await res.json());
+      const jsonData = await fetchChapterJSON(currentBab);
+      const data = normalizeData(jsonData);
       if (currentLoad !== loadId) return;
       rawChapterVocab = data;
     } catch (e) {
@@ -973,19 +974,18 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', url);
     } catch (e) {}
 
-    // Pilih semua kosakata secara default saat ganti bab
     selectedIds = new Set(rawChapterVocab.map(v => v.id));
     syncActiveVocab();
   }
 
   const validBab = v => {
     const n = parseInt(v, 10);
-    return n >= 1 && n <= totalChapters ? n : null;
+    return n >= START_CHAPTER && n <= END_CHAPTER ? n : null;
   };
 
   let savedBab = null;
   try { savedBab = localStorage.getItem(SAVE_KEY); } catch (e) {}
-  const initialBab = validBab(new URLSearchParams(location.search).get('bab')) || validBab(savedBab) || 1;
+  const initialBab = validBab(new URLSearchParams(location.search).get('bab')) || validBab(savedBab) || START_CHAPTER;
 
   changeChapter(initialBab);
 });

@@ -9,6 +9,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Membuat font-face khusus untuk mendeteksi karakter Kanji */
+    @font-face {
+      font-family: 'KanjiTimes';
+      src: local('Times New Roman');
+      /* Rentang Unicode untuk Kanji (CJK Unified Ideographs) */
+      unicode-range: U+4E00-9FAF, U+3400-4DBF; 
+    }
+
+    /* Menerapkan font alfabet Space Grotesk, dan Kanji akan otomatis memakai KanjiTimes */
+    body {
+      font-family: 'Space Grotesk', 'KanjiTimes', 'Times New Roman', serif !important;
+    }
+    
+    /* Memastikan teks Kanji memiliki ketebalan normal (tidak bold) jika dipanggil via class */
+    .kanji, .kanji-text, .japanese-text {
+      font-weight: normal !important;
+    }
+  </style>
 </head>
 <body class="cinema-body">
 
