@@ -1,0 +1,202 @@
+[
+  {
+    "kanji": "関係",
+    "furigana": "かんけい",
+    "arti": "Hubungan"
+  },
+  {
+    "kanji": "家族",
+    "furigana": "かぞく",
+    "arti": "Keluarga"
+  },
+  {
+    "kanji": "夫婦",
+    "furigana": "ふうふ",
+    "arti": "Suami istri"
+  },
+  {
+    "kanji": "夫",
+    "furigana": "おっと",
+    "arti": "Suami"
+  },
+  {
+    "kanji": "妻",
+    "furigana": "つま",
+    "arti": "Istri"
+  },
+  {
+    "kanji": "長男",
+    "furigana": "ちょうなん",
+    "arti": "Anak sulung laki-laki"
+  },
+  {
+    "kanji": "長女",
+    "furigana": "ちょうじょ",
+    "arti": "Anak sulung perempuan"
+  },
+  {
+    "kanji": "次男",
+    "furigana": "じなん",
+    "arti": "Anak kedua laki-laki"
+  },
+  {
+    "kanji": "次女",
+    "furigana": "じじょ",
+    "arti": "Anak kedua perempuan"
+  },
+  {
+    "kanji": "三男",
+    "furigana": "さんなん",
+    "arti": "Anak ketiga laki-laki"
+  },
+  {
+    "kanji": "末っ子",
+    "furigana": "すえっこ",
+    "arti": "Anak bungsu"
+  },
+  {
+    "kanji": "おじ",
+    "furigana": "おじ",
+    "arti": "Paman"
+  },
+  {
+    "kanji": "おば",
+    "furigana": "おば",
+    "arti": "Bibi"
+  },
+  {
+    "kanji": "職場",
+    "furigana": "しょくば",
+    "arti": "Tempat kerja"
+  },
+  {
+    "kanji": "職場の同僚",
+    "furigana": "しょくばのどうりょう",
+    "arti": "Rekan kerja"
+  },
+  {
+    "kanji": "職場の上司",
+    "furigana": "しょくばのじょうし",
+    "arti": "Atasan"
+  },
+  {
+    "kanji": "部下",
+    "furigana": "ぶか",
+    "arti": "Bawahan"
+  },
+  {
+    "kanji": "会社の先輩",
+    "furigana": "かいしゃのせんぱい",
+    "arti": "Senior kantor"
+  },
+  {
+    "kanji": "会社の後輩",
+    "furigana": "かいしゃのこうはい",
+    "arti": "Junior kantor"
+  },
+  {
+    "kanji": "社長",
+    "furigana": "しゃちょう",
+    "arti": "Direktur"
+  },
+  {
+    "kanji": "部長",
+    "furigana": "ぶちょう",
+    "arti": "Kepala bagian"
+  },
+  {
+    "kanji": "課長",
+    "furigana": "かちょう",
+    "arti": "Kepala seksi"
+  },
+  {
+    "kanji": "会社員",
+    "furigana": "かいしゃいん",
+    "arti": "Karyawan"
+  },
+  {
+    "kanji": "サラリーマン",
+    "furigana": "サラリーマン",
+    "arti": "Pekerja kantoran"
+  },
+  {
+    "kanji": "主婦",
+    "furigana": "しゅふ",
+    "arti": "Ibu rumah tangga"
+  },
+  {
+    "kanji": "教師",
+    "furigana": "きょうし",
+    "arti": "Guru"
+  },
+  {
+    "kanji": "大学生",
+    "furigana": "だいがくせい",
+    "arti": "Mahasiswa"
+  },
+  {
+    "kanji": "高校生",
+    "furigana": "こうこうせい",
+    "arti": "Siswa SMA"
+  },
+  {
+    "kanji": "中学生",
+    "furigana": "ちゅうがくせい",
+    "arti": "Siswa SMP"
+  },
+  {
+    "kanji": "小学生",
+    "furigana": "しょうがくせい",
+    "arti": "Siswa SD"
+  },
+  {
+    "kanji": "6人兄弟の末っ子",
+    "furigana": "ろくにんきょうだいのすえっこ",
+    "arti": "Bungsu 6 bersaudara"
+  },
+  {
+    "kanji": "3人姉妹のいちばん上",
+    "furigana": "さんにんしまいのいちばんうえ",
+    "arti": "Sulung 3 bersaudari"
+  },
+  {
+    "kanji": "親せき / 親類",
+    "furigana": "しんせき / しんるい",
+    "arti": "Kerabat"
+  },
+  {
+    "kanji": "孫",
+    "furigana": "まご",
+    "arti": "Cucu"
+  },
+  {
+    "kanji": "おい",
+    "furigana": "おい",
+    "arti": "Keponakan lk"
+  },
+  {
+    "kanji": "めい",
+    "furigana": "めい",
+    "arti": "Keponakan pr"
+  },
+  {
+    "kanji": "いとこ",
+    "furigana": "いとこ",
+    "arti": "Sepupu"
+  },
+  {
+    "kanji": "一人っ子",
+    "furigana": "ひとりっこ",
+    "arti": "Anak tunggal"
+  },
+  {
+    "kanji": "一人息子",
+    "furigana": "ひとりむすこ",
+    "arti": "Anak tunggal lk"
+  },
+  {
+    "kanji": "一人娘",
+    "furigana": "ひとりむすめ",
+    "arti": "Anak tunggal pr"
+  }
+]

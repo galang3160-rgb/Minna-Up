@@ -1,0 +1,337 @@
+[
+  {
+    "kanji": "従業員",
+    "furigana": "じゅうぎょういん",
+    "arti": "Karyawan / Pekerja"
+  },
+  {
+    "kanji": "警備員",
+    "furigana": "けいびいん",
+    "arti": "Petugas keamanan / Satpam"
+  },
+  {
+    "kanji": "特派員",
+    "furigana": "とくはいん",
+    "arti": "Koresponden khusus"
+  },
+  {
+    "kanji": "幼稚園",
+    "furigana": "ようちえん",
+    "arti": "Taman Kanak-kanak (TK)"
+  },
+  {
+    "kanji": "動物園",
+    "furigana": "どうぶつえん",
+    "arti": "Kebun binatang"
+  },
+  {
+    "kanji": "温暖化",
+    "furigana": "おんだんか",
+    "arti": "Pemanasan global"
+  },
+  {
+    "kanji": "活性化",
+    "furigana": "かっせいか",
+    "arti": "Revitalisasi / Pengaktifan"
+  },
+  {
+    "kanji": "過疎化",
+    "furigana": "かそか",
+    "arti": "Penurunan populasi daerah"
+  },
+  {
+    "kanji": "高齢化",
+    "furigana": "こうれいか",
+    "arti": "Penuaan populasi"
+  },
+  {
+    "kanji": "専門家",
+    "furigana": "せんもんか",
+    "arti": "Pakar / Ahli"
+  },
+  {
+    "kanji": "建築家",
+    "furigana": "けんちくか",
+    "arti": "Arsitek"
+  },
+  {
+    "kanji": "使命感",
+    "furigana": "しめいかん",
+    "arti": "Rasa panggilan tugas"
+  },
+  {
+    "kanji": "拒否感",
+    "furigana": "きょひかん",
+    "arti": "Rasa penolakan / Enggan"
+  },
+  {
+    "kanji": "謙譲語",
+    "furigana": "けんじょうご",
+    "arti": "Bahasa merendah (Kenjougo)"
+  },
+  {
+    "kanji": "尊敬語",
+    "furigana": "そんけいご",
+    "arti": "Bahasa menghormat (Sonkeigo)"
+  },
+  {
+    "kanji": "看護師",
+    "furigana": "かんごし",
+    "arti": "Perawat"
+  },
+  {
+    "kanji": "美容師",
+    "furigana": "びようし",
+    "arti": "Penata rambut/kecantikan"
+  },
+  {
+    "kanji": "応接室",
+    "furigana": "おうせつしつ",
+    "arti": "Ruang terima tamu"
+  },
+  {
+    "kanji": "研究室",
+    "furigana": "けんきゅうしつ",
+    "arti": "Ruang riset / Kantor dosen"
+  },
+  {
+    "kanji": "閲覧室",
+    "furigana": "えつらんしつ",
+    "arti": "Ruang baca"
+  },
+  {
+    "kanji": "担当者",
+    "furigana": "たんとうしゃ",
+    "arti": "Staf penanggung jawab (PIC)"
+  },
+  {
+    "kanji": "既婚者",
+    "furigana": "きこんしゃ",
+    "arti": "Orang yang sudah menikah"
+  },
+  {
+    "kanji": "権力者",
+    "furigana": "けんりょくしゃ",
+    "arti": "Penguasa"
+  },
+  {
+    "kanji": "候補者",
+    "furigana": "こうほしゃ",
+    "arti": "Kandidat / Calon"
+  },
+  {
+    "kanji": "死傷者",
+    "furigana": "ししょうしゃ",
+    "arti": "Korban tewas dan luka-luka"
+  },
+  {
+    "kanji": "被害者",
+    "furigana": "ひがいしゃ",
+    "arti": "Korban"
+  },
+  {
+    "kanji": "後援者",
+    "furigana": "こうえんしゃ",
+    "arti": "Pendukung / Penyokong"
+  },
+  {
+    "kanji": "統率者",
+    "furigana": "とうそつしゃ",
+    "arti": "Pemimpin komando"
+  },
+  {
+    "kanji": "配偶者",
+    "furigana": "はいぐうしゃ",
+    "arti": "Pasangan hidup (suami/istri)"
+  },
+  {
+    "kanji": "被疑者",
+    "furigana": "ひぎしゃ",
+    "arti": "Tersangka"
+  },
+  {
+    "kanji": "容疑者",
+    "furigana": "ようぎしゃ",
+    "arti": "Tersangka kriminal"
+  },
+  {
+    "kanji": "領収書",
+    "furigana": "りょうしゅうしょ",
+    "arti": "Kuitansi"
+  },
+  {
+    "kanji": "企画書",
+    "furigana": "きかくしょ",
+    "arti": "Dokumen proposal"
+  },
+  {
+    "kanji": "報告書",
+    "furigana": "ほうこくしょ",
+    "arti": "Laporan tertulis"
+  },
+  {
+    "kanji": "契約書",
+    "furigana": "けいやくしょ",
+    "arti": "Surat kontrak"
+  },
+  {
+    "kanji": "履歴書",
+    "furigana": "りれきしょ",
+    "arti": "Daftar riwayat hidup (CV)"
+  },
+  {
+    "kanji": "自尊心",
+    "furigana": "じそんしん",
+    "arti": "Harga diri"
+  },
+  {
+    "kanji": "好奇心",
+    "furigana": "こうきしん",
+    "arti": "Rasa ingin tahu"
+  },
+  {
+    "kanji": "危険性",
+    "furigana": "きけんせい",
+    "arti": "Tingkat bahaya / Risiko"
+  },
+  {
+    "kanji": "耐久性",
+    "furigana": "たいきゅうせい",
+    "arti": "Daya tahan / Keawetan"
+  },
+  {
+    "kanji": "自主性",
+    "furigana": "じしゅせい",
+    "arti": "Kemandirian / Inisiatif"
+  },
+  {
+    "kanji": "可能性",
+    "furigana": "かのうせい",
+    "arti": "Kemungkinan"
+  },
+  {
+    "kanji": "取引先",
+    "furigana": "とりひきさき",
+    "arti": "Mitra bisnis / Klien"
+  },
+  {
+    "kanji": "連絡先",
+    "furigana": "れんらくさき",
+    "arti": "Kontak yang bisa dihubungi"
+  },
+  {
+    "kanji": "植民地",
+    "furigana": "しょくみんち",
+    "arti": "Daerah koloni / Jajahan"
+  },
+  {
+    "kanji": "行楽地",
+    "furigana": "こうらくち",
+    "arti": "Tempat rekreasi/wisata"
+  },
+  {
+    "kanji": "被災地",
+    "furigana": "ひさいち",
+    "arti": "Daerah terdampak bencana"
+  },
+  {
+    "kanji": "保守派",
+    "furigana": "ほしゅは",
+    "arti": "Kubu konservatif"
+  },
+  {
+    "kanji": "正統派",
+    "furigana": "せいとうは",
+    "arti": "Aliran ortodoks/klasik"
+  },
+  {
+    "kanji": "廃棄物",
+    "furigana": "はいきぶつ",
+    "arti": "Barang limbah"
+  },
+  {
+    "kanji": "危険物",
+    "furigana": "きけんぶつ",
+    "arti": "Barang berbahaya"
+  },
+  {
+    "kanji": "競争率",
+    "furigana": "きょうそうりつ",
+    "arti": "Tingkat persaingan"
+  },
+  {
+    "kanji": "合格率",
+    "furigana": "ごうかくりつ",
+    "arti": "Persentase kelulusan"
+  },
+  {
+    "kanji": "手数料",
+    "furigana": "てすうりょう",
+    "arti": "Biaya administrasi/komisi"
+  },
+  {
+    "kanji": "入場料",
+    "furigana": "にゅうじょうりょう",
+    "arti": "Biaya tiket masuk"
+  },
+  {
+    "kanji": "汚職がらみ",
+    "furigana": "おしょくがらみ",
+    "arti": "Terkait skandal korupsi"
+  },
+  {
+    "kanji": "犯罪がらみ",
+    "furigana": "はんざいがらみ",
+    "arti": "Terkait tindak kejahatan"
+  },
+  {
+    "kanji": "仕事がらみ",
+    "furigana": "しごとがらみ",
+    "arti": "Terkait urusan pekerjaan"
+  },
+  {
+    "kanji": "恋愛がらみ",
+    "furigana": "れんあいがらみ",
+    "arti": "Terkait urusan asmara"
+  },
+  {
+    "kanji": "金銭がらみ",
+    "furigana": "きんせんがらみ",
+    "arti": "Terkait masalah uang"
+  },
+  {
+    "kanji": "土地ぐるみ",
+    "furigana": "とちぐるみ",
+    "arti": "Sekaligus beserta tanahnya"
+  },
+  {
+    "kanji": "家族ぐるみ",
+    "furigana": "かぞくぐるみ",
+    "arti": "Melibatkan seluruh keluarga"
+  },
+  {
+    "kanji": "地域ぐるみ",
+    "furigana": "ちいきぐるみ",
+    "arti": "Bersama seluruh warga wilayah"
+  },
+  {
+    "kanji": "組織ぐるみ",
+    "furigana": "そしきぐるみ",
+    "arti": "Melibatkan seluruh organisasi"
+  },
+  {
+    "kanji": "会社ぐるみ",
+    "furigana": "かいしゃぐるみ",
+    "arti": "Melibatkan satu perusahaan penuh"
+  },
+  {
+    "kanji": "町ぐるみ",
+    "furigana": "まちぐるみ",
+    "arti": "Melibatkan seluruh warga kota"
+  },
+  {
+    "kanji": "繁華街",
+    "furigana": "はんかがい",
+    "arti": "Kawasan pusat keramaian/hiburan"
+  }
+]

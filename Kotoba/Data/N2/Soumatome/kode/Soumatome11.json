@@ -1,0 +1,162 @@
+[
+  {
+    "kanji": "作成する",
+    "furigana": "さくせいする",
+    "arti": "Membuat"
+  },
+  {
+    "kanji": "変換する",
+    "furigana": "へんかんする",
+    "arti": "Mengubah"
+  },
+  {
+    "kanji": "確定する",
+    "furigana": "かくていする",
+    "arti": "Mengonfirmasi"
+  },
+  {
+    "kanji": "削除する",
+    "furigana": "さくじょする",
+    "arti": "Menghapus"
+  },
+  {
+    "kanji": "改行する",
+    "furigana": "かいぎょうする",
+    "arti": "Ganti baris"
+  },
+  {
+    "kanji": "設定する",
+    "furigana": "せっていする",
+    "arti": "Mengatur"
+  },
+  {
+    "kanji": "変更する",
+    "furigana": "へんこうする",
+    "arti": "Mengganti"
+  },
+  {
+    "kanji": "移動する",
+    "furigana": "いどうする",
+    "arti": "Memindahkan"
+  },
+  {
+    "kanji": "範囲を選択する",
+    "furigana": "はんいをせんたくする",
+    "arti": "Memilih area"
+  },
+  {
+    "kanji": "位置に合わせる",
+    "furigana": "いちにあわせる",
+    "arti": "Menyesuaikan posisi"
+  },
+  {
+    "kanji": "中央にそろえる",
+    "furigana": "ちゅうおうにそろえる",
+    "arti": "Rata tengah"
+  },
+  {
+    "kanji": "右に寄せる",
+    "furigana": "みぎによせる",
+    "arti": "Rata kanan"
+  },
+  {
+    "kanji": "下線",
+    "furigana": "かせん",
+    "arti": "Garis bawah"
+  },
+  {
+    "kanji": "アンダーライン",
+    "furigana": "アンダーライン",
+    "arti": "Garis bawah"
+  },
+  {
+    "kanji": "記号",
+    "furigana": "きごう",
+    "arti": "Simbol"
+  },
+  {
+    "kanji": "挿入する",
+    "furigana": "そうにゅうする",
+    "arti": "Menyisipkan"
+  },
+  {
+    "kanji": "拡大する",
+    "furigana": "かくだいする",
+    "arti": "Memperbesar"
+  },
+  {
+    "kanji": "縮小する",
+    "furigana": "しゅくしょうする",
+    "arti": "Memperkecil"
+  },
+  {
+    "kanji": "修正する",
+    "furigana": "しゅうせいする",
+    "arti": "Merevisi"
+  },
+  {
+    "kanji": "編集する",
+    "furigana": "へんしゅうする",
+    "arti": "Mengedit"
+  },
+  {
+    "kanji": "元にもどす",
+    "furigana": "もとにもどす",
+    "arti": "Kembalikan"
+  },
+  {
+    "kanji": "やり直す",
+    "furigana": "やりなおす",
+    "arti": "Mengulang"
+  },
+  {
+    "kanji": "図形",
+    "furigana": "ずけい",
+    "arti": "Bentuk"
+  },
+  {
+    "kanji": "コピーする",
+    "furigana": "コピーする",
+    "arti": "Menyalin"
+  },
+  {
+    "kanji": "切り取る",
+    "furigana": "きりとる",
+    "arti": "Memotong"
+  },
+  {
+    "kanji": "カットする",
+    "furigana": "カットする",
+    "arti": "Memotong"
+  },
+  {
+    "kanji": "貼り付ける",
+    "furigana": "はりつける",
+    "arti": "Menempel"
+  },
+  {
+    "kanji": "ペーストする",
+    "furigana": "ペーストする",
+    "arti": "Menempel"
+  },
+  {
+    "kanji": "画像を取り込む",
+    "furigana": "がぞうをとりこむ",
+    "arti": "Mengimpor gambar"
+  },
+  {
+    "kanji": "保存する",
+    "furigana": "ほぞんする",
+    "arti": "Menyimpan"
+  },
+  {
+    "kanji": "上書き保存する",
+    "furigana": "うわがきほぞんする",
+    "arti": "Menyimpan timpa"
+  },
+  {
+    "kanji": "添付する",
+    "furigana": "てんぷする",
+    "arti": "Melampirkan"
+  }
+]

@@ -1,12 +1,15 @@
 /* =========================================================================
-   NAKAMAGAKKOU — TACTILE NEO-BRUTALIST CAROUSEL LEVEL N5
+   NAKAMAGAKKOU — TACTILE NEO-BRUTALIST CAROUSEL LEVEL N5 (UPGRADED)
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
   --surface: #FFFFFF;
   --surface-alt: #F5F2EB;
   --ink: #111111;
+  --ink-badge: #111111;
   --dim: #5A5A5A;
+  --dot-grid: #1111111a;
+  --dashed-line: #DEDAD0;
 
   /* Palet Kategori Neo-Brutalism */
   --c-matcha: #DCFCE7;
@@ -19,27 +22,43 @@
   --green-light: #22C55E;
 
   /* Border & Hard Shadows */
-  --border: 2.5px solid #111111;
-  --border-sm: 2px solid #111111;
-  --shadow: 5px 5px 0px 0px #111111;
-  --shadow-sm: 3px 3px 0px 0px #111111;
-  --shadow-lg: 8px 8px 0px 0px #111111;
+  --border-color: #111111;
+  --shadow-color: #111111;
+  --border: 2.5px solid var(--border-color);
+  --border-sm: 2px solid var(--border-color);
+  --shadow: 5px 5px 0px 0px var(--shadow-color);
+  --shadow-sm: 3px 3px 0px 0px var(--shadow-color);
+  --shadow-lg: 8px 8px 0px 0px var(--shadow-color);
 
-  --radius-card: 28px;
+  --radius-card: 26px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
-[data-theme="dark"] {
-  --bg: #0F1713;
-  --surface: #18221D;
-  --surface-alt: #222E28;
-  --ink: #F9FAFB;
+/* =========================================================================
+   VARIABEL MODE MALAM (DARK MODE NEO-BRUTALISM)
+   ========================================================================= */
+html[data-theme="dark"] {
+  --bg: #0F1115;
+  --surface: #1A1D24;
+  --surface-alt: #242936;
+  --ink: #F3F4F6;
+  --ink-badge: #111111;
   --dim: #9CA3AF;
-  --border: 2.5px solid #34D399;
-  --shadow: 5px 5px 0px 0px #34D399;
-  --shadow-sm: 3px 3px 0px 0px #34D399;
-  --shadow-lg: 8px 8px 0px 0px #34D399;
+  --dot-grid: #ffffff14;
+  --dashed-line: #2E3440;
+
+  --c-matcha: #86EFAC;
+  --c-sky: #7DD3FC;
+  --c-amber: #FDE047;
+  --c-lavender: #D8B4FE;
+  --c-rose: #FDA4AF;
+
+  --green-brand: #4ADE80;
+  --green-light: #4ADE80;
+
+  --border-color: #384152;
+  --shadow-color: #050608;
 }
 
 *, *::before, *::after {
@@ -57,42 +76,14 @@ html, body {
 body.cinema-body {
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   background-color: var(--bg);
-  background-image: radial-gradient(rgba(17, 17, 17, 0.1) 1.25px, transparent 1.25px);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
   background-size: 22px 22px;
   color: var(--ink);
   min-height: 100vh;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
-}
-
-[data-theme="dark"] body.cinema-body {
-  background-image: radial-gradient(rgba(52, 211, 153, 0.12) 1.25px, transparent 1.25px);
-}
-
-/* =========================================================================
-   VIDEO BACKDROP
-   ========================================================================= */
-.video-backdrop {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  overflow: hidden;
-}
-.bg-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-.video-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--bg);
-  opacity: 0.88;
-  transition: background 0.4s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* =========================================================================
@@ -110,8 +101,12 @@ body.cinema-body {
   pointer-events: none;
   background: radial-gradient(circle, rgba(254, 243, 199, 0.8), transparent 70%);
   filter: blur(50px);
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, background 0.3s ease;
 }
+html[data-theme="dark"] .sun {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.14), rgba(56, 189, 248, 0.06), transparent 70%);
+}
+
 .fx {
   position: fixed;
   inset: 0;
@@ -132,7 +127,7 @@ body.cinema-body {
   position: absolute;
   width: 9px;
   height: 9px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--ink-badge);
   border-radius: 3px;
   background: var(--c-amber);
   pointer-events: none;
@@ -157,6 +152,36 @@ body.cinema-body {
 }
 
 /* =========================================================================
+   ANIMASI MASUK & KELUAR HALAMAN
+   ========================================================================= */
+.fixed-topbar {
+  animation: navSlideDown 0.55s var(--ease) forwards;
+}
+@keyframes navSlideDown {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.flashcard-stage {
+  animation: contentSlideUp 0.6s var(--ease) forwards;
+}
+@keyframes contentSlideUp {
+  0% { opacity: 0; transform: translateY(38px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+body.page-leaving .fixed-topbar {
+  transition: transform 0.34s var(--ease), opacity 0.34s var(--ease);
+  transform: translateY(-25px);
+  opacity: 0;
+}
+body.page-leaving .flashcard-stage {
+  transition: transform 0.34s var(--ease), opacity 0.34s var(--ease);
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+/* =========================================================================
    TOPBAR KAPSUL NEO-BRUTALISM
    ========================================================================= */
 .fixed-topbar {
@@ -172,17 +197,18 @@ body.cinema-body {
 
 .topbar-capsule {
   pointer-events: auto;
-  max-width: 1120px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-radius: 22px;
+  border-radius: 20px;
   background: var(--surface);
   border: var(--border);
   box-shadow: var(--shadow);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .topbar-left,
@@ -199,10 +225,11 @@ body.cinema-body {
   border-radius: 12px;
   display: grid;
   place-items: center;
-  color: var(--ink);
+  color: var(--ink-badge);
   background: var(--c-amber);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
+  text-decoration: none;
   cursor: pointer;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
@@ -213,7 +240,7 @@ body.cinema-body {
 .theme-btn:hover {
   background: var(--c-matcha);
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px #111111;
+  box-shadow: 2px 2px 0px var(--shadow-color);
 }
 .capsule-back-btn:active,
 .theme-btn:active {
@@ -221,22 +248,20 @@ body.cinema-body {
   box-shadow: none;
 }
 
-[data-theme="dark"] .capsule-back-btn { background: #1E3A8A; color: #fff; }
-[data-theme="dark"] .theme-btn { background: #581C87; color: #fff; }
-
 .sun-icon { display: none; }
 .moon-icon { display: block; }
-[data-theme="dark"] .sun-icon { display: block; }
-[data-theme="dark"] .moon-icon { display: none; }
+html[data-theme="dark"] .theme-btn { background: var(--c-amber); }
+html[data-theme="dark"] .sun-icon { display: block; }
+html[data-theme="dark"] .moon-icon { display: none; }
 
 .headline-box {
   display: flex;
   flex-direction: column;
 }
 .headline-title {
-  font-size: 1.15rem;
+  font-size: 1.22rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
 }
 .headline-title b {
@@ -249,50 +274,46 @@ body.cinema-body {
   margin-top: 2px;
 }
 
-/* Dropdown Bab */
-.chapter-select-wrap {
-  position: relative;
-}
-.custom-select-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.chapter-dropdown {
-  appearance: none;
-  background: var(--surface-alt);
-  color: var(--ink);
+/* Tombol Pemicu Modal Topik */
+.topic-trigger-btn {
+  background: var(--c-sky);
+  color: var(--ink-badge);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
-  padding: 8px 36px 8px 14px;
+  padding: 7px 12px 7px 16px;
   border-radius: 12px;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  outline: none;
-  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
+  font-family: inherit;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
-.chapter-dropdown:hover {
+.topic-trigger-btn:hover {
+  background: var(--c-amber);
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px #111111;
+  box-shadow: 2px 2px 0px var(--shadow-color);
 }
-.chapter-dropdown option {
-  background: var(--surface);
-  color: var(--ink);
+.trigger-label {
+  font-size: 0.92rem;
+  font-weight: 700;
 }
-.dropdown-chevron {
-  position: absolute;
-  right: 12px;
-  color: var(--ink);
-  pointer-events: none;
+.trigger-icon-wrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 2px solid var(--ink-badge);
+  color: var(--ink-badge);
+  display: grid;
+  place-items: center;
 }
 
 .counter-box {
   background: var(--c-matcha);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
   padding: 8px 14px;
   border-radius: 12px;
   font-weight: 700;
@@ -301,9 +322,8 @@ body.cinema-body {
   gap: 4px;
 }
 .counter-box .sep {
-  color: var(--dim);
+  opacity: 0.6;
 }
-[data-theme="dark"] .counter-box { background: #064E3B; color: #fff; }
 
 /* =========================================================================
    SLIDER CAROUSEL KARTU
@@ -333,10 +353,11 @@ body.cinema-body {
   place-items: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease, color 0.15s ease;
 }
 .nav-arrow-btn:hover {
   background: var(--c-amber);
+  color: var(--ink-badge);
   transform: translate(2px, 2px);
   box-shadow: var(--shadow-sm);
 }
@@ -348,7 +369,7 @@ body.cinema-body {
 .carousel-container {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  max-width: 920px;
   height: 460px;
   display: flex;
   justify-content: center;
@@ -357,24 +378,24 @@ body.cinema-body {
   touch-action: pan-y;
 }
 
-/* Desain Kartu Neo-Brutalist (Lebar & Luas) */
+/* Desain Kartu Neo-Brutalist */
 .chapter-flashcard {
   --card-accent: var(--c-matcha);
 
   position: absolute;
-  width: 420px;
-  height: 440px;
+  width: 350px;
+  height: 430px;
   background: var(--surface);
   border: var(--border);
   border-radius: var(--radius-card);
-  padding: 34px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: var(--ink);
   text-decoration: none;
   box-shadow: var(--shadow);
-  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease;
+  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease, background-color 0.25s ease;
   user-select: none;
 }
 
@@ -398,36 +419,36 @@ body.cinema-body {
 }
 
 .chapter-flashcard.prev {
-  transform: translateX(-75%) scale(0.85) translateZ(-60px) rotate(-4deg);
+  transform: translateX(-74%) scale(0.82) translateZ(-70px) rotate(-4deg);
   opacity: 0.55;
   z-index: 10;
   cursor: pointer;
 }
 .chapter-flashcard.prev:hover {
   opacity: 0.85;
-  transform: translateX(-75%) scale(0.88) translateZ(-30px) rotate(-2deg);
+  transform: translateX(-74%) scale(0.85) translateZ(-40px) rotate(-2deg);
 }
 
 .chapter-flashcard.next {
-  transform: translateX(75%) scale(0.85) translateZ(-60px) rotate(4deg);
+  transform: translateX(74%) scale(0.82) translateZ(-70px) rotate(4deg);
   opacity: 0.55;
   z-index: 10;
   cursor: pointer;
 }
 .chapter-flashcard.next:hover {
   opacity: 0.85;
-  transform: translateX(75%) scale(0.88) translateZ(-30px) rotate(2deg);
+  transform: translateX(74%) scale(0.85) translateZ(-40px) rotate(2deg);
 }
 
 .chapter-flashcard.hidden-left {
-  transform: translateX(-140%) scale(0.55);
+  transform: translateX(-135%) scale(0.55);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
 }
 
 .chapter-flashcard.hidden-right {
-  transform: translateX(140%) scale(0.55);
+  transform: translateX(135%) scale(0.55);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
@@ -445,16 +466,20 @@ body.cinema-body {
   font-weight: 700;
   letter-spacing: 0.06em;
   background: var(--card-accent);
-  color: var(--ink);
+  color: var(--ink-badge);
   padding: 4px 12px;
   border-radius: 99px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--border-color);
 }
 
 .topic-counter {
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--dim);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1.5px dashed var(--border-color);
 }
 
 .flashcard-body {
@@ -463,31 +488,43 @@ body.cinema-body {
   align-items: center;
   text-align: center;
   margin: auto 0;
-  gap: 10px;
+  gap: 12px;
 }
 
-.chapter-tag {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--dim);
-  text-transform: uppercase;
+.topic-icon-box {
+  width: 86px;
+  height: 86px;
+  border-radius: 22px;
+  background: var(--card-accent);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s var(--ease);
+}
+.topic-icon-box svg {
+  width: 40px;
+  height: 40px;
+  color: var(--ink-badge);
+}
+.chapter-flashcard.active:hover .topic-icon-box {
+  transform: scale(1.06) rotate(-4deg);
 }
 
 .chapter-title {
-  font-size: 2.8rem;
+  font-size: 2.45rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 .chapter-desc {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--dim);
   font-weight: 600;
-  max-width: 280px;
-  line-height: 1.4;
+  max-width: 260px;
+  line-height: 1.38;
 }
 
 /* Footer Kartu */
@@ -496,11 +533,11 @@ body.cinema-body {
   align-items: center;
   justify-content: space-between;
   padding-top: 16px;
-  border-top: 2px dashed #DEDAD0;
+  border-top: 2px dashed var(--dashed-line);
 }
 
 .action-hint {
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 700;
   color: var(--ink);
 }
@@ -513,32 +550,173 @@ body.cinema-body {
   color: var(--ink);
   display: grid;
   place-items: center;
-  border: 2px solid var(--ink);
-  transition: transform 0.2s var(--ease), background-color 0.2s ease;
+  border: 2px solid var(--border-color);
+  transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
 }
 .chapter-flashcard.active:hover .action-icon-circle {
   background: var(--card-accent);
+  color: var(--ink-badge);
   transform: translate(2px, -2px);
+}
+
+/* =========================================================================
+   MODAL POPUP GRID 17 TOPIK (NEO-BRUTALISM)
+   ========================================================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 11, 14, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s var(--ease), visibility 0.28s;
+}
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-sheet {
+  background: var(--bg);
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-card);
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  transform: scale(0.94) translateY(14px);
+  transition: transform 0.28s var(--ease);
+  overflow: hidden;
+}
+.modal-backdrop.open .modal-sheet {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.modal-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: var(--c-amber);
+  color: var(--ink-badge);
+  border: 2px solid var(--border-color);
+  padding: 2px 10px;
+  border-radius: 99px;
+  margin-bottom: 4px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.modal-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  background: var(--c-rose);
+  color: var(--ink-badge);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  overflow-y: auto;
+  padding: 4px 6px 6px 2px;
+}
+
+.topic-grid-btn {
+  background: var(--surface);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
+}
+.topic-grid-btn:hover {
+  background: var(--c-amber);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+.topic-grid-btn:hover .tgb-title,
+.topic-grid-btn:hover .tgb-sub {
+  color: var(--ink-badge);
+}
+
+.tgb-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.tgb-sub {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--dim);
+  margin-top: 2px;
+}
+
+.topic-grid-btn.active {
+  background: var(--c-matcha);
+  transform: translate(2px, 2px);
+  box-shadow: inset 0 0 0 1.5px var(--ink-badge);
+}
+.topic-grid-btn.active .tgb-title,
+.topic-grid-btn.active .tgb-sub {
+  color: var(--ink-badge);
 }
 
 /* =========================================================================
    RESPONSIVE DESIGN (TABLET & HP)
    ========================================================================= */
-@media (max-width: 960px) {
+@media (max-width: 900px) {
   .fixed-topbar { padding: 0 14px; top: 14px; }
   .topbar-capsule { padding: 8px 14px; border-radius: 16px; }
-  .headline-title { font-size: 1.05rem; }
-  .chapter-flashcard { width: 340px; height: 420px; padding: 28px; }
-  .chapter-title { font-size: 2.35rem; }
+  .headline-title { font-size: 1.08rem; }
+  .chapter-flashcard { width: 310px; height: 400px; padding: 24px; }
+  .chapter-title { font-size: 2.15rem; }
   .chapter-flashcard.prev { transform: translateX(-60%) scale(0.78) rotate(-3deg); }
   .chapter-flashcard.next { transform: translateX(60%) scale(0.78) rotate(3deg); }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 680px) {
+  .modal-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+@media (max-width: 600px) {
   .counter-box { display: none; }
-  .nav-arrow-btn { display: none; }
-  .chapter-flashcard { width: 300px; height: 390px; padding: 24px; }
-  .chapter-title { font-size: 2rem; }
+  .flashcard-stage { gap: 10px; padding: 84px 12px 20px; }
+  .nav-arrow-btn { width: 46px; height: 46px; border-radius: 14px; }
+  .chapter-flashcard { width: 270px; height: 375px; padding: 22px; }
+  .chapter-title { font-size: 1.95rem; }
+  .topic-icon-box { width: 74px; height: 74px; }
   .chapter-flashcard.prev,
   .chapter-flashcard.next { opacity: 0; pointer-events: none; }
 }

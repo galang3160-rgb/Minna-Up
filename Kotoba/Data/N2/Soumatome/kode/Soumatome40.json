@@ -1,0 +1,242 @@
+[
+  {
+    "kanji": "入学金",
+    "furigana": "にゅうがくきん",
+    "arti": "Uang pangkal"
+  },
+  {
+    "kanji": "奨学金",
+    "furigana": "しょうがくきん",
+    "arti": "Beasiswa"
+  },
+  {
+    "kanji": "売上金",
+    "furigana": "うりあげきん",
+    "arti": "Uang penjualan"
+  },
+  {
+    "kanji": "授業料",
+    "furigana": "じゅぎょうりょう",
+    "arti": "Biaya sekolah"
+  },
+  {
+    "kanji": "入場料",
+    "furigana": "にゅうじょうりょう",
+    "arti": "Tiket masuk"
+  },
+  {
+    "kanji": "運送料",
+    "furigana": "うんそうりょう",
+    "arti": "Ongkos kirim"
+  },
+  {
+    "kanji": "拝観料",
+    "furigana": "はいかんりょう",
+    "arti": "Tiket kuil"
+  },
+  {
+    "kanji": "宿泊費",
+    "furigana": "しゅくはくひ",
+    "arti": "Biaya menginap"
+  },
+  {
+    "kanji": "生活費",
+    "furigana": "せいかつひ",
+    "arti": "Biaya hidup"
+  },
+  {
+    "kanji": "交通費",
+    "furigana": "こうつうひ",
+    "arti": "Biaya transportasi"
+  },
+  {
+    "kanji": "医療費",
+    "furigana": "いりょうひ",
+    "arti": "Biaya medis"
+  },
+  {
+    "kanji": "本代",
+    "furigana": "ほんだい",
+    "arti": "Uang buku"
+  },
+  {
+    "kanji": "電気代",
+    "furigana": "でんきだい",
+    "arti": "Tagihan listrik"
+  },
+  {
+    "kanji": "修理代",
+    "furigana": "しゅうりだい",
+    "arti": "Biaya perbaikan"
+  },
+  {
+    "kanji": "バス代",
+    "furigana": "バスだい",
+    "arti": "Ongkos bus"
+  },
+  {
+    "kanji": "借り賃",
+    "furigana": "かりちん",
+    "arti": "Biaya sewa"
+  },
+  {
+    "kanji": "貸し賃",
+    "furigana": "かしちん",
+    "arti": "Harga sewa"
+  },
+  {
+    "kanji": "電車賃",
+    "furigana": "でんしゃちん",
+    "arti": "Ongkos kereta"
+  },
+  {
+    "kanji": "手間賃",
+    "furigana": "てまちん",
+    "arti": "Upah jasa"
+  },
+  {
+    "kanji": "時間内",
+    "furigana": "じかんない",
+    "arti": "Dalam batas waktu"
+  },
+  {
+    "kanji": "期限内",
+    "furigana": "きげんない",
+    "arti": "Sebelum tenggat"
+  },
+  {
+    "kanji": "予算内",
+    "furigana": "よさんない",
+    "arti": "Sesuai anggaran"
+  },
+  {
+    "kanji": "予想外",
+    "furigana": "よそうがい",
+    "arti": "Di luar dugaan"
+  },
+  {
+    "kanji": "範囲外",
+    "furigana": "はんいがい",
+    "arti": "Di luar cakupan"
+  },
+  {
+    "kanji": "時間外労働",
+    "furigana": "じかんがいろうどう",
+    "arti": "Kerja lembur"
+  },
+  {
+    "kanji": "代表的な",
+    "furigana": "だいひょうてきな",
+    "arti": "Representatif"
+  },
+  {
+    "kanji": "比較的",
+    "furigana": "ひかくてき",
+    "arti": "Relatif"
+  },
+  {
+    "kanji": "日常的な",
+    "furigana": "にちじょうてきな",
+    "arti": "Sehari-hari"
+  },
+  {
+    "kanji": "進歩的な",
+    "furigana": "しんぽてきな",
+    "arti": "Progresif"
+  },
+  {
+    "kanji": "サラリーマン風",
+    "furigana": "サラリーマンふう",
+    "arti": "Gaya kantoran"
+  },
+  {
+    "kanji": "西洋風",
+    "furigana": "せいようふう",
+    "arti": "Gaya Barat"
+  },
+  {
+    "kanji": "関西風",
+    "furigana": "かんさいふう",
+    "arti": "Gaya Kansai"
+  },
+  {
+    "kanji": "立体感",
+    "furigana": "りったいかん",
+    "arti": "Kesan tiga dimensi"
+  },
+  {
+    "kanji": "開放感",
+    "furigana": "かいほうかん",
+    "arti": "Rasa bebas"
+  },
+  {
+    "kanji": "存在感",
+    "furigana": "そんざいかん",
+    "arti": "Karisma"
+  },
+  {
+    "kanji": "安全性",
+    "furigana": "あんぜんせい",
+    "arti": "Keamanan"
+  },
+  {
+    "kanji": "可能性",
+    "furigana": "かのうせい",
+    "arti": "Kemungkinan"
+  },
+  {
+    "kanji": "植物性",
+    "furigana": "しょくぶつせい",
+    "arti": "Nabati"
+  },
+  {
+    "kanji": "動物性",
+    "furigana": "どうぶつせい",
+    "arti": "Hewani"
+  },
+  {
+    "kanji": "日本製",
+    "furigana": "にほんせい",
+    "arti": "Buatan Jepang"
+  },
+  {
+    "kanji": "スチール製",
+    "furigana": "スチールせい",
+    "arti": "Berbahan baja"
+  },
+  {
+    "kanji": "合理化",
+    "furigana": "ごうりか",
+    "arti": "Efisiensi"
+  },
+  {
+    "kanji": "機械化",
+    "furigana": "きかいか",
+    "arti": "Mekanisasi"
+  },
+  {
+    "kanji": "高齢化",
+    "furigana": "こうれいか",
+    "arti": "Penuaan populasi"
+  },
+  {
+    "kanji": "少子化",
+    "furigana": "しょうしか",
+    "arti": "Penurunan kelahiran"
+  },
+  {
+    "kanji": "季節の変わり目",
+    "furigana": "きせつのかわりめ",
+    "arti": "Pancaroba"
+  },
+  {
+    "kanji": "折り目",
+    "furigana": "おりめ",
+    "arti": "Garis lipatan"
+  },
+  {
+    "kanji": "見た目",
+    "furigana": "みため",
+    "arti": "Penampilan"
+  }
+]

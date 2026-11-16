@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "手際",
+    "furigana": "てぎわ",
+    "arti": "Kecekatan kerja"
+  },
+  {
+    "kanji": "手順",
+    "furigana": "てじゅん",
+    "arti": "Urutan prosedur"
+  },
+  {
+    "kanji": "手錠",
+    "furigana": "てじょう",
+    "arti": "Borgol"
+  },
+  {
+    "kanji": "手数",
+    "furigana": "てかず",
+    "arti": "Kerepotan / Jumlah langkah"
+  },
+  {
+    "kanji": "手当",
+    "furigana": "てあて",
+    "arti": "Tunjangan / Perawatan"
+  },
+  {
+    "kanji": "手配(する)",
+    "furigana": "てはい(する)",
+    "arti": "Pengaturan persiapan / DPO"
+  },
+  {
+    "kanji": "手薄(な)",
+    "furigana": "てうす(な)",
+    "arti": "Kurang penjagaan/tenaga"
+  },
+  {
+    "kanji": "手法",
+    "furigana": "しゅほう",
+    "arti": "Metode / Teknik"
+  },
+  {
+    "kanji": "種子",
+    "furigana": "しゅし",
+    "arti": "Benih / Biji"
+  },
+  {
+    "kanji": "趣旨",
+    "furigana": "しゅし",
+    "arti": "Maksud / Tujuan pokok"
+  },
+  {
+    "kanji": "受給(する)",
+    "furigana": "じゅきゅう(する)",
+    "arti": "Menerima tunjangan/dana"
+  },
+  {
+    "kanji": "受理(する)",
+    "furigana": "じゅり(する)",
+    "arti": "Menerima berkas resmi"
+  },
+  {
+    "kanji": "寿命",
+    "furigana": "じゅみょう",
+    "arti": "Usia hidup / Umur pakai"
+  },
+  {
+    "kanji": "授与(する)",
+    "furigana": "じゅよ(する)",
+    "arti": "Penganugerahan"
+  },
+  {
+    "kanji": "樹木",
+    "furigana": "じゅもく",
+    "arti": "Pepohonan"
+  },
+  {
+    "kanji": "樹立(する)",
+    "furigana": "じゅりつ(する)",
+    "arti": "Mencetak rekor / Menegakkan"
+  },
+  {
+    "kanji": "激務",
+    "furigana": "げきむ",
+    "arti": "Pekerjaan sangat berat"
+  },
+  {
+    "kanji": "収穫(する)",
+    "furigana": "しゅうかく(する)",
+    "arti": "Panen"
+  },
+  {
+    "kanji": "収支",
+    "furigana": "しゅうし",
+    "arti": "Pemasukan dan pengeluaran"
+  },
+  {
+    "kanji": "収集(する)",
+    "furigana": "しゅうしゅう(する)",
+    "arti": "Pengumpulan"
+  },
+  {
+    "kanji": "収縮(する)",
+    "furigana": "しゅうしゅく(する)",
+    "arti": "Kontraksi / Penyusutan"
+  },
+  {
+    "kanji": "収束(する)",
+    "furigana": "しゅうそく(する)",
+    "arti": "Mereda / Terkendali"
+  },
+  {
+    "kanji": "収容(する)",
+    "furigana": "しゅうよう(する)",
+    "arti": "Menampung"
+  },
+  {
+    "kanji": "周期",
+    "furigana": "しゅうき",
+    "arti": "Siklus"
+  },
+  {
+    "kanji": "就活(する)",
+    "furigana": "しゅうかつ(する)",
+    "arti": "Mencari kerja"
+  },
+  {
+    "kanji": "就業(する)",
+    "furigana": "しゅうぎょう(する)",
+    "arti": "Mulai bekerja"
+  },
+  {
+    "kanji": "修学(する)",
+    "furigana": "しゅうがく(する)",
+    "arti": "Menuntut ilmu"
+  },
+  {
+    "kanji": "修行(する)",
+    "furigana": "しゅぎょう(する)",
+    "arti": "Latihan disiplin / Pertapaan"
+  },
+  {
+    "kanji": "修士",
+    "furigana": "しゅうし",
+    "arti": "Magister (S2)"
+  },
+  {
+    "kanji": "修飾(する)",
+    "furigana": "しゅうしょく(する)",
+    "arti": "Dekorasi / Menerangkan kata"
+  },
+  {
+    "kanji": "修繕(する)",
+    "furigana": "しゅうぜん(する)",
+    "arti": "Reparasi"
+  },
+  {
+    "kanji": "修復(する)",
+    "furigana": "しゅうふく(する)",
+    "arti": "Restorasi / Pemulihan"
+  },
+  {
+    "kanji": "修了(する)",
+    "furigana": "しゅうりょう(する)",
+    "arti": "Menyelesaikan kursus/studi"
+  },
+  {
+    "kanji": "秀作",
+    "furigana": "しゅうさく",
+    "arti": "Karya unggulan"
+  },
+  {
+    "kanji": "終始",
+    "furigana": "しゅうし",
+    "arti": "Dari awal hingga akhir"
+  },
+  {
+    "kanji": "終息(する)",
+    "furigana": "しゅうそく(する)",
+    "arti": "Berakhir sepenuhnya"
+  },
+  {
+    "kanji": "終日",
+    "furigana": "しゅうじつ",
+    "arti": "Seharian penuh"
+  },
+  {
+    "kanji": "襲撃(する)",
+    "furigana": "しゅうげき(する)",
+    "arti": "Serangan mendadak"
+  },
+  {
+    "kanji": "充実(する)",
+    "furigana": "じゅうじつ(する)",
+    "arti": "Memuaskan / Lengkap"
+  },
+  {
+    "kanji": "従事(する)",
+    "furigana": "じゅうじ(する)",
+    "arti": "Menekuni bidang pekerjaan"
+  },
+  {
+    "kanji": "従属(する)",
+    "furigana": "じゅうぞく(する)",
+    "arti": "Tunduk di bawah"
+  },
+  {
+    "kanji": "渋滞(する)",
+    "furigana": "じゅうたい(する)",
+    "arti": "Kemacetan"
+  },
+  {
+    "kanji": "重傷",
+    "furigana": "じゅうしょう",
+    "arti": "Luka berat"
+  },
+  {
+    "kanji": "重複(する)",
+    "furigana": "ちょうふく / じゅうふく(する)",
+    "arti": "Tumpang tindih / Ganda"
+  },
+  {
+    "kanji": "重宝(する)",
+    "furigana": "ちょうほう(する)",
+    "arti": "Sangat berguna / Praktis"
+  },
+  {
+    "kanji": "宿命",
+    "furigana": "しゅくめい",
+    "arti": "Takdir"
+  },
+  {
+    "kanji": "熟慮(する)",
+    "furigana": "じゅくりょ(する)",
+    "arti": "Pertimbangan matang"
+  },
+  {
+    "kanji": "出没(する)",
+    "furigana": "しゅつぼつ(する)",
+    "arti": "Sering muncul tiba-tiba"
+  },
+  {
+    "kanji": "瞬時",
+    "furigana": "しゅんじ",
+    "arti": "Sekejap mata"
+  },
+  {
+    "kanji": "巡回(する)",
+    "furigana": "じゅんかい(する)",
+    "arti": "Patroli keliling"
+  },
+  {
+    "kanji": "順応(する)",
+    "furigana": "じゅんのう(する)",
+    "arti": "Adaptasi"
+  },
+  {
+    "kanji": "順序",
+    "furigana": "じゅんじょ",
+    "arti": "Urutan"
+  },
+  {
+    "kanji": "微塵",
+    "furigana": "みじん",
+    "arti": "Sedikit pun / Partikel kecil"
+  },
+  {
+    "kanji": "処置(する)",
+    "furigana": "しょち(する)",
+    "arti": "Tindakan penanganan"
+  },
+  {
+    "kanji": "処罰(する)",
+    "furigana": "しょばつ(する)",
+    "arti": "Penghukuman"
+  },
+  {
+    "kanji": "処分(する)",
+    "furigana": "しょぶん(する)",
+    "arti": "Membuang / Sanksi"
+  },
+  {
+    "kanji": "処理(する)",
+    "furigana": "しょり(する)",
+    "arti": "Pemrosesan"
+  },
+  {
+    "kanji": "初耳",
+    "furigana": "はつみみ",
+    "arti": "Baru pertama kali dengar"
+  },
+  {
+    "kanji": "所在",
+    "furigana": "しょざい",
+    "arti": "Lokasi keberadaan"
+  },
+  {
+    "kanji": "所持(する)",
+    "furigana": "しょじ(する)",
+    "arti": "Membawa / Memiliki"
+  }
+]

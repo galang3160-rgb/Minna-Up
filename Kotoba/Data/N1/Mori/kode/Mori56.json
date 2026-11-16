@@ -1,0 +1,367 @@
+[
+  {
+    "kanji": "一概に",
+    "furigana": "いちがいに",
+    "arti": "Secara pukul rata / Begitu saja"
+  },
+  {
+    "kanji": "一気に",
+    "furigana": "いっきに",
+    "arti": "Sekaligus dalam satu tarikan"
+  },
+  {
+    "kanji": "一挙に",
+    "furigana": "いっきょに",
+    "arti": "Serentak sekaligus"
+  },
+  {
+    "kanji": "一向に",
+    "furigana": "いっこうに",
+    "arti": "Sama sekali (tidak ada perubahan)"
+  },
+  {
+    "kanji": "一際",
+    "furigana": "ひときわ",
+    "arti": "Jauh lebih mencolok"
+  },
+  {
+    "kanji": "一切",
+    "furigana": "いっさい",
+    "arti": "Sama sekali / Seluruhnya"
+  },
+  {
+    "kanji": "一層",
+    "furigana": "いっそう",
+    "arti": "Semakin / Lebih"
+  },
+  {
+    "kanji": "一躍",
+    "furigana": "いちやく",
+    "arti": "Mendadak populer/naik daun"
+  },
+  {
+    "kanji": "果たして",
+    "furigana": "はたして",
+    "arti": "Apakah benar-benar"
+  },
+  {
+    "kanji": "隔週",
+    "furigana": "かくしゅう",
+    "arti": "Dua minggu sekali"
+  },
+  {
+    "kanji": "丸々",
+    "furigana": "まるまる",
+    "arti": "Penuh utuh (waktu/bentuk)"
+  },
+  {
+    "kanji": "危うく",
+    "furigana": "あやうく",
+    "arti": "Nyaris celaka"
+  },
+  {
+    "kanji": "幾多",
+    "furigana": "いくた",
+    "arti": "Banyak sekali"
+  },
+  {
+    "kanji": "格段に",
+    "furigana": "かくだんに",
+    "arti": "Jauh lebih baik/berbeda"
+  },
+  {
+    "kanji": "気安く",
+    "furigana": "きやすく",
+    "arti": "Dengan sok akrab / Mudah"
+  },
+  {
+    "kanji": "気兼ねなく",
+    "furigana": "きがねなく",
+    "arti": "Tanpa sungkan"
+  },
+  {
+    "kanji": "急遽",
+    "furigana": "きゅうきょ",
+    "arti": "Mendadak / Terburu-buru"
+  },
+  {
+    "kanji": "極めて",
+    "furigana": "きわめて",
+    "arti": "Sangat / Ekstrem"
+  },
+  {
+    "kanji": "極力",
+    "furigana": "きょくりょく",
+    "arti": "Sebisa mungkin"
+  },
+  {
+    "kanji": "決して",
+    "furigana": "けっして",
+    "arti": "Sekali-kali tidak"
+  },
+  {
+    "kanji": "兼ねて",
+    "furigana": "かねて",
+    "arti": "Sejak sebelumnya"
+  },
+  {
+    "kanji": "嫌々",
+    "furigana": "いやいや",
+    "arti": "Dengan terpaksa / Enggan"
+  },
+  {
+    "kanji": "故意に",
+    "furigana": "こいに",
+    "arti": "Dengan sengaja"
+  },
+  {
+    "kanji": "交互に",
+    "furigana": "こうごに",
+    "arti": "Secara bergantian"
+  },
+  {
+    "kanji": "公然と",
+    "furigana": "こうぜんと",
+    "arti": "Secara terang-terangan di depan umum"
+  },
+  {
+    "kanji": "今や",
+    "furigana": "いまや",
+    "arti": "Kini / Sekarang ini"
+  },
+  {
+    "kanji": "散々",
+    "furigana": "さんざん",
+    "arti": "Habis-habisan / Parah"
+  },
+  {
+    "kanji": "思うまま",
+    "furigana": "おもうまま",
+    "arti": "Sesuka hati"
+  },
+  {
+    "kanji": "思う存分",
+    "furigana": "おもうぞんぶん",
+    "arti": "Sepuas hati"
+  },
+  {
+    "kanji": "時折",
+    "furigana": "ときおり",
+    "arti": "Kadang-kadang / Sesekali"
+  },
+  {
+    "kanji": "若干",
+    "furigana": "じゃっかん",
+    "arti": "Sedikit / Beberapa"
+  },
+  {
+    "kanji": "主として",
+    "furigana": "しゅとして",
+    "arti": "Utamanya"
+  },
+  {
+    "kanji": "瞬間的に",
+    "furigana": "しゅんかんてきに",
+    "arti": "Dalam sekejap"
+  },
+  {
+    "kanji": "所詮",
+    "furigana": "しょせん",
+    "arti": "Pada akhirnya / Bagaimana pun juga"
+  },
+  {
+    "kanji": "徐々に",
+    "furigana": "じょじょに",
+    "arti": "Perlahan-lahan / Bertahap"
+  },
+  {
+    "kanji": "少なからず",
+    "furigana": "すくなからず",
+    "arti": "Tidak sedikit / Cukup banyak"
+  },
+  {
+    "kanji": "尚更",
+    "furigana": "なおさら",
+    "arti": "Terlebih lagi / Makin"
+  },
+  {
+    "kanji": "真っ先に",
+    "furigana": "まっさきに",
+    "arti": "Paling pertama"
+  },
+  {
+    "kanji": "真っ二つに",
+    "furigana": "まっぷたつに",
+    "arti": "Terbelah dua sama persis"
+  },
+  {
+    "kanji": "辛うじて",
+    "furigana": "かろうじて",
+    "arti": "Nyaris / Hampir saja tidak"
+  },
+  {
+    "kanji": "人一倍",
+    "furigana": "ひといちばい",
+    "arti": "Melebihi orang lain"
+  },
+  {
+    "kanji": "先立って",
+    "furigana": "さきだって",
+    "arti": "Mendahului / Sebelum"
+  },
+  {
+    "kanji": "専ら",
+    "furigana": "もっぱら",
+    "arti": "Semata-mata / Khusus fokus pada"
+  },
+  {
+    "kanji": "前もって",
+    "furigana": "まえもって",
+    "arti": "Jauh-jauh hari sebelumnya"
+  },
+  {
+    "kanji": "相当",
+    "furigana": "そうとう",
+    "arti": "Cukup / Sangat"
+  },
+  {
+    "kanji": "相変わらず",
+    "furigana": "あいかわらず",
+    "arti": "Seperti biasa tidak berubah"
+  },
+  {
+    "kanji": "総じて",
+    "furigana": "そうじて",
+    "arti": "Secara keseluruhan / Umumnya"
+  },
+  {
+    "kanji": "即座に",
+    "furigana": "そくざに",
+    "arti": "Seketika itu juga"
+  },
+  {
+    "kanji": "即時に",
+    "furigana": "そくじに",
+    "arti": "Dengan segera"
+  },
+  {
+    "kanji": "大して",
+    "furigana": "たいして",
+    "arti": "Tidak begitu (diikuti negatif)"
+  },
+  {
+    "kanji": "大概",
+    "furigana": "たいがい",
+    "arti": "Biasanya / Sebagian besar"
+  },
+  {
+    "kanji": "大方",
+    "furigana": "おおかた",
+    "arti": "Hampir semuanya / Kemungkinan besar"
+  },
+  {
+    "kanji": "断じて",
+    "furigana": "だんじて",
+    "arti": "Sama sekali (tidak akan)"
+  },
+  {
+    "kanji": "断然",
+    "furigana": "だんぜん",
+    "arti": "Jauh lebih unggul / Mutlak"
+  },
+  {
+    "kanji": "中途半端に",
+    "furigana": "ちゅうとはんぱに",
+    "arti": "Setengah-setengah"
+  },
+  {
+    "kanji": "当分",
+    "furigana": "とうぶん",
+    "arti": "Untuk sementara waktu"
+  },
+  {
+    "kanji": "当面",
+    "furigana": "とうめん",
+    "arti": "Untuk saat ini / Jangka pendek"
+  },
+  {
+    "kanji": "満遍なく",
+    "furigana": "まんべんなく",
+    "arti": "Merata ke seluruh bagian"
+  },
+  {
+    "kanji": "適宜",
+    "furigana": "てきぎ",
+    "arti": "Sesuai kebutuhan situasi"
+  },
+  {
+    "kanji": "突如",
+    "furigana": "とつじょ",
+    "arti": "Tiba-tiba"
+  },
+  {
+    "kanji": "念入りに",
+    "furigana": "ねんいりに",
+    "arti": "Dengan teliti dan hati-hati"
+  },
+  {
+    "kanji": "漠然と",
+    "furigana": "ばくぜんと",
+    "arti": "Secara samar / Tanpa arah jelas"
+  },
+  {
+    "kanji": "並びに",
+    "furigana": "ならびに",
+    "arti": "Serta / Dan juga"
+  },
+  {
+    "kanji": "呆然と",
+    "furigana": "ぼうぜんと",
+    "arti": "Termangu / Terpana"
+  },
+  {
+    "kanji": "未だ",
+    "furigana": "いまだ",
+    "arti": "Masih belum"
+  },
+  {
+    "kanji": "無性に",
+    "furigana": "むしょうに",
+    "arti": "Sangat ingin (tanpa alasan jelas)"
+  },
+  {
+    "kanji": "無論",
+    "furigana": "むろん",
+    "arti": "Tentu saja"
+  },
+  {
+    "kanji": "予め",
+    "furigana": "あらかじめ",
+    "arti": "Terlebih dahulu"
+  },
+  {
+    "kanji": "容赦なく",
+    "furigana": "ようしゃなく",
+    "arti": "Tanpa ampun"
+  },
+  {
+    "kanji": "臨機応変に",
+    "furigana": "りんきおうへんに",
+    "arti": "Fleksibel sesuai situasi"
+  },
+  {
+    "kanji": "歴然と",
+    "furigana": "れきぜんと",
+    "arti": "Terlihat jelas perbedaannya"
+  },
+  {
+    "kanji": "到底",
+    "furigana": "とうてい",
+    "arti": "Sama sekali tidak mungkin"
+  },
+  {
+    "kanji": "ざらに",
+    "furigana": "ざらに",
+    "arti": "Banyak dijumpai / Pasaran"
+  }
+]

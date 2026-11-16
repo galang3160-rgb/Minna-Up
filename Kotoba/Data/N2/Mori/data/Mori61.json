@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "満足感",
+    "furigana": "まんぞくかん",
+    "arti": "Rasa puas"
+  },
+  {
+    "kanji": "温泉街",
+    "furigana": "おんせんがい",
+    "arti": "Kawasan pemandian air panas"
+  },
+  {
+    "kanji": "住宅街",
+    "furigana": "じゅうたくがい",
+    "arti": "Kawasan perumahan"
+  },
+  {
+    "kanji": "商店街",
+    "furigana": "しょうてんがい",
+    "arti": "Kawasan pertokoan"
+  },
+  {
+    "kanji": "経済学",
+    "furigana": "けいざいがく",
+    "arti": "Ilmu ekonomi"
+  },
+  {
+    "kanji": "言語学",
+    "furigana": "げんごがく",
+    "arti": "Ilmu linguistik"
+  },
+  {
+    "kanji": "心理学",
+    "furigana": "しんりがく",
+    "arti": "Ilmu psikologi"
+  },
+  {
+    "kanji": "血液型",
+    "furigana": "けつえきがた",
+    "arti": "Golongan darah"
+  },
+  {
+    "kanji": "最新型",
+    "furigana": "さいしんがた",
+    "arti": "Tipe terbaru"
+  },
+  {
+    "kanji": "参加型",
+    "furigana": "さんかがた",
+    "arti": "Tipe partisipatif/interaktif"
+  },
+  {
+    "kanji": "観光客",
+    "furigana": "かんこうきゃく",
+    "arti": "Wisatawan / Turis"
+  },
+  {
+    "kanji": "見物客",
+    "furigana": "けんぶつきゃく",
+    "arti": "Penonton / Pengunjung"
+  },
+  {
+    "kanji": "招待客",
+    "furigana": "しょうたいきゃく",
+    "arti": "Tamu undangan"
+  },
+  {
+    "kanji": "花見客",
+    "furigana": "はなみきゃく",
+    "arti": "Pengunjung wisata bunga sakura"
+  },
+  {
+    "kanji": "利用客",
+    "furigana": "りようきゃく",
+    "arti": "Pelanggan pengguna layanan"
+  },
+  {
+    "kanji": "売り切れ",
+    "furigana": "うりきれ",
+    "arti": "Habis terjual"
+  },
+  {
+    "kanji": "期限切れ",
+    "furigana": "きげんぎれ",
+    "arti": "Kedaluwarsa"
+  },
+  {
+    "kanji": "時間切れ",
+    "furigana": "じかんぎれ",
+    "arti": "Habis waktu"
+  },
+  {
+    "kanji": "奨学金",
+    "furigana": "しょうがくきん",
+    "arti": "Beasiswa"
+  },
+  {
+    "kanji": "税金",
+    "furigana": "ぜいきん",
+    "arti": "Pajak"
+  },
+  {
+    "kanji": "入会金",
+    "furigana": "にゅうかいきん",
+    "arti": "Biaya pendaftaran anggota"
+  },
+  {
+    "kanji": "入学金",
+    "furigana": "にゅうがくきん",
+    "arti": "Uang pangkal masuk sekolah"
+  },
+  {
+    "kanji": "作業着",
+    "furigana": "さぎょうぎ",
+    "arti": "Pakaian kerja"
+  },
+  {
+    "kanji": "普段着",
+    "furigana": "ふだんぎ",
+    "arti": "Pakaian sehari-hari"
+  },
+  {
+    "kanji": "部屋着",
+    "furigana": "へやぎ",
+    "arti": "Pakaian rumah"
+  },
+  {
+    "kanji": "かぜ気味",
+    "furigana": "かぜぎみ",
+    "arti": "Gejala agak flu"
+  },
+  {
+    "kanji": "疲れ気味",
+    "furigana": "つかれぎみ",
+    "arti": "Agak kelelahan"
+  },
+  {
+    "kanji": "太り気味",
+    "furigana": "ふとりぎみ",
+    "arti": "Agak gemukan"
+  },
+  {
+    "kanji": "観光業",
+    "furigana": "かんこうぎょう",
+    "arti": "Industri pariwisata"
+  },
+  {
+    "kanji": "水産業",
+    "furigana": "すいさんぎょう",
+    "arti": "Industri perikanan"
+  },
+  {
+    "kanji": "旅行業",
+    "furigana": "りょこうぎょう",
+    "arti": "Usaha biro perjalanan"
+  },
+  {
+    "kanji": "乗車券",
+    "furigana": "じょうしゃけん",
+    "arti": "Tiket naik kendaraan"
+  },
+  {
+    "kanji": "定期券",
+    "furigana": "ていきけん",
+    "arti": "Tiket komuter berlangganan"
+  },
+  {
+    "kanji": "割引券",
+    "furigana": "わりびきけん",
+    "arti": "Kupon diskon"
+  },
+  {
+    "kanji": "気温差",
+    "furigana": "きおんさ",
+    "arti": "Perbedaan suhu udara"
+  },
+  {
+    "kanji": "時代差",
+    "furigana": "じだいさ",
+    "arti": "Perbedaan zaman"
+  },
+  {
+    "kanji": "地域差",
+    "furigana": "ちいきさ",
+    "arti": "Perbedaan antarwilayah"
+  },
+  {
+    "kanji": "宛先",
+    "furigana": "あてさき",
+    "arti": "Alamat tujuan"
+  },
+  {
+    "kanji": "行き先",
+    "furigana": "いきさき",
+    "arti": "Tempat tujuan"
+  },
+  {
+    "kanji": "応募先",
+    "furigana": "おうぼさき",
+    "arti": "Tempat tujuan melamar"
+  },
+  {
+    "kanji": "勤務先",
+    "furigana": "きんむさき",
+    "arti": "Tempat bekerja"
+  },
+  {
+    "kanji": "玄関先",
+    "furigana": "げんかんさき",
+    "arti": "Area depan pintu masuk"
+  },
+  {
+    "kanji": "宿泊先",
+    "furigana": "しゅくはくさき",
+    "arti": "Tempat menginap"
+  },
+  {
+    "kanji": "連絡先",
+    "furigana": "れんらくさき",
+    "arti": "Kontak yang bisa dihubungi"
+  },
+  {
+    "kanji": "組み立て式",
+    "furigana": "くみたてしき",
+    "arti": "Tipe bongkar pasang"
+  },
+  {
+    "kanji": "選択式",
+    "furigana": "せんたくしき",
+    "arti": "Tipe pilihan ganda"
+  },
+  {
+    "kanji": "日本式",
+    "furigana": "にほんしき",
+    "arti": "Gaya Jepang"
+  },
+  {
+    "kanji": "応接室",
+    "furigana": "おうせつしつ",
+    "arti": "Ruang terima tamu"
+  },
+  {
+    "kanji": "管理室",
+    "furigana": "かんりしつ",
+    "arti": "Ruang pengelola"
+  },
+  {
+    "kanji": "研修室",
+    "furigana": "けんしゅうしつ",
+    "arti": "Ruang pelatihan"
+  },
+  {
+    "kanji": "自習室",
+    "furigana": "じしゅうしつ",
+    "arti": "Ruang belajar mandiri"
+  },
+  {
+    "kanji": "実験室",
+    "furigana": "じっけんしつ",
+    "arti": "Ruang laboratorium"
+  },
+  {
+    "kanji": "事務室",
+    "furigana": "じむしつ",
+    "arti": "Ruang tata usaha/kantor"
+  },
+  {
+    "kanji": "診察室",
+    "furigana": "しんさつしつ",
+    "arti": "Ruang periksa dokter"
+  },
+  {
+    "kanji": "相談室",
+    "furigana": "そうだんしつ",
+    "arti": "Ruang konsultasi"
+  },
+  {
+    "kanji": "海外在住者",
+    "furigana": "かいがいざいじゅうしゃ",
+    "arti": "Warga yang tinggal di luar negeri"
+  },
+  {
+    "kanji": "高齢者",
+    "furigana": "こうれいしゃ",
+    "arti": "Warga lansia"
+  },
+  {
+    "kanji": "作成者",
+    "furigana": "さくせいしゃ",
+    "arti": "Pembuat dokumen/karya"
+  },
+  {
+    "kanji": "出演者",
+    "furigana": "しゅつえんしゃ",
+    "arti": "Penampil / Bintang tamu"
+  },
+  {
+    "kanji": "上級者",
+    "furigana": "じょうきゅうしゃ",
+    "arti": "Tingkat mahir"
+  }
+]

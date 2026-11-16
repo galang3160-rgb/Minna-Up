@@ -1,0 +1,342 @@
+[
+  {
+    "kanji": "線",
+    "furigana": "せん",
+    "arti": "Garis"
+  },
+  {
+    "kanji": "底",
+    "furigana": "そこ",
+    "arti": "Dasar"
+  },
+  {
+    "kanji": "側",
+    "furigana": "そば",
+    "arti": "Samping / Dekat"
+  },
+  {
+    "kanji": "像",
+    "furigana": "ぞう",
+    "arti": "Patung"
+  },
+  {
+    "kanji": "他",
+    "furigana": "た / ほか",
+    "arti": "Lainnya"
+  },
+  {
+    "kanji": "畳",
+    "furigana": "たたみ",
+    "arti": "Tatami (Tikar)"
+  },
+  {
+    "kanji": "棚",
+    "furigana": "たな",
+    "arti": "Rak"
+  },
+  {
+    "kanji": "旅",
+    "furigana": "たび",
+    "arti": "Perjalanan"
+  },
+  {
+    "kanji": "卵",
+    "furigana": "たまご",
+    "arti": "Telur"
+  },
+  {
+    "kanji": "台",
+    "furigana": "だい",
+    "arti": "Meja / Stand"
+  },
+  {
+    "kanji": "茶",
+    "furigana": "ちゃ",
+    "arti": "Teh"
+  },
+  {
+    "kanji": "机",
+    "furigana": "つくえ",
+    "arti": "Meja (Belajar)"
+  },
+  {
+    "kanji": "妻",
+    "furigana": "つま",
+    "arti": "Istri"
+  },
+  {
+    "kanji": "寺",
+    "furigana": "てら",
+    "arti": "Kuil Buddha"
+  },
+  {
+    "kanji": "点",
+    "furigana": "てん",
+    "arti": "Titik / Poin"
+  },
+  {
+    "kanji": "鳥",
+    "furigana": "とり",
+    "arti": "Burung"
+  },
+  {
+    "kanji": "毒",
+    "furigana": "どく",
+    "arti": "Racun"
+  },
+  {
+    "kanji": "謎",
+    "furigana": "なぞ",
+    "arti": "Misteri / Teka-teki"
+  },
+  {
+    "kanji": "鍋",
+    "furigana": "なべ",
+    "arti": "Panci"
+  },
+  {
+    "kanji": "波",
+    "furigana": "なみ",
+    "arti": "Ombak"
+  },
+  {
+    "kanji": "涙",
+    "furigana": "なみだ",
+    "arti": "Air mata"
+  },
+  {
+    "kanji": "庭",
+    "furigana": "にわ",
+    "arti": "Halaman / Taman"
+  },
+  {
+    "kanji": "熱",
+    "furigana": "ねつ",
+    "arti": "Demam / Panas"
+  },
+  {
+    "kanji": "葉",
+    "furigana": "は",
+    "arti": "Daun"
+  },
+  {
+    "kanji": "歯",
+    "furigana": "は",
+    "arti": "Gigi"
+  },
+  {
+    "kanji": "箱",
+    "furigana": "はこ",
+    "arti": "Kotak"
+  },
+  {
+    "kanji": "橋",
+    "furigana": "はし",
+    "arti": "Jembatan"
+  },
+  {
+    "kanji": "箸",
+    "furigana": "はし",
+    "arti": "Sumpit"
+  },
+  {
+    "kanji": "畑",
+    "furigana": "はたけ",
+    "arti": "Ladang / Kebun"
+  },
+  {
+    "kanji": "鼻",
+    "furigana": "はな",
+    "arti": "Hidung"
+  },
+  {
+    "kanji": "針",
+    "furigana": "はり",
+    "arti": "Jarum"
+  },
+  {
+    "kanji": "倍",
+    "furigana": "ばい",
+    "arti": "Kali lipat"
+  },
+  {
+    "kanji": "晩",
+    "furigana": "ばん",
+    "arti": "Malam"
+  },
+  {
+    "kanji": "光",
+    "furigana": "ひかり",
+    "arti": "Cahaya"
+  },
+  {
+    "kanji": "羊",
+    "furigana": "ひつじ",
+    "arti": "Domba"
+  },
+  {
+    "kanji": "暇",
+    "furigana": "ひま",
+    "arti": "Waktu luang"
+  },
+  {
+    "kanji": "服",
+    "furigana": "ふく",
+    "arti": "Pakaian"
+  },
+  {
+    "kanji": "袋",
+    "furigana": "ふくろ",
+    "arti": "Kantong"
+  },
+  {
+    "kanji": "船",
+    "furigana": "ふね",
+    "arti": "Kapal"
+  },
+  {
+    "kanji": "星",
+    "furigana": "ほし",
+    "arti": "Bintang"
+  },
+  {
+    "kanji": "骨",
+    "furigana": "ほね",
+    "arti": "Tulang"
+  },
+  {
+    "kanji": "棒",
+    "furigana": "ぼう",
+    "arti": "Tongkat"
+  },
+  {
+    "kanji": "僕",
+    "furigana": "ぼく",
+    "arti": "Aku (laki-laki)"
+  },
+  {
+    "kanji": "孫",
+    "furigana": "まご",
+    "arti": "Cucu"
+  },
+  {
+    "kanji": "町",
+    "furigana": "まち",
+    "arti": "Kota"
+  },
+  {
+    "kanji": "街",
+    "furigana": "まち",
+    "arti": "Jalan raya / Kota"
+  },
+  {
+    "kanji": "窓",
+    "furigana": "まど",
+    "arti": "Jendela"
+  },
+  {
+    "kanji": "豆",
+    "furigana": "まめ",
+    "arti": "Kacang"
+  },
+  {
+    "kanji": "湖",
+    "furigana": "みずうみ",
+    "arti": "Danau"
+  },
+  {
+    "kanji": "緑",
+    "furigana": "みどり",
+    "arti": "Hijau"
+  },
+  {
+    "kanji": "港",
+    "furigana": "みなと",
+    "arti": "Pelabuhan"
+  },
+  {
+    "kanji": "昔",
+    "furigana": "むかし",
+    "arti": "Zaman dahulu"
+  },
+  {
+    "kanji": "娘",
+    "furigana": "むすめ",
+    "arti": "Anak perempuan"
+  },
+  {
+    "kanji": "胸",
+    "furigana": "むね",
+    "arti": "Dada"
+  },
+  {
+    "kanji": "村",
+    "furigana": "むら",
+    "arti": "Desa"
+  },
+  {
+    "kanji": "面",
+    "furigana": "めん",
+    "arti": "Permukaan / Topeng"
+  },
+  {
+    "kanji": "物",
+    "furigana": "もの",
+    "arti": "Barang / Benda"
+  },
+  {
+    "kanji": "森",
+    "furigana": "もり",
+    "arti": "Hutan"
+  },
+  {
+    "kanji": "約",
+    "furigana": "やく",
+    "arti": "Sekitar / Kira-kira"
+  },
+  {
+    "kanji": "湯",
+    "furigana": "ゆ",
+    "arti": "Air panas"
+  },
+  {
+    "kanji": "床",
+    "furigana": "ゆか",
+    "arti": "Lantai"
+  },
+  {
+    "kanji": "雪",
+    "furigana": "ゆき",
+    "arti": "Salju"
+  },
+  {
+    "kanji": "指",
+    "furigana": "ゆび",
+    "arti": "Jari"
+  },
+  {
+    "kanji": "夢",
+    "furigana": "ゆめ",
+    "arti": "Mimpi"
+  },
+  {
+    "kanji": "用",
+    "furigana": "よう",
+    "arti": "Keperluan / Urusan"
+  },
+  {
+    "kanji": "横",
+    "furigana": "よこ",
+    "arti": "Samping / Sebelah"
+  },
+  {
+    "kanji": "量",
+    "furigana": "りょう",
+    "arti": "Jumlah"
+  },
+  {
+    "kanji": "列",
+    "furigana": "れつ",
+    "arti": "Baris / Antrean"
+  }
+]

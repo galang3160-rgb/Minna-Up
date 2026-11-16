@@ -1,0 +1,312 @@
+[
+  {
+    "kanji": "右側",
+    "furigana": "みぎがわ",
+    "arti": "Sisi kanan"
+  },
+  {
+    "kanji": "南側",
+    "furigana": "みなみがわ",
+    "arti": "Sisi selatan"
+  },
+  {
+    "kanji": "自動販売機",
+    "furigana": "じどうはんばいき",
+    "arti": "Mesin penjual otomatis"
+  },
+  {
+    "kanji": "洗濯機",
+    "furigana": "せんたくき",
+    "arti": "Mesin cuci"
+  },
+  {
+    "kanji": "掃除機",
+    "furigana": "そうじき",
+    "arti": "Penyedot debu"
+  },
+  {
+    "kanji": "飛行機",
+    "furigana": "ひこうき",
+    "arti": "Pesawat terbang"
+  },
+  {
+    "kanji": "入り口",
+    "furigana": "いりぐち",
+    "arti": "Pintu masuk"
+  },
+  {
+    "kanji": "改札口",
+    "furigana": "かいさつぐち",
+    "arti": "Gerbang tiket"
+  },
+  {
+    "kanji": "北口",
+    "furigana": "きたぐち",
+    "arti": "Pintu utara"
+  },
+  {
+    "kanji": "正面口",
+    "furigana": "しょうめんぐち",
+    "arti": "Pintu depan"
+  },
+  {
+    "kanji": "出口",
+    "furigana": "でぐち",
+    "arti": "Pintu keluar"
+  },
+  {
+    "kanji": "西口",
+    "furigana": "にしぐち",
+    "arti": "Pintu barat"
+  },
+  {
+    "kanji": "東口",
+    "furigana": "ひがしぐち",
+    "arti": "Pintu timur"
+  },
+  {
+    "kanji": "南口",
+    "furigana": "みなみぐち",
+    "arti": "Pintu selatan"
+  },
+  {
+    "kanji": "定期券",
+    "furigana": "ていきけん",
+    "arti": "Tiket langganan"
+  },
+  {
+    "kanji": "割引券",
+    "furigana": "わりびきけん",
+    "arti": "Kupon diskon"
+  },
+  {
+    "kanji": "開園後",
+    "furigana": "かいえんご",
+    "arti": "Setelah taman dibuka"
+  },
+  {
+    "kanji": "閉店後",
+    "furigana": "へいてんご",
+    "arti": "Setelah toko tutup"
+  },
+  {
+    "kanji": "英語",
+    "furigana": "えいご",
+    "arti": "Bahasa Inggris"
+  },
+  {
+    "kanji": "外国語",
+    "furigana": "がいこくご",
+    "arti": "Bahasa asing"
+  },
+  {
+    "kanji": "中国語",
+    "furigana": "ちゅうごくご",
+    "arti": "Bahasa Mandarin"
+  },
+  {
+    "kanji": "晩ご飯",
+    "furigana": "ばんごはん",
+    "arti": "Makan malam"
+  },
+  {
+    "kanji": "昼ご飯",
+    "furigana": "ひるごはん",
+    "arti": "Makan siang"
+  },
+  {
+    "kanji": "夕ご飯",
+    "furigana": "ゆうごはん",
+    "arti": "Makan malam"
+  },
+  {
+    "kanji": "夜ご飯",
+    "furigana": "よるごはん",
+    "arti": "Makan malam"
+  },
+  {
+    "kanji": "あて先",
+    "furigana": "あてさき",
+    "arti": "Alamat tujuan"
+  },
+  {
+    "kanji": "外出先",
+    "furigana": "がいしゅつさき",
+    "arti": "Tempat tujuan"
+  },
+  {
+    "kanji": "連絡先",
+    "furigana": "れんらくさき",
+    "arti": "Kontak"
+  },
+  {
+    "kanji": "看護師",
+    "furigana": "かんごし",
+    "arti": "Perawat"
+  },
+  {
+    "kanji": "教師",
+    "furigana": "きょうし",
+    "arti": "Guru"
+  },
+  {
+    "kanji": "応援室",
+    "furigana": "おうえんしつ",
+    "arti": "Ruang dukungan"
+  },
+  {
+    "kanji": "会議室",
+    "furigana": "かいぎしつ",
+    "arti": "Ruang rapat"
+  },
+  {
+    "kanji": "研究室",
+    "furigana": "けんきゅうしつ",
+    "arti": "Ruang penelitian"
+  },
+  {
+    "kanji": "コピー室",
+    "furigana": "コピーしつ",
+    "arti": "Ruang fotokopi"
+  },
+  {
+    "kanji": "コンピューター室",
+    "furigana": "コンピューターしつ",
+    "arti": "Ruang komputer"
+  },
+  {
+    "kanji": "事務室",
+    "furigana": "じむしつ",
+    "arti": "Ruang administrasi"
+  },
+  {
+    "kanji": "科学者",
+    "furigana": "かがくしゃ",
+    "arti": "Ilmuwan"
+  },
+  {
+    "kanji": "希望者",
+    "furigana": "きぼうしゃ",
+    "arti": "Orang yang berminat"
+  },
+  {
+    "kanji": "経験者",
+    "furigana": "けいけんしゃ",
+    "arti": "Orang berpengalaman"
+  },
+  {
+    "kanji": "参加者",
+    "furigana": "さんかしゃ",
+    "arti": "Peserta"
+  },
+  {
+    "kanji": "指導者",
+    "furigana": "しどうしゃ",
+    "arti": "Pembimbing"
+  },
+  {
+    "kanji": "歩行者",
+    "furigana": "ほこうしゃ",
+    "arti": "Pejalan kaki"
+  },
+  {
+    "kanji": "優勝者",
+    "furigana": "ゆうしょうしゃ",
+    "arti": "Pemenang"
+  },
+  {
+    "kanji": "利用者",
+    "furigana": "りようしゃ",
+    "arti": "Pengguna"
+  },
+  {
+    "kanji": "旅行者",
+    "furigana": "りょこうしゃ",
+    "arti": "Wisatawan"
+  },
+  {
+    "kanji": "教科書",
+    "furigana": "きょうかしょ",
+    "arti": "Buku pelajaran"
+  },
+  {
+    "kanji": "証明書",
+    "furigana": "しょうめいしょ",
+    "arti": "Surat keterangan"
+  },
+  {
+    "kanji": "申込書",
+    "furigana": "もうしこみしょ",
+    "arti": "Formulir pendaftaran"
+  },
+  {
+    "kanji": "集合時",
+    "furigana": "しゅうごうじ",
+    "arti": "Waktu berkumpul"
+  },
+  {
+    "kanji": "日時",
+    "furigana": "にちじ",
+    "arti": "Tanggal dan waktu"
+  },
+  {
+    "kanji": "運動場",
+    "furigana": "うんどうじょう",
+    "arti": "Lapangan olahraga"
+  },
+  {
+    "kanji": "会場",
+    "furigana": "かいじょう",
+    "arti": "Tempat acara"
+  },
+  {
+    "kanji": "スキー場",
+    "furigana": "スキーじょう",
+    "arti": "Tempat bermain ski"
+  },
+  {
+    "kanji": "駐車場",
+    "furigana": "ちゅうしゃじょう",
+    "arti": "Tempat parkir"
+  },
+  {
+    "kanji": "聞き上手",
+    "furigana": "ききじょうず",
+    "arti": "Pandai mendengarkan"
+  },
+  {
+    "kanji": "話し上手",
+    "furigana": "はなしじょうず",
+    "arti": "Pandai berbicara"
+  },
+  {
+    "kanji": "料理上手",
+    "furigana": "りょうりじょうず",
+    "arti": "Pandai memasak"
+  },
+  {
+    "kanji": "私達",
+    "furigana": "わたしたち",
+    "arti": "Kami / kita"
+  },
+  {
+    "kanji": "子ども達",
+    "furigana": "こどもたち",
+    "arti": "Anak-anak"
+  },
+  {
+    "kanji": "食事代",
+    "furigana": "しょくじだい",
+    "arti": "Biaya makan"
+  },
+  {
+    "kanji": "ホテル代",
+    "furigana": "ホテルだい",
+    "arti": "Biaya hotel"
+  },
+  {
+    "kanji": "温泉地",
+    "furigana": "おんせんち",
+    "arti": "Daerah pemandian air panas"
+  }
+]

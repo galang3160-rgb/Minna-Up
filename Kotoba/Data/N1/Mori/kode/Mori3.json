@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "講義(する)",
+    "furigana": "こうぎ(する)",
+    "arti": "Kuliah"
+  },
+  {
+    "kanji": "購入(する)",
+    "furigana": "こうにゅう(する)",
+    "arti": "Pembelian"
+  },
+  {
+    "kanji": "高原",
+    "furigana": "こうげん",
+    "arti": "Dataran tinggi"
+  },
+  {
+    "kanji": "合意(する)",
+    "furigana": "ごうい(する)",
+    "arti": "Kesepakatan"
+  },
+  {
+    "kanji": "合成(する)",
+    "furigana": "ごうせい(する)",
+    "arti": "Sintesis / Gabungan"
+  },
+  {
+    "kanji": "告白(する)",
+    "furigana": "こくはく(する)",
+    "arti": "Pengakuan"
+  },
+  {
+    "kanji": "国有",
+    "furigana": "こくゆう",
+    "arti": "Milik negara"
+  },
+  {
+    "kanji": "困難(な)",
+    "furigana": "こんなん(な)",
+    "arti": "Kesulitan"
+  },
+  {
+    "kanji": "混同(する)",
+    "furigana": "こんどう(する)",
+    "arti": "Mencampuradukkan"
+  },
+  {
+    "kanji": "再建(する)",
+    "furigana": "さいけん(する)",
+    "arti": "Rekonstruksi"
+  },
+  {
+    "kanji": "再現(する)",
+    "furigana": "さいげん(する)",
+    "arti": "Mereproduksi"
+  },
+  {
+    "kanji": "才能",
+    "furigana": "さいのう",
+    "arti": "Bakat"
+  },
+  {
+    "kanji": "採用(する)",
+    "furigana": "さいよう(する)",
+    "arti": "Perekrutan"
+  },
+  {
+    "kanji": "在庫",
+    "furigana": "ざいこ",
+    "arti": "Stok barang"
+  },
+  {
+    "kanji": "財政",
+    "furigana": "ざいせい",
+    "arti": "Keuangan negara/publik"
+  },
+  {
+    "kanji": "作戦",
+    "furigana": "さくせん",
+    "arti": "Taktik / Strategi"
+  },
+  {
+    "kanji": "作用(する)",
+    "furigana": "さよう(する)",
+    "arti": "Efek kerja / Reaksi"
+  },
+  {
+    "kanji": "殺人",
+    "furigana": "さつじん",
+    "arti": "Pembunuhan"
+  },
+  {
+    "kanji": "参考(する)",
+    "furigana": "さんこう(する)",
+    "arti": "Referensi"
+  },
+  {
+    "kanji": "残業(する)",
+    "furigana": "ざんぎょう(する)",
+    "arti": "Lembur"
+  },
+  {
+    "kanji": "志望(する)",
+    "furigana": "しぼう(する)",
+    "arti": "Keinginan / Pilihan"
+  },
+  {
+    "kanji": "思考(する)",
+    "furigana": "しこう(する)",
+    "arti": "Pemikiran"
+  },
+  {
+    "kanji": "指示(する)",
+    "furigana": "しじ(する)",
+    "arti": "Instruksi"
+  },
+  {
+    "kanji": "支持(する)",
+    "furigana": "しじ(する)",
+    "arti": "Dukungan"
+  },
+  {
+    "kanji": "支店",
+    "furigana": "してん",
+    "arti": "Kantor cabang"
+  },
+  {
+    "kanji": "脂肪",
+    "furigana": "しぼう",
+    "arti": "Lemak"
+  },
+  {
+    "kanji": "視線",
+    "furigana": "しせん",
+    "arti": "Arah tatapan"
+  },
+  {
+    "kanji": "視点",
+    "furigana": "してん",
+    "arti": "Sudut pandang"
+  },
+  {
+    "kanji": "視野",
+    "furigana": "しや",
+    "arti": "Jangkauan pandang"
+  },
+  {
+    "kanji": "視力",
+    "furigana": "しりょく",
+    "arti": "Daya penglihatan"
+  },
+  {
+    "kanji": "資源",
+    "furigana": "しげん",
+    "arti": "Sumber daya"
+  },
+  {
+    "kanji": "事項",
+    "furigana": "じこう",
+    "arti": "Hal / Butir penting"
+  },
+  {
+    "kanji": "事前",
+    "furigana": "じぜん",
+    "arti": "Sebelumnya"
+  },
+  {
+    "kanji": "事例",
+    "furigana": "じれい",
+    "arti": "Contoh kasus"
+  },
+  {
+    "kanji": "持参(する)",
+    "furigana": "じさん(する)",
+    "arti": "Membawa"
+  },
+  {
+    "kanji": "時期",
+    "furigana": "じき",
+    "arti": "Masa / Musim"
+  },
+  {
+    "kanji": "次第",
+    "furigana": "しだい",
+    "arti": "Tergantung pada / Urutan"
+  },
+  {
+    "kanji": "治療(する)",
+    "furigana": "ちりょう(する)",
+    "arti": "Pengobatan"
+  },
+  {
+    "kanji": "自覚(する)",
+    "furigana": "じかく(する)",
+    "arti": "Sadar diri"
+  },
+  {
+    "kanji": "自己",
+    "furigana": "じこ",
+    "arti": "Diri sendiri"
+  },
+  {
+    "kanji": "失言(する)",
+    "furigana": "しつげん(する)",
+    "arti": "Salah ucap"
+  },
+  {
+    "kanji": "実家",
+    "furigana": "じっか",
+    "arti": "Rumah orang tua"
+  },
+  {
+    "kanji": "実在(する)",
+    "furigana": "じつざい(する)",
+    "arti": "Benar-benar ada"
+  },
+  {
+    "kanji": "実践(する)",
+    "furigana": "じっせん(する)",
+    "arti": "Praktik langsung"
+  },
+  {
+    "kanji": "車庫",
+    "furigana": "しゃこ",
+    "arti": "Garasi"
+  },
+  {
+    "kanji": "車両",
+    "furigana": "しゃりょう",
+    "arti": "Gerbong / Kendaraan"
+  },
+  {
+    "kanji": "主張(する)",
+    "furigana": "しゅちょう(する)",
+    "arti": "Argumen / Klaim"
+  },
+  {
+    "kanji": "取引(する)",
+    "furigana": "とりひき(する)",
+    "arti": "Transaksi bisnis"
+  },
+  {
+    "kanji": "取材(する)",
+    "furigana": "しゅざい(する)",
+    "arti": "Peliputan berita"
+  },
+  {
+    "kanji": "手段",
+    "furigana": "しゅだん",
+    "arti": "Cara / Sarana"
+  },
+  {
+    "kanji": "首相",
+    "furigana": "しゅしょう",
+    "arti": "Perdana menteri"
+  },
+  {
+    "kanji": "受賞(する)",
+    "furigana": "じゅしょう(する)",
+    "arti": "Menerima penghargaan"
+  },
+  {
+    "kanji": "需要",
+    "furigana": "じゅよう",
+    "arti": "Permintaan pasar"
+  },
+  {
+    "kanji": "収益",
+    "furigana": "しゅうえき",
+    "arti": "Keuntungan / Hasil"
+  },
+  {
+    "kanji": "収入",
+    "furigana": "しゅうにゅう",
+    "arti": "Pendapatan"
+  },
+  {
+    "kanji": "周囲",
+    "furigana": "しゅうい",
+    "arti": "Sekeliling"
+  },
+  {
+    "kanji": "就職(する)",
+    "furigana": "しゅうしょく(する)",
+    "arti": "Mendapat pekerjaan"
+  },
+  {
+    "kanji": "修正(する)",
+    "furigana": "しゅうせい(する)",
+    "arti": "Revisi / Koreksi"
+  },
+  {
+    "kanji": "習慣",
+    "furigana": "しゅうかん",
+    "arti": "Kebiasaan"
+  },
+  {
+    "kanji": "従来",
+    "furigana": "じゅうらい",
+    "arti": "Selama ini / Konvensional"
+  }
+]

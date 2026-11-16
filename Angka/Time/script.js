@@ -1,7 +1,7 @@
 /**
- * NAKAMA GAKKOU — TACTILE NEO-BRUTALIST VOCABULARY ENGINE
- * Fitur: Pilihan Kategori JSON (data/*.json), Pencarian Level-Scoped,
- * Flashcard 3D + Touch Swipe, Kuis Pilihan Ganda & Mengetik, Web Audio SFX
+ * NAKAMA GAKKOU — TACTILE NEO-BRUTALIST VOCABULARY ENGINE (UPGRADED)
+ * Fitur: Dark Mode Sync, Native Japanese TTS (Suara Jepang),
+ * Swap Sisi Kartu, Acak Kartu, 3D Flip + Tilt, Pilihan Ganda & Mengetik
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +15,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return r;
   };
+
+  // ---------- 0. DARK MODE SINKRON DENGAN HALAMAN UTAMA ----------
+  const htmlEl = document.documentElement;
+  const themeToggleBtn = $('themeToggleBtn');
+  const savedTheme = localStorage.getItem('nakama_theme');
+
+  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    htmlEl.setAttribute('data-theme', 'dark');
+  } else {
+    htmlEl.setAttribute('data-theme', 'light');
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const nextTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('nakama_theme', nextTheme);
+      playTone('pop');
+    });
+  }
 
   // ---------- DAFTAR KATEGORI SESUAI FOLDER DATA ----------
   const vocabList = [
@@ -46,11 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeVocab = [];
   let mode = 'carousel'; // 'carousel', 'mc', 'typing'
   let audioOn = true;
-  let vocabZoomRem = 4.0;
+  let swapCardSide = false; // false = Arti di depan, true = Jepang di depan
+  let vocabZoomRem = 4.4;
 
-  let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
+  let quizPool = [], qi = 0, qScore = 0, answered = false, loadId = 0;
 
-  // ---------- AUDIO FEEDBACK ----------
+  // ---------- AUDIO FEEDBACK & PELAFALAN JEPANG (TTS) ----------
   let actx = null;
   const TONES = {
     pop: ['sine', 580, 290, 0.08, 0.1],
@@ -81,6 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
       gain.connect(actx.destination);
       osc.start(now);
       osc.stop(now + dur);
+    } catch (e) {}
+  }
+
+  // Fungsi Suara Pelafalan Bahasa Jepang
+  function speakJapanese(text) {
+    if (!audioOn || !('speechSynthesis' in window) || !text) return;
+    try {
+      window.speechSynthesis.cancel();
+      const cleanText = String(text).split('/')[0].replace(/\([^)]*\)/g, '').trim();
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.lang = 'ja-JP';
+      utter.rate = 0.88;
+      window.speechSynthesis.speak(utter);
     } catch (e) {}
   }
 
@@ -151,9 +185,13 @@ document.addEventListener('DOMContentLoaded', () => {
         cctx.lineCap = 'round';
         cctx.lineJoin = 'round';
 
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+
         for (let i = 1; i < pts.length; i++) {
           const t = i / pts.length;
-          cctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.strokeStyle = isDark
+            ? `rgba(74, 222, 128, ${t * 0.25})`
+            : `rgba(21, 128, 61, ${t * 0.18})`;
           cctx.lineWidth = t * 8;
           cctx.beginPath();
           cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
@@ -177,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const hideNotice = () => {
     clearTimeout(noticeTimer);
-    if ($('dataNotice'))$('dataNotice').hidden = true;
+    if ($('dataNotice')) $('dataNotice').hidden = true;
   };
 
   // ---------- MODAL PILIHAN KATEGORI JSON ----------
@@ -200,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       btn.addEventListener('click', () => {
+        playTone('pop');
         changeCategory(item);
         closeModal();
       });
@@ -249,6 +288,8 @@ document.addEventListener('DOMContentLoaded', () => {
       Carousel.render();
     } else if (mode === 'mc') {
       startQuiz('mc');
+    } else if (mode === 'typing') {
+      startQuiz('typing');
     }
 
     if (query && activeVocab.length === 0) {
@@ -267,7 +308,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- FLASHCARD 3D FLIP KOSAKATA + SWIPE ----------
+  // ---------- ALAT TAMBAHAN FLASHCARD (SWAP SISI & ACAK KARTU) ----------
+  const btnSwapFace = $('btnSwapFace');
+  const swapFaceLabel = $('swapFaceLabel');
+  const btnShuffleDeck = $('btnShuffleDeck');
+
+  if (btnSwapFace) {
+    btnSwapFace.addEventListener('click', () => {
+      swapCardSide = !swapCardSide;
+      if (swapFaceLabel) {
+        swapFaceLabel.textContent = swapCardSide ? 'Depan: Jepang' : 'Depan: Arti';
+      }
+      playTone('flip');
+      Carousel.render();
+    });
+  }
+
+  if (btnShuffleDeck) {
+    btnShuffleDeck.addEventListener('click', () => {
+      activeVocab = shuffle(activeVocab);
+      playTone('pop');
+      Carousel.render();
+      showNotice('Urutan kartu berhasil diacak!', 1800);
+    });
+  }
+
+  // ---------- FLASHCARD 3D FLIP KOSAKATA + AUDIO SPEAKER ----------
   const Carousel = {
     index: 0,
     render() {
@@ -276,13 +342,14 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '';
 
       if (!activeVocab.length) {
-        if ($('carouselCounter'))$('carouselCounter').textContent = '0 / 0';
+        if ($('carouselCounter')) $('carouselCounter').textContent = '0 / 0';
         container.innerHTML = `
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
               <div class="carousel-face front">
-                <span class="c-tag">Info</span>
+                <div class="face-top-bar"><span class="c-tag">Info</span></div>
                 <span class="c-arti">Kosong</span>
+                <span class="flip-hint">-</span>
               </div>
             </div>
           </div>`;
@@ -292,18 +359,44 @@ document.addEventListener('DOMContentLoaded', () => {
       activeVocab.forEach((v, i) => {
         const card = document.createElement('div');
         card.className = 'chapter-flashcard hidden';
+
+        const frontTag = swapCardSide ? 'Jepang' : 'Arti';
+        const backTag = swapCardSide ? 'Arti' : 'Jepang';
+        const frontContent = swapCardSide
+          ? `<span class="c-furigana furigana-font">${esc(v.furigana)}</span>`
+          : `<span class="c-arti">${esc(v.arti)}</span>`;
+        const backContent = swapCardSide
+          ? `<span class="c-arti">${esc(v.arti)}</span>`
+          : `<span class="c-furigana furigana-font">${esc(v.furigana)}</span>`;
+
         card.innerHTML = `
           <div class="carousel-card-inner">
             <div class="carousel-face front">
-              <span class="c-tag">Arti</span>
-              <span class="c-arti">${esc(v.arti)}</span>
+              <div class="face-top-bar">
+                <span class="c-tag">${frontTag}</span>
+                <button type="button" class="btn-card-speak" title="Dengarkan Pelafalan Jepang">🔊</button>
+              </div>
+              ${frontContent}
+              <span class="flip-hint">Klik kartu untuk membalik</span>
             </div>
             <div class="carousel-face back">
-              <span class="c-tag">Jepang</span>
-              <span class="c-furigana furigana-font">${esc(v.furigana)}</span>
+              <div class="face-top-bar">
+                <span class="c-tag">${backTag}</span>
+                <button type="button" class="btn-card-speak" title="Dengarkan Pelafalan Jepang">🔊</button>
+              </div>
+              ${backContent}
+              <span class="flip-hint">Klik kartu untuk kembali</span>
             </div>
           </div>
         `;
+
+        // Tombol Speaker di dalam kartu
+        card.querySelectorAll('.btn-card-speak').forEach(btnSpeak => {
+          btnSpeak.addEventListener('click', e => {
+            e.stopPropagation();
+            speakJapanese(v.furigana);
+          });
+        });
 
         card.addEventListener('click', () => {
           if (i === this.index) {
@@ -328,7 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const cards = container.children;
       const total = activeVocab.length;
 
-      if ($('carouselCounter')) {$('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
+      if ($('carouselCounter')) {
+        $('carouselCounter').textContent = total ? `${this.index + 1} / ${total}` : '0 / 0';
       }
       if (!total) return;
 
@@ -349,8 +443,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  if ($('btnCarouselNext'))$('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
-  if ($('btnCarouselPrev'))$('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
+  if ($('btnCarouselNext')) $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
+  if ($('btnCarouselPrev')) $('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
 
   // Touch Swipe di HP
   let touchStartX = 0;
@@ -372,14 +466,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
-  if ($('btnZoomIn')) {$('btnZoomIn').addEventListener('click', () => {
-      if (vocabZoomRem < 5.2) {
+  if ($('btnZoomIn')) {
+    $('btnZoomIn').addEventListener('click', () => {
+      if (vocabZoomRem < 5.4) {
         vocabZoomRem = +(vocabZoomRem + 0.3).toFixed(1);
         updateVocabFontSize();
       }
     });
   }
-  if ($('btnZoomOut')) {$('btnZoomOut').addEventListener('click', () => {
+  if ($('btnZoomOut')) {
+    $('btnZoomOut').addEventListener('click', () => {
       if (vocabZoomRem > 1.8) {
         vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1);
         updateVocabFontSize();
@@ -387,21 +483,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Speaker di Kuis Pilihan Ganda & Mengetik
+  if ($('btnMcSpeak')) {
+    $('btnMcSpeak').addEventListener('click', () => {
+      if (quizPool[qi]) speakJapanese(quizPool[qi].furigana);
+    });
+  }
+  if ($('btnTypingSpeak')) {
+    $('btnTypingSpeak').addEventListener('click', () => {
+      if (quizPool[qi]) speakJapanese(quizPool[qi].furigana);
+    });
+  }
+
   // ---------- NAVIGASI MODE PEMBELAJARAN ----------
   function setMode(newMode) {
     mode = newMode;
-    runId++;
 
     document.querySelectorAll('.dock-item').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.mode === newMode);
     });
 
-    if ($('mode-carousel'))$('mode-carousel').hidden = (newMode !== 'carousel');
-    if ($('mode-result'))$('mode-result').hidden = true;
-    if ($('quiz-global-header'))$('quiz-global-header').hidden = (newMode === 'carousel');
+    if ($('mode-carousel')) $('mode-carousel').hidden = (newMode !== 'carousel');
+    if ($('mode-result')) $('mode-result').hidden = true;
+    if ($('quiz-global-header')) $('quiz-global-header').hidden = (newMode === 'carousel');
 
-    if ($('mode-mc'))$('mode-mc').hidden = (newMode !== 'mc');
-    if ($('mode-typing'))$('mode-typing').hidden = (newMode !== 'typing');
+    if ($('mode-mc')) $('mode-mc').hidden = (newMode !== 'mc');
+    if ($('mode-typing')) $('mode-typing').hidden = (newMode !== 'typing');
 
     if (newMode === 'carousel') {
       Carousel.update();
@@ -411,10 +518,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelectorAll('.dock-item').forEach(b => {
-    b.addEventListener('click', () => setMode(b.dataset.mode));
+    b.addEventListener('click', () => {
+      playTone('pop');
+      setMode(b.dataset.mode);
+    });
   });
 
-  if ($('btnBack')) {$('btnBack').addEventListener('click', () => {
+  if ($('btnBack')) {
+    $('btnBack').addEventListener('click', () => {
       if (mode !== 'carousel') {
         setMode('carousel');
       } else if (window.history.length > 1) {
@@ -425,7 +536,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnAudioToggle')) {$('btnAudioToggle').addEventListener('click', function () {
+  if ($('btnAudioToggle')) {
+    $('btnAudioToggle').addEventListener('click', function () {
       audioOn = !audioOn;
       const unmuted = this.querySelector('.icon-unmuted');
       const muted = this.querySelector('.icon-muted');
@@ -447,30 +559,33 @@ document.addEventListener('DOMContentLoaded', () => {
     qScore = 0;
     answered = false;
 
-    if ($('quizTitle'))$('quizTitle').textContent = type === 'mc' ? `Pilihan Ganda · ${currentCategory.title}` : `Quiz Mengetik · ${currentCategory.title}`;
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = '0%';
+    if ($('quizTitle')) {
+      $('quizTitle').textContent = type === 'mc'
+        ? `Pilihan Ganda · ${currentCategory.title}`
+        : `Quiz Mengetik · ${currentCategory.title}`;
+    }
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = '0%';
 
     if (type === 'mc') runMC();
     else if (type === 'typing') runTyping();
   }
 
   function setQuizProgress() {
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
-    if ($('quizCounter'))$('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
-    if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = `${(qi / quizPool.length) * 100}%`;
+    if ($('quizCounter')) $('quizCounter').textContent = `Soal ${qi + 1} / ${quizPool.length}`;
+    if ($('quizScore')) $('quizScore').textContent = `Benar ${qScore}`;
   }
 
   function showResult(score, total) {
-    runId++;
-    if ($('quizProgressFill'))$('quizProgressFill').style.width = '100%';
-    if ($('mode-mc'))$('mode-mc').hidden = true;
-    if ($('mode-typing'))$('mode-typing').hidden = true;
-    if ($('mode-result'))$('mode-result').hidden = false;
+    if ($('quizProgressFill')) $('quizProgressFill').style.width = '100%';
+    if ($('mode-mc')) $('mode-mc').hidden = true;
+    if ($('mode-typing')) $('mode-typing').hidden = true;
+    if ($('mode-result')) $('mode-result').hidden = false;
 
-    if ($('resultScore'))$('resultScore').textContent = `Skor: ${score} / ${total}`;
+    if ($('resultScore')) $('resultScore').textContent = `Skor Akhir: ${score} / ${total}`;
     const pct = Math.round((score / total) * 100);
-    if ($('resultRing'))$('resultRing').style.setProperty('--pct', pct);
-    if ($('resultPct'))$('resultPct').textContent = pct + '%';
+    if ($('resultRing')) $('resultRing').style.setProperty('--pct', pct);
+    if ($('resultPct')) $('resultPct').textContent = pct + '%';
 
     playTone('win');
   }
@@ -484,11 +599,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setQuizProgress();
     answered = false;
     const q = quizPool[qi];
-    if ($('mcQuestionText'))$('mcQuestionText').textContent = q.furigana;
+    if ($('mcQuestionText')) $('mcQuestionText').textContent = q.furigana;
     if ($('mcFeedback')) {
-      $('mcFeedback').textContent = '';$('mcFeedback').className = 'feedback-text';
+      $('mcFeedback').textContent = '';
+      $('mcFeedback').className = 'feedback-text';
     }
-    if ($('btnMcNext'))$('btnMcNext').disabled = true;
+    if ($('btnMcNext')) $('btnMcNext').disabled = true;
 
     const wrongs = shuffle(rawChapterVocab.filter(v => v.id !== q.id && v.arti !== q.arti)).slice(0, 3);
     const optionsBox = $('mcOptions');
@@ -515,19 +631,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (item.id === q.id) {
           qScore++;
           if ($('mcFeedback')) {
-            $('mcFeedback').textContent = 'Benar';$('mcFeedback').classList.add('correct');
+            $('mcFeedback').textContent = `✓ Benar! (${q.furigana} = ${q.arti})`;
+            $('mcFeedback').classList.add('correct');
           }
           playTone('correct');
         } else {
           btn.classList.add('wrong');
           if ($('mcFeedback')) {
-            $('mcFeedback').textContent = 'Salah';$('mcFeedback').classList.add('wrong');
+            $('mcFeedback').textContent = `✗ Salah. Jawaban: ${q.arti}`;
+            $('mcFeedback').classList.add('wrong');
           }
           playTone('wrong');
         }
 
-        if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
-        if ($('btnMcNext')) {$('btnMcNext').disabled = false;
+        if ($('quizScore')) $('quizScore').textContent = `Benar ${qScore}`;
+        if ($('btnMcNext')) {
+          $('btnMcNext').disabled = false;
           $('btnMcNext').focus();
         }
       });
@@ -536,7 +655,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if ($('btnMcNext')) {$('btnMcNext').addEventListener('click', () => {
+  if ($('btnMcNext')) {
+    $('btnMcNext').addEventListener('click', () => {
       qi++;
       runMC();
     });
@@ -552,9 +672,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setQuizProgress();
     answered = false;
-    if ($('typingQuestionText'))$('typingQuestionText').textContent = quizPool[qi].furigana;
+    if ($('typingQuestionText')) $('typingQuestionText').textContent = quizPool[qi].furigana;
     if ($('typingFeedback')) {
-      $('typingFeedback').textContent = '';$('typingFeedback').className = 'feedback-text';
+      $('typingFeedback').textContent = '';
+      $('typingFeedback').className = 'feedback-text';
     }
 
     const input = $('typingInput');
@@ -563,8 +684,8 @@ document.addEventListener('DOMContentLoaded', () => {
     input.className = 'input-typing-field';
     input.disabled = false;
 
-    if ($('btnTypingCheck'))$('btnTypingCheck').disabled = false;
-    if ($('btnTypingNext'))$('btnTypingNext').disabled = true;
+    if ($('btnTypingCheck')) $('btnTypingCheck').disabled = false;
+    if ($('btnTypingNext')) $('btnTypingNext').disabled = true;
 
     setTimeout(() => input.focus(), 60);
   }
@@ -578,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     answered = true;
     input.disabled = true;
-    if ($('btnTypingCheck'))$('btnTypingCheck').disabled = true;
+    if ($('btnTypingCheck')) $('btnTypingCheck').disabled = true;
 
     const q = quizPool[qi];
     const accepted = [normalize(q.arti), ...q.arti.split(/[\/,]/).map(normalize)].filter(Boolean);
@@ -587,36 +708,41 @@ document.addEventListener('DOMContentLoaded', () => {
       qScore++;
       input.classList.add('correct');
       if ($('typingFeedback')) {
-        $('typingFeedback').textContent = 'Benar';$('typingFeedback').classList.add('correct');
+        $('typingFeedback').textContent = `✓ Tepat sekali! (${q.arti})`;
+        $('typingFeedback').classList.add('correct');
       }
       playTone('correct');
     } else {
       input.classList.add('wrong');
       if ($('typingFeedback')) {
-        $('typingFeedback').textContent = 'Salah';$('typingFeedback').classList.add('wrong');
+        $('typingFeedback').textContent = `✗ Jawaban benar: ${q.arti}`;
+        $('typingFeedback').classList.add('wrong');
       }
       playTone('wrong');
     }
 
-    if ($('quizScore'))$('quizScore').textContent = `Benar ${qScore}`;
-    if ($('btnTypingNext')) {$('btnTypingNext').disabled = false;
+    if ($('quizScore')) $('quizScore').textContent = `Benar ${qScore}`;
+    if ($('btnTypingNext')) {
+      $('btnTypingNext').disabled = false;
       $('btnTypingNext').focus();
     }
   }
 
-  if ($('btnTypingCheck'))$('btnTypingCheck').addEventListener('click', checkTyping);
-  if ($('typingInput')) {$('typingInput').addEventListener('keydown', e => {
+  if ($('btnTypingCheck')) $('btnTypingCheck').addEventListener('click', checkTyping);
+  if ($('typingInput')) {
+    $('typingInput').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkTyping();
     });
   }
-  if ($('btnTypingNext')) {$('btnTypingNext').addEventListener('click', () => {
+  if ($('btnTypingNext')) {
+    $('btnTypingNext').addEventListener('click', () => {
       qi++;
       runTyping();
     });
   }
 
-  if ($('btnRetryQuiz'))$('btnRetryQuiz').addEventListener('click', () => setMode(mode));
-  if ($('btnResultCards'))$('btnResultCards').addEventListener('click', () => setMode('carousel'));
+  if ($('btnRetryQuiz')) $('btnRetryQuiz').addEventListener('click', () => setMode(mode));
+  if ($('btnResultCards')) $('btnResultCards').addEventListener('click', () => setMode('carousel'));
 
   // Keyboard Shortcuts
   window.addEventListener('keydown', e => {
@@ -626,6 +752,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mode === 'carousel') {
       if (e.key === 'ArrowRight') Carousel.go(1);
       else if (e.key === 'ArrowLeft') Carousel.go(-1);
+      else if (e.key === ' ') {
+        e.preventDefault();
+        const activeCard = document.querySelector('.chapter-flashcard.center');
+        if (activeCard) activeCard.click();
+      }
     } else if (mode === 'mc' && /^[1-4]$/.test(e.key)) {
       const opts = document.querySelectorAll('#mcOptions .btn-mc-option');
       const b = opts[+e.key - 1];
@@ -658,7 +789,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { furigana: 'いち', arti: 'Satu' },
     { furigana: 'に', arti: 'Dua' },
     { furigana: 'さん', arti: 'Tiga' },
-    { furigana: 'し / よん', arti: 'Empat' }
+    { furigana: 'よん / し', arti: 'Empat' },
+    { furigana: 'ご', arti: 'Lima' }
   ].map((v, idx) => ({ ...v, id: idx }));
 
   async function changeCategory(categoryObj) {
@@ -680,10 +812,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentLoad !== loadId) return;
       console.warn(e);
       rawChapterVocab = EMERGENCY_DATA;
-      failMsg = `Gagal memuat "${path}" (${e.message}). Menampilkan data cadangan.`;
+      failMsg = `Gagal memuat "${path}". Menampilkan contoh angka.`;
     }
 
-    if (failMsg) showNotice(failMsg);
+    if (failMsg) showNotice(failMsg, 4500);
     else hideNotice();
 
     try {
@@ -700,8 +832,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let savedCat = null;
   try { savedCat = localStorage.getItem(SAVE_KEY); } catch (e) {}
 
-  const initialCat = vocabList.find(c => c.path === urlParam) || 
-                     vocabList.find(c => c.path === savedCat) || 
+  const initialCat = vocabList.find(c => c.path === urlParam) ||
+                     vocabList.find(c => c.path === savedCat) ||
                      vocabList[0];
 
   changeCategory(initialCat);

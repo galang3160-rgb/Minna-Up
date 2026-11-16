@@ -1,0 +1,232 @@
+[
+  {
+    "kanji": "例えば",
+    "furigana": "たとえば",
+    "arti": "Misalnya"
+  },
+  {
+    "kanji": "たまに",
+    "furigana": "たまに",
+    "arti": "Kadang-kadang"
+  },
+  {
+    "kanji": "だいたい",
+    "furigana": "だいたい",
+    "arti": "Kira-kira"
+  },
+  {
+    "kanji": "だんだん",
+    "furigana": "だんだん",
+    "arti": "Sedikit demi sedikit"
+  },
+  {
+    "kanji": "ちっとも",
+    "furigana": "ちっとも",
+    "arti": "Sama sekali tidak"
+  },
+  {
+    "kanji": "ちょうど",
+    "furigana": "ちょうど",
+    "arti": "Tepat / pas"
+  },
+  {
+    "kanji": "つい",
+    "furigana": "つい",
+    "arti": "Tanpa sadar"
+  },
+  {
+    "kanji": "ついに",
+    "furigana": "ついに",
+    "arti": "Akhirnya"
+  },
+  {
+    "kanji": "次々",
+    "furigana": "つぎつぎ",
+    "arti": "Berturut-turut"
+  },
+  {
+    "kanji": "つまり",
+    "furigana": "つまり",
+    "arti": "Dengan kata lain"
+  },
+  {
+    "kanji": "当然",
+    "furigana": "とうぜん",
+    "arti": "Tentu saja"
+  },
+  {
+    "kanji": "とうとう",
+    "furigana": "とうとう",
+    "arti": "Akhirnya"
+  },
+  {
+    "kanji": "時々",
+    "furigana": "ときどき",
+    "arti": "Kadang-kadang"
+  },
+  {
+    "kanji": "特に",
+    "furigana": "とくに",
+    "arti": "Terutama / khususnya"
+  },
+  {
+    "kanji": "突然",
+    "furigana": "とつぜん",
+    "arti": "Tiba-tiba"
+  },
+  {
+    "kanji": "どう",
+    "furigana": "どう",
+    "arti": "Bagaimana"
+  },
+  {
+    "kanji": "どうか",
+    "furigana": "どうか",
+    "arti": "Tolong / mohon"
+  },
+  {
+    "kanji": "どうして",
+    "furigana": "どうして",
+    "arti": "Mengapa"
+  },
+  {
+    "kanji": "どうしても",
+    "furigana": "どうしても",
+    "arti": "Bagaimanapun juga"
+  },
+  {
+    "kanji": "なかなか",
+    "furigana": "なかなか",
+    "arti": "Tidak mudah / cukup"
+  },
+  {
+    "kanji": "なぜか",
+    "furigana": "なぜか",
+    "arti": "Entah mengapa"
+  },
+  {
+    "kanji": "何か",
+    "furigana": "なにか",
+    "arti": "Sesuatu"
+  },
+  {
+    "kanji": "何も",
+    "furigana": "なにも",
+    "arti": "Tidak ada apa-apa"
+  },
+  {
+    "kanji": "なるべく",
+    "furigana": "なるべく",
+    "arti": "Sebisa mungkin"
+  },
+  {
+    "kanji": "なるほど",
+    "furigana": "なるほど",
+    "arti": "Pantas saja"
+  },
+  {
+    "kanji": "初めて",
+    "furigana": "はじめて",
+    "arti": "Pertama kali"
+  },
+  {
+    "kanji": "非常に",
+    "furigana": "ひじょうに",
+    "arti": "Sangat"
+  },
+  {
+    "kanji": "別に",
+    "furigana": "べつに",
+    "arti": "Tidak secara khusus"
+  },
+  {
+    "kanji": "別々に",
+    "furigana": "べつべつに",
+    "arti": "Secara terpisah"
+  },
+  {
+    "kanji": "ほとんど",
+    "furigana": "ほとんど",
+    "arti": "Hampir"
+  },
+  {
+    "kanji": "まあまあ",
+    "furigana": "まあまあ",
+    "arti": "Lumayan"
+  },
+  {
+    "kanji": "まず",
+    "furigana": "まず",
+    "arti": "Pertama-tama"
+  },
+  {
+    "kanji": "また",
+    "furigana": "また",
+    "arti": "Lagi"
+  },
+  {
+    "kanji": "全く",
+    "furigana": "まったく",
+    "arti": "Sama sekali"
+  },
+  {
+    "kanji": "まるで",
+    "furigana": "まるで",
+    "arti": "Seolah-olah"
+  },
+  {
+    "kanji": "もう",
+    "furigana": "もう",
+    "arti": "Sudah / lagi"
+  },
+  {
+    "kanji": "もし",
+    "furigana": "もし",
+    "arti": "Jika / seandainya"
+  },
+  {
+    "kanji": "もしかしたら",
+    "furigana": "もしかしたら",
+    "arti": "Mungkin saja"
+  },
+  {
+    "kanji": "もちろん",
+    "furigana": "もちろん",
+    "arti": "Tentu saja"
+  },
+  {
+    "kanji": "もっと",
+    "furigana": "もっと",
+    "arti": "Lebih"
+  },
+  {
+    "kanji": "最も",
+    "furigana": "もっとも",
+    "arti": "Paling"
+  },
+  {
+    "kanji": "やっと",
+    "furigana": "やっと",
+    "arti": "Akhirnya"
+  },
+  {
+    "kanji": "やっぱり",
+    "furigana": "やっぱり",
+    "arti": "Ternyata / seperti dugaan"
+  },
+  {
+    "kanji": "ようこそ",
+    "furigana": "ようこそ",
+    "arti": "Selamat datang"
+  },
+  {
+    "kanji": "ようやく",
+    "furigana": "ようやく",
+    "arti": "Akhirnya"
+  },
+  {
+    "kanji": "よろしく",
+    "furigana": "よろしく",
+    "arti": "Mohon bantuannya"
+  }
+]

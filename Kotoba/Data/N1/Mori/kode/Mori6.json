@@ -1,0 +1,532 @@
+[
+  {
+    "kanji": "発砲(する)",
+    "furigana": "はっぽう(する)",
+    "arti": "Menembakkan senjata"
+  },
+  {
+    "kanji": "判決",
+    "furigana": "はんけつ",
+    "arti": "Vonis pengadilan"
+  },
+  {
+    "kanji": "判断(する)",
+    "furigana": "はんだん(する)",
+    "arti": "Keputusan / Penilaian"
+  },
+  {
+    "kanji": "判定(する)",
+    "furigana": "はんてい(する)",
+    "arti": "Penilaian juri/wasit"
+  },
+  {
+    "kanji": "反応(する)",
+    "furigana": "はんのう(する)",
+    "arti": "Reaksi"
+  },
+  {
+    "kanji": "反感",
+    "furigana": "はんかん",
+    "arti": "Antipati / Ketidaksukaan"
+  },
+  {
+    "kanji": "反響(する)",
+    "furigana": "はんきょう(する)",
+    "arti": "Gema / Tanggapan masyarakat"
+  },
+  {
+    "kanji": "反撃(する)",
+    "furigana": "はんげき(する)",
+    "arti": "Serangan balik"
+  },
+  {
+    "kanji": "反省(する)",
+    "furigana": "はんせい(する)",
+    "arti": "Introspeksi diri"
+  },
+  {
+    "kanji": "犯罪",
+    "furigana": "はんざい",
+    "arti": "Kejahatan"
+  },
+  {
+    "kanji": "否定(する)",
+    "furigana": "ひてい(する)",
+    "arti": "Penyangkalan"
+  },
+  {
+    "kanji": "批判(する)",
+    "furigana": "ひはん(する)",
+    "arti": "Kritik"
+  },
+  {
+    "kanji": "比較(する)",
+    "furigana": "ひかく(する)",
+    "arti": "Perbandingan"
+  },
+  {
+    "kanji": "比率",
+    "furigana": "ひりつ",
+    "arti": "Rasio"
+  },
+  {
+    "kanji": "皮肉(な)",
+    "furigana": "ひにく(な)",
+    "arti": "Sarkasme / Ironi"
+  },
+  {
+    "kanji": "秘密",
+    "furigana": "ひみつ",
+    "arti": "Rahasia"
+  },
+  {
+    "kanji": "被害",
+    "furigana": "ひがい",
+    "arti": "Kerusakan / Korban"
+  },
+  {
+    "kanji": "筆者",
+    "furigana": "ひっしゃ",
+    "arti": "Penulis"
+  },
+  {
+    "kanji": "表情",
+    "furigana": "ひょうじょう",
+    "arti": "Raut wajah"
+  },
+  {
+    "kanji": "評価(する)",
+    "furigana": "ひょうか(する)",
+    "arti": "Evaluasi"
+  },
+  {
+    "kanji": "品種",
+    "furigana": "ひんしゅ",
+    "arti": "Varietas"
+  },
+  {
+    "kanji": "貧困",
+    "furigana": "ひんこん",
+    "arti": "Kemiskinan"
+  },
+  {
+    "kanji": "貧富",
+    "furigana": "ひんぷ",
+    "arti": "Kaya dan miskin"
+  },
+  {
+    "kanji": "不順(な)",
+    "furigana": "ふじゅん(な)",
+    "arti": "Tidak menentu (cuaca)"
+  },
+  {
+    "kanji": "不調(な)",
+    "furigana": "ふちょう(な)",
+    "arti": "Kondisi buruk"
+  },
+  {
+    "kanji": "普及(する)",
+    "furigana": "ふきゅう(する)",
+    "arti": "Menyebar luas"
+  },
+  {
+    "kanji": "浮気(する)",
+    "furigana": "うわき(する)",
+    "arti": "Selingkuh"
+  },
+  {
+    "kanji": "負債",
+    "furigana": "ふさい",
+    "arti": "Utang"
+  },
+  {
+    "kanji": "負担(する)",
+    "furigana": "ふたん(する)",
+    "arti": "Beban"
+  },
+  {
+    "kanji": "舞台",
+    "furigana": "ぶたい",
+    "arti": "Panggung"
+  },
+  {
+    "kanji": "部門",
+    "furigana": "ぶもん",
+    "arti": "Divisi / Kategori"
+  },
+  {
+    "kanji": "復習(する)",
+    "furigana": "ふくしゅう(する)",
+    "arti": "Mengulang pelajaran"
+  },
+  {
+    "kanji": "服装",
+    "furigana": "ふくそう",
+    "arti": "Pakaian"
+  },
+  {
+    "kanji": "複合(する)",
+    "furigana": "ふくごう(する)",
+    "arti": "Gabungan"
+  },
+  {
+    "kanji": "物語",
+    "furigana": "ものがたり",
+    "arti": "Kisah / Cerita"
+  },
+  {
+    "kanji": "物資",
+    "furigana": "ぶっし",
+    "arti": "Logistik / Barang pasokan"
+  },
+  {
+    "kanji": "物事",
+    "furigana": "ものごと",
+    "arti": "Segala sesuatu"
+  },
+  {
+    "kanji": "物体",
+    "furigana": "ぶったい",
+    "arti": "Benda / Objek fisik"
+  },
+  {
+    "kanji": "分解(する)",
+    "furigana": "ぶんかい(する)",
+    "arti": "Menguraikan / Membongkar"
+  },
+  {
+    "kanji": "分業(する)",
+    "furigana": "ぶんぎょう(する)",
+    "arti": "Pembagian kerja"
+  },
+  {
+    "kanji": "分析(する)",
+    "furigana": "ぶんせき(する)",
+    "arti": "Analisis"
+  },
+  {
+    "kanji": "分別(する)",
+    "furigana": "ぶんべつ(する)",
+    "arti": "Pemilahan sampah"
+  },
+  {
+    "kanji": "変換(する)",
+    "furigana": "へんかん(する)",
+    "arti": "Konversi"
+  },
+  {
+    "kanji": "変形(する)",
+    "furigana": "へんけい(する)",
+    "arti": "Perubahan bentuk"
+  },
+  {
+    "kanji": "保育(する)",
+    "furigana": "ほいく(する)",
+    "arti": "Pengasuhan anak"
+  },
+  {
+    "kanji": "保温(する)",
+    "furigana": "ほおん(する)",
+    "arti": "Menjaga suhu hangat"
+  },
+  {
+    "kanji": "保管(する)",
+    "furigana": "ほかん(する)",
+    "arti": "Penyimpanan"
+  },
+  {
+    "kanji": "保険",
+    "furigana": "ほけん",
+    "arti": "Asuransi"
+  },
+  {
+    "kanji": "補給(する)",
+    "furigana": "ほきゅう(する)",
+    "arti": "Suplai ulang"
+  },
+  {
+    "kanji": "補充(する)",
+    "furigana": "ほじゅう(する)",
+    "arti": "Isi ulang / Melengkapi"
+  },
+  {
+    "kanji": "報告(する)",
+    "furigana": "ほうこく(する)",
+    "arti": "Laporan"
+  },
+  {
+    "kanji": "報道(する)",
+    "furigana": "ほうどう(する)",
+    "arti": "Pemberitaan"
+  },
+  {
+    "kanji": "崩壊(する)",
+    "furigana": "ほうかい(する)",
+    "arti": "Runtuh"
+  },
+  {
+    "kanji": "方針",
+    "furigana": "ほうしん",
+    "arti": "Kebijakan / Haluan"
+  },
+  {
+    "kanji": "法律",
+    "furigana": "ほうりつ",
+    "arti": "Hukum"
+  },
+  {
+    "kanji": "暴力",
+    "furigana": "ぼうりょく",
+    "arti": "Kekerasan"
+  },
+  {
+    "kanji": "防止(する)",
+    "furigana": "ぼうし(する)",
+    "arti": "Pencegahan"
+  },
+  {
+    "kanji": "本音",
+    "furigana": "ほんね",
+    "arti": "Isi hati sebenarnya"
+  },
+  {
+    "kanji": "本気",
+    "furigana": "ほんき",
+    "arti": "Kesungguhan"
+  },
+  {
+    "kanji": "本場",
+    "furigana": "ほんば",
+    "arti": "Tempat asal asli"
+  },
+  {
+    "kanji": "本心",
+    "furigana": "ほんしん",
+    "arti": "Niat sejati"
+  },
+  {
+    "kanji": "本能",
+    "furigana": "ほんのう",
+    "arti": "Naluri / Insting"
+  },
+  {
+    "kanji": "埋蔵(する)",
+    "furigana": "まいぞう(する)",
+    "arti": "Terkubur di dalam tanah"
+  },
+  {
+    "kanji": "万人",
+    "furigana": "ばんにん",
+    "arti": "Semua orang"
+  },
+  {
+    "kanji": "魅力",
+    "furigana": "みりょく",
+    "arti": "Pesona / Daya tarik"
+  },
+  {
+    "kanji": "無言",
+    "furigana": "むごん",
+    "arti": "Diam seribu bahasa"
+  },
+  {
+    "kanji": "無効(な)",
+    "furigana": "むこう(な)",
+    "arti": "Tidak berlaku"
+  },
+  {
+    "kanji": "無断",
+    "furigana": "むだん",
+    "arti": "Tanpa izin"
+  },
+  {
+    "kanji": "面倒(な)",
+    "furigana": "めんどう(な)",
+    "arti": "Merepotkan"
+  },
+  {
+    "kanji": "模様",
+    "furigana": "もよう",
+    "arti": "Motif / Gelagat"
+  },
+  {
+    "kanji": "目下",
+    "furigana": "もっか",
+    "arti": "Saat ini"
+  },
+  {
+    "kanji": "目撃(する)",
+    "furigana": "もくげき(する)",
+    "arti": "Menyaksikan langsung"
+  },
+  {
+    "kanji": "目線",
+    "furigana": "めせん",
+    "arti": "Arah pandangan"
+  },
+  {
+    "kanji": "目的",
+    "furigana": "もくてき",
+    "arti": "Tujuan"
+  },
+  {
+    "kanji": "優位(な)",
+    "furigana": "ゆうい(な)",
+    "arti": "Posisi unggul"
+  },
+  {
+    "kanji": "優先(する)",
+    "furigana": "ゆうせん(する)",
+    "arti": "Prioritas"
+  },
+  {
+    "kanji": "有効(な)",
+    "furigana": "ゆうこう(な)",
+    "arti": "Berlaku / Efektif"
+  },
+  {
+    "kanji": "有力(な)",
+    "furigana": "ゆうりょく(な)",
+    "arti": "Berpengaruh kuat"
+  },
+  {
+    "kanji": "予感(する)",
+    "furigana": "よかん(する)",
+    "arti": "Firasat"
+  },
+  {
+    "kanji": "予期(する)",
+    "furigana": "よき(する)",
+    "arti": "Antisipasi / Dugaan"
+  },
+  {
+    "kanji": "予言(する)",
+    "furigana": "よげん(する)",
+    "arti": "Ramalan"
+  },
+  {
+    "kanji": "予告(する)",
+    "furigana": "よこく(する)",
+    "arti": "Pemberitahuan awal"
+  },
+  {
+    "kanji": "予想(する)",
+    "furigana": "よそう(する)",
+    "arti": "Prediksi"
+  },
+  {
+    "kanji": "予防(する)",
+    "furigana": "よぼう(する)",
+    "arti": "Pencegahan"
+  },
+  {
+    "kanji": "余裕",
+    "furigana": "よゆう",
+    "arti": "Kelonggaran"
+  },
+  {
+    "kanji": "様子",
+    "furigana": "ようす",
+    "arti": "Keadaan / Gelagat"
+  },
+  {
+    "kanji": "用意(する)",
+    "furigana": "ようい(する)",
+    "arti": "Persiapan"
+  },
+  {
+    "kanji": "用件",
+    "furigana": "ようけん",
+    "arti": "Keperluan"
+  },
+  {
+    "kanji": "要求(する)",
+    "furigana": "ようきゅう(する)",
+    "arti": "Tuntutan"
+  },
+  {
+    "kanji": "要請(する)",
+    "furigana": "ようせい(する)",
+    "arti": "Permohonan resmi"
+  },
+  {
+    "kanji": "要約(する)",
+    "furigana": "ようやく(する)",
+    "arti": "Ringkasan"
+  },
+  {
+    "kanji": "養成(する)",
+    "furigana": "ようせい(する)",
+    "arti": "Pelatihan tenaga ahli"
+  },
+  {
+    "kanji": "翌日",
+    "furigana": "よくじつ",
+    "arti": "Hari berikutnya"
+  },
+  {
+    "kanji": "利益",
+    "furigana": "りえき",
+    "arti": "Keuntungan"
+  },
+  {
+    "kanji": "利子",
+    "furigana": "りし",
+    "arti": "Bunga bank"
+  },
+  {
+    "kanji": "理性",
+    "furigana": "りせい",
+    "arti": "Akal sehat"
+  },
+  {
+    "kanji": "理由",
+    "furigana": "りゆう",
+    "arti": "Alasan"
+  },
+  {
+    "kanji": "理論",
+    "furigana": "りろん",
+    "arti": "Teori"
+  },
+  {
+    "kanji": "流出(する)",
+    "furigana": "りゅうしゅつ(する)",
+    "arti": "Kebocoran / Mengalir keluar"
+  },
+  {
+    "kanji": "了解(する)",
+    "furigana": "りょうかい(する)",
+    "arti": "Persetujuan / Paham"
+  },
+  {
+    "kanji": "両立(する)",
+    "furigana": "りょうりつ(する)",
+    "arti": "Menjalankan dua hal sekaligus"
+  },
+  {
+    "kanji": "倫理",
+    "furigana": "りんり",
+    "arti": "Etika"
+  },
+  {
+    "kanji": "冷蔵(する)",
+    "furigana": "れいぞう(する)",
+    "arti": "Pendinginan"
+  },
+  {
+    "kanji": "連結(する)",
+    "furigana": "れんけつ(する)",
+    "arti": "Penyambungan"
+  },
+  {
+    "kanji": "連行(する)",
+    "furigana": "れんこう(する)",
+    "arti": "Menggiring (ke kantor polisi)"
+  },
+  {
+    "kanji": "連日",
+    "furigana": "れんじつ",
+    "arti": "Setiap hari berturut-turut"
+  }
+]

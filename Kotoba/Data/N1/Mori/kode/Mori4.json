@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "重視(する)",
+    "furigana": "じゅうし(する)",
+    "arti": "Mengutamakan"
+  },
+  {
+    "kanji": "重点",
+    "furigana": "じゅうてん",
+    "arti": "Poin utama"
+  },
+  {
+    "kanji": "祝日",
+    "furigana": "しゅくじつ",
+    "arti": "Hari libur nasional"
+  },
+  {
+    "kanji": "縮小(する)",
+    "furigana": "しゅくしょう(する)",
+    "arti": "Pengecilan / Pengurangan"
+  },
+  {
+    "kanji": "準備(する)",
+    "furigana": "じゅんび(する)",
+    "arti": "Persiapan"
+  },
+  {
+    "kanji": "初日",
+    "furigana": "しょにち",
+    "arti": "Hari pertama"
+  },
+  {
+    "kanji": "所有(する)",
+    "furigana": "しょゆう(する)",
+    "arti": "Kepemilikan"
+  },
+  {
+    "kanji": "助言(する)",
+    "furigana": "じょげん(する)",
+    "arti": "Nasihat / Saran"
+  },
+  {
+    "kanji": "商店",
+    "furigana": "しょうてん",
+    "arti": "Toko"
+  },
+  {
+    "kanji": "消去(する)",
+    "furigana": "しょうきょ(する)",
+    "arti": "Penghapusan"
+  },
+  {
+    "kanji": "消費(する)",
+    "furigana": "しょうひ(する)",
+    "arti": "Konsumsi"
+  },
+  {
+    "kanji": "消滅(する)",
+    "furigana": "しょうめつ(する)",
+    "arti": "Lenyap / Punah"
+  },
+  {
+    "kanji": "証言(する)",
+    "furigana": "しょうげん(する)",
+    "arti": "Kesaksian"
+  },
+  {
+    "kanji": "証人",
+    "furigana": "しょうにん",
+    "arti": "Saksi"
+  },
+  {
+    "kanji": "証明(する)",
+    "furigana": "しょうめい(する)",
+    "arti": "Pembuktian"
+  },
+  {
+    "kanji": "情報",
+    "furigana": "じょうほう",
+    "arti": "Informasi"
+  },
+  {
+    "kanji": "条件",
+    "furigana": "じょうけん",
+    "arti": "Syarat"
+  },
+  {
+    "kanji": "状況",
+    "furigana": "じょうきょう",
+    "arti": "Situasi"
+  },
+  {
+    "kanji": "状態",
+    "furigana": "じょうたい",
+    "arti": "Kondisi / Keadaan"
+  },
+  {
+    "kanji": "職業",
+    "furigana": "しょくぎょう",
+    "arti": "Pekerjaan / Profesi"
+  },
+  {
+    "kanji": "職種",
+    "furigana": "しょくしゅ",
+    "arti": "Jenis pekerjaan"
+  },
+  {
+    "kanji": "職務",
+    "furigana": "しょくむ",
+    "arti": "Tugas jabatan"
+  },
+  {
+    "kanji": "振込",
+    "furigana": "ふりこみ",
+    "arti": "Transfer bank"
+  },
+  {
+    "kanji": "新規",
+    "furigana": "しんき",
+    "arti": "Baru"
+  },
+  {
+    "kanji": "真心",
+    "furigana": "まごころ",
+    "arti": "Ketulusan hati"
+  },
+  {
+    "kanji": "神経",
+    "furigana": "しんけい",
+    "arti": "Saraf"
+  },
+  {
+    "kanji": "身内",
+    "furigana": "みうち",
+    "arti": "Kerabat dekat"
+  },
+  {
+    "kanji": "進化(する)",
+    "furigana": "しんか(する)",
+    "arti": "Evolusi"
+  },
+  {
+    "kanji": "進展(する)",
+    "furigana": "しんてん(する)",
+    "arti": "Perkembangan"
+  },
+  {
+    "kanji": "進歩(する)",
+    "furigana": "しんぽ(する)",
+    "arti": "Kemajuan"
+  },
+  {
+    "kanji": "進路",
+    "furigana": "しんろ",
+    "arti": "Jalur masa depan"
+  },
+  {
+    "kanji": "人材",
+    "furigana": "じんざい",
+    "arti": "SDM"
+  },
+  {
+    "kanji": "人手",
+    "furigana": "ひとで",
+    "arti": "Tenaga kerja"
+  },
+  {
+    "kanji": "人情",
+    "furigana": "にんじょう",
+    "arti": "Rasa kemanusiaan"
+  },
+  {
+    "kanji": "人目",
+    "furigana": "ひとめ",
+    "arti": "Pandangan orang"
+  },
+  {
+    "kanji": "世帯",
+    "furigana": "せたい",
+    "arti": "Rumah tangga"
+  },
+  {
+    "kanji": "制服",
+    "furigana": "せいふく",
+    "arti": "Seragam"
+  },
+  {
+    "kanji": "性質",
+    "furigana": "せいしつ",
+    "arti": "Sifat / Karakter"
+  },
+  {
+    "kanji": "性別",
+    "furigana": "せいべつ",
+    "arti": "Jenis kelamin"
+  },
+  {
+    "kanji": "政権",
+    "furigana": "せいけん",
+    "arti": "Kekuasaan politik"
+  },
+  {
+    "kanji": "政策",
+    "furigana": "せいさく",
+    "arti": "Kebijakan politik"
+  },
+  {
+    "kanji": "正義",
+    "furigana": "せいぎ",
+    "arti": "Keadilan"
+  },
+  {
+    "kanji": "正体",
+    "furigana": "しょうたい",
+    "arti": "Wujud/Identitas asli"
+  },
+  {
+    "kanji": "清掃(する)",
+    "furigana": "せいそう(する)",
+    "arti": "Pembersihan"
+  },
+  {
+    "kanji": "精神",
+    "furigana": "せいしん",
+    "arti": "Mental / Jiwa"
+  },
+  {
+    "kanji": "責任",
+    "furigana": "せきにん",
+    "arti": "Tanggung jawab"
+  },
+  {
+    "kanji": "接近(する)",
+    "furigana": "せっきん(する)",
+    "arti": "Mendekat"
+  },
+  {
+    "kanji": "設置(する)",
+    "furigana": "せっち(する)",
+    "arti": "Pemasangan"
+  },
+  {
+    "kanji": "設立(する)",
+    "furigana": "せつりつ(する)",
+    "arti": "Pendirian lembaga"
+  },
+  {
+    "kanji": "先日",
+    "furigana": "せんじつ",
+    "arti": "Beberapa hari lalu"
+  },
+  {
+    "kanji": "専用",
+    "furigana": "せんよう",
+    "arti": "Khusus"
+  },
+  {
+    "kanji": "前例",
+    "furigana": "ぜんれい",
+    "arti": "Contoh sebelumnya"
+  },
+  {
+    "kanji": "想像(する)",
+    "furigana": "そうぞう(する)",
+    "arti": "Imajinasi"
+  },
+  {
+    "kanji": "総合(する)",
+    "furigana": "そうごう(する)",
+    "arti": "Terpadu / Menyeluruh"
+  },
+  {
+    "kanji": "即日",
+    "furigana": "そくじつ",
+    "arti": "Pada hari yang sama"
+  },
+  {
+    "kanji": "存在(する)",
+    "furigana": "そんざい(する)",
+    "arti": "Keberadaan"
+  },
+  {
+    "kanji": "存続(する)",
+    "furigana": "そんぞく(する)",
+    "arti": "Kelangsungan"
+  },
+  {
+    "kanji": "対応(する)",
+    "furigana": "たいおう(する)",
+    "arti": "Penanganan / Respons"
+  },
+  {
+    "kanji": "対象",
+    "furigana": "たいしょう",
+    "arti": "Target / Sasaran"
+  },
+  {
+    "kanji": "待遇",
+    "furigana": "たいぐう",
+    "arti": "Perlakuan / Fasilitas kerja"
+  }
+]

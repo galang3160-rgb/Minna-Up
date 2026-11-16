@@ -1,0 +1,242 @@
+[
+  {
+    "kanji": "青信号",
+    "furigana": "あおしんごう",
+    "arti": "Lampu hijau (lalu lintas)"
+  },
+  {
+    "kanji": "赤信号",
+    "furigana": "あかしんごう",
+    "arti": "Lampu merah (lalu lintas)"
+  },
+  {
+    "kanji": "一部分",
+    "furigana": "いちぶぶん",
+    "arti": "Sebagian"
+  },
+  {
+    "kanji": "腕時計",
+    "furigana": "うでどけい",
+    "arti": "Jam tangan"
+  },
+  {
+    "kanji": "運転手",
+    "furigana": "うんてんしゅ",
+    "arti": "Sopir / Pengemudi"
+  },
+  {
+    "kanji": "運動靴",
+    "furigana": "うんどうぐつ",
+    "arti": "Sepatu olahraga"
+  },
+  {
+    "kanji": "応援歌",
+    "furigana": "おうえんか",
+    "arti": "Lagu dukungan / Yel-yel"
+  },
+  {
+    "kanji": "顔写真",
+    "furigana": "かおじゃしん",
+    "arti": "Pasfoto / Foto wajah"
+  },
+  {
+    "kanji": "観光客",
+    "furigana": "かんこうきゃく",
+    "arti": "Turis / Wisatawan"
+  },
+  {
+    "kanji": "感謝祭",
+    "furigana": "かんしゃさい",
+    "arti": "Festival syukur (Thanksgiving)"
+  },
+  {
+    "kanji": "管理人",
+    "furigana": "かんりにん",
+    "arti": "Pengelola / Pengurus"
+  },
+  {
+    "kanji": "緊張感",
+    "furigana": "きんちょうかん",
+    "arti": "Rasa tegang"
+  },
+  {
+    "kanji": "警察官",
+    "furigana": "けいさつかん",
+    "arti": "Petugas polisi"
+  },
+  {
+    "kanji": "掲示板",
+    "furigana": "けいじばん",
+    "arti": "Papan pengumuman"
+  },
+  {
+    "kanji": "血液型",
+    "furigana": "けつえきがた",
+    "arti": "Golongan darah"
+  },
+  {
+    "kanji": "結婚式",
+    "furigana": "けっこんしき",
+    "arti": "Upacara pernikahan"
+  },
+  {
+    "kanji": "高校生",
+    "furigana": "こうこうせい",
+    "arti": "Siswa SMA"
+  },
+  {
+    "kanji": "交差点",
+    "furigana": "こうさてん",
+    "arti": "Persimpangan jalan"
+  },
+  {
+    "kanji": "五角形",
+    "furigana": "ごかくけい / ごかっけい",
+    "arti": "Segi lima / Pentagon"
+  },
+  {
+    "kanji": "再来週",
+    "furigana": "さらいしゅう",
+    "arti": "Dua minggu lagi"
+  },
+  {
+    "kanji": "指導係",
+    "furigana": "しどうがかり",
+    "arti": "Pembimbing / Supervisor"
+  },
+  {
+    "kanji": "市役所",
+    "furigana": "しやくしょ",
+    "arti": "Balai kota"
+  },
+  {
+    "kanji": "週刊誌",
+    "furigana": "しゅうかんし",
+    "arti": "Majalah mingguan"
+  },
+  {
+    "kanji": "奨学金",
+    "furigana": "しょうがくきん",
+    "arti": "Beasiswa"
+  },
+  {
+    "kanji": "小学生",
+    "furigana": "しょうがくせい",
+    "arti": "Siswa SD"
+  },
+  {
+    "kanji": "消費量",
+    "furigana": "しょうひりょう",
+    "arti": "Jumlah konsumsi"
+  },
+  {
+    "kanji": "新幹線",
+    "furigana": "しんかんせん",
+    "arti": "Kereta cepat Shinkansen"
+  },
+  {
+    "kanji": "新入生",
+    "furigana": "しんにゅうせい",
+    "arti": "Siswa/Mahasiswa baru"
+  },
+  {
+    "kanji": "自転車",
+    "furigana": "じてんしゃ",
+    "arti": "Sepeda"
+  },
+  {
+    "kanji": "自動車",
+    "furigana": "じどうしゃ",
+    "arti": "Mobil"
+  },
+  {
+    "kanji": "事務所",
+    "furigana": "じむしょ",
+    "arti": "Kantor"
+  },
+  {
+    "kanji": "受験生",
+    "furigana": "じゅけんせい",
+    "arti": "Peserta ujian"
+  },
+  {
+    "kanji": "祖父母",
+    "furigana": "そふぼ",
+    "arti": "Kakek dan nenek"
+  },
+  {
+    "kanji": "短時間",
+    "furigana": "たんじかん",
+    "arti": "Waktu singkat"
+  },
+  {
+    "kanji": "大学生",
+    "furigana": "だいがくせい",
+    "arti": "Mahasiswa"
+  },
+  {
+    "kanji": "中学生",
+    "furigana": "ちゅうがくせい",
+    "arti": "Siswa SMP"
+  },
+  {
+    "kanji": "長時間",
+    "furigana": "ちょうじかん",
+    "arti": "Waktu lama"
+  },
+  {
+    "kanji": "調味料",
+    "furigana": "ちょうみりょう",
+    "arti": "Bumbu dapur"
+  },
+  {
+    "kanji": "天気図",
+    "furigana": "てんきず",
+    "arti": "Peta cuaca"
+  },
+  {
+    "kanji": "同級生",
+    "furigana": "どうきゅうせい",
+    "arti": "Teman sekelas"
+  },
+  {
+    "kanji": "人数分",
+    "furigana": "にんずうぶん",
+    "arti": "Porsi sejumlah orang"
+  },
+  {
+    "kanji": "歯医者",
+    "furigana": "はいしゃ",
+    "arti": "Dokter gigi"
+  },
+  {
+    "kanji": "不動産",
+    "furigana": "ふどうさん",
+    "arti": "Properti / Real estat"
+  },
+  {
+    "kanji": "文房具",
+    "furigana": "ぶんぼうぐ",
+    "arti": "Alat tulis"
+  },
+  {
+    "kanji": "免許証",
+    "furigana": "めんきょしょう",
+    "arti": "SIM / Surat Izin Mengemudi"
+  },
+  {
+    "kanji": "郵便局",
+    "furigana": "ゆうびんきょく",
+    "arti": "Kantor pos"
+  },
+  {
+    "kanji": "留学生",
+    "furigana": "りゅうがくせい",
+    "arti": "Pelajar asing"
+  },
+  {
+    "kanji": "冷蔵庫",
+    "furigana": "れいぞうこ",
+    "arti": "Kulkas"
+  }
+]

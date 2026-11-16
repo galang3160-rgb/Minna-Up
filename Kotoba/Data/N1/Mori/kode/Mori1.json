@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "悪化(する)",
+    "furigana": "あっか(する)",
+    "arti": "Memburuk"
+  },
+  {
+    "kanji": "依存(する)",
+    "furigana": "いぞん(する)",
+    "arti": "Ketergantungan"
+  },
+  {
+    "kanji": "意向",
+    "furigana": "いこう",
+    "arti": "Niat / Keinginan"
+  },
+  {
+    "kanji": "意識(する)",
+    "furigana": "いしき(する)",
+    "arti": "Kesadaran"
+  },
+  {
+    "kanji": "意図(する)",
+    "furigana": "いと(する)",
+    "arti": "Maksud / Tujuan"
+  },
+  {
+    "kanji": "意欲",
+    "furigana": "いよく",
+    "arti": "Kemauan / Motivasi"
+  },
+  {
+    "kanji": "移行(する)",
+    "furigana": "いこう(する)",
+    "arti": "Peralihan / Transisi"
+  },
+  {
+    "kanji": "維持(する)",
+    "furigana": "いじ(する)",
+    "arti": "Mempertahankan"
+  },
+  {
+    "kanji": "衣装",
+    "furigana": "いしょう",
+    "arti": "Kostum / Busana"
+  },
+  {
+    "kanji": "違反(する)",
+    "furigana": "いはん(する)",
+    "arti": "Pelanggaran"
+  },
+  {
+    "kanji": "育成(する)",
+    "furigana": "いくせい(する)",
+    "arti": "Pembinaan / Pelatihan"
+  },
+  {
+    "kanji": "一時",
+    "furigana": "いちじ",
+    "arti": "Sementara waktu"
+  },
+  {
+    "kanji": "一体",
+    "furigana": "いったい",
+    "arti": "Menyatu"
+  },
+  {
+    "kanji": "印象",
+    "furigana": "いんしょう",
+    "arti": "Kesan"
+  },
+  {
+    "kanji": "引用(する)",
+    "furigana": "いんよう(する)",
+    "arti": "Kutipan"
+  },
+  {
+    "kanji": "運営(する)",
+    "furigana": "うんえい(する)",
+    "arti": "Pengelolaan"
+  },
+  {
+    "kanji": "運行(する)",
+    "furigana": "うんこう(する)",
+    "arti": "Beroperasi (kendaraan)"
+  },
+  {
+    "kanji": "運用(する)",
+    "furigana": "うんよう(する)",
+    "arti": "Pemanfaatan / Pengelolaan"
+  },
+  {
+    "kanji": "影響(する)",
+    "furigana": "えいきょう(する)",
+    "arti": "Pengaruh"
+  },
+  {
+    "kanji": "栄養",
+    "furigana": "えいよう",
+    "arti": "Nutrisi"
+  },
+  {
+    "kanji": "遠慮(する)",
+    "furigana": "えんりょ(する)",
+    "arti": "Sungkan"
+  },
+  {
+    "kanji": "横顔",
+    "furigana": "よこがお",
+    "arti": "Wajah dari samping"
+  },
+  {
+    "kanji": "家計",
+    "furigana": "かけい",
+    "arti": "Keuangan keluarga"
+  },
+  {
+    "kanji": "家出(する)",
+    "furigana": "いえで(する)",
+    "arti": "Kabur dari rumah"
+  },
+  {
+    "kanji": "課題",
+    "furigana": "かだい",
+    "arti": "Tugas / Masalah"
+  },
+  {
+    "kanji": "過程",
+    "furigana": "かてい",
+    "arti": "Proses"
+  },
+  {
+    "kanji": "過労",
+    "furigana": "かろう",
+    "arti": "Kelelahan kerja"
+  },
+  {
+    "kanji": "解決(する)",
+    "furigana": "かいけつ(する)",
+    "arti": "Penyelesaian"
+  },
+  {
+    "kanji": "解雇(する)",
+    "furigana": "かいこ(する)",
+    "arti": "Pemecatan (PHK)"
+  },
+  {
+    "kanji": "解除(する)",
+    "furigana": "かいじょ(する)",
+    "arti": "Pembatalan / Pencabutan"
+  },
+  {
+    "kanji": "解消(する)",
+    "furigana": "かいしょう(する)",
+    "arti": "Penghilangan"
+  },
+  {
+    "kanji": "解説(する)",
+    "furigana": "かいせつ(する)",
+    "arti": "Penjelasan / Ulasan"
+  },
+  {
+    "kanji": "回収(する)",
+    "furigana": "かいしゅう(する)",
+    "arti": "Penarikan / Pengumpulan"
+  },
+  {
+    "kanji": "回復(する)",
+    "furigana": "かいふく(する)",
+    "arti": "Pemulihan"
+  },
+  {
+    "kanji": "改善(する)",
+    "furigana": "かいぜん(する)",
+    "arti": "Perbaikan"
+  },
+  {
+    "kanji": "拡大(する)",
+    "furigana": "かくだい(する)",
+    "arti": "Perluasan"
+  },
+  {
+    "kanji": "獲得(する)",
+    "furigana": "かくとく(する)",
+    "arti": "Perolehan"
+  },
+  {
+    "kanji": "確率",
+    "furigana": "かくりつ",
+    "arti": "Peluang / Probabilitas"
+  },
+  {
+    "kanji": "確立(する)",
+    "furigana": "かくりつ(する)",
+    "arti": "Pembentukan / Memantapkan"
+  },
+  {
+    "kanji": "覚悟(する)",
+    "furigana": "かくご(する)",
+    "arti": "Tekad / Kesiapan mental"
+  },
+  {
+    "kanji": "学習(する)",
+    "furigana": "がくしゅう(する)",
+    "arti": "Pembelajaran"
+  },
+  {
+    "kanji": "学歴",
+    "furigana": "がくれき",
+    "arti": "Riwayat pendidikan"
+  },
+  {
+    "kanji": "楽器",
+    "furigana": "がっき",
+    "arti": "Alat musik"
+  },
+  {
+    "kanji": "感謝(する)",
+    "furigana": "かんしゃ(する)",
+    "arti": "Terima kasih"
+  },
+  {
+    "kanji": "感心(する)",
+    "furigana": "かんしん(する)",
+    "arti": "Kagum"
+  },
+  {
+    "kanji": "環境",
+    "furigana": "かんきょう",
+    "arti": "Lingkungan"
+  },
+  {
+    "kanji": "管理(する)",
+    "furigana": "かんり(する)",
+    "arti": "Manajemen / Pengelolaan"
+  },
+  {
+    "kanji": "簡易(な)",
+    "furigana": "かんい(な)",
+    "arti": "Sederhana / Praktis"
+  },
+  {
+    "kanji": "企画(する)",
+    "furigana": "きかく(する)",
+    "arti": "Perencanaan proyek"
+  },
+  {
+    "kanji": "企業",
+    "furigana": "きぎょう",
+    "arti": "Perusahaan"
+  },
+  {
+    "kanji": "危機",
+    "furigana": "きき",
+    "arti": "Krisis"
+  },
+  {
+    "kanji": "基準",
+    "furigana": "きじゅん",
+    "arti": "Standar / Kriteria"
+  },
+  {
+    "kanji": "希望(する)",
+    "furigana": "きぼう(する)",
+    "arti": "Harapan"
+  },
+  {
+    "kanji": "期末",
+    "furigana": "きまつ",
+    "arti": "Akhir periode/semester"
+  },
+  {
+    "kanji": "機関",
+    "furigana": "きかん",
+    "arti": "Lembaga / Instansi"
+  },
+  {
+    "kanji": "機能(する)",
+    "furigana": "きのう(する)",
+    "arti": "Fungsi"
+  },
+  {
+    "kanji": "規格",
+    "furigana": "きかく",
+    "arti": "Standar ukuran"
+  },
+  {
+    "kanji": "規制(する)",
+    "furigana": "きせい(する)",
+    "arti": "Regulasi / Pembatasan"
+  },
+  {
+    "kanji": "規則",
+    "furigana": "きそく",
+    "arti": "Peraturan"
+  },
+  {
+    "kanji": "規模",
+    "furigana": "きぼ",
+    "arti": "Skala"
+  }
+]

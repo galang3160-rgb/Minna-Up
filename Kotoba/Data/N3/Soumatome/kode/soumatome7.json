@@ -1,0 +1,252 @@
+[
+  {
+    "kanji": "元日",
+    "furigana": "がんじつ",
+    "arti": "Tahun baru / 1 Januari"
+  },
+  {
+    "kanji": "元旦",
+    "furigana": "がんたん",
+    "arti": "Pagi tahun baru / 1 Januari"
+  },
+  {
+    "kanji": "上旬",
+    "furigana": "じょうじゅん",
+    "arti": "Awal bulan"
+  },
+  {
+    "kanji": "初旬",
+    "furigana": "しょじゅん",
+    "arti": "Awal bulan"
+  },
+  {
+    "kanji": "中旬",
+    "furigana": "ちゅうじゅん",
+    "arti": "Pertengahan bulan"
+  },
+  {
+    "kanji": "下旬",
+    "furigana": "げじゅん",
+    "arti": "Akhir bulan"
+  },
+  {
+    "kanji": "月末",
+    "furigana": "げつまつ",
+    "arti": "Akhir bulan"
+  },
+  {
+    "kanji": "さきおととい",
+    "furigana": "さきおととい",
+    "arti": "Tiga hari yang lalu"
+  },
+  {
+    "kanji": "一昨日",
+    "furigana": "おととい",
+    "arti": "Kemarin lusa"
+  },
+  {
+    "kanji": "昨日",
+    "furigana": "きのう",
+    "arti": "Kemarin"
+  },
+  {
+    "kanji": "今日",
+    "furigana": "きょう",
+    "arti": "Hari ini"
+  },
+  {
+    "kanji": "明日",
+    "furigana": "あした",
+    "arti": "Besok"
+  },
+  {
+    "kanji": "あさって",
+    "furigana": "あさって",
+    "arti": "Besok lusa"
+  },
+  {
+    "kanji": "しあさって",
+    "furigana": "しあさって",
+    "arti": "Tiga hari lagi"
+  },
+  {
+    "kanji": "昨年",
+    "furigana": "さくねん",
+    "arti": "Tahun lalu"
+  },
+  {
+    "kanji": "一昨年",
+    "furigana": "いっさくねん",
+    "arti": "Dua tahun lalu"
+  },
+  {
+    "kanji": "再来年",
+    "furigana": "さらいねん",
+    "arti": "Dua tahun lagi"
+  },
+  {
+    "kanji": "平日",
+    "furigana": "へいじつ",
+    "arti": "Hari kerja"
+  },
+  {
+    "kanji": "祝日",
+    "furigana": "しゅくじつ",
+    "arti": "Hari libur nasional"
+  },
+  {
+    "kanji": "祭日",
+    "furigana": "さいじつ",
+    "arti": "Hari libur nasional"
+  },
+  {
+    "kanji": "先々月",
+    "furigana": "せんせんげつ",
+    "arti": "Dua bulan lalu"
+  },
+  {
+    "kanji": "先々週",
+    "furigana": "せんせんしゅう",
+    "arti": "Dua minggu lalu"
+  },
+  {
+    "kanji": "再来月",
+    "furigana": "さらいげつ",
+    "arti": "Dua bulan lagi"
+  },
+  {
+    "kanji": "再来週",
+    "furigana": "さらいしゅう",
+    "arti": "Dua minggu lagi"
+  },
+  {
+    "kanji": "先日",
+    "furigana": "せんじつ",
+    "arti": "Beberapa hari yang lalu"
+  },
+  {
+    "kanji": "年末年始",
+    "furigana": "ねんまつねんし",
+    "arti": "Akhir dan awal tahun"
+  },
+  {
+    "kanji": "年の暮れ",
+    "furigana": "としのくれ",
+    "arti": "Akhir tahun"
+  },
+  {
+    "kanji": "休暇",
+    "furigana": "きゅうか",
+    "arti": "Cuti / Liburan"
+  },
+  {
+    "kanji": "取る",
+    "furigana": "とる",
+    "arti": "Mengambil"
+  },
+  {
+    "kanji": "予定",
+    "furigana": "よてい",
+    "arti": "Rencana"
+  },
+  {
+    "kanji": "日にち",
+    "furigana": "ひにち",
+    "arti": "Tanggal"
+  },
+  {
+    "kanji": "日程",
+    "furigana": "にってい",
+    "arti": "Jadwal"
+  },
+  {
+    "kanji": "スケジュール",
+    "furigana": "スケジュール",
+    "arti": "Jadwal"
+  },
+  {
+    "kanji": "調整",
+    "furigana": "ちょうせい",
+    "arti": "Penyesuaian"
+  },
+  {
+    "kanji": "変更",
+    "furigana": "へんこう",
+    "arti": "Perubahan"
+  },
+  {
+    "kanji": "ずらす",
+    "furigana": "ずらす",
+    "arti": "Menggeser"
+  },
+  {
+    "kanji": "予約",
+    "furigana": "よやく",
+    "arti": "Reservasi"
+  },
+  {
+    "kanji": "取り消す",
+    "furigana": "とりけす",
+    "arti": "Membatalkan"
+  },
+  {
+    "kanji": "キャンセル",
+    "furigana": "キャンセル",
+    "arti": "Pembatalan"
+  },
+  {
+    "kanji": "旅行会社",
+    "furigana": "りょこうがいしゃ",
+    "arti": "Agen perjalanan"
+  },
+  {
+    "kanji": "申し込む",
+    "furigana": "もうしこむ",
+    "arti": "Mendaftar"
+  },
+  {
+    "kanji": "荷物",
+    "furigana": "にもつ",
+    "arti": "Barang bawaan"
+  },
+  {
+    "kanji": "つめる",
+    "furigana": "つめる",
+    "arti": "Memasukkan / Mengepak"
+  },
+  {
+    "kanji": "海外旅行",
+    "furigana": "かいがいりょこう",
+    "arti": "Wisata luar negeri"
+  },
+  {
+    "kanji": "国内旅行",
+    "furigana": "こくないりょこう",
+    "arti": "Wisata dalam negeri"
+  },
+  {
+    "kanji": "泊まる",
+    "furigana": "とまる",
+    "arti": "Menginap"
+  },
+  {
+    "kanji": "温泉",
+    "furigana": "おんせん",
+    "arti": "Pemandian air panas"
+  },
+  {
+    "kanji": "日帰り",
+    "furigana": "ひがえり",
+    "arti": "Pulang pergi sehari"
+  },
+  {
+    "kanji": "旅館",
+    "furigana": "りょかん",
+    "arti": "Penginapan tradisional Jepang"
+  },
+  {
+    "kanji": "宿泊",
+    "furigana": "しゅくはく",
+    "arti": "Menginap / Akomodasi"
+  }
+]

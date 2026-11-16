@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "徹夜明け",
+    "furigana": "てつやあけ",
+    "arti": "Seusai begadang"
+  },
+  {
+    "kanji": "年明け",
+    "furigana": "としあけ",
+    "arti": "Awal tahun baru"
+  },
+  {
+    "kanji": "夏休み明け",
+    "furigana": "なつやすみあけ",
+    "arti": "Seusai liburan musim panas"
+  },
+  {
+    "kanji": "ムード一色",
+    "furigana": "むーどいっしょく",
+    "arti": "Dipenuhi suasana tertentu"
+  },
+  {
+    "kanji": "従業員",
+    "furigana": "じゅうぎょういん",
+    "arti": "Karyawan / Pekerja"
+  },
+  {
+    "kanji": "乗務員",
+    "furigana": "じょうむいん",
+    "arti": "Awak kereta/pesawat/bus"
+  },
+  {
+    "kanji": "販売員",
+    "furigana": "はんばいいん",
+    "arti": "Pramuniaga"
+  },
+  {
+    "kanji": "一日おきに",
+    "furigana": "いちにちおきに",
+    "arti": "Selang sehari"
+  },
+  {
+    "kanji": "一週間おきに",
+    "furigana": "いっしゅうかんおきに",
+    "arti": "Selang seminggu"
+  },
+  {
+    "kanji": "4年おきに",
+    "furigana": "よねんおきに",
+    "arti": "Selang empat tahun"
+  },
+  {
+    "kanji": "機械化",
+    "furigana": "きかいか",
+    "arti": "Mekanisasi"
+  },
+  {
+    "kanji": "高齢化",
+    "furigana": "こうれいか",
+    "arti": "Penuaan populasi"
+  },
+  {
+    "kanji": "国際化",
+    "furigana": "こくさいか",
+    "arti": "Internasionalisasi"
+  },
+  {
+    "kanji": "情報化",
+    "furigana": "じょうほうか",
+    "arti": "Informatisasi / Digitalisasi"
+  },
+  {
+    "kanji": "西洋化",
+    "furigana": "せいようか",
+    "arti": "Westernisasi"
+  },
+  {
+    "kanji": "多様化",
+    "furigana": "たようか",
+    "arti": "Diversifikasi / Keberagaman"
+  },
+  {
+    "kanji": "作曲家",
+    "furigana": "さっきょくか",
+    "arti": "Komponis"
+  },
+  {
+    "kanji": "写真家",
+    "furigana": "しゃしんか",
+    "arti": "Fotografer"
+  },
+  {
+    "kanji": "政治家",
+    "furigana": "せいじか",
+    "arti": "Politisi"
+  },
+  {
+    "kanji": "専門家",
+    "furigana": "せんもんか",
+    "arti": "Pakar / Ahli"
+  },
+  {
+    "kanji": "彫刻家",
+    "furigana": "ちょうこくか",
+    "arti": "Pemahat"
+  },
+  {
+    "kanji": "登山家",
+    "furigana": "とざんか",
+    "arti": "Pendaki gunung"
+  },
+  {
+    "kanji": "評論家",
+    "furigana": "ひょうろんか",
+    "arti": "Kritikus / Pengamat"
+  },
+  {
+    "kanji": "管理下",
+    "furigana": "かんりか",
+    "arti": "Di bawah pengelolaan"
+  },
+  {
+    "kanji": "支配下",
+    "furigana": "しはいか",
+    "arti": "Di bawah kekuasaan"
+  },
+  {
+    "kanji": "指揮下",
+    "furigana": "しきか",
+    "arti": "Di bawah komando"
+  },
+  {
+    "kanji": "会計課",
+    "furigana": "かいけいか",
+    "arti": "Divisi keuangan"
+  },
+  {
+    "kanji": "学生課",
+    "furigana": "がくせいか",
+    "arti": "Bagian kemahasiswaan"
+  },
+  {
+    "kanji": "国際交流課",
+    "furigana": "こくさいこうりゅうか",
+    "arti": "Divisi pertukaran internasional"
+  },
+  {
+    "kanji": "総務課",
+    "furigana": "そうむか",
+    "arti": "Divisi umum"
+  },
+  {
+    "kanji": "秘書課",
+    "furigana": "ひしょか",
+    "arti": "Divisi kesekretariatan"
+  },
+  {
+    "kanji": "演奏会",
+    "furigana": "えんそうかい",
+    "arti": "Konser musik"
+  },
+  {
+    "kanji": "歓迎会",
+    "furigana": "かんげいかい",
+    "arti": "Acara penyambutan"
+  },
+  {
+    "kanji": "研修会",
+    "furigana": "けんしゅうかい",
+    "arti": "Lokakarya / Sesi pelatihan"
+  },
+  {
+    "kanji": "講演会",
+    "furigana": "こうえんかい",
+    "arti": "Acara seminar/ceramah"
+  },
+  {
+    "kanji": "交流会",
+    "furigana": "こうりゅうかい",
+    "arti": "Acara ramah tamah"
+  },
+  {
+    "kanji": "試食会",
+    "furigana": "ししょくかい",
+    "arti": "Acara cicip makanan"
+  },
+  {
+    "kanji": "食事会",
+    "furigana": "しょくじかい",
+    "arti": "Acara makan bersama"
+  },
+  {
+    "kanji": "新年会",
+    "furigana": "しんねんかい",
+    "arti": "Pesta tahun baru"
+  },
+  {
+    "kanji": "説明会",
+    "furigana": "せつめいかい",
+    "arti": "Sesi sosialisasi/informasi"
+  },
+  {
+    "kanji": "抽選会",
+    "furigana": "ちゅうせんかい",
+    "arti": "Acara pengundian"
+  },
+  {
+    "kanji": "勉強会",
+    "furigana": "べんきょうかい",
+    "arti": "Kelompok/Sesi belajar bersama"
+  },
+  {
+    "kanji": "医学界",
+    "furigana": "いがくかい",
+    "arti": "Dunia kedokteran"
+  },
+  {
+    "kanji": "産業界",
+    "furigana": "さんぎょうかい",
+    "arti": "Dunia industri"
+  },
+  {
+    "kanji": "自然界",
+    "furigana": "しぜんかい",
+    "arti": "Alam bebas"
+  },
+  {
+    "kanji": "価値観",
+    "furigana": "かちかん",
+    "arti": "Pandangan nilai hidup"
+  },
+  {
+    "kanji": "結婚観",
+    "furigana": "けっこんかん",
+    "arti": "Pandangan tentang pernikahan"
+  },
+  {
+    "kanji": "世界観",
+    "furigana": "せかいかん",
+    "arti": "Pandangan dunia"
+  },
+  {
+    "kanji": "映画館",
+    "furigana": "えいがかん",
+    "arti": "Bioskop"
+  },
+  {
+    "kanji": "写真館",
+    "furigana": "しゃしんかん",
+    "arti": "Studio foto"
+  },
+  {
+    "kanji": "体育館",
+    "furigana": "たいいくかん",
+    "arti": "Gedung olahraga"
+  },
+  {
+    "kanji": "博物館",
+    "furigana": "はくぶつかん",
+    "arti": "Museum"
+  },
+  {
+    "kanji": "美術館",
+    "furigana": "びじゅつかん",
+    "arti": "Museum seni"
+  },
+  {
+    "kanji": "一体感",
+    "furigana": "いったいかん",
+    "arti": "Rasa kebersamaan"
+  },
+  {
+    "kanji": "開放感",
+    "furigana": "かいほうかん",
+    "arti": "Rasa bebas/lega"
+  },
+  {
+    "kanji": "緊張感",
+    "furigana": "きんちょうかん",
+    "arti": "Suasana tegang"
+  },
+  {
+    "kanji": "高級感",
+    "furigana": "こうきゅうかん",
+    "arti": "Kesan mewah"
+  },
+  {
+    "kanji": "幸福感",
+    "furigana": "こうふくかん",
+    "arti": "Rasa bahagia"
+  },
+  {
+    "kanji": "充実感",
+    "furigana": "じゅうじつかん",
+    "arti": "Rasa puas dan bermakna"
+  },
+  {
+    "kanji": "達成感",
+    "furigana": "たっせいかん",
+    "arti": "Kepuasan atas pencapaian"
+  }
+]

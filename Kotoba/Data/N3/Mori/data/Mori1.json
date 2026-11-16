@@ -1,0 +1,337 @@
+[
+  {
+    "kanji": "間",
+    "furigana": "あいだ / ま",
+    "arti": "Antara / Ruang"
+  },
+  {
+    "kanji": "青",
+    "furigana": "あお",
+    "arti": "Biru"
+  },
+  {
+    "kanji": "味",
+    "furigana": "あじ",
+    "arti": "Rasa"
+  },
+  {
+    "kanji": "穴",
+    "furigana": "あな",
+    "arti": "Lubang"
+  },
+  {
+    "kanji": "油",
+    "furigana": "あぶら",
+    "arti": "Minyak"
+  },
+  {
+    "kanji": "案",
+    "furigana": "あん",
+    "arti": "Ide / Rencana"
+  },
+  {
+    "kanji": "胃",
+    "furigana": "い",
+    "arti": "Lambung"
+  },
+  {
+    "kanji": "家",
+    "furigana": "いえ / うち",
+    "arti": "Rumah"
+  },
+  {
+    "kanji": "息",
+    "furigana": "いき",
+    "arti": "Napas"
+  },
+  {
+    "kanji": "池",
+    "furigana": "いけ",
+    "arti": "Kolam"
+  },
+  {
+    "kanji": "糸",
+    "furigana": "いと",
+    "arti": "Benang"
+  },
+  {
+    "kanji": "芋",
+    "furigana": "いも",
+    "arti": "Kentang / Ubi"
+  },
+  {
+    "kanji": "歌",
+    "furigana": "うた",
+    "arti": "Lagu"
+  },
+  {
+    "kanji": "内",
+    "furigana": "うち",
+    "arti": "Dalam"
+  },
+  {
+    "kanji": "器",
+    "furigana": "うつわ",
+    "arti": "Wadah"
+  },
+  {
+    "kanji": "腕",
+    "furigana": "うで",
+    "arti": "Lengan"
+  },
+  {
+    "kanji": "絵",
+    "furigana": "え",
+    "arti": "Gambar / Lukisan"
+  },
+  {
+    "kanji": "枝",
+    "furigana": "えだ",
+    "arti": "Ranting / Cabang"
+  },
+  {
+    "kanji": "奥",
+    "furigana": "おく",
+    "arti": "Bagian dalam"
+  },
+  {
+    "kanji": "音",
+    "furigana": "おと",
+    "arti": "Suara / Bunyi"
+  },
+  {
+    "kanji": "帯",
+    "furigana": "おび",
+    "arti": "Sabuk (Kimono)"
+  },
+  {
+    "kanji": "表",
+    "furigana": "おもて / ひょう",
+    "arti": "Permukaan / Depan"
+  },
+  {
+    "kanji": "親",
+    "furigana": "おや",
+    "arti": "Orang tua"
+  },
+  {
+    "kanji": "貝",
+    "furigana": "かい",
+    "arti": "Kerang"
+  },
+  {
+    "kanji": "顔",
+    "furigana": "かお",
+    "arti": "Wajah"
+  },
+  {
+    "kanji": "傘",
+    "furigana": "かさ",
+    "arti": "Payung"
+  },
+  {
+    "kanji": "数",
+    "furigana": "かず",
+    "arti": "Jumlah / Angka"
+  },
+  {
+    "kanji": "肩",
+    "furigana": "かた",
+    "arti": "Pundak"
+  },
+  {
+    "kanji": "方",
+    "furigana": "かた / ほう",
+    "arti": "Cara / Arah"
+  },
+  {
+    "kanji": "形",
+    "furigana": "かたち",
+    "arti": "Bentuk"
+  },
+  {
+    "kanji": "角",
+    "furigana": "かど",
+    "arti": "Sudut"
+  },
+  {
+    "kanji": "壁",
+    "furigana": "かべ",
+    "arti": "Dinding"
+  },
+  {
+    "kanji": "紙",
+    "furigana": "かみ",
+    "arti": "Kertas"
+  },
+  {
+    "kanji": "髪",
+    "furigana": "かみ",
+    "arti": "Rambut"
+  },
+  {
+    "kanji": "空",
+    "furigana": "から / そら",
+    "arti": "Kosong / Langit"
+  },
+  {
+    "kanji": "体",
+    "furigana": "からだ",
+    "arti": "Tubuh"
+  },
+  {
+    "kanji": "皮",
+    "furigana": "かわ",
+    "arti": "Kulit (buah/hewan)"
+  },
+  {
+    "kanji": "缶",
+    "furigana": "かん",
+    "arti": "Kaleng"
+  },
+  {
+    "kanji": "柄",
+    "furigana": "がら",
+    "arti": "Pola / Motif"
+  },
+  {
+    "kanji": "黄",
+    "furigana": "き",
+    "arti": "Kuning"
+  },
+  {
+    "kanji": "傷",
+    "furigana": "きず",
+    "arti": "Luka"
+  },
+  {
+    "kanji": "君",
+    "furigana": "きみ",
+    "arti": "Kamu"
+  },
+  {
+    "kanji": "曲",
+    "furigana": "きょく",
+    "arti": "Lagu / Melodi"
+  },
+  {
+    "kanji": "逆",
+    "furigana": "ぎゃく",
+    "arti": "Kebalikan"
+  },
+  {
+    "kanji": "草",
+    "furigana": "くさ",
+    "arti": "Rumput"
+  },
+  {
+    "kanji": "薬",
+    "furigana": "くすり",
+    "arti": "Obat"
+  },
+  {
+    "kanji": "靴",
+    "furigana": "くつ",
+    "arti": "Sepatu"
+  },
+  {
+    "kanji": "首",
+    "furigana": "くび",
+    "arti": "Leher"
+  },
+  {
+    "kanji": "雲",
+    "furigana": "くも",
+    "arti": "Awan"
+  },
+  {
+    "kanji": "煙",
+    "furigana": "けむり",
+    "arti": "Asap"
+  },
+  {
+    "kanji": "県",
+    "furigana": "けん",
+    "arti": "Prefektur (Provinsi)"
+  },
+  {
+    "kanji": "腰",
+    "furigana": "こし",
+    "arti": "Pinggang"
+  },
+  {
+    "kanji": "粉",
+    "furigana": "こな",
+    "arti": "Bubuk / Tepung"
+  },
+  {
+    "kanji": "差",
+    "furigana": "さ",
+    "arti": "Selisih / Beda"
+  },
+  {
+    "kanji": "坂",
+    "furigana": "さか",
+    "arti": "Tanjakan / Lereng"
+  },
+  {
+    "kanji": "桜",
+    "furigana": "さくら",
+    "arti": "Sakura"
+  },
+  {
+    "kanji": "皿",
+    "furigana": "さら",
+    "arti": "Piring"
+  },
+  {
+    "kanji": "猿",
+    "furigana": "さる",
+    "arti": "Monyet"
+  },
+  {
+    "kanji": "塩",
+    "furigana": "しお",
+    "arti": "Garam"
+  },
+  {
+    "kanji": "島",
+    "furigana": "しま",
+    "arti": "Pulau"
+  },
+  {
+    "kanji": "城",
+    "furigana": "しろ",
+    "arti": "Kastil"
+  },
+  {
+    "kanji": "実",
+    "furigana": "じつ / み",
+    "arti": "Fakta / Buah"
+  },
+  {
+    "kanji": "酢",
+    "furigana": "す",
+    "arti": "Cuka"
+  },
+  {
+    "kanji": "隅",
+    "furigana": "すみ",
+    "arti": "Pojok / Sudut"
+  },
+  {
+    "kanji": "図",
+    "furigana": "ず",
+    "arti": "Gambar / Diagram"
+  },
+  {
+    "kanji": "席",
+    "furigana": "せき",
+    "arti": "Kursi"
+  },
+  {
+    "kanji": "咳",
+    "furigana": "せき",
+    "arti": "Batuk"
+  }
+]

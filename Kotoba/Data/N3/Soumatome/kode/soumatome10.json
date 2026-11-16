@@ -1,0 +1,212 @@
+[
+  {
+    "kanji": "ライト",
+    "furigana": "ライト",
+    "arti": "Lampu mobil"
+  },
+  {
+    "kanji": "ボンネット",
+    "furigana": "ボンネット",
+    "arti": "Kap mesin"
+  },
+  {
+    "kanji": "フロントガラス",
+    "furigana": "フロントガラス",
+    "arti": "Kaca depan"
+  },
+  {
+    "kanji": "ワイパー",
+    "furigana": "ワイパー",
+    "arti": "Wiper"
+  },
+  {
+    "kanji": "タイヤ",
+    "furigana": "タイヤ",
+    "arti": "Ban"
+  },
+  {
+    "kanji": "トランク",
+    "furigana": "トランク",
+    "arti": "Bagasi mobil"
+  },
+  {
+    "kanji": "ハンドル",
+    "furigana": "ハンドル",
+    "arti": "Setir / Kemudi"
+  },
+  {
+    "kanji": "ミラー",
+    "furigana": "ミラー",
+    "arti": "Kaca spion"
+  },
+  {
+    "kanji": "エンジン",
+    "furigana": "エンジン",
+    "arti": "Mesin"
+  },
+  {
+    "kanji": "シートベルト",
+    "furigana": "シートベルト",
+    "arti": "Sabuk pengaman"
+  },
+  {
+    "kanji": "締める",
+    "furigana": "しめる",
+    "arti": "Mengencangkan / Memakai"
+  },
+  {
+    "kanji": "ブレーキ",
+    "furigana": "ブレーキ",
+    "arti": "Rem"
+  },
+  {
+    "kanji": "アクセル",
+    "furigana": "アクセル",
+    "arti": "Pedal gas"
+  },
+  {
+    "kanji": "踏む",
+    "furigana": "ふむ",
+    "arti": "Menginjak"
+  },
+  {
+    "kanji": "カーナビ",
+    "furigana": "カーナビ",
+    "arti": "Navigasi mobil / GPS"
+  },
+  {
+    "kanji": "運転免許証",
+    "furigana": "うんてんめんきょしょう",
+    "arti": "SIM / Surat Izin Mengemudi"
+  },
+  {
+    "kanji": "日帰り旅行",
+    "furigana": "ひがえりりょこう",
+    "arti": "Wisata pulang pergi sehari"
+  },
+  {
+    "kanji": "ドライブ",
+    "furigana": "ドライブ",
+    "arti": "Jalan-jalan naik mobil"
+  },
+  {
+    "kanji": "助手席",
+    "furigana": "じょしゅせき",
+    "arti": "Kursi penumpang depan"
+  },
+  {
+    "kanji": "レンタカー",
+    "furigana": "レンタカー",
+    "arti": "Mobil sewaan"
+  },
+  {
+    "kanji": "借りる",
+    "furigana": "かりる",
+    "arti": "Meminjam / Menyewa"
+  },
+  {
+    "kanji": "高速道路",
+    "furigana": "こうそくどうろ",
+    "arti": "Jalan tol"
+  },
+  {
+    "kanji": "渋滞",
+    "furigana": "じゅうたい",
+    "arti": "Kemacetan"
+  },
+  {
+    "kanji": "巻き込まれる",
+    "furigana": "まきこまれる",
+    "arti": "Terjebak / Terlibat"
+  },
+  {
+    "kanji": "通行止め",
+    "furigana": "つうこうどめ",
+    "arti": "Jalan ditutup"
+  },
+  {
+    "kanji": "一方通行",
+    "furigana": "いっぽうつうこう",
+    "arti": "Satu arah"
+  },
+  {
+    "kanji": "標識",
+    "furigana": "ひょうしき",
+    "arti": "Rambu lalu lintas"
+  },
+  {
+    "kanji": "見落とす",
+    "furigana": "みおとす",
+    "arti": "Melewatkan / Tidak melihat"
+  },
+  {
+    "kanji": "スピード",
+    "furigana": "スピード",
+    "arti": "Kecepatan"
+  },
+  {
+    "kanji": "制限速度",
+    "furigana": "せいげんそくど",
+    "arti": "Batas kecepatan"
+  },
+  {
+    "kanji": "オーバー",
+    "furigana": "オーバー",
+    "arti": "Melebihi batas"
+  },
+  {
+    "kanji": "信号",
+    "furigana": "しんごう",
+    "arti": "Lampu lalu lintas"
+  },
+  {
+    "kanji": "無視",
+    "furigana": "むし",
+    "arti": "Mengabaikan"
+  },
+  {
+    "kanji": "横断歩道",
+    "furigana": "おうだんほどう",
+    "arti": "Zebra cross / Penyeberangan"
+  },
+  {
+    "kanji": "渡る",
+    "furigana": "わたる",
+    "arti": "Menyeberang"
+  },
+  {
+    "kanji": "追い越す",
+    "furigana": "おいこす",
+    "arti": "Menyalip / Mendahului"
+  },
+  {
+    "kanji": "追い越し禁止",
+    "furigana": "おいこしきんし",
+    "arti": "Dilarang menyalip"
+  },
+  {
+    "kanji": "駐車違反",
+    "furigana": "ちゅうしゃいはん",
+    "arti": "Pelanggaran parkir"
+  },
+  {
+    "kanji": "罰金",
+    "furigana": "ばっきん",
+    "arti": "Denda"
+  },
+  {
+    "kanji": "払う",
+    "furigana": "はらう",
+    "arti": "Membayar"
+  },
+  {
+    "kanji": "ガソリンスタンド",
+    "furigana": "ガソリンスタンド",
+    "arti": "SPBU / Pom bensin"
+  },
+  {
+    "kanji": "満タン",
+    "furigana": "まんタン",
+    "arti": "Isi penuh / Full tank"
+  }
+]

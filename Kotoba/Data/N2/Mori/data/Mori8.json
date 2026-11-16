@@ -1,0 +1,352 @@
+[
+  {
+    "kanji": "空き家",
+    "furigana": "あきや",
+    "arti": "Rumah kosong"
+  },
+  {
+    "kanji": "辺り",
+    "furigana": "あたり",
+    "arti": "Sekitar"
+  },
+  {
+    "kanji": "当たり前",
+    "furigana": "あたりまえ",
+    "arti": "Wajar / Sudah semestinya"
+  },
+  {
+    "kanji": "暗証番号",
+    "furigana": "あんしょうばんごう",
+    "arti": "Nomor PIN"
+  },
+  {
+    "kanji": "生き物",
+    "furigana": "いきもの",
+    "arti": "Makhluk hidup"
+  },
+  {
+    "kanji": "腕時計",
+    "furigana": "うでどけい",
+    "arti": "Jam tangan"
+  },
+  {
+    "kanji": "運転手",
+    "furigana": "うんてんしゅ",
+    "arti": "Sopir"
+  },
+  {
+    "kanji": "絵の具",
+    "furigana": "えのぐ",
+    "arti": "Cat lukis"
+  },
+  {
+    "kanji": "お祝い",
+    "furigana": "おいわい",
+    "arti": "Perayaan / Hadiah selamat"
+  },
+  {
+    "kanji": "お菓子",
+    "furigana": "おかし",
+    "arti": "Camilan / Kue"
+  },
+  {
+    "kanji": "お知らせ",
+    "furigana": "おしらせ",
+    "arti": "Pengumuman"
+  },
+  {
+    "kanji": "落とし物",
+    "furigana": "おとしもの",
+    "arti": "Barang hilang"
+  },
+  {
+    "kanji": "お年寄り",
+    "furigana": "おとしより",
+    "arti": "Lansia"
+  },
+  {
+    "kanji": "お腹",
+    "furigana": "おなか",
+    "arti": "Perut"
+  },
+  {
+    "kanji": "お願い",
+    "furigana": "おねがい",
+    "arti": "Permohonan"
+  },
+  {
+    "kanji": "お見舞い",
+    "furigana": "おみまい",
+    "arti": "Menjenguk orang sakit"
+  },
+  {
+    "kanji": "お土産",
+    "furigana": "おみやげ",
+    "arti": "Oleh-oleh"
+  },
+  {
+    "kanji": "思い出",
+    "furigana": "おもいで",
+    "arti": "Kenangan"
+  },
+  {
+    "kanji": "お礼",
+    "furigana": "おれい",
+    "arti": "Ucapan terima kasih"
+  },
+  {
+    "kanji": "改札口",
+    "furigana": "かいさつぐち",
+    "arti": "Pintu pemeriksaan tiket"
+  },
+  {
+    "kanji": "かび",
+    "furigana": "かび",
+    "arti": "Jamur"
+  },
+  {
+    "kanji": "環境問題",
+    "furigana": "かんきょうもんだい",
+    "arti": "Masalah lingkungan"
+  },
+  {
+    "kanji": "看護師",
+    "furigana": "かんごし",
+    "arti": "Perawat"
+  },
+  {
+    "kanji": "喫茶店",
+    "furigana": "きっさてん",
+    "arti": "Kedai kopi"
+  },
+  {
+    "kanji": "曇り",
+    "furigana": "くもり",
+    "arti": "Mendung"
+  },
+  {
+    "kanji": "車椅子",
+    "furigana": "くるまいす",
+    "arti": "Kursi roda"
+  },
+  {
+    "kanji": "警察官",
+    "furigana": "けいさつかん",
+    "arti": "Petugas polisi"
+  },
+  {
+    "kanji": "携帯電話",
+    "furigana": "けいたいでんわ",
+    "arti": "Telepon genggam"
+  },
+  {
+    "kanji": "結婚式",
+    "furigana": "けっこんしき",
+    "arti": "Upacara pernikahan"
+  },
+  {
+    "kanji": "高速道路",
+    "furigana": "こうそくどうろ",
+    "arti": "Jalan tol"
+  },
+  {
+    "kanji": "交通安全",
+    "furigana": "こうつうあんぜん",
+    "arti": "Keselamatan lalu lintas"
+  },
+  {
+    "kanji": "国際交流",
+    "furigana": "こくさいこうりゅう",
+    "arti": "Pertukaran internasional"
+  },
+  {
+    "kanji": "個人情報",
+    "furigana": "こじんじょうほう",
+    "arti": "Informasi pribadi"
+  },
+  {
+    "kanji": "言葉遣い",
+    "furigana": "ことばづかい",
+    "arti": "Tutur kata"
+  },
+  {
+    "kanji": "ご趣味",
+    "furigana": "ごしゅみ",
+    "arti": "Hobi (hormat)"
+  },
+  {
+    "kanji": "ご自身",
+    "furigana": "ごじしん",
+    "arti": "Diri sendiri (hormat)"
+  },
+  {
+    "kanji": "ご相談",
+    "furigana": "ごそうだん",
+    "arti": "Konsultasi (hormat)"
+  },
+  {
+    "kanji": "幸せ",
+    "furigana": "しあわせ",
+    "arti": "Kebahagiaan"
+  },
+  {
+    "kanji": "自分自身",
+    "furigana": "じぶんじしん",
+    "arti": "Diri sendiri"
+  },
+  {
+    "kanji": "市役所",
+    "furigana": "しやくしょ",
+    "arti": "Balai kota"
+  },
+  {
+    "kanji": "商品名",
+    "furigana": "しょうひんめい",
+    "arti": "Nama produk"
+  },
+  {
+    "kanji": "新入社員",
+    "furigana": "しんにゅうしゃいん",
+    "arti": "Karyawan baru"
+  },
+  {
+    "kanji": "新入生",
+    "furigana": "しんにゅうせい",
+    "arti": "Siswa baru"
+  },
+  {
+    "kanji": "全て",
+    "furigana": "すべて",
+    "arti": "Semuanya"
+  },
+  {
+    "kanji": "専門店",
+    "furigana": "せんもんてん",
+    "arti": "Toko khusus"
+  },
+  {
+    "kanji": "掃除機",
+    "furigana": "そうじき",
+    "arti": "Penyedot debu"
+  },
+  {
+    "kanji": "卒業論文",
+    "furigana": "そつぎょうろんぶん",
+    "arti": "Skripsi"
+  },
+  {
+    "kanji": "祖父母",
+    "furigana": "そふぼ",
+    "arti": "Kakek dan nenek"
+  },
+  {
+    "kanji": "それぞれ",
+    "furigana": "それぞれ",
+    "arti": "Masing-masing"
+  },
+  {
+    "kanji": "大学院",
+    "furigana": "だいがくいん",
+    "arti": "Pascasarjana"
+  },
+  {
+    "kanji": "食べ放題",
+    "furigana": "たべほうだい",
+    "arti": "Makan sepuasnya"
+  },
+  {
+    "kanji": "段ボール箱",
+    "furigana": "だんぼーるばこ",
+    "arti": "Kotak kardus"
+  },
+  {
+    "kanji": "長時間",
+    "furigana": "ちょうじかん",
+    "arti": "Waktu yang lama"
+  },
+  {
+    "kanji": "調味料",
+    "furigana": "ちょうみりょう",
+    "arti": "Bumbu masak"
+  },
+  {
+    "kanji": "流れ",
+    "furigana": "ながれ",
+    "arti": "Aliran"
+  },
+  {
+    "kanji": "夏祭り",
+    "furigana": "なつまつり",
+    "arti": "Festival musim panas"
+  },
+  {
+    "kanji": "人間関係",
+    "furigana": "にんげんかんけい",
+    "arti": "Hubungan antarmanusia"
+  },
+  {
+    "kanji": "人数分",
+    "furigana": "にんずうぶん",
+    "arti": "Porsi sesuai jumlah orang"
+  },
+  {
+    "kanji": "外れ",
+    "furigana": "はずれ",
+    "arti": "Meleset / Pinggiran"
+  },
+  {
+    "kanji": "話し声",
+    "furigana": "はなしごえ",
+    "arti": "Suara obrolan"
+  },
+  {
+    "kanji": "はんこ",
+    "furigana": "はんこ",
+    "arti": "Stempel"
+  },
+  {
+    "kanji": "一人暮らし",
+    "furigana": "ひとりぐらし",
+    "arti": "Tinggal sendiri"
+  },
+  {
+    "kanji": "美容院",
+    "furigana": "びよういん",
+    "arti": "Salon kecantikan"
+  },
+  {
+    "kanji": "不動産",
+    "furigana": "ふどうさん",
+    "arti": "Properti / Real estat"
+  },
+  {
+    "kanji": "保育園",
+    "furigana": "ほいくえん",
+    "arti": "Tempat penitipan anak"
+  },
+  {
+    "kanji": "祭り",
+    "furigana": "まつり",
+    "arti": "Festival"
+  },
+  {
+    "kanji": "周り",
+    "furigana": "まわり",
+    "arti": "Sekeliling"
+  },
+  {
+    "kanji": "山登り",
+    "furigana": "やまのぼり",
+    "arti": "Mendaki gunung"
+  },
+  {
+    "kanji": "郵便局",
+    "furigana": "ゆうびんきょく",
+    "arti": "Kantor pos"
+  },
+  {
+    "kanji": "冷蔵庫",
+    "furigana": "れいぞうこ",
+    "arti": "Kulkas"
+  }
+]

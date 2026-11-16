@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nakama Gakkou</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    @font-face {
+      font-family: 'KanjiTimes';
+      src: local('Times New Roman');
+      unicode-range: U+4E00-9FAF, U+3400-4DBF;
+    }
+    body {
+      font-family: 'Space Grotesk', 'KanjiTimes', 'Times New Roman', serif !important;
+    }
+    .kanji, .kanji-text, .japanese-text {
+      font-weight: normal !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -27,16 +41,67 @@
   <div class="fx" id="fx" aria-hidden="true"></div>
   <canvas id="trail"></canvas>
 
-  <main>
+  <!-- TOPBAR KAPSUL NEO-BRUTALISM (MENYATU DI SEMUA VIEW) -->
+  <header class="fixed-topbar">
+    <div class="topbar-capsule">
+
+      <!-- Kiri: Tombol Back Dinamis & Brand -->
+      <div class="topbar-left">
+        <button type="button" id="globalBackBtn" class="nav-back-circle hidden-el" title="Kembali" aria-label="Kembali">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <a href="index.html" class="logo" id="brandHomeLink">
+          <span class="logo-word">Nakama<b>Gakkou</b></span>
+        </a>
+        <span class="nav-crumb hidden-el" id="navCrumbTag">Kotoba</span>
+      </div>
+
+      <!-- Kanan: Tombol Mode Malam & Pemicu Modal Bab (Muncul Saat di Carousel Bab) -->
+      <div class="topbar-right">
+        <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Ganti Tema" title="Ganti Mode Siang/Malam">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <button type="button" id="openChapterModal" class="chapter-trigger-btn hidden-el" aria-label="Buka Daftar Bab">
+          <span class="trigger-label"><b id="currentChapterDisplay">Bab 01</b></span>
+          <div class="trigger-icon-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="appMain">
     <!-- VIEW 1: 4 MENU UTAMA (ANGKA, KANJI, KOTOBA, PEMULA) -->
     <section class="view active" id="viewMain">
       <div class="bento-grid grid-4">
 
         <!-- 1. ANGKA -->
-        <a href="Angka/index.html" class="neo-card card-angka tile-link" data-tilt>
+        <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-tilt>
           <span class="card-index">01</span>
           <div class="icon-box">
-            <!-- Ikon Abacus / Grid Angka -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="3" width="16" height="18" rx="3"/>
               <line x1="8" y1="7" x2="16" y2="7"/>
@@ -56,11 +121,10 @@
           </div>
         </a>
 
-        <!-- 2. KANJI -->
-        <a href="#Kanji" class="neo-card card-kanji" id="btnKanji" data-tilt>
+        <!-- 2. KANJI (LOCKED SESUAI KONFIGURASI) -->
+        <a href="#Kanji" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-tilt>
           <span class="card-index">02</span>
           <div class="icon-box">
-            <!-- Ikon Kuil Torii / Struktur Kanji -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 6c5 1.5 13 1.5 18 0"/>
               <path d="M5 10h14"/>
@@ -78,10 +142,9 @@
         </a>
 
         <!-- 3. KOTOBA -->
-        <a href="#kotoba" class="neo-card card-kotoba" id="btnKotoba" data-tilt>
+        <a href="#kotoba" class="neo-card card-kotoba" id="btnKotoba" data-feature="kotoba" data-tilt>
           <span class="card-index">03</span>
           <div class="icon-box">
-            <!-- Ikon Kartu Flashcard / Dialog -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="5" width="14" height="15" rx="2.5"/>
               <path d="M17 8h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2"/>
@@ -98,10 +161,9 @@
         </a>
 
         <!-- 4. PEMULA (KANA) -->
-        <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-tilt>
+        <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-feature="pemula" data-tilt>
           <span class="card-index">04</span>
           <div class="icon-box">
-            <!-- Ikon Pena / Kompas Dasar -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2l3.2 6.6L22 9.7l-5 4.9 1.2 6.9L12 18.2 5.8 21.5 7 14.6 2 9.7l6.8-1.1L12 2z"/>
             </svg>
@@ -114,18 +176,28 @@
           </div>
         </a>
 
+        <!-- 5. BUNPOU (LOCKED SESUAI KONFIGURASI — TETAP DISIMPAN) -->
+        <a href="#Bunpou" class="neo-card card-pemula" id="btnBunpou" data-feature="bunpou" data-tilt style="display:none;">
+          <span class="card-index">05</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">Bunpou</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
       </div>
     </section>
 
-    <!-- VIEW 2: SUBMENU KANJI (N5 & N4) -->
+    <!-- VIEW 2: SUBMENU KANJI (HREF ASLI TETAP UTUH) -->
     <section class="view" id="viewKanji">
-      <div class="sub-bar">
-        <button type="button" class="back-btn" id="btnBackFromKanji" aria-label="Kembali">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        </button>
-        <span class="sub-tag">Kanji</span>
-      </div>
-
       <div class="bento-grid grid-2">
         <a href="Kanji/index.html" class="neo-card card-kanji tile-link" data-tilt>
           <span class="card-index">LV.1</span>
@@ -161,34 +233,59 @@
       </div>
     </section>
 
-    <!-- VIEW 3: SUBMENU KOTOBA (N5 & N4) -->
+    <!-- VIEW 3: SUBMENU KOTOBA — LEVEL N5 SAMPAI N1 (DESAIN BERSIH TANPA TEKS TAMBAHAN) -->
     <section class="view" id="viewKotoba">
-      <div class="sub-bar">
-        <button type="button" class="back-btn" id="btnBackFromKotoba" aria-label="Kembali">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        </button>
-        <span class="sub-tag">Kotoba</span>
-      </div>
+      <div class="bento-grid grid-5">
 
-      <div class="bento-grid grid-2">
-        <a href="Kotoba/Minna 1/index.html" class="neo-card card-kotoba tile-link" data-tilt>
+        <a href="#N5" class="neo-card card-angka kotoba-level-btn" data-level="N5" data-tilt>
           <span class="card-index">LV.1</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              <path d="M12 2l3.2 6.6L22 9.7l-5 4.9 1.2 6.9L12 18.2 5.8 21.5 7 14.6 2 9.7l6.8-1.1L12 2z"/>
             </svg>
           </div>
           <div class="card-footer">
             <h2 class="card-title">N5</h2>
             <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </span>
           </div>
         </a>
 
-        <a href="Kotoba/Minna 2/index.html" class="neo-card card-kotoba tile-link" data-tilt>
+        <a href="#N4" class="neo-card card-kanji kotoba-level-btn" data-level="N4" data-tilt>
           <span class="card-index">LV.2</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">N4</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="#N3" class="neo-card card-kotoba kotoba-level-btn" data-level="N3" data-tilt>
+          <span class="card-index">LV.3</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">N3</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="#N2" class="neo-card card-pemula kotoba-level-btn" data-level="N2" data-tilt>
+          <span class="card-index">LV.4</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -196,15 +293,77 @@
             </svg>
           </div>
           <div class="card-footer">
-            <h2 class="card-title">N4</h2>
+            <h2 class="card-title">N2</h2>
             <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </span>
           </div>
         </a>
+
+        <a href="#N1" class="neo-card card-angka kotoba-level-btn" data-level="N1" data-tilt>
+          <span class="card-index">LV.5</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="6"/>
+              <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">N1</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- VIEW 4: SUBMENU KOTOBA — PILIH BUKU (SOUMATOME / MINNA / MORI) -->
+    <section class="view" id="viewKotobaBooks">
+      <div class="bento-grid grid-2" id="kotobaBooksGrid">
+        <!-- 2 Kartu Buku di-generate otomatis sesuai N5-N1 tanpa mengubah struktur kartu asli -->
+      </div>
+    </section>
+
+    <!-- VIEW 5: SLIDER CAROUSEL KARTU BAB (1-25) LANGSUNG DI TAMPILAN UTAMA -->
+    <section class="view" id="viewChapters">
+      <div class="flashcard-stage">
+        <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Bab Sebelumnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <div class="carousel-container" id="carouselContainer"></div>
+
+        <button type="button" class="nav-arrow-btn next-btn" id="nextBtn" aria-label="Bab Selanjutnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
       </div>
     </section>
   </main>
+
+  <!-- MODAL VISUAL GRID LEVEL 1-25 -->
+  <div class="modal-backdrop" id="chapterModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag" id="modalRangeTag">BAB 1 - 25</span>
+          <h3 class="modal-title">Pilih Bab</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-grid" id="modalChapterGrid"></div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

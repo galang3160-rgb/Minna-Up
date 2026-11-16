@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "音楽全般",
+    "furigana": "おんがくぜんぱん",
+    "arti": "Musik secara keseluruhan"
+  },
+  {
+    "kanji": "学問全般",
+    "furigana": "がくもんぜんぱん",
+    "arti": "Ilmu pengetahuan secara umum"
+  },
+  {
+    "kanji": "日本人全般",
+    "furigana": "にほんじんぜんぱん",
+    "arti": "Orang Jepang pada umumnya"
+  },
+  {
+    "kanji": "海沿い",
+    "furigana": "うみぞい",
+    "arti": "Sepanjang tepi laut"
+  },
+  {
+    "kanji": "海岸沿い",
+    "furigana": "かいがんぞい",
+    "arti": "Sepanjang pesisir pantai"
+  },
+  {
+    "kanji": "線路沿い",
+    "furigana": "せんろぞい",
+    "arti": "Pinggir rel kereta"
+  },
+  {
+    "kanji": "教科書代",
+    "furigana": "きょうかしょだい",
+    "arti": "Uang buku paket"
+  },
+  {
+    "kanji": "電気代",
+    "furigana": "でんきだい",
+    "arti": "Tagihan listrik"
+  },
+  {
+    "kanji": "プレゼント代",
+    "furigana": "ぷれぜんとだい",
+    "arti": "Uang beli hadiah"
+  },
+  {
+    "kanji": "応援団",
+    "furigana": "おうえんだん",
+    "arti": "Kelompok suporter"
+  },
+  {
+    "kanji": "劇団",
+    "furigana": "げきだん",
+    "arti": "Grup teater"
+  },
+  {
+    "kanji": "選手団",
+    "furigana": "せんしゅだん",
+    "arti": "Kontingen atlet"
+  },
+  {
+    "kanji": "空き地",
+    "furigana": "あきち",
+    "arti": "Tanah kosong"
+  },
+  {
+    "kanji": "観光地",
+    "furigana": "かんこうち",
+    "arti": "Tempat wisata"
+  },
+  {
+    "kanji": "現在地",
+    "furigana": "げんざいち",
+    "arti": "Lokasi saat ini"
+  },
+  {
+    "kanji": "候補地",
+    "furigana": "こうほち",
+    "arti": "Lokasi kandidat"
+  },
+  {
+    "kanji": "住宅地",
+    "furigana": "じゅうたくち",
+    "arti": "Area permukiman"
+  },
+  {
+    "kanji": "目的地",
+    "furigana": "もくてきち",
+    "arti": "Tempat tujuan"
+  },
+  {
+    "kanji": "リゾート地",
+    "furigana": "りぞーとち",
+    "arti": "Kawasan resor liburan"
+  },
+  {
+    "kanji": "外出中",
+    "furigana": "がいしゅつちゅう",
+    "arti": "Sedang keluar"
+  },
+  {
+    "kanji": "期間中",
+    "furigana": "きかんちゅう",
+    "arti": "Selama periode berlangsung"
+  },
+  {
+    "kanji": "休業中",
+    "furigana": "きゅうぎょうちゅう",
+    "arti": "Sedang tutup sementara"
+  },
+  {
+    "kanji": "建築中",
+    "furigana": "けんちくちゅう",
+    "arti": "Sedang dibangun"
+  },
+  {
+    "kanji": "今週中",
+    "furigana": "こんしゅうちゅう",
+    "arti": "Dalam minggu ini"
+  },
+  {
+    "kanji": "在学中",
+    "furigana": "ざいがくちゅう",
+    "arti": "Semasa masih bersekolah/kuliah"
+  },
+  {
+    "kanji": "旅行中",
+    "furigana": "りょこうちゅう",
+    "arti": "Sedang dalam perjalanan wisata"
+  },
+  {
+    "kanji": "利用中",
+    "furigana": "りようちゅう",
+    "arti": "Sedang digunakan"
+  },
+  {
+    "kanji": "電車賃",
+    "furigana": "でんしゃちん",
+    "arti": "Ongkos kereta"
+  },
+  {
+    "kanji": "英語漬け",
+    "furigana": "えいごづけ",
+    "arti": "Lingkungan penuh bahasa Inggris"
+  },
+  {
+    "kanji": "勉強漬け",
+    "furigana": "べんきょうづけ",
+    "arti": "Belajar terus-menerus"
+  },
+  {
+    "kanji": "練習漬け",
+    "furigana": "れんしゅうづけ",
+    "arti": "Latihan penuh setiap hari"
+  },
+  {
+    "kanji": "親子連れ",
+    "furigana": "おやこづれ",
+    "arti": "Pasangan orang tua bersama anak"
+  },
+  {
+    "kanji": "家族連れ",
+    "furigana": "かぞくづれ",
+    "arti": "Rombongan bersama keluarga"
+  },
+  {
+    "kanji": "子ども連れ",
+    "furigana": "こどもづれ",
+    "arti": "Membawa serta anak-anak"
+  },
+  {
+    "kanji": "書き手",
+    "furigana": "かきて",
+    "arti": "Penulis"
+  },
+  {
+    "kanji": "聞き手",
+    "furigana": "ききて",
+    "arti": "Pendengar / Pewawancara"
+  },
+  {
+    "kanji": "働き手",
+    "furigana": "はたらきて",
+    "arti": "Pencari nafkah / Tenaga kerja"
+  },
+  {
+    "kanji": "話し手",
+    "furigana": "はなして",
+    "arti": "Pembicara"
+  },
+  {
+    "kanji": "読み手",
+    "furigana": "よみて",
+    "arti": "Pembaca"
+  },
+  {
+    "kanji": "絵画展",
+    "furigana": "かいがてん",
+    "arti": "Pameran lukisan"
+  },
+  {
+    "kanji": "写真展",
+    "furigana": "しゃしんてん",
+    "arti": "Pameran foto"
+  },
+  {
+    "kanji": "特別展",
+    "furigana": "とくべつてん",
+    "arti": "Pameran khusus"
+  },
+  {
+    "kanji": "疑問点",
+    "furigana": "ぎもんてん",
+    "arti": "Poin yang diragukan"
+  },
+  {
+    "kanji": "出発点",
+    "furigana": "しゅっぱつてん",
+    "arti": "Titik keberangkatan / Titik awal"
+  },
+  {
+    "kanji": "注意点",
+    "furigana": "ちゅういてん",
+    "arti": "Hal yang perlu diperhatikan"
+  },
+  {
+    "kanji": "変更点",
+    "furigana": "へんこうてん",
+    "arti": "Poin perubahan"
+  },
+  {
+    "kanji": "問題点",
+    "furigana": "もんだいてん",
+    "arti": "Letak permasalahan"
+  },
+  {
+    "kanji": "想定内",
+    "furigana": "そうていない",
+    "arti": "Sesuai perkiraan"
+  },
+  {
+    "kanji": "データ内",
+    "furigana": "でーたない",
+    "arti": "Di dalam data"
+  },
+  {
+    "kanji": "予算内",
+    "furigana": "よさんない",
+    "arti": "Sesuai batas anggaran"
+  },
+  {
+    "kanji": "9時発",
+    "furigana": "くじはつ",
+    "arti": "Berangkat pukul 9"
+  },
+  {
+    "kanji": "東京駅発",
+    "furigana": "とうきょうえきはつ",
+    "arti": "Berangkat dari Stasiun Tokyo"
+  },
+  {
+    "kanji": "親離れ",
+    "furigana": "おやばなれ",
+    "arti": "Mandiri dari orang tua"
+  },
+  {
+    "kanji": "現実離れ",
+    "furigana": "げんじつばなれ",
+    "arti": "Tidak realistis / Jauh dari kenyataan"
+  },
+  {
+    "kanji": "読書離れ",
+    "furigana": "どくしょばなれ",
+    "arti": "Menurunnya minat baca"
+  },
+  {
+    "kanji": "案内板",
+    "furigana": "あんないばん",
+    "arti": "Papan informasi"
+  },
+  {
+    "kanji": "ガラス板",
+    "furigana": "がらすばん",
+    "arti": "Pelat/Lembaran kaca"
+  },
+  {
+    "kanji": "掲示板",
+    "furigana": "けいじばん",
+    "arti": "Papan pengumuman"
+  },
+  {
+    "kanji": "建設費",
+    "furigana": "けんせつひ",
+    "arti": "Biaya konstruksi"
+  },
+  {
+    "kanji": "光熱費",
+    "furigana": "こうねつひ",
+    "arti": "Biaya listrik, air, dan gas"
+  }
+]

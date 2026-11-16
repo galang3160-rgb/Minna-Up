@@ -1,0 +1,197 @@
+[
+  {
+    "kanji": "段ボール箱",
+    "furigana": "だんボールばこ",
+    "arti": "Kotak kardus"
+  },
+  {
+    "kanji": "ガムテープ",
+    "furigana": "ガムテープ",
+    "arti": "Lakban"
+  },
+  {
+    "kanji": "ポリ袋",
+    "furigana": "ポリぶくろ",
+    "arti": "Kantong plastik"
+  },
+  {
+    "kanji": "レジ袋",
+    "furigana": "レジぶくろ",
+    "arti": "Kantong plastik belanja"
+  },
+  {
+    "kanji": "パック",
+    "furigana": "パック",
+    "arti": "Kemasan karton / wadah"
+  },
+  {
+    "kanji": "トレイ",
+    "furigana": "トレイ",
+    "arti": "Wadah styrofoam / nampan"
+  },
+  {
+    "kanji": "キャップ",
+    "furigana": "キャップ",
+    "arti": "Tutup botol"
+  },
+  {
+    "kanji": "ラベル",
+    "furigana": "ラベル",
+    "arti": "Label"
+  },
+  {
+    "kanji": "ペットボトル",
+    "furigana": "ペットボトル",
+    "arti": "Botol plastik"
+  },
+  {
+    "kanji": "買い換える",
+    "furigana": "かいかえる",
+    "arti": "Membeli pengganti yang baru"
+  },
+  {
+    "kanji": "家電製品",
+    "furigana": "かでんせいひん",
+    "arti": "Peralatan elektronik rumah"
+  },
+  {
+    "kanji": "省エネ",
+    "furigana": "しょうエネ",
+    "arti": "Hemat energi"
+  },
+  {
+    "kanji": "電気代を節約する",
+    "furigana": "でんきだいをせつやくする",
+    "arti": "Menghemat biaya listrik"
+  },
+  {
+    "kanji": "ごみがたまる",
+    "furigana": "ごみがたまる",
+    "arti": "Sampah menumpuk"
+  },
+  {
+    "kanji": "リサイクルに出す",
+    "furigana": "リサイクルにだす",
+    "arti": "Menyerahkan untuk daur ulang"
+  },
+  {
+    "kanji": "不用品を処分する",
+    "furigana": "ふようひんをしょぶんする",
+    "arti": "Membuang barang tak terpakai"
+  },
+  {
+    "kanji": "ごみを分別する",
+    "furigana": "ごみをぶんべつする",
+    "arti": "Memilah sampah"
+  },
+  {
+    "kanji": "燃えるごみ",
+    "furigana": "もえるごみ",
+    "arti": "Sampah mudah terbakar"
+  },
+  {
+    "kanji": "可燃ごみ",
+    "furigana": "かねんごみ",
+    "arti": "Sampah mudah terbakar"
+  },
+  {
+    "kanji": "燃やせるごみ",
+    "furigana": "もやせるごみ",
+    "arti": "Sampah yang bisa dibakar"
+  },
+  {
+    "kanji": "燃えないごみ",
+    "furigana": "もえないごみ",
+    "arti": "Sampah tidak mudah terbakar"
+  },
+  {
+    "kanji": "不燃ごみ",
+    "furigana": "ふねんごみ",
+    "arti": "Sampah tidak mudah terbakar"
+  },
+  {
+    "kanji": "燃やせないごみ",
+    "furigana": "もやせないごみ",
+    "arti": "Sampah yang tak bisa dibakar"
+  },
+  {
+    "kanji": "生ごみ",
+    "furigana": "なまごみ",
+    "arti": "Sampah organik / dapur"
+  },
+  {
+    "kanji": "粗大ごみ",
+    "furigana": "そだいごみ",
+    "arti": "Sampah berukuran besar"
+  },
+  {
+    "kanji": "資源ごみ",
+    "furigana": "しげんごみ",
+    "arti": "Sampah daur ulang"
+  },
+  {
+    "kanji": "指定のごみ袋",
+    "furigana": "していのごみぶくろ",
+    "arti": "Kantong sampah resmi"
+  },
+  {
+    "kanji": "すすぐ",
+    "furigana": "すすぐ",
+    "arti": "Membilas"
+  },
+  {
+    "kanji": "ラベルをはがす",
+    "furigana": "ラベルをはがす",
+    "arti": "Mengelupas label"
+  },
+  {
+    "kanji": "シールを貼る",
+    "furigana": "シールをはる",
+    "arti": "Menempel stiker"
+  },
+  {
+    "kanji": "アルミ缶をつぶす",
+    "furigana": "アルミかんをつぶす",
+    "arti": "Meremukkan kaleng aluminium"
+  },
+  {
+    "kanji": "再利用する",
+    "furigana": "さいりようする",
+    "arti": "Menggunakan kembali"
+  },
+  {
+    "kanji": "水がもれる",
+    "furigana": "みずがもれる",
+    "arti": "Air bocor"
+  },
+  {
+    "kanji": "水をもらす",
+    "furigana": "みずをもらす",
+    "arti": "Membocorkan air"
+  },
+  {
+    "kanji": "秘密がもれる",
+    "furigana": "ひみつがもれる",
+    "arti": "Rahasia terbongkar"
+  },
+  {
+    "kanji": "秘密をもらす",
+    "furigana": "ひみつをもらす",
+    "arti": "Membocorkan rahasia"
+  },
+  {
+    "kanji": "こぼれる",
+    "furigana": "こぼれる",
+    "arti": "Tumpah"
+  },
+  {
+    "kanji": "こぼす",
+    "furigana": "こぼす",
+    "arti": "Menumpahkan"
+  },
+  {
+    "kanji": "面倒くさい",
+    "furigana": "めんどうくさい",
+    "arti": "Merepotkan"
+  }
+]

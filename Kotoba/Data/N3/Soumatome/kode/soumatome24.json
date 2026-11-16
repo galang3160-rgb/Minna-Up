@@ -1,0 +1,112 @@
+[
+  {
+    "kanji": "メールを受信する",
+    "furigana": "メールをじゅしんする",
+    "arti": "Menerima email"
+  },
+  {
+    "kanji": "送信する",
+    "furigana": "そうしんする",
+    "arti": "Mengirim"
+  },
+  {
+    "kanji": "返信する",
+    "furigana": "へんしんする",
+    "arti": "Membalas"
+  },
+  {
+    "kanji": "転送する",
+    "furigana": "てんそうする",
+    "arti": "Meneruskan"
+  },
+  {
+    "kanji": "新規作成する",
+    "furigana": "しんきさくせいする",
+    "arti": "Membuat pesan baru"
+  },
+  {
+    "kanji": "まとめて送る",
+    "furigana": "まとめておくる",
+    "arti": "Mengirim sekaligus"
+  },
+  {
+    "kanji": "整理する",
+    "furigana": "せいりする",
+    "arti": "Merapikan"
+  },
+  {
+    "kanji": "チェックする",
+    "furigana": "チェックする",
+    "arti": "Memeriksa"
+  },
+  {
+    "kanji": "文字を入力する",
+    "furigana": "もじをにゅうりょくする",
+    "arti": "Mengetik"
+  },
+  {
+    "kanji": "ローマ字で入力する",
+    "furigana": "ローマじでにゅうりょくする",
+    "arti": "Mengetik romaji"
+  },
+  {
+    "kanji": "漢字に変換する",
+    "furigana": "かんじにへんかんする",
+    "arti": "Mengubah ke kanji"
+  },
+  {
+    "kanji": "挿入する",
+    "furigana": "そうにゅうする",
+    "arti": "Menyisipkan"
+  },
+  {
+    "kanji": "削除する",
+    "furigana": "さくじょする",
+    "arti": "Menghapus"
+  },
+  {
+    "kanji": "あて先",
+    "furigana": "あてさき",
+    "arti": "Penerima"
+  },
+  {
+    "kanji": "差出人",
+    "furigana": "さしだしにん",
+    "arti": "Pengirim"
+  },
+  {
+    "kanji": "件名",
+    "furigana": "けんめい",
+    "arti": "Subjek"
+  },
+  {
+    "kanji": "メールのやり取りをする",
+    "furigana": "メールのやりとりをする",
+    "arti": "Bertukar email"
+  },
+  {
+    "kanji": "写真を添付する",
+    "furigana": "しゃしんをてんぷする",
+    "arti": "Melampirkan foto"
+  },
+  {
+    "kanji": "改行する",
+    "furigana": "かいぎょうする",
+    "arti": "Ganti baris"
+  },
+  {
+    "kanji": "アドレスを登録する",
+    "furigana": "アドレスをとうろくする",
+    "arti": "Mendaftarkan alamat"
+  },
+  {
+    "kanji": "アドレス帳",
+    "furigana": "アドレスちょう",
+    "arti": "Buku kontak"
+  },
+  {
+    "kanji": "送信が完了する",
+    "furigana": "そうしんがかんりょうする",
+    "arti": "Pengiriman selesai"
+  }
+]

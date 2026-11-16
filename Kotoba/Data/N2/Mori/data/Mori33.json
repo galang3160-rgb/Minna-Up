@@ -1,0 +1,337 @@
+[
+  {
+    "kanji": "名門",
+    "furigana": "めいもん",
+    "arti": "Sekolah/Keluarga ternama"
+  },
+  {
+    "kanji": "目上",
+    "furigana": "めうえ",
+    "arti": "Atasan / Orang yang lebih tua"
+  },
+  {
+    "kanji": "目印",
+    "furigana": "めじるし",
+    "arti": "Tanda patokan"
+  },
+  {
+    "kanji": "目線",
+    "furigana": "めせん",
+    "arti": "Arah pandangan"
+  },
+  {
+    "kanji": "面会(する)",
+    "furigana": "めんかい(する)",
+    "arti": "Besuk / Bertemu tamu"
+  },
+  {
+    "kanji": "面積",
+    "furigana": "めんせき",
+    "arti": "Luas area"
+  },
+  {
+    "kanji": "木材",
+    "furigana": "もくざい",
+    "arti": "Kayu bangunan"
+  },
+  {
+    "kanji": "木造",
+    "furigana": "もくぞう",
+    "arti": "Berbahan/Konstruksi kayu"
+  },
+  {
+    "kanji": "物事",
+    "furigana": "ものごと",
+    "arti": "Segala sesuatu / Hal-hal"
+  },
+  {
+    "kanji": "焼肉",
+    "furigana": "やきにく",
+    "arti": "Daging panggang (Yakiniku)"
+  },
+  {
+    "kanji": "夜勤",
+    "furigana": "やきん",
+    "arti": "Shift malam"
+  },
+  {
+    "kanji": "薬品",
+    "furigana": "やくひん",
+    "arti": "Obat-obatan / Bahan kimia"
+  },
+  {
+    "kanji": "役目",
+    "furigana": "やくめ",
+    "arti": "Tugas / Peran"
+  },
+  {
+    "kanji": "屋台",
+    "furigana": "やたい",
+    "arti": "Kedai kaki lima"
+  },
+  {
+    "kanji": "野鳥",
+    "furigana": "やちょう",
+    "arti": "Burung liar"
+  },
+  {
+    "kanji": "薬局",
+    "furigana": "やっきょく",
+    "arti": "Apotek"
+  },
+  {
+    "kanji": "勇気",
+    "furigana": "ゆうき",
+    "arti": "Keberanian"
+  },
+  {
+    "kanji": "優先(する)",
+    "furigana": "ゆうせん(する)",
+    "arti": "Prioritas"
+  },
+  {
+    "kanji": "輸送(する)",
+    "furigana": "ゆそう(する)",
+    "arti": "Pengangkutan / Transportasi"
+  },
+  {
+    "kanji": "油断(する)",
+    "furigana": "ゆだん(する)",
+    "arti": "Lengah"
+  },
+  {
+    "kanji": "油分",
+    "furigana": "ゆぶん",
+    "arti": "Kandungan minyak"
+  },
+  {
+    "kanji": "要求(する)",
+    "furigana": "ようきゅう(する)",
+    "arti": "Tuntutan / Permintaan"
+  },
+  {
+    "kanji": "用件",
+    "furigana": "ようけん",
+    "arti": "Keperluan / Urusan"
+  },
+  {
+    "kanji": "容姿",
+    "furigana": "ようし",
+    "arti": "Penampilan fisik"
+  },
+  {
+    "kanji": "幼児",
+    "furigana": "ようじ",
+    "arti": "Balita / Anak kecil"
+  },
+  {
+    "kanji": "様式",
+    "furigana": "ようしき",
+    "arti": "Format / Gaya"
+  },
+  {
+    "kanji": "用心(する)",
+    "furigana": "ようじん(する)",
+    "arti": "Waspada / Berhati-hati"
+  },
+  {
+    "kanji": "養成(する)",
+    "furigana": "ようせい(する)",
+    "arti": "Pelatihan / Pembinaan tenaga ahli"
+  },
+  {
+    "kanji": "要素",
+    "furigana": "ようそ",
+    "arti": "Unsur / Elemen"
+  },
+  {
+    "kanji": "腰痛",
+    "furigana": "ようつう",
+    "arti": "Sakit pinggang"
+  },
+  {
+    "kanji": "要点",
+    "furigana": "ようてん",
+    "arti": "Poin penting / Intisari"
+  },
+  {
+    "kanji": "用途",
+    "furigana": "ようと",
+    "arti": "Kegunaan"
+  },
+  {
+    "kanji": "容量",
+    "furigana": "ようりょう",
+    "arti": "Kapasitas / Volume"
+  },
+  {
+    "kanji": "予期(する)",
+    "furigana": "よき(する)",
+    "arti": "Mengantisipasi / Menduga"
+  },
+  {
+    "kanji": "翌朝",
+    "furigana": "よくあさ",
+    "arti": "Keesokan paginya"
+  },
+  {
+    "kanji": "翌年",
+    "furigana": "よくとし / よくねん",
+    "arti": "Tahun berikutnya"
+  },
+  {
+    "kanji": "予算",
+    "furigana": "よさん",
+    "arti": "Anggaran"
+  },
+  {
+    "kanji": "予選",
+    "furigana": "よせん",
+    "arti": "Babak penyisihan"
+  },
+  {
+    "kanji": "予測(する)",
+    "furigana": "よそく(する)",
+    "arti": "Prakiraan / Prediksi"
+  },
+  {
+    "kanji": "欲求",
+    "furigana": "よっきゅう",
+    "arti": "Hasrat / Dorongan keinginan"
+  },
+  {
+    "kanji": "予防(する)",
+    "furigana": "よぼう(する)",
+    "arti": "Pencegahan"
+  },
+  {
+    "kanji": "余裕",
+    "furigana": "よゆう",
+    "arti": "Kelonggaran (waktu/uang/mental)"
+  },
+  {
+    "kanji": "来室(する)",
+    "furigana": "らいしつ(する)",
+    "arti": "Datang ke ruangan"
+  },
+  {
+    "kanji": "来場(する)",
+    "furigana": "らいじょう(する)",
+    "arti": "Hadir di lokasi acara"
+  },
+  {
+    "kanji": "来日(する)",
+    "furigana": "らいにち(する)",
+    "arti": "Datang ke Jepang"
+  },
+  {
+    "kanji": "利益",
+    "furigana": "りえき",
+    "arti": "Keuntungan / Laba"
+  },
+  {
+    "kanji": "理解(する)",
+    "furigana": "りかい(する)",
+    "arti": "Pemahaman"
+  },
+  {
+    "kanji": "陸上",
+    "furigana": "りくじょう",
+    "arti": "Darat / Olahraga atletik"
+  },
+  {
+    "kanji": "理系",
+    "furigana": "りけい",
+    "arti": "Rumpun ilmu sains/eksakta"
+  },
+  {
+    "kanji": "理想",
+    "furigana": "りそう",
+    "arti": "Ideal"
+  },
+  {
+    "kanji": "利点",
+    "furigana": "りてん",
+    "arti": "Keuntungan / Nilai tambah"
+  },
+  {
+    "kanji": "了解(する)",
+    "furigana": "りょうかい(する)",
+    "arti": "Paham / Setuju"
+  },
+  {
+    "kanji": "両者",
+    "furigana": "りょうしゃ",
+    "arti": "Kedua belah pihak"
+  },
+  {
+    "kanji": "了承(する)",
+    "furigana": "りょうしょう(する)",
+    "arti": "Memaklumi / Menyetujui"
+  },
+  {
+    "kanji": "両端",
+    "furigana": "りょうたん",
+    "arti": "Kedua ujung"
+  },
+  {
+    "kanji": "緑茶",
+    "furigana": "りょくちゃ",
+    "arti": "Teh hijau"
+  },
+  {
+    "kanji": "林業",
+    "furigana": "りんぎょう",
+    "arti": "Kehutanan"
+  },
+  {
+    "kanji": "礼儀",
+    "furigana": "れいぎ",
+    "arti": "Sopan santun"
+  },
+  {
+    "kanji": "恋愛(する)",
+    "furigana": "れんあい(する)",
+    "arti": "Percintaan / Asmara"
+  },
+  {
+    "kanji": "連続(する)",
+    "furigana": "れんぞく(する)",
+    "arti": "Beruntun / Berturut-turut"
+  },
+  {
+    "kanji": "労働(する)",
+    "furigana": "ろうどう(する)",
+    "arti": "Kerja / Tenaga kerja"
+  },
+  {
+    "kanji": "論争(する)",
+    "furigana": "ろんそう(する)",
+    "arti": "Perdebatan / Kontroversi"
+  },
+  {
+    "kanji": "論理",
+    "furigana": "ろんり",
+    "arti": "Logika"
+  },
+  {
+    "kanji": "脇道",
+    "furigana": "わきみち",
+    "arti": "Jalan simpang/samping"
+  },
+  {
+    "kanji": "和室",
+    "furigana": "わしつ",
+    "arti": "Kamar bergaya Jepang"
+  },
+  {
+    "kanji": "話題",
+    "furigana": "わだい",
+    "arti": "Topik pembicaraan"
+  },
+  {
+    "kanji": "我々",
+    "furigana": "われわれ",
+    "arti": "Kita / Kami"
+  }
+]

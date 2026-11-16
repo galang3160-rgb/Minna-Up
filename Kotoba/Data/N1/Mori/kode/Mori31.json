@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "日向",
+    "furigana": "ひなた",
+    "arti": "Tempat terkena sinar matahari"
+  },
+  {
+    "kanji": "日夜",
+    "furigana": "にちや",
+    "arti": "Siang dan malam"
+  },
+  {
+    "kanji": "任意",
+    "furigana": "にんい",
+    "arti": "Opsional / Sukarela"
+  },
+  {
+    "kanji": "忍耐",
+    "furigana": "にんたい",
+    "arti": "Kesabaran / Ketabahan"
+  },
+  {
+    "kanji": "熱意",
+    "furigana": "ねつい",
+    "arti": "Antusiasme"
+  },
+  {
+    "kanji": "熱湯",
+    "furigana": "ねっとう",
+    "arti": "Air mendidih"
+  },
+  {
+    "kanji": "熱量",
+    "furigana": "ねつりょう",
+    "arti": "Kalori / Besarnya semangat"
+  },
+  {
+    "kanji": "念願",
+    "furigana": "ねんがん",
+    "arti": "Harapan yang lama diimpikan"
+  },
+  {
+    "kanji": "念頭",
+    "furigana": "ねんとう",
+    "arti": "Dalam benak/perhatian"
+  },
+  {
+    "kanji": "念仏",
+    "furigana": "ねんぶつ",
+    "arti": "Rapalan doa Buddha"
+  },
+  {
+    "kanji": "捻出(する)",
+    "furigana": "ねんしゅつ(する)",
+    "arti": "Mengupayakan dana/waktu"
+  },
+  {
+    "kanji": "燃焼(する)",
+    "furigana": "ねんしょう(する)",
+    "arti": "Pembakaran"
+  },
+  {
+    "kanji": "燃料",
+    "furigana": "ねんりょう",
+    "arti": "Bahan bakar"
+  },
+  {
+    "kanji": "濃縮(する)",
+    "furigana": "のうしゅく(する)",
+    "arti": "Pemekatan / Konsentrat"
+  },
+  {
+    "kanji": "濃度",
+    "furigana": "のうど",
+    "arti": "Kadar kepekatan"
+  },
+  {
+    "kanji": "脳裏",
+    "furigana": "のうり",
+    "arti": "Dalam ingatan/benak"
+  },
+  {
+    "kanji": "農耕",
+    "furigana": "のうこう",
+    "arti": "Bercocok tanam"
+  },
+  {
+    "kanji": "把握(する)",
+    "furigana": "はあく(する)",
+    "arti": "Memahami situasi"
+  },
+  {
+    "kanji": "派遣(する)",
+    "furigana": "はけん(する)",
+    "arti": "Pengiriman staf/utusan"
+  },
+  {
+    "kanji": "派生(する)",
+    "furigana": "はせい(する)",
+    "arti": "Turunan / Berasal dari"
+  },
+  {
+    "kanji": "破棄(する)",
+    "furigana": "はき(する)",
+    "arti": "Membatalkan / Memusnahkan"
+  },
+  {
+    "kanji": "破損(する)",
+    "furigana": "はそん(する)",
+    "arti": "Kerusakan barang"
+  },
+  {
+    "kanji": "破裂(する)",
+    "furigana": "はれつ(する)",
+    "arti": "Meledak / Pecah"
+  },
+  {
+    "kanji": "俳優",
+    "furigana": "はいゆう",
+    "arti": "Aktor"
+  },
+  {
+    "kanji": "廃棄(する)",
+    "furigana": "はいき(する)",
+    "arti": "Pembuangan limbah/barang"
+  },
+  {
+    "kanji": "廃水",
+    "furigana": "はいすい",
+    "arti": "Air limbah"
+  },
+  {
+    "kanji": "拝借(する)",
+    "furigana": "はいしゃく(する)",
+    "arti": "Meminjam (merendah)"
+  },
+  {
+    "kanji": "排気",
+    "furigana": "はいき",
+    "arti": "Pembuangan gas/udara"
+  },
+  {
+    "kanji": "排出(する)",
+    "furigana": "はいしゅつ(する)",
+    "arti": "Emisi / Pembuangan"
+  },
+  {
+    "kanji": "排除(する)",
+    "furigana": "はいじょ(する)",
+    "arti": "Menyingkirkan / Eliminasi"
+  },
+  {
+    "kanji": "排水",
+    "furigana": "はいすい",
+    "arti": "Drainase / Pengurasan air"
+  },
+  {
+    "kanji": "敗北(する)",
+    "furigana": "はいぼく(する)",
+    "arti": "Kekalahan"
+  },
+  {
+    "kanji": "背後",
+    "furigana": "はいご",
+    "arti": "Di belakang"
+  },
+  {
+    "kanji": "配布(する)",
+    "furigana": "はいふ(する)",
+    "arti": "Pembagian selebaran/materi"
+  },
+  {
+    "kanji": "配慮(する)",
+    "furigana": "はいりょ(する)",
+    "arti": "Perhatian / Kepedulian"
+  },
+  {
+    "kanji": "倍率",
+    "furigana": "ばいりつ",
+    "arti": "Rasio persaingan / Perbesaran"
+  },
+  {
+    "kanji": "培養(する)",
+    "furigana": "ばいよう(する)",
+    "arti": "Kultur jaringan/bakteri"
+  },
+  {
+    "kanji": "媒介(する)",
+    "furigana": "ばいかい(する)",
+    "arti": "Perantara penularan"
+  },
+  {
+    "kanji": "賠償(する)",
+    "furigana": "ばいしょう(する)",
+    "arti": "Ganti rugi"
+  },
+  {
+    "kanji": "剥奪(する)",
+    "furigana": "はくだつ(する)",
+    "arti": "Pencabutan hak/gelar"
+  },
+  {
+    "kanji": "拍子",
+    "furigana": "ひょうし",
+    "arti": "Ketukan irama / Momen"
+  },
+  {
+    "kanji": "白状(する)",
+    "furigana": "はくじょう(する)",
+    "arti": "Mengaku dosa/kesalahan"
+  },
+  {
+    "kanji": "迫害(する)",
+    "furigana": "はくがい(する)",
+    "arti": "Persekusi / Penindasan"
+  },
+  {
+    "kanji": "爆笑(する)",
+    "furigana": "ばくしょう(する)",
+    "arti": "Tertawa terbahak-bahak"
+  },
+  {
+    "kanji": "爆破(する)",
+    "furigana": "ばくは(する)",
+    "arti": "Meledakkan dengan bom"
+  },
+  {
+    "kanji": "発育(する)",
+    "furigana": "はついく(する)",
+    "arti": "Pertumbuhan fisik"
+  },
+  {
+    "kanji": "発芽(する)",
+    "furigana": "はつが(する)",
+    "arti": "Berkecambah"
+  },
+  {
+    "kanji": "発覚(する)",
+    "furigana": "はっかく(する)",
+    "arti": "Terbongkar (kejahatan/rahasia)"
+  },
+  {
+    "kanji": "発刊(する)",
+    "furigana": "はっかん(する)",
+    "arti": "Penerbitan buku/majalah"
+  },
+  {
+    "kanji": "発揮(する)",
+    "furigana": "はっき(する)",
+    "arti": "Menunjukkan kemampuan"
+  },
+  {
+    "kanji": "発掘(する)",
+    "furigana": "はっくつ(する)",
+    "arti": "Penggalian purbakala/bakat"
+  },
+  {
+    "kanji": "発作",
+    "furigana": "ほっさ",
+    "arti": "Serangan penyakit mendadak"
+  },
+  {
+    "kanji": "発散(する)",
+    "furigana": "はっさん(する)",
+    "arti": "Melampiaskan stres / Memancarkan"
+  },
+  {
+    "kanji": "発足(する)",
+    "furigana": "ほっそく(する)",
+    "arti": "Peresmian organisasi baru"
+  },
+  {
+    "kanji": "発端",
+    "furigana": "ほったん",
+    "arti": "Awal mula kejadian"
+  },
+  {
+    "kanji": "発注(する)",
+    "furigana": "はっちゅう(する)",
+    "arti": "Pemesanan barang (PO)"
+  },
+  {
+    "kanji": "発病(する)",
+    "furigana": "はつびょう(する)",
+    "arti": "Jatuh sakit / Muncul gejala"
+  },
+  {
+    "kanji": "発泡(する)",
+    "furigana": "はっぽう(する)",
+    "arti": "Berbusa / Berbuih"
+  },
+  {
+    "kanji": "抜粋(する)",
+    "furigana": "ばっすい(する)",
+    "arti": "Kutipan bagian penting"
+  },
+  {
+    "kanji": "伴奏(する)",
+    "furigana": "ばんそう(する)",
+    "arti": "Iringan musik"
+  }
+]

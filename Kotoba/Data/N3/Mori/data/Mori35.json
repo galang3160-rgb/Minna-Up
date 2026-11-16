@@ -1,0 +1,317 @@
+[
+  {
+    "kanji": "観光地",
+    "furigana": "かんこうち",
+    "arti": "Tempat wisata"
+  },
+  {
+    "kanji": "中心地",
+    "furigana": "ちゅうしんち",
+    "arti": "Pusat kota / daerah pusat"
+  },
+  {
+    "kanji": "世界中",
+    "furigana": "せかいじゅう",
+    "arti": "Seluruh dunia"
+  },
+  {
+    "kanji": "期間中",
+    "furigana": "きかんちゅう",
+    "arti": "Selama periode"
+  },
+  {
+    "kanji": "建設中",
+    "furigana": "けんせつちゅう",
+    "arti": "Sedang dibangun"
+  },
+  {
+    "kanji": "工事中",
+    "furigana": "こうじちゅう",
+    "arti": "Sedang dalam perbaikan"
+  },
+  {
+    "kanji": "今週中",
+    "furigana": "こんしゅうじゅう",
+    "arti": "Dalam minggu ini"
+  },
+  {
+    "kanji": "滞在中",
+    "furigana": "たいざいちゅう",
+    "arti": "Selama tinggal"
+  },
+  {
+    "kanji": "留学中",
+    "furigana": "りゅうがくちゅう",
+    "arti": "Sedang belajar di luar negeri"
+  },
+  {
+    "kanji": "一流店",
+    "furigana": "いちりゅうてん",
+    "arti": "Toko kelas atas"
+  },
+  {
+    "kanji": "家具店",
+    "furigana": "かぐてん",
+    "arti": "Toko furnitur"
+  },
+  {
+    "kanji": "喫茶店",
+    "furigana": "きっさてん",
+    "arti": "Kedai kopi"
+  },
+  {
+    "kanji": "専門店",
+    "furigana": "せんもんてん",
+    "arti": "Toko khusus"
+  },
+  {
+    "kanji": "電気店",
+    "furigana": "でんきてん",
+    "arti": "Toko elektronik"
+  },
+  {
+    "kanji": "館内",
+    "furigana": "かんない",
+    "arti": "Di dalam gedung"
+  },
+  {
+    "kanji": "市内",
+    "furigana": "しない",
+    "arti": "Dalam kota"
+  },
+  {
+    "kanji": "車内",
+    "furigana": "しゃない",
+    "arti": "Di dalam kendaraan"
+  },
+  {
+    "kanji": "時間内",
+    "furigana": "じかんない",
+    "arti": "Dalam batas waktu"
+  },
+  {
+    "kanji": "店内",
+    "furigana": "てんない",
+    "arti": "Di dalam toko"
+  },
+  {
+    "kanji": "売り場",
+    "furigana": "うりば",
+    "arti": "Tempat penjualan"
+  },
+  {
+    "kanji": "ごみ置き場",
+    "furigana": "ごみおきば",
+    "arti": "Tempat pembuangan sampah"
+  },
+  {
+    "kanji": "乗り場",
+    "furigana": "のりば",
+    "arti": "Tempat naik kendaraan"
+  },
+  {
+    "kanji": "暗証番号",
+    "furigana": "あんしょうばんごう",
+    "arti": "Nomor PIN"
+  },
+  {
+    "kanji": "電話番号",
+    "furigana": "でんわばんごう",
+    "arti": "Nomor telepon"
+  },
+  {
+    "kanji": "予約番号",
+    "furigana": "よやくばんごう",
+    "arti": "Nomor reservasi"
+  },
+  {
+    "kanji": "会費",
+    "furigana": "かいひ",
+    "arti": "Iuran anggota"
+  },
+  {
+    "kanji": "交通費",
+    "furigana": "こうつうひ",
+    "arti": "Biaya transportasi"
+  },
+  {
+    "kanji": "営業日",
+    "furigana": "えいぎょうび",
+    "arti": "Hari operasional"
+  },
+  {
+    "kanji": "出発日",
+    "furigana": "しゅっぱつび",
+    "arti": "Tanggal keberangkatan"
+  },
+  {
+    "kanji": "誕生日",
+    "furigana": "たんじょうび",
+    "arti": "Ulang tahun"
+  },
+  {
+    "kanji": "定休日",
+    "furigana": "ていきゅうび",
+    "arti": "Hari libur tetap"
+  },
+  {
+    "kanji": "到着日",
+    "furigana": "とうちゃくび",
+    "arti": "Tanggal kedatangan"
+  },
+  {
+    "kanji": "医学部",
+    "furigana": "いがくぶ",
+    "arti": "Fakultas kedokteran"
+  },
+  {
+    "kanji": "営業部",
+    "furigana": "えいぎょうぶ",
+    "arti": "Departemen penjualan"
+  },
+  {
+    "kanji": "サッカー部",
+    "furigana": "サッカーぶ",
+    "arti": "Klub sepak bola"
+  },
+  {
+    "kanji": "食べ放題",
+    "furigana": "たべほうだい",
+    "arti": "Makan sepuasnya"
+  },
+  {
+    "kanji": "乗り放題",
+    "furigana": "のりほうだい",
+    "arti": "Naik kendaraan sepuasnya"
+  },
+  {
+    "kanji": "週末",
+    "furigana": "しゅうまつ",
+    "arti": "Akhir pekan"
+  },
+  {
+    "kanji": "年末",
+    "furigana": "ねんまつ",
+    "arti": "Akhir tahun"
+  },
+  {
+    "kanji": "会社名",
+    "furigana": "かいしゃめい",
+    "arti": "Nama perusahaan"
+  },
+  {
+    "kanji": "商品名",
+    "furigana": "しょうひんめい",
+    "arti": "Nama produk"
+  },
+  {
+    "kanji": "生き物",
+    "furigana": "いきもの",
+    "arti": "Makhluk hidup"
+  },
+  {
+    "kanji": "落とし物",
+    "furigana": "おとしもの",
+    "arti": "Barang hilang"
+  },
+  {
+    "kanji": "買い物",
+    "furigana": "かいもの",
+    "arti": "Belanja"
+  },
+  {
+    "kanji": "品物",
+    "furigana": "しなもの",
+    "arti": "Barang"
+  },
+  {
+    "kanji": "調べ物",
+    "furigana": "しらべもの",
+    "arti": "Hal yang perlu dicari tahu"
+  },
+  {
+    "kanji": "洗濯物",
+    "furigana": "せんたくもの",
+    "arti": "Cucian"
+  },
+  {
+    "kanji": "食べ物",
+    "furigana": "たべもの",
+    "arti": "Makanan"
+  },
+  {
+    "kanji": "飲み物",
+    "furigana": "のみもの",
+    "arti": "Minuman"
+  },
+  {
+    "kanji": "乗り物",
+    "furigana": "のりもの",
+    "arti": "Kendaraan"
+  },
+  {
+    "kanji": "持ち物",
+    "furigana": "もちもの",
+    "arti": "Barang bawaan"
+  },
+  {
+    "kanji": "忘れ物",
+    "furigana": "わすれもの",
+    "arti": "Barang tertinggal"
+  },
+  {
+    "kanji": "ケーキ屋",
+    "furigana": "ケーキや",
+    "arti": "Toko kue"
+  },
+  {
+    "kanji": "写真屋",
+    "furigana": "しゃしんや",
+    "arti": "Toko foto"
+  },
+  {
+    "kanji": "服屋",
+    "furigana": "ふくや",
+    "arti": "Toko pakaian"
+  },
+  {
+    "kanji": "不動産屋",
+    "furigana": "ふどうさんや",
+    "arti": "Agen properti"
+  },
+  {
+    "kanji": "本屋",
+    "furigana": "ほんや",
+    "arti": "Toko buku"
+  },
+  {
+    "kanji": "八百屋",
+    "furigana": "やおや",
+    "arti": "Toko sayur"
+  },
+  {
+    "kanji": "教師用",
+    "furigana": "きょうしよう",
+    "arti": "Untuk guru"
+  },
+  {
+    "kanji": "ご自宅用",
+    "furigana": "ごじたくよう",
+    "arti": "Untuk rumah sendiri"
+  },
+  {
+    "kanji": "使用料",
+    "furigana": "しようりょう",
+    "arti": "Biaya penggunaan"
+  },
+  {
+    "kanji": "送料",
+    "furigana": "そうりょう",
+    "arti": "Ongkos kirim"
+  },
+  {
+    "kanji": "入園料",
+    "furigana": "にゅうえんりょう",
+    "arti": "Biaya masuk taman"
+  }
+]

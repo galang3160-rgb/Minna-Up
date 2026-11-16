@@ -1,0 +1,307 @@
+[
+  {
+    "kanji": "あくどい",
+    "furigana": "あくどい",
+    "arti": "Licik / Jahat / Mencolok"
+  },
+  {
+    "kanji": "あさましい",
+    "furigana": "あさましい",
+    "arti": "Hina / Memalukan"
+  },
+  {
+    "kanji": "あっけない",
+    "furigana": "あっけない",
+    "arti": "Terlalu cepat berakhir (antiklimaks)"
+  },
+  {
+    "kanji": "あどけない",
+    "furigana": "あどけない",
+    "arti": "Polos lugu"
+  },
+  {
+    "kanji": "危なっかしい",
+    "furigana": "あぶなっかしい",
+    "arti": "Tampak mengkhawatirkan/berbahaya"
+  },
+  {
+    "kanji": "いやらしい",
+    "furigana": "いやらしい",
+    "arti": "Mesum / Menjijikkan"
+  },
+  {
+    "kanji": "うっとうしい",
+    "furigana": "うっとうしい",
+    "arti": "Mengganggu / Menyebalkan"
+  },
+  {
+    "kanji": "敵わない",
+    "furigana": "かなわない",
+    "arti": "Tidak sanggup menandingi / Tak tahan"
+  },
+  {
+    "kanji": "ぎこちない",
+    "furigana": "ぎこちない",
+    "arti": "Kaku / Canggung"
+  },
+  {
+    "kanji": "くすぐったい",
+    "furigana": "くすぐったい",
+    "arti": "Geli"
+  },
+  {
+    "kanji": "しぶとい",
+    "furigana": "しぶとい",
+    "arti": "Ulet / Susah dikalahkan"
+  },
+  {
+    "kanji": "しんどい",
+    "furigana": "しんどい",
+    "arti": "Melelahkan / Berat"
+  },
+  {
+    "kanji": "ずうずうしい",
+    "furigana": "ずうずうしい",
+    "arti": "Tebal muka / Tidak tahu malu"
+  },
+  {
+    "kanji": "すがすがしい",
+    "furigana": "すがすがしい",
+    "arti": "Segar menyejukkan hati"
+  },
+  {
+    "kanji": "すさまじい",
+    "furigana": "すさまじい",
+    "arti": "Dahsyat / Luar biasa hebat"
+  },
+  {
+    "kanji": "せこい",
+    "furigana": "せこい",
+    "arti": "Pelit / Picik"
+  },
+  {
+    "kanji": "そそっかしい",
+    "furigana": "そそっかしい",
+    "arti": "Ceroboh / Gegabah"
+  },
+  {
+    "kanji": "そっけない",
+    "furigana": "そっけない",
+    "arti": "Dingin / Acuh tak acuh"
+  },
+  {
+    "kanji": "たくましい",
+    "furigana": "たくましい",
+    "arti": "Tangguh / Kekar"
+  },
+  {
+    "kanji": "だらしない",
+    "furigana": "だらしない",
+    "arti": "Berantakan / Tidak disiplin"
+  },
+  {
+    "kanji": "だるい",
+    "furigana": "だるい",
+    "arti": "Lemas / Pegal linu"
+  },
+  {
+    "kanji": "つつましい",
+    "furigana": "つつましい",
+    "arti": "Sederhana dan bersahaja"
+  },
+  {
+    "kanji": "とてつもない",
+    "furigana": "とてつもない",
+    "arti": "Luar biasa besar / Tak masuk akal"
+  },
+  {
+    "kanji": "とんでもない",
+    "furigana": "とんでもない",
+    "arti": "Sama sekali tidak / Keterlaluan"
+  },
+  {
+    "kanji": "なれなれしい",
+    "furigana": "なれなれしい",
+    "arti": "Sok akrab"
+  },
+  {
+    "kanji": "儚い",
+    "furigana": "はかない",
+    "arti": "Fana / Cepat berlalu"
+  },
+  {
+    "kanji": "ばかばかしい",
+    "furigana": "ばかばかしい",
+    "arti": "Konyol / Tidak berguna"
+  },
+  {
+    "kanji": "みすぼらしい",
+    "furigana": "みすぼらしい",
+    "arti": "Kumuh / Compang-camping"
+  },
+  {
+    "kanji": "みずみずしい",
+    "furigana": "みずみずしい",
+    "arti": "Segar berair"
+  },
+  {
+    "kanji": "もっともらしい",
+    "furigana": "もっともらしい",
+    "arti": "Terdengar masuk akal"
+  },
+  {
+    "kanji": "もどかしい",
+    "furigana": "もどかしい",
+    "arti": "Gemas karena lambat/tak sesuai"
+  },
+  {
+    "kanji": "やかましい",
+    "furigana": "やかましい",
+    "arti": "Berisik / Cerewet"
+  },
+  {
+    "kanji": "やましい",
+    "furigana": "やましい",
+    "arti": "Merasa bersalah di hati"
+  },
+  {
+    "kanji": "やむを得ない",
+    "furigana": "やむをえない",
+    "arti": "Terpaksa / Tak terhindarkan"
+  },
+  {
+    "kanji": "ややこしい",
+    "furigana": "ややこしい",
+    "arti": "Rumit / Membingungkan"
+  },
+  {
+    "kanji": "よそよそしい",
+    "furigana": "よそよそしい",
+    "arti": "Jaga jarak / Kaku seperti orang asing"
+  },
+  {
+    "kanji": "意地悪い",
+    "furigana": "いじわるい",
+    "arti": "Jahil / Dengki"
+  },
+  {
+    "kanji": "鋭い",
+    "furigana": "するどい",
+    "arti": "Tajam"
+  },
+  {
+    "kanji": "煙たい",
+    "furigana": "けむたい",
+    "arti": "Berasap perih / Sungkan mendekat"
+  },
+  {
+    "kanji": "汚らわしい",
+    "furigana": "けがらわしい",
+    "arti": "Menjijikkan / Kotor"
+  },
+  {
+    "kanji": "何気ない",
+    "furigana": "なにげない",
+    "arti": "Tanpa maksud tertentu / Santai"
+  },
+  {
+    "kanji": "華々しい",
+    "furigana": "はなばなしい",
+    "arti": "Gemilang / Megah"
+  },
+  {
+    "kanji": "回りくどい",
+    "furigana": "まわりくどい",
+    "arti": "Berbelit-belit"
+  },
+  {
+    "kanji": "快い",
+    "furigana": "こころよい",
+    "arti": "Menyenangkan / Dengan senang hati"
+  },
+  {
+    "kanji": "怪しい",
+    "furigana": "あやしい",
+    "arti": "Mencurigakan"
+  },
+  {
+    "kanji": "悔しい",
+    "furigana": "くやしい",
+    "arti": "Kesal karena kalah/gagal"
+  },
+  {
+    "kanji": "懐かしい",
+    "furigana": "なつかしい",
+    "arti": "Merindukan masa lalu / Nostalgia"
+  },
+  {
+    "kanji": "緩い",
+    "furigana": "ゆるい",
+    "arti": "Longgar"
+  },
+  {
+    "kanji": "疑わしい",
+    "furigana": "うたがわしい",
+    "arti": "Meragukan"
+  },
+  {
+    "kanji": "恐ろしい",
+    "furigana": "おそろしい",
+    "arti": "Mengerikan"
+  },
+  {
+    "kanji": "空しい",
+    "furigana": "むなしい",
+    "arti": "Hampa / Sia-sia"
+  },
+  {
+    "kanji": "激しい",
+    "furigana": "はげしい",
+    "arti": "Hebat / Keras"
+  },
+  {
+    "kanji": "決まり悪い",
+    "furigana": "きまりわるい",
+    "arti": "Malu / Canggung"
+  },
+  {
+    "kanji": "潔い",
+    "furigana": "いさぎよい",
+    "arti": "Sportif / Berjiwa kesatria"
+  },
+  {
+    "kanji": "見苦しい",
+    "furigana": "みぐるしい",
+    "arti": "Tidak sedap dipandang / Memalukan"
+  },
+  {
+    "kanji": "賢い",
+    "furigana": "かしこい",
+    "arti": "Cerdas / Pintar"
+  },
+  {
+    "kanji": "厳しい",
+    "furigana": "きびしい",
+    "arti": "Tegas / Berat"
+  },
+  {
+    "kanji": "厚かましい",
+    "furigana": "あつかましい",
+    "arti": "Tidak tahu malu / Lancang"
+  },
+  {
+    "kanji": "好ましい",
+    "furigana": "このましい",
+    "arti": "Disukai / Diharapkan"
+  },
+  {
+    "kanji": "慌ただしい",
+    "furigana": "あわただしい",
+    "arti": "Sibuk terburu-buru"
+  },
+  {
+    "kanji": "荒い",
+    "furigana": "あらい",
+    "arti": "Kasar / Liar"
+  }
+]

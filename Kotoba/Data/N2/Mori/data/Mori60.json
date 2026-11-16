@@ -1,0 +1,307 @@
+[
+  {
+    "kanji": "材料費",
+    "furigana": "ざいりょうひ",
+    "arti": "Biaya bahan"
+  },
+  {
+    "kanji": "修理費",
+    "furigana": "しゅうりひ",
+    "arti": "Biaya perbaikan"
+  },
+  {
+    "kanji": "食費",
+    "furigana": "しょくひ",
+    "arti": "Biaya makan"
+  },
+  {
+    "kanji": "郵送費",
+    "furigana": "ゆうそうひ",
+    "arti": "Biaya pengiriman pos"
+  },
+  {
+    "kanji": "寮費",
+    "furigana": "りょうひ",
+    "arti": "Biaya asrama"
+  },
+  {
+    "kanji": "座席表",
+    "furigana": "ざせきひょう",
+    "arti": "Denah tempat duduk"
+  },
+  {
+    "kanji": "日程表",
+    "furigana": "にっていひょう",
+    "arti": "Tabel jadwal acara"
+  },
+  {
+    "kanji": "予定表",
+    "furigana": "よていひょう",
+    "arti": "Tabel agenda rencana"
+  },
+  {
+    "kanji": "会社員風",
+    "furigana": "かいしゃいんふう",
+    "arti": "Gaya seperti karyawan kantor"
+  },
+  {
+    "kanji": "ビジネスマン風",
+    "furigana": "びじねすまんふう",
+    "arti": "Gaya seperti pebisnis"
+  },
+  {
+    "kanji": "和風",
+    "furigana": "わふう",
+    "arti": "Bergaya Jepang"
+  },
+  {
+    "kanji": "営業部",
+    "furigana": "えいぎょうぶ",
+    "arti": "Departemen pemasaran/penjualan"
+  },
+  {
+    "kanji": "企画部",
+    "furigana": "きかくぶ",
+    "arti": "Departemen perencanaan"
+  },
+  {
+    "kanji": "陸上部",
+    "furigana": "りくじょうぶ",
+    "arti": "Klub atletik"
+  },
+  {
+    "kanji": "印刷物",
+    "furigana": "いんさつぶつ",
+    "arti": "Barang cetakan"
+  },
+  {
+    "kanji": "建築物",
+    "furigana": "けんちくぶつ",
+    "arti": "Bangunan"
+  },
+  {
+    "kanji": "人工物",
+    "furigana": "じんこうぶつ",
+    "arti": "Benda buatan manusia"
+  },
+  {
+    "kanji": "対象物",
+    "furigana": "たいしょうぶつ",
+    "arti": "Objek sasaran"
+  },
+  {
+    "kanji": "郵送物",
+    "furigana": "ゆうそうぶつ",
+    "arti": "Barang kiriman pos"
+  },
+  {
+    "kanji": "学年別",
+    "furigana": "がくねんべつ",
+    "arti": "Berdasarkan tingkat kelas"
+  },
+  {
+    "kanji": "種類別",
+    "furigana": "しゅるいべつ",
+    "arti": "Berdasarkan jenisnya"
+  },
+  {
+    "kanji": "地域別",
+    "furigana": "ちいきべつ",
+    "arti": "Berdasarkan wilayah"
+  },
+  {
+    "kanji": "健康法",
+    "furigana": "けんこうほう",
+    "arti": "Metode menjaga kesehatan"
+  },
+  {
+    "kanji": "操作法",
+    "furigana": "そうさほう",
+    "arti": "Cara pengoperasian"
+  },
+  {
+    "kanji": "対処法",
+    "furigana": "たいしょほう",
+    "arti": "Cara mengatasi"
+  },
+  {
+    "kanji": "調理法",
+    "furigana": "ちょうりほう",
+    "arti": "Metode memasak"
+  },
+  {
+    "kanji": "多め",
+    "furigana": "おおめ",
+    "arti": "Agak banyak"
+  },
+  {
+    "kanji": "小さめ",
+    "furigana": "ちいさめ",
+    "arti": "Agak kecil"
+  },
+  {
+    "kanji": "太め",
+    "furigana": "ふとめ",
+    "arti": "Agak tebal/gemuk"
+  },
+  {
+    "kanji": "引用元",
+    "furigana": "いんようもと",
+    "arti": "Sumber kutipan"
+  },
+  {
+    "kanji": "送信元",
+    "furigana": "そうしんもと",
+    "arti": "Pengirim pesan"
+  },
+  {
+    "kanji": "発信元",
+    "furigana": "はっしんもと",
+    "arti": "Sumber pemancar/panggilan"
+  },
+  {
+    "kanji": "就職率",
+    "furigana": "しゅうしょくりつ",
+    "arti": "Persentase serapan kerja"
+  },
+  {
+    "kanji": "進学率",
+    "furigana": "しんがくりつ",
+    "arti": "Persentase melanjutkan studi"
+  },
+  {
+    "kanji": "成功率",
+    "furigana": "せいこうりつ",
+    "arti": "Tingkat keberhasilan"
+  },
+  {
+    "kanji": "投票率",
+    "furigana": "とうひょうりつ",
+    "arti": "Tingkat partisipasi pemilih"
+  },
+  {
+    "kanji": "アメリカ流",
+    "furigana": "あめりかりゅう",
+    "arti": "Gaya Amerika"
+  },
+  {
+    "kanji": "自分流",
+    "furigana": "じぶんりゅう",
+    "arti": "Gaya sendiri"
+  },
+  {
+    "kanji": "日本流",
+    "furigana": "にほんりゅう",
+    "arti": "Cara/Gaya Jepang"
+  },
+  {
+    "kanji": "運動量",
+    "furigana": "うんどうりょう",
+    "arti": "Porsi olahraga"
+  },
+  {
+    "kanji": "作業量",
+    "furigana": "さぎょうりょう",
+    "arti": "Volume pekerjaan"
+  },
+  {
+    "kanji": "消費量",
+    "furigana": "しょうひりょう",
+    "arti": "Jumlah konsumsi"
+  },
+  {
+    "kanji": "生産量",
+    "furigana": "せいさんりょう",
+    "arti": "Volume produksi"
+  },
+  {
+    "kanji": "受講料",
+    "furigana": "じゅこうりょう",
+    "arti": "Biaya kursus"
+  },
+  {
+    "kanji": "使用料",
+    "furigana": "しようりょう",
+    "arti": "Biaya pemakaian"
+  },
+  {
+    "kanji": "手数料",
+    "furigana": "てすうりょう",
+    "arti": "Biaya administrasi"
+  },
+  {
+    "kanji": "影響力",
+    "furigana": "えいきょうりょく",
+    "arti": "Daya pengaruh"
+  },
+  {
+    "kanji": "学力",
+    "furigana": "がくりょく",
+    "arti": "Kemampuan akademik"
+  },
+  {
+    "kanji": "記憶力",
+    "furigana": "きおくりょく",
+    "arti": "Daya ingat"
+  },
+  {
+    "kanji": "語学力",
+    "furigana": "ごがくりょく",
+    "arti": "Kemampuan berbahasa"
+  },
+  {
+    "kanji": "集中力",
+    "furigana": "しゅうちゅうりょく",
+    "arti": "Daya konsentrasi"
+  },
+  {
+    "kanji": "主戦力",
+    "furigana": "しゅせんりょく",
+    "arti": "Kekuatan utama"
+  },
+  {
+    "kanji": "生命力",
+    "furigana": "せいめいりょく",
+    "arti": "Daya tahan hidup"
+  },
+  {
+    "kanji": "説得力",
+    "furigana": "せっとくりょく",
+    "arti": "Daya bujuk / Kekuatan argumen"
+  },
+  {
+    "kanji": "読解力",
+    "furigana": "どっかいりょく",
+    "arti": "Kemampuan memahami bacaan"
+  },
+  {
+    "kanji": "表現力",
+    "furigana": "ひょうげんりょく",
+    "arti": "Kemampuan berekspresi"
+  },
+  {
+    "kanji": "理解力",
+    "furigana": "りかいりょく",
+    "arti": "Daya tangkap / Pemahaman"
+  },
+  {
+    "kanji": "労働力",
+    "furigana": "ろうどうりょく",
+    "arti": "Tenaga kerja"
+  },
+  {
+    "kanji": "食器類",
+    "furigana": "しょっきるい",
+    "arti": "Peralatan makan dan sejenisnya"
+  },
+  {
+    "kanji": "プラスチック類",
+    "furigana": "ぷらすちっくるい",
+    "arti": "Barang berbahan plastik"
+  },
+  {
+    "kanji": "割れ物類",
+    "furigana": "われものるい",
+    "arti": "Barang-barang pecah belah"
+  }
+]

@@ -1,0 +1,312 @@
+[
+  {
+    "kanji": "詰め込む",
+    "furigana": "つめこむ",
+    "arti": "Menjejalkan / Memasukkan penuh"
+  },
+  {
+    "kanji": "出来上がる",
+    "furigana": "できあがる",
+    "arti": "Rampung / Siap saji"
+  },
+  {
+    "kanji": "問い合わせる",
+    "furigana": "といあわせる",
+    "arti": "Menanyakan informasi"
+  },
+  {
+    "kanji": "届け出る",
+    "furigana": "とどけでる",
+    "arti": "Melaporkan resmi"
+  },
+  {
+    "kanji": "飛び上がる",
+    "furigana": "とびあがる",
+    "arti": "Melompat tinggi"
+  },
+  {
+    "kanji": "飛び降りる",
+    "furigana": "とびおりる",
+    "arti": "Melompat turun"
+  },
+  {
+    "kanji": "飛び立つ",
+    "furigana": "とびたつ",
+    "arti": "Lepas landas / Terbang"
+  },
+  {
+    "kanji": "飛び散る",
+    "furigana": "とびちる",
+    "arti": "Berhamburan / Terciprat"
+  },
+  {
+    "kanji": "飛び回る",
+    "furigana": "とびまわる",
+    "arti": "Terbang berkeliling / Sibuk ke sana kemari"
+  },
+  {
+    "kanji": "捉え直す",
+    "furigana": "とらえなおす",
+    "arti": "Memahami/Melihat kembali dari sudut baru"
+  },
+  {
+    "kanji": "取り合う",
+    "furigana": "とりあう",
+    "arti": "Saling berebut"
+  },
+  {
+    "kanji": "取り上げる",
+    "furigana": "とりあげる",
+    "arti": "Mengangkat topik / Menyita"
+  },
+  {
+    "kanji": "取り扱う",
+    "furigana": "とりあつかう",
+    "arti": "Menangani / Menjual"
+  },
+  {
+    "kanji": "取り入れる",
+    "furigana": "とりいれる",
+    "arti": "Mengadopsi / Menerapkan"
+  },
+  {
+    "kanji": "取り掛かる",
+    "furigana": "とりかかる",
+    "arti": "Mulai mengerjakan"
+  },
+  {
+    "kanji": "取り組む",
+    "furigana": "とりくむ",
+    "arti": "Menekuni / Berusaha mengatasi"
+  },
+  {
+    "kanji": "取り壊す",
+    "furigana": "とりこわす",
+    "arti": "Merobohkan bangunan"
+  },
+  {
+    "kanji": "取り付ける",
+    "furigana": "とりつける",
+    "arti": "Memasang (alat/perangkat)"
+  },
+  {
+    "kanji": "取り除く",
+    "furigana": "とりのぞく",
+    "arti": "Menyingkirkan / Menghilangkan"
+  },
+  {
+    "kanji": "取り寄せる",
+    "furigana": "とりよせる",
+    "arti": "Memesan dari tempat jauh"
+  },
+  {
+    "kanji": "流れ去る",
+    "furigana": "ながれさる",
+    "arti": "Mengalir pergi / Berlalu"
+  },
+  {
+    "kanji": "名付ける",
+    "furigana": "なづける",
+    "arti": "Memberi nama"
+  },
+  {
+    "kanji": "並べ替える",
+    "furigana": "ならべかえる",
+    "arti": "Mengurutkan ulang"
+  },
+  {
+    "kanji": "成り立つ",
+    "furigana": "なりたつ",
+    "arti": "Terbentuk / Terwujud"
+  },
+  {
+    "kanji": "慣れ親しむ",
+    "furigana": "なれしたしむ",
+    "arti": "Sangat akrab / Terbiasa"
+  },
+  {
+    "kanji": "寝転がる",
+    "furigana": "ねころがる",
+    "arti": "Berbaring santai"
+  },
+  {
+    "kanji": "乗り遅れる",
+    "furigana": "のりおくれる",
+    "arti": "Ketinggalan kendaraan"
+  },
+  {
+    "kanji": "乗り換える",
+    "furigana": "のりかえる",
+    "arti": "Transit / Berganti kendaraan"
+  },
+  {
+    "kanji": "乗り越える",
+    "furigana": "のりこえる",
+    "arti": "Melampaui / Mengatasi rintangan"
+  },
+  {
+    "kanji": "乗り継ぐ",
+    "furigana": "のりつぐ",
+    "arti": "Menyambung kendaraan"
+  },
+  {
+    "kanji": "運び入れる",
+    "furigana": "はこびいれる",
+    "arti": "Mengangkut masuk"
+  },
+  {
+    "kanji": "走り回る",
+    "furigana": "はしりまわる",
+    "arti": "Berlari-lari berkeliling"
+  },
+  {
+    "kanji": "払い戻す",
+    "furigana": "はらいもどす",
+    "arti": "Mengembalikan uang (Refund)"
+  },
+  {
+    "kanji": "張り切る",
+    "furigana": "はりきる",
+    "arti": "Bersemangat penuh"
+  },
+  {
+    "kanji": "引き返す",
+    "furigana": "ひきかえす",
+    "arti": "Putar balik / Kembali"
+  },
+  {
+    "kanji": "引き締まる",
+    "furigana": "ひきしまる",
+    "arti": "Menjadi kencang / Suasana menjadi serius"
+  },
+  {
+    "kanji": "引き止める / 引き留める",
+    "furigana": "ひきとめる",
+    "arti": "Menahan agar tidak pergi"
+  },
+  {
+    "kanji": "引き取る",
+    "furigana": "ひきとる",
+    "arti": "Mengambil alih / Mengadopsi"
+  },
+  {
+    "kanji": "引き離す",
+    "furigana": "ひきはなす",
+    "arti": "Memisahkan / Meninggalkan jauh lawan"
+  },
+  {
+    "kanji": "振り返る",
+    "furigana": "ふりかえる",
+    "arti": "Menoleh ke belakang / Meninjau kembali"
+  },
+  {
+    "kanji": "振り向く",
+    "furigana": "ふりむく",
+    "arti": "Menoleh"
+  },
+  {
+    "kanji": "触れ合う",
+    "furigana": "ふれあう",
+    "arti": "Saling bersentuhan / Berinteraksi akrab"
+  },
+  {
+    "kanji": "見下ろす",
+    "furigana": "みおろす",
+    "arti": "Memandang ke bawah"
+  },
+  {
+    "kanji": "見積もる",
+    "furigana": "みつもる",
+    "arti": "Memperkirakan biaya"
+  },
+  {
+    "kanji": "見直す",
+    "furigana": "みなおす",
+    "arti": "Meninjau ulang / Menilai lebih baik"
+  },
+  {
+    "kanji": "見逃す",
+    "furigana": "みのがす",
+    "arti": "Melewatkan / Membiarkan lolos"
+  },
+  {
+    "kanji": "見守る",
+    "furigana": "みまもる",
+    "arti": "Mengawasi dengan penuh perhatian"
+  },
+  {
+    "kanji": "見分ける",
+    "furigana": "みわける",
+    "arti": "Membedakan"
+  },
+  {
+    "kanji": "見渡す",
+    "furigana": "みわたす",
+    "arti": "Memandang luas sekeliling"
+  },
+  {
+    "kanji": "向き合う",
+    "furigana": "むきあう",
+    "arti": "Berhadapan / Menghadapi"
+  },
+  {
+    "kanji": "結び付ける",
+    "furigana": "むすびつける",
+    "arti": "Mengaitkan / Menghubungkan"
+  },
+  {
+    "kanji": "持ち込む",
+    "furigana": "もちこむ",
+    "arti": "Membawa masuk"
+  },
+  {
+    "kanji": "持ち運ぶ",
+    "furigana": "もちはこぶ",
+    "arti": "Membawa pergi / Portabel"
+  },
+  {
+    "kanji": "持ち寄る",
+    "furigana": "もちよる",
+    "arti": "Masing-masing membawa untuk dikumpulkan"
+  },
+  {
+    "kanji": "盛り上がる",
+    "furigana": "もりあがる",
+    "arti": "Meriah / Semarak"
+  },
+  {
+    "kanji": "役立つ",
+    "furigana": "やくだつ",
+    "arti": "Berguna / Bermanfaat"
+  },
+  {
+    "kanji": "やり過ごす",
+    "furigana": "やりすごす",
+    "arti": "Membiarkan lewat"
+  },
+  {
+    "kanji": "やり直す",
+    "furigana": "やりなおす",
+    "arti": "Mengulang dari awal"
+  },
+  {
+    "kanji": "呼び込む",
+    "furigana": "よびこむ",
+    "arti": "Memanggil masuk (pelanggan)"
+  },
+  {
+    "kanji": "読み返す",
+    "furigana": "よみかえす",
+    "arti": "Membaca ulang"
+  },
+  {
+    "kanji": "読み込む",
+    "furigana": "よみこむ",
+    "arti": "Membaca mendalam / Memuat data (Loading)"
+  },
+  {
+    "kanji": "割り込む",
+    "furigana": "わりこむ",
+    "arti": "Menyerobot antrean / Menyela"
+  }
+]

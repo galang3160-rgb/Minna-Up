@@ -1,0 +1,362 @@
+[
+  {
+    "kanji": "被る",
+    "furigana": "かぶる",
+    "arti": "Memakai (topi)"
+  },
+  {
+    "kanji": "構う",
+    "furigana": "かまう",
+    "arti": "Peduli / menghiraukan"
+  },
+  {
+    "kanji": "通う",
+    "furigana": "かよう",
+    "arti": "Pulang-pergi (rutin)"
+  },
+  {
+    "kanji": "借りる",
+    "furigana": "かりる",
+    "arti": "Meminjam"
+  },
+  {
+    "kanji": "枯れる",
+    "furigana": "かれる",
+    "arti": "Layu"
+  },
+  {
+    "kanji": "乾く",
+    "furigana": "かわく",
+    "arti": "Menjadi kering"
+  },
+  {
+    "kanji": "変わる",
+    "furigana": "かわる",
+    "arti": "Berubah"
+  },
+  {
+    "kanji": "頑張る",
+    "furigana": "がんばる",
+    "arti": "Berusaha keras"
+  },
+  {
+    "kanji": "聴く",
+    "furigana": "きく",
+    "arti": "Mendengarkan"
+  },
+  {
+    "kanji": "気付く",
+    "furigana": "きづく",
+    "arti": "Menyadari"
+  },
+  {
+    "kanji": "決める",
+    "furigana": "きめる",
+    "arti": "Memutuskan"
+  },
+  {
+    "kanji": "嫌う",
+    "furigana": "きらう",
+    "arti": "Membenci"
+  },
+  {
+    "kanji": "切る",
+    "furigana": "きる",
+    "arti": "Memotong"
+  },
+  {
+    "kanji": "着る",
+    "furigana": "きる",
+    "arti": "Memakai (pakaian)"
+  },
+  {
+    "kanji": "くたびれる",
+    "furigana": "くたびれる",
+    "arti": "Lelah"
+  },
+  {
+    "kanji": "配る",
+    "furigana": "くばる",
+    "arti": "Membagikan"
+  },
+  {
+    "kanji": "組む",
+    "furigana": "くむ",
+    "arti": "Menyusun / merangkai"
+  },
+  {
+    "kanji": "曇る",
+    "furigana": "くもる",
+    "arti": "Mendung"
+  },
+  {
+    "kanji": "比べる",
+    "furigana": "くらべる",
+    "arti": "Membandingkan"
+  },
+  {
+    "kanji": "加える",
+    "furigana": "くわえる",
+    "arti": "Menambahkan"
+  },
+  {
+    "kanji": "消す",
+    "furigana": "けす",
+    "arti": "Menghapus / mematikan"
+  },
+  {
+    "kanji": "越える",
+    "furigana": "こえる",
+    "arti": "Melewati"
+  },
+  {
+    "kanji": "超える",
+    "furigana": "こえる",
+    "arti": "Melampaui"
+  },
+  {
+    "kanji": "凍る",
+    "furigana": "こおる",
+    "arti": "Membeku"
+  },
+  {
+    "kanji": "漕ぐ",
+    "furigana": "こぐ",
+    "arti": "Mengayuh"
+  },
+  {
+    "kanji": "断る",
+    "furigana": "ことわる",
+    "arti": "Menolak"
+  },
+  {
+    "kanji": "困る",
+    "furigana": "こまる",
+    "arti": "Kesulitan"
+  },
+  {
+    "kanji": "混む",
+    "furigana": "こむ",
+    "arti": "Ramai / padat"
+  },
+  {
+    "kanji": "込む",
+    "furigana": "こむ",
+    "arti": "Masuk / menjadi penuh"
+  },
+  {
+    "kanji": "転ぶ",
+    "furigana": "ころぶ",
+    "arti": "Terjatuh"
+  },
+  {
+    "kanji": "壊れる",
+    "furigana": "こわれる",
+    "arti": "Rusak"
+  },
+  {
+    "kanji": "探す",
+    "furigana": "さがす",
+    "arti": "Mencari"
+  },
+  {
+    "kanji": "逆らう",
+    "furigana": "さからう",
+    "arti": "Melawan"
+  },
+  {
+    "kanji": "咲く",
+    "furigana": "さく",
+    "arti": "Mekar"
+  },
+  {
+    "kanji": "叫ぶ",
+    "furigana": "さけぶ",
+    "arti": "Berteriak"
+  },
+  {
+    "kanji": "指す",
+    "furigana": "さす",
+    "arti": "Menunjuk"
+  },
+  {
+    "kanji": "誘う",
+    "furigana": "さそう",
+    "arti": "Mengajak"
+  },
+  {
+    "kanji": "冷める",
+    "furigana": "さめる",
+    "arti": "Menjadi dingin"
+  },
+  {
+    "kanji": "覚める",
+    "furigana": "さめる",
+    "arti": "Terbangun"
+  },
+  {
+    "kanji": "騒ぐ",
+    "furigana": "さわぐ",
+    "arti": "Ribut"
+  },
+  {
+    "kanji": "触る",
+    "furigana": "さわる",
+    "arti": "Menyentuh"
+  },
+  {
+    "kanji": "沈む",
+    "furigana": "しずむ",
+    "arti": "Tenggelam"
+  },
+  {
+    "kanji": "従う",
+    "furigana": "したがう",
+    "arti": "Mengikuti / menaati"
+  },
+  {
+    "kanji": "支払う",
+    "furigana": "しはらう",
+    "arti": "Membayar"
+  },
+  {
+    "kanji": "絞る",
+    "furigana": "しぼる",
+    "arti": "Memeras"
+  },
+  {
+    "kanji": "しまう",
+    "furigana": "しまう",
+    "arti": "Menyimpan / selesai"
+  },
+  {
+    "kanji": "示す",
+    "furigana": "しめす",
+    "arti": "Menunjukkan"
+  },
+  {
+    "kanji": "締める",
+    "furigana": "しめる",
+    "arti": "Mengencangkan / mengikat"
+  },
+  {
+    "kanji": "しゃべる",
+    "furigana": "しゃべる",
+    "arti": "Mengobrol"
+  },
+  {
+    "kanji": "調べる",
+    "furigana": "しらべる",
+    "arti": "Memeriksa / mencari tahu"
+  },
+  {
+    "kanji": "信じる",
+    "furigana": "しんじる",
+    "arti": "Percaya"
+  },
+  {
+    "kanji": "吸う",
+    "furigana": "すう",
+    "arti": "Mengisap"
+  },
+  {
+    "kanji": "過ぎる",
+    "furigana": "すぎる",
+    "arti": "Melewati"
+  },
+  {
+    "kanji": "過ごす",
+    "furigana": "すごす",
+    "arti": "Menghabiskan waktu"
+  },
+  {
+    "kanji": "進む",
+    "furigana": "すすむ",
+    "arti": "Maju"
+  },
+  {
+    "kanji": "勧める",
+    "furigana": "すすめる",
+    "arti": "Merekomendasikan"
+  },
+  {
+    "kanji": "捨てる",
+    "furigana": "すてる",
+    "arti": "Membuang"
+  },
+  {
+    "kanji": "滑る",
+    "furigana": "すべる",
+    "arti": "Tergelincir"
+  },
+  {
+    "kanji": "済む",
+    "furigana": "すむ",
+    "arti": "Selesai"
+  },
+  {
+    "kanji": "注ぐ",
+    "furigana": "そそぐ",
+    "arti": "Menuangkan"
+  },
+  {
+    "kanji": "育つ",
+    "furigana": "そだつ",
+    "arti": "Tumbuh"
+  },
+  {
+    "kanji": "倒れる",
+    "furigana": "たおれる",
+    "arti": "Tumbang / roboh"
+  },
+  {
+    "kanji": "確かめる",
+    "furigana": "たしかめる",
+    "arti": "Memastikan"
+  },
+  {
+    "kanji": "足す",
+    "furigana": "たす",
+    "arti": "Menambahkan"
+  },
+  {
+    "kanji": "助ける",
+    "furigana": "たすける",
+    "arti": "Menolong"
+  },
+  {
+    "kanji": "尋ねる",
+    "furigana": "たずねる",
+    "arti": "Bertanya"
+  },
+  {
+    "kanji": "戦う",
+    "furigana": "たたかう",
+    "arti": "Bertarung"
+  },
+  {
+    "kanji": "叩く",
+    "furigana": "たたく",
+    "arti": "Memukul"
+  },
+  {
+    "kanji": "畳む",
+    "furigana": "たたむ",
+    "arti": "Melipat"
+  },
+  {
+    "kanji": "建つ",
+    "furigana": "たつ",
+    "arti": "Berdiri (bangunan)"
+  },
+  {
+    "kanji": "経つ",
+    "furigana": "たつ",
+    "arti": "Berlalu (waktu)"
+  },
+  {
+    "kanji": "建てる",
+    "furigana": "たてる",
+    "arti": "Membangun"
+  }
+]

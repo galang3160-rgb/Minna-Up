@@ -1,0 +1,302 @@
+[
+  {
+    "kanji": "専攻(する)",
+    "furigana": "せんこう(する)",
+    "arti": "Jurusan kuliah"
+  },
+  {
+    "kanji": "選考(する)",
+    "furigana": "せんこう(する)",
+    "arti": "Seleksi"
+  },
+  {
+    "kanji": "選出(する)",
+    "furigana": "せんしゅつ(する)",
+    "arti": "Memilih wakil"
+  },
+  {
+    "kanji": "専属",
+    "furigana": "せんぞく",
+    "arti": "Eksklusif / Khusus terikat"
+  },
+  {
+    "kanji": "先端",
+    "furigana": "せんたん",
+    "arti": "Ujung tombak / Terdepan"
+  },
+  {
+    "kanji": "先着",
+    "furigana": "せんちゃく",
+    "arti": "Yang datang lebih dulu"
+  },
+  {
+    "kanji": "専念(する)",
+    "furigana": "せんねん(する)",
+    "arti": "Berfokus penuh"
+  },
+  {
+    "kanji": "選別(する)",
+    "furigana": "せんべつ(する)",
+    "arti": "Penyortiran / Pemilahan"
+  },
+  {
+    "kanji": "先方",
+    "furigana": "せんぽう",
+    "arti": "Pihak sana (lawan bicara/mitra)"
+  },
+  {
+    "kanji": "専用",
+    "furigana": "せんよう",
+    "arti": "Khusus penggunaan tertentu"
+  },
+  {
+    "kanji": "戦略",
+    "furigana": "せんりゃく",
+    "arti": "Strategi"
+  },
+  {
+    "kanji": "洗練(する)",
+    "furigana": "せんれん(する)",
+    "arti": "Elegan / Terpoles rapi"
+  },
+  {
+    "kanji": "前回",
+    "furigana": "ぜんかい",
+    "arti": "Kali sebelumnya"
+  },
+  {
+    "kanji": "全身",
+    "furigana": "ぜんしん",
+    "arti": "Seluruh tubuh"
+  },
+  {
+    "kanji": "前提",
+    "furigana": "ぜんてい",
+    "arti": "Asumsi dasar / Prasyarat"
+  },
+  {
+    "kanji": "全般",
+    "furigana": "ぜんぱん",
+    "arti": "Keseluruhan / Umum"
+  },
+  {
+    "kanji": "全力",
+    "furigana": "ぜんりょく",
+    "arti": "Seluruh tenaga"
+  },
+  {
+    "kanji": "騒音",
+    "furigana": "そうおん",
+    "arti": "Suara bising / Polusi suara"
+  },
+  {
+    "kanji": "総額",
+    "furigana": "そうがく",
+    "arti": "Jumlah total uang"
+  },
+  {
+    "kanji": "早期",
+    "furigana": "そうき",
+    "arti": "Tahap dini / Lebih awal"
+  },
+  {
+    "kanji": "送迎(する)",
+    "furigana": "そうげい(する)",
+    "arti": "Antar jemput"
+  },
+  {
+    "kanji": "創作(する)",
+    "furigana": "そうさく(する)",
+    "arti": "Kreasi / Penciptaan karya"
+  },
+  {
+    "kanji": "装置",
+    "furigana": "そうち",
+    "arti": "Peralatan / Perangkat"
+  },
+  {
+    "kanji": "送付(する)",
+    "furigana": "そうふ(する)",
+    "arti": "Pengiriman (dokumen/paket)"
+  },
+  {
+    "kanji": "総務",
+    "furigana": "そうむ",
+    "arti": "Bagian umum (General Affairs)"
+  },
+  {
+    "kanji": "創立(する)",
+    "furigana": "そうりつ(する)",
+    "arti": "Pendirian (institusi/organisasi)"
+  },
+  {
+    "kanji": "速達",
+    "furigana": "そくたつ",
+    "arti": "Pos kilat"
+  },
+  {
+    "kanji": "測定(する)",
+    "furigana": "そくてい(する)",
+    "arti": "Pengukuran"
+  },
+  {
+    "kanji": "速度",
+    "furigana": "そくど",
+    "arti": "Kecepatan"
+  },
+  {
+    "kanji": "側面",
+    "furigana": "そくめん",
+    "arti": "Bagian samping / Aspek"
+  },
+  {
+    "kanji": "素材",
+    "furigana": "そざい",
+    "arti": "Bahan baku / Material"
+  },
+  {
+    "kanji": "組織(する)",
+    "furigana": "そしき(する)",
+    "arti": "Organisasi / Jaringan"
+  },
+  {
+    "kanji": "卒論",
+    "furigana": "そつろん",
+    "arti": "Skripsi"
+  },
+  {
+    "kanji": "存在(する)",
+    "furigana": "そんざい(する)",
+    "arti": "Keberadaan / Eksistensi"
+  },
+  {
+    "kanji": "尊重(する)",
+    "furigana": "そんちょう(する)",
+    "arti": "Menghargai / Menghormati"
+  },
+  {
+    "kanji": "続出(する)",
+    "furigana": "ぞくしゅつ(する)",
+    "arti": "Muncul bertubi-tubi"
+  },
+  {
+    "kanji": "続行(する)",
+    "furigana": "ぞっこう(する)",
+    "arti": "Melanjutkan"
+  },
+  {
+    "kanji": "体型",
+    "furigana": "たいけい",
+    "arti": "Bentuk tubuh"
+  },
+  {
+    "kanji": "体験(する)",
+    "furigana": "たいけん(する)",
+    "arti": "Mengalami langsung"
+  },
+  {
+    "kanji": "太鼓",
+    "furigana": "たいこ",
+    "arti": "gendang Jepang (Taiko)"
+  },
+  {
+    "kanji": "対抗(する)",
+    "furigana": "たいこう(する)",
+    "arti": "Melawan / Menyaingi"
+  },
+  {
+    "kanji": "対策(する)",
+    "furigana": "たいさく(する)",
+    "arti": "Tindakan penanggulangan"
+  },
+  {
+    "kanji": "退社(する)",
+    "furigana": "たいしゃ(する)",
+    "arti": "Pulang kerja / Keluar dari perusahaan"
+  },
+  {
+    "kanji": "体重",
+    "furigana": "たいじゅう",
+    "arti": "Berat badan"
+  },
+  {
+    "kanji": "対処(する)",
+    "furigana": "たいしょ(する)",
+    "arti": "Menangani / Mengatasi"
+  },
+  {
+    "kanji": "対象",
+    "furigana": "たいしょう",
+    "arti": "Target / Sasaran"
+  },
+  {
+    "kanji": "退職(する)",
+    "furigana": "たいしょく(する)",
+    "arti": "Berhenti kerja / Pensiun"
+  },
+  {
+    "kanji": "体制",
+    "furigana": "たいせい",
+    "arti": "Sistem / Struktur"
+  },
+  {
+    "kanji": "体調",
+    "furigana": "たいちょう",
+    "arti": "Kondisi fisik"
+  },
+  {
+    "kanji": "態度",
+    "furigana": "たいど",
+    "arti": "Sikap"
+  },
+  {
+    "kanji": "対面(する)",
+    "furigana": "たいめん(する)",
+    "arti": "Tatap muka"
+  },
+  {
+    "kanji": "対立(する)",
+    "furigana": "たいりつ(する)",
+    "arti": "Pertentangan / Konflik"
+  },
+  {
+    "kanji": "宅配(する)",
+    "furigana": "たくはい(する)",
+    "arti": "Pengiriman ke rumah"
+  },
+  {
+    "kanji": "他社",
+    "furigana": "たしゃ",
+    "arti": "Perusahaan lain"
+  },
+  {
+    "kanji": "他者",
+    "furigana": "たしゃ",
+    "arti": "Orang lain"
+  },
+  {
+    "kanji": "立場",
+    "furigana": "たちば",
+    "arti": "Posisi / Sudut pandang"
+  },
+  {
+    "kanji": "達成(する)",
+    "furigana": "たっせい(する)",
+    "arti": "Pencapaian"
+  },
+  {
+    "kanji": "他人",
+    "furigana": "たにん",
+    "arti": "Orang lain / Orang asing"
+  },
+  {
+    "kanji": "多用(する)",
+    "furigana": "たよう(する)",
+    "arti": "Sering menggunakan"
+  },
+  {
+    "kanji": "短所",
+    "furigana": "たんしょ",
+    "arti": "Kekurangan / Kelemahan"
+  }
+]
