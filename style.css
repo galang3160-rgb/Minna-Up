@@ -1,5 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED BENTO + CHAPTER CAROUSEL NEO-BRUTALIST SYSTEM
+   NAKAMAGAKKOU — UNIFIED 6-BLOCK BENTO + MOUSE TRACK NEO-BRUTALIST SYSTEM
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -10,12 +10,13 @@
   --dot-grid: #1111111a;
   --dashed-line: #DEDAD0;
 
-  /* Palet Kategori Neo-Brutalism */
+  /* Palet Kategori 6 Blok Neo-Brutalism */
   --c-matcha: #DCFCE7;
   --c-sky: #E0F2FE;
   --c-amber: #FEF3C7;
   --c-lavender: #E9D5FF;
   --c-rose: #FFE4E6;
+  --c-teal: #CCFBF1;
   --green-brand: #15803D;
 
   /* Border & Hard Shadows */
@@ -51,6 +52,7 @@ html[data-theme="dark"] {
   --c-amber: #FDE047;
   --c-lavender: #D8B4FE;
   --c-rose: #FDA4AF;
+  --c-teal: #5EEAD4;
   --green-brand: #4ADE80;
 
   --border-color: #384152;
@@ -378,7 +380,7 @@ main {
   width: 100%;
   max-width: 1040px;
   margin: 0 auto;
-  padding: 96px 24px 32px;
+  padding: 96px 24px 36px;
 }
 
 body.page-leaving .fixed-topbar {
@@ -406,12 +408,15 @@ body.page-leaving main {
 }
 
 /* =========================================================================
-   BENTO GRID & CARDS
+   BENTO GRID 6 BLOK & MOUSE TRACK SPOTLIGHT CARDS
    ========================================================================= */
 .bento-grid {
   display: grid;
   width: 100%;
   gap: 22px;
+}
+.grid-6 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .grid-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -427,6 +432,8 @@ body.page-leaving main {
 
 .neo-card {
   --accent: var(--c-matcha);
+  --mx: 50%;
+  --my: 50%;
 
   position: relative;
   display: flex;
@@ -437,7 +444,7 @@ body.page-leaving main {
   background: var(--surface);
   border: var(--border);
   border-radius: var(--radius-card);
-  min-height: 260px;
+  min-height: 235px;
   padding: 22px;
   box-shadow: var(--shadow);
   transform-style: preserve-3d;
@@ -446,10 +453,34 @@ body.page-leaving main {
   overflow: hidden;
 }
 
+/* Mouse Track Spotlight Glow di Dalam Kartu */
+.neo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    260px circle at var(--mx) var(--my),
+    var(--accent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.neo-card:hover::before {
+  opacity: 0.35;
+}
+html[data-theme="dark"] .neo-card:hover::before {
+  opacity: 0.14;
+}
+
 .card-angka  { --accent: var(--c-matcha); }
 .card-kanji  { --accent: var(--c-sky); }
 .card-kotoba { --accent: var(--c-amber); }
 .card-pemula { --accent: var(--c-lavender); }
+.card-bunpou { --accent: var(--c-rose); }
+.card-ssw    { --accent: var(--c-teal); }
 
 /* Kartu Terkunci (Kanji & Bunpou) */
 .neo-card.is-locked {
@@ -467,6 +498,8 @@ body.page-leaving main {
 }
 
 .card-index {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
   font-size: 0.75rem;
   font-weight: 700;
@@ -480,9 +513,11 @@ body.page-leaving main {
 }
 
 .icon-box {
-  width: 84px;
-  height: 84px;
-  margin: 18px auto;
+  position: relative;
+  z-index: 1;
+  width: 80px;
+  height: 80px;
+  margin: 14px auto;
   border-radius: var(--radius-icon);
   background: var(--accent);
   border: var(--border);
@@ -493,12 +528,14 @@ body.page-leaving main {
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .icon-box svg {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   color: var(--ink-badge);
 }
 
 .card-footer {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -560,7 +597,7 @@ body.page-leaving main {
 }
 
 /* =========================================================================
-   SLIDER CAROUSEL KARTU BAB (VIEW 5)
+   SLIDER CAROUSEL KARTU BAB (TETAP UTUH)
    ========================================================================= */
 .flashcard-stage {
   position: relative;
@@ -912,12 +949,13 @@ body.page-leaving main {
    RESPONSIVE DESIGN (TABLET & HP)
    ========================================================================= */
 @media (max-width: 960px) {
+  .grid-6,
   .grid-4,
   .grid-5 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .neo-card {
-    min-height: 230px;
+    min-height: 215px;
   }
 }
 
@@ -941,41 +979,46 @@ body.page-leaving main {
 }
 
 @media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+  }
   main {
-    padding: 84px 16px 24px;
+    padding: 82px 16px 28px;
   }
   .bento-grid,
+  .grid-6,
   .grid-4,
   .grid-5,
   .grid-2 {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 13px;
     max-width: none;
   }
   .neo-card {
-    min-height: 88px;
-    padding: 14px 16px;
+    min-height: 84px;
+    padding: 13px 16px;
     display: grid;
-    grid-template-columns: 60px 1fr auto;
+    grid-template-columns: 56px 1fr auto;
     align-items: center;
-    column-gap: 16px;
+    column-gap: 15px;
+    border-radius: 20px;
   }
   .card-index { display: none; }
   .icon-box {
     grid-column: 1;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     margin: 0;
     border-radius: 14px;
   }
-  .icon-box svg { width: 30px; height: 30px; }
+  .icon-box svg { width: 28px; height: 28px; }
   .card-footer {
     grid-column: 2 / 4;
     border-top: none;
     padding-top: 0;
     width: 100%;
   }
-  .card-title { font-size: 1.2rem; }
+  .card-title { font-size: 1.18rem; }
   .nav-crumb { display: none !important; }
   .flashcard-stage { gap: 10px; }
   .nav-arrow-btn { width: 46px; height: 46px; border-radius: 14px; }

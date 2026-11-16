@@ -2,19 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
 
   // =========================================================================
-  // 0. KONFIGURASI AKTIVASI FITUR
+  // 0. KONFIGURASI AKTIVASI FITUR (6 BLOK UTAMA)
   // =========================================================================
   const FEATURE_CONFIG = {
-    pemula: 'ACTIVE',
-    kotoba: 'ACTIVE',
     angka:  'ACTIVE',
     kanji:  'LOCKED',
-    bunpou: 'LOCKED'
+    kotoba: 'ACTIVE',
+    pemula: 'ACTIVE',
+    bunpou: 'LOCKED',
+    ssw:    'ACTIVE'
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
 
-  // Terapkan status terkunci pada kartu menu utama
+  // Terapkan status terkunci pada kartu menu utama (Kanji & Bunpou)
   document.querySelectorAll('[data-feature]').forEach(card => {
     const key = card.getAttribute('data-feature');
     if (!isFeatureActive(key)) {
@@ -91,10 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 3. DATA HIRARKI KOTOBA N5 - N1 & HREF ASLI
+  // 3. DATA HIRARKI KOTOBA (TETAP TERSIMPAN SEBAGAI FITUR)
   // =========================================================================
-  // Href asli `Kotoba/Minna 1/index.html` dan `Kotoba/Minna 2/index.html` tetap terjaga
-  // pada atribut kartu buku, dan saat diklik membuka Carousel Bab 1-25 di halaman utama.
   const KOTOBA_BOOKS = {
     N5: [
       { id: 'Soumatome', title: 'Soumatome', indexTag: '01', cardClass: 'card-kotoba', href: 'Kotoba/N5/Soumatome/index.html', babBaseHref: 'Kotoba/N5/Soumatome/Bab/index.html', startBab: 1, totalBab: 25 },
@@ -103,18 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     N4: [
       { id: 'Soumatome', title: 'Soumatome', indexTag: '01', cardClass: 'card-kotoba', href: 'Kotoba/N4/Soumatome/index.html', babBaseHref: 'Kotoba/N4/Soumatome/Bab/index.html', startBab: 1, totalBab: 25 },
       { id: 'Minna',     title: 'Minna no Nihongo', indexTag: '02', cardClass: 'card-kanji',  href: 'Kotoba/Minna 2/index.html',      babBaseHref: 'Kotoba/Minna 2/Bab/index.html',      startBab: 26, totalBab: 25 }
-    ],
-    N3: [
-      { id: 'Soumatome', title: 'Soumatome', indexTag: '01', cardClass: 'card-kotoba', href: 'Kotoba/N3/Soumatome/index.html', babBaseHref: 'Kotoba/N3/Soumatome/Bab/index.html', startBab: 1, totalBab: 25 },
-      { id: 'Mori',      title: 'Mori',      indexTag: '02', cardClass: 'card-angka',  href: 'Kotoba/N3/Mori/index.html',      babBaseHref: 'Kotoba/N3/Mori/Bab/index.html',      startBab: 1, totalBab: 25 }
-    ],
-    N2: [
-      { id: 'Soumatome', title: 'Soumatome', indexTag: '01', cardClass: 'card-kotoba', href: 'Kotoba/N2/Soumatome/index.html', babBaseHref: 'Kotoba/N2/Soumatome/Bab/index.html', startBab: 1, totalBab: 25 },
-      { id: 'Mori',      title: 'Mori',      indexTag: '02', cardClass: 'card-pemula', href: 'Kotoba/N2/Mori/index.html',      babBaseHref: 'Kotoba/N2/Mori/Bab/index.html',      startBab: 1, totalBab: 25 }
-    ],
-    N1: [
-      { id: 'Soumatome', title: 'Soumatome', indexTag: '01', cardClass: 'card-kotoba', href: 'Kotoba/N1/Soumatome/index.html', babBaseHref: 'Kotoba/N1/Soumatome/Bab/index.html', startBab: 1, totalBab: 25 },
-      { id: 'Mori',      title: 'Mori',      indexTag: '02', cardClass: 'card-angka',  href: 'Kotoba/N1/Mori/index.html',      babBaseHref: 'Kotoba/N1/Mori/Bab/index.html',      startBab: 1, totalBab: 25 }
     ]
   };
 
@@ -123,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
-  const viewKotoba = $('viewKotoba');
   const viewKotobaBooks = $('viewKotobaBooks');
   const viewChapters = $('viewChapters');
 
@@ -145,12 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = 'Kanji';
-      openModalBtn?.classList.add('hidden-el');
-      document.body.classList.remove('cinema-mode');
-    } else if (targetView === viewKotoba) {
-      globalBackBtn?.classList.remove('hidden-el');
-      navCrumbTag?.classList.remove('hidden-el');
-      navCrumbTag.textContent = 'Kotoba';
       openModalBtn?.classList.add('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewKotobaBooks) {
@@ -185,9 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
   globalBackBtn?.addEventListener('click', () => {
     if (currentView === viewChapters) {
       swapView(viewChapters, viewKotobaBooks);
-    } else if (currentView === viewKotobaBooks) {
-      swapView(viewKotobaBooks, viewKotoba);
-    } else if (currentView === viewKotoba || currentView === viewKanji) {
+    } else if (currentView === viewKotobaBooks || currentView === viewKanji) {
       swapView(currentView, viewMain);
     }
   });
@@ -204,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnKanji')?.addEventListener('click', function (e) {
     e.preventDefault();
     if (!isFeatureActive('kanji')) {
+      playPopSound();
       this.classList.remove('shake-locked');
       void this.offsetWidth;
       this.classList.add('shake-locked');
@@ -217,26 +196,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 420);
   });
 
-  // Klik Kotoba -> Buka Pilihan N5 - N1
-  $('btnKotoba')?.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (!isFeatureActive('kotoba')) return;
-    const icon = this.querySelector('.icon-box') || this;
-    icon.classList.add('spin-anim');
-    setTimeout(() => {
-      icon.classList.remove('spin-anim');
-      swapView(viewMain, viewKotoba);
-    }, 420);
-  });
-
-  // Klik Link Langsung (Angka, Pemula, Kanji N5/N4)
+  // Klik Link Langsung (Angka, Kotoba, Pemula, Bunpou, SSW, Kanji N5/N4)
   document.querySelectorAll('.tile-link').forEach(card => {
     card.addEventListener('click', function (e) {
       e.preventDefault();
       const feat = this.getAttribute('data-feature');
-      if (feat && !isFeatureActive(feat)) return;
+
+      // Efek Shake apabila diklik namun masih berstatus LOCKED (mis. Bunpou)
+      if (feat && !isFeatureActive(feat)) {
+        playPopSound();
+        this.classList.remove('shake-locked');
+        void this.offsetWidth;
+        this.classList.add('shake-locked');
+        return;
+      }
+
       const href = this.getAttribute('href');
       const icon = this.querySelector('.icon-box') || this;
+      playPopSound();
       icon.classList.add('spin-anim');
       setTimeout(() => {
         icon.classList.remove('spin-anim');
@@ -244,69 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 420);
     });
   });
-
-  // Klik Level N5 - N1 -> Render 2 Kartu Buku (Soumatome & Minna / Mori)
-  document.querySelectorAll('.kotoba-level-btn').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      const level = this.getAttribute('data-level');
-      if (!level || !KOTOBA_BOOKS[level]) return;
-      selectedLevel = level;
-
-      const icon = this.querySelector('.icon-box') || this;
-      icon.classList.add('spin-anim');
-      setTimeout(() => {
-        icon.classList.remove('spin-anim');
-        renderBooksForLevel(level);
-        swapView(viewKotoba, viewKotobaBooks);
-      }, 420);
-    });
-  });
-
-  function renderBooksForLevel(level) {
-    const booksGrid = $('kotobaBooksGrid');
-    if (!booksGrid) return;
-    booksGrid.innerHTML = '';
-
-    const books = KOTOBA_BOOKS[level] || [];
-    books.forEach((book, idx) => {
-      const card = document.createElement('a');
-      card.href = book.href; // Menjaga href asli (misal Kotoba/Minna 1/index.html)
-      card.className = `neo-card ${book.cardClass}`;
-      card.setAttribute('data-tilt', '');
-
-      const svgBook = idx === 0
-        ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`
-        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`;
-
-      card.innerHTML = `
-        <span class="card-index">${book.indexTag}</span>
-        <div class="icon-box">${svgBook}</div>
-        <div class="card-footer">
-          <h2 class="card-title">${book.title}</h2>
-          <span class="card-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      `;
-
-      card.addEventListener('click', function (e) {
-        e.preventDefault();
-        selectedBook = book;
-        const icon = this.querySelector('.icon-box') || this;
-        icon.classList.add('spin-anim');
-        setTimeout(() => {
-          icon.classList.remove('spin-anim');
-          buildChapterCarousel(book);
-          swapView(viewKotobaBooks, viewChapters);
-        }, 420);
-      });
-
-      booksGrid.appendChild(card);
-    });
-
-    bindTiltEffects(booksGrid.querySelectorAll('[data-tilt]'));
-  }
 
   // =========================================================================
   // 5. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
@@ -350,7 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const paddedNum = babNumber < 10 ? `0${babNumber}` : babNumber;
       const svgIcon = vectorIcons[i % vectorIcons.length];
 
-      // Kartu Slider Bab
       const card = document.createElement('a');
       card.href = `${bookConfig.babBaseHref}?bab=${babNumber}`;
       card.className = 'chapter-flashcard';
@@ -405,7 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
       carouselContainer.appendChild(card);
       cards.push(card);
 
-      // Item Grid di Modal Popup
       const gridBtn = document.createElement('button');
       gridBtn.type = 'button';
       gridBtn.className = 'chapter-grid-item';
@@ -475,7 +387,6 @@ document.addEventListener('DOMContentLoaded', () => {
   $('nextBtn')?.addEventListener('click', goNext);
   $('prevBtn')?.addEventListener('click', goPrev);
 
-  // Modal Popup Kontrol
   const chapterModal = $('chapterModal');
   function openModal() { chapterModal?.classList.add('open'); }
   function closeModal() { chapterModal?.classList.remove('open'); }
@@ -494,7 +405,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft') goPrev();
   });
 
-  // Swipe Jari di HP untuk Carousel
   let touchStartX = 0;
   if (carouselContainer) {
     carouselContainer.addEventListener('touchstart', (e) => {
@@ -511,43 +421,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 6. PARALLAX, SPARKS, 3D TILT & MOUSE TRAIL
+  // 6. PARALLAX, SPARKS, 3D TILT & ENHANCED MOUSE TRACK (SPOTLIGHT + TRAIL)
   // =========================================================================
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
-  function bindTiltEffects(nodes) {
-    if (reduce || !fine) return;
+  function bindTiltAndMouseTrack(nodes) {
     nodes.forEach(card => {
-      if (card.classList.contains('is-locked')) return;
-      card.addEventListener('mousemove', e => {
+      // Mouse & Touch Spotlight Tracking di setiap kartu
+      card.addEventListener('pointermove', e => {
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
         const y = e.clientY - r.top;
-        const rotX = -((y / r.height - 0.5) * 9);
-        const rotY = (x / r.width - 0.5) * 9;
-        card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-3px)`;
+        card.style.setProperty('--mx', `${x}px`);
+        card.style.setProperty('--my', `${y}px`);
+
+        if (!reduce && fine && !card.classList.contains('is-locked')) {
+          const rotX = -((y / r.height - 0.5) * 9);
+          const rotY = (x / r.width - 0.5) * 9;
+          card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-3px)`;
+        }
       });
-      card.addEventListener('mouseleave', () => {
-        card.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease';
-        card.style.transform = '';
-        setTimeout(() => { card.style.transition = ''; }, 350);
+
+      card.addEventListener('pointerleave', () => {
+        if (!reduce && fine && !card.classList.contains('is-locked')) {
+          card.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease';
+          card.style.transform = '';
+          setTimeout(() => { card.style.transition = ''; }, 350);
+        }
       });
     });
   }
 
-  bindTiltEffects(document.querySelectorAll('[data-tilt]'));
+  bindTiltAndMouseTrack(document.querySelectorAll('.neo-card'));
 
   if (!reduce) {
     const sun = $('sun');
     if (sun) {
       addEventListener('pointermove', e => {
-        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -36}px, ${(e.clientY / innerHeight - 0.5) * -36}px)`;
+        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -40}px, ${(e.clientY / innerHeight - 0.5) * -40}px)`;
       });
     }
 
     const fx = $('fx');
-    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF'];
+    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1'];
     addEventListener('pointerdown', e => {
       if (!fx) return;
       const pulse = document.createElement('div');
@@ -573,48 +490,80 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    if (fine) {
-      const cv = $('trail');
-      if (cv) {
-        const ctx = cv.getContext('2d');
-        const resize = () => { cv.width = innerWidth; cv.height = innerHeight; };
-        resize();
-        addEventListener('resize', resize);
+    // Mouse & Touch Trail Canvas (Mendukung Desktop & Sentuhan HP)
+    const cv = $('trail');
+    if (cv) {
+      const ctx = cv.getContext('2d');
+      const resize = () => {
+        cv.width = innerWidth;
+        cv.height = innerHeight;
+      };
+      resize();
+      addEventListener('resize', resize);
 
-        let mx = -100, my = -100, x = mx, y = my;
-        const pts = [];
+      let mx = -100, my = -100, x = mx, y = my;
+      let isPointerActive = false;
+      let idleTimer = null;
+      const pts = [];
 
-        addEventListener('pointermove', e => {
-          mx = e.clientX;
-          my = e.clientY;
-        });
+      const updateCoords = (clientX, clientY) => {
+        if (!isPointerActive) {
+          x = clientX;
+          y = clientY;
+        }
+        mx = clientX;
+        my = clientY;
+        isPointerActive = true;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
+      };
 
-        (function drawTrail() {
-          x += (mx - x) * 0.32;
-          y += (my - y) * 0.32;
+      addEventListener('pointermove', e => updateCoords(e.clientX, e.clientY), { passive: true });
+      addEventListener('touchmove', e => {
+        if (e.touches && e.touches[0]) {
+          updateCoords(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      (function drawTrail() {
+        if (isPointerActive) {
+          x += (mx - x) * 0.34;
+          y += (my - y) * 0.34;
           pts.push({ x, y });
-          if (pts.length > 16) pts.shift();
+          if (pts.length > 18) pts.shift();
+        } else if (pts.length > 0) {
+          pts.shift();
+        }
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+        ctx.clearRect(0, 0, cv.width, cv.height);
+
+        if (pts.length > 1) {
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
-
           const isDark = htmlEl.getAttribute('data-theme') === 'dark';
 
           for (let i = 1; i < pts.length; i++) {
             const t = i / pts.length;
             ctx.strokeStyle = isDark
-              ? `rgba(74, 222, 128, ${t * 0.28})`
-              : `rgba(21, 128, 61, ${t * 0.22})`;
-            ctx.lineWidth = t * 9;
+              ? `rgba(74, 222, 128, ${t * 0.3})`
+              : `rgba(21, 128, 61, ${t * 0.24})`;
+            ctx.lineWidth = t * 10;
             ctx.beginPath();
             ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
             ctx.lineTo(pts[i].x, pts[i].y);
             ctx.stroke();
           }
-          requestAnimationFrame(drawTrail);
-        })();
-      }
+
+          // Titik kursor aktif di ujung jejak
+          const head = pts[pts.length - 1];
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(74, 222, 128, 0.55)' : 'rgba(21, 128, 61, 0.45)';
+          ctx.fill();
+        }
+
+        requestAnimationFrame(drawTrail);
+      })();
     }
   }
 });
