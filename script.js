@@ -2,20 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
 
   // =========================================================================
-  // 0. KONFIGURASI AKTIVASI FITUR (6 BLOK UTAMA)
+  // 0. KONFIGURASI AKTIVASI FITUR (8 BLOK UTAMA TERMASUK JFT)
   // =========================================================================
   const FEATURE_CONFIG = {
-    angka:  'ACTIVE',
-    kanji:  'LOCKED',
-    kotoba: 'ACTIVE',
-    pemula: 'ACTIVE',
-    bunpou: 'LOCKED',
-    ssw:    'ACTIVE'
+    angka:   'ACTIVE',
+    kanji:   'LOCKED',
+    kotoba:  'ACTIVE',
+    pemula:  'ACTIVE',
+    bunpou:  'LOCKED',
+    ssw:     'ACTIVE',
+    choukai: 'LOCKED',
+    jft:     'ACTIVE'
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
 
-  // Terapkan status terkunci pada kartu menu utama (Kanji & Bunpou)
+  // Terapkan status terkunci pada kartu menu utama yang berstatus LOCKED
   document.querySelectorAll('[data-feature]').forEach(card => {
     const key = card.getAttribute('data-feature');
     if (!isFeatureActive(key)) {
@@ -34,15 +36,58 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 1. SPLASH SCREEN & DARK MODE
+  // 1. PERBAIKAN UTAMA BUG BLANK SCREEN (BFCACHE & PAGE RESTORATION)
   // =========================================================================
-  setTimeout(() => {
+  function restorePageFromCache() {
+    // Hapus class transisi keluar yang membuat halaman blank (opacity: 0)
+    document.body.classList.remove('page-leaving');
+
+    // Pastikan splash screen tidak menghalangi layar saat kembali via tombol Back
     const splash = $('splash');
-    if (splash) {
+    if (splash && sessionStorage.getItem('nakama_splash_seen') === '1') {
       splash.classList.add('hidden');
-      setTimeout(() => { splash.style.display = 'none'; }, 650);
+      splash.style.display = 'none';
     }
-  }, 1400);
+
+    // Reset semua animasi putar atau inline transform yang tertinggal di kartu
+    document.querySelectorAll('.spin-anim').forEach(el => el.classList.remove('spin-anim'));
+    document.querySelectorAll('.neo-card').forEach(card => {
+      card.style.transform = '';
+    });
+  }
+
+  // Tangani event pageshow (terpanggil saat tombol Back browser/HP ditekan)
+  window.addEventListener('pageshow', () => {
+    restorePageFromCache();
+  });
+
+  window.addEventListener('popstate', (e) => {
+    restorePageFromCache();
+    handleHistoryPopState(e);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      document.body.classList.remove('page-leaving');
+    }
+  });
+
+  // =========================================================================
+  // 2. SPLASH SCREEN (CERDAS: HANYA MUNCUL SEKALI PER SESI AGAR BACK INSTAN)
+  // =========================================================================
+  const splash = $('splash');
+  if (splash) {
+    if (sessionStorage.getItem('nakama_splash_seen') === '1') {
+      splash.classList.add('hidden');
+      splash.style.display = 'none';
+    } else {
+      sessionStorage.setItem('nakama_splash_seen', '1');
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        setTimeout(() => { splash.style.display = 'none'; }, 550);
+      }, 950);
+    }
+  }
 
   const htmlEl = document.documentElement;
   const themeToggleBtn = $('themeToggleBtn');
@@ -62,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 2. EFEK AUDIO POP & TRANSISI HALAMAN
+  // 3. EFEK AUDIO POP & TRANSISI HALAMAN AMAN
   // =========================================================================
   let audioCtx = null;
   function playPopSound() {
@@ -84,15 +129,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
+  let navTimeout = null;
   function smoothNavigate(targetUrl) {
+    if (!targetUrl || targetUrl === '#') return;
+    clearTimeout(navTimeout);
     document.body.classList.add('page-leaving');
-    setTimeout(() => {
+
+    navTimeout = setTimeout(() => {
       window.location.href = targetUrl;
-    }, 340);
+      // Fallback: pastikan class page-leaving dibersihkan jika halaman gagal berpindah
+      setTimeout(() => {
+        document.body.classList.remove('page-leaving');
+      }, 450);
+    }, 260);
   }
 
   // =========================================================================
-  // 3. DATA HIRARKI KOTOBA (TETAP TERSIMPAN SEBAGAI FITUR)
+  // 4. DATA HIRARKI KOTOBA & DATA MODUL JFT
   // =========================================================================
   const KOTOBA_BOOKS = {
     N5: [
@@ -105,11 +158,59 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
+  const JFT_MODULES_DATA = {
+    materi: {
+      tag: 'MODUL 01 • MATERI PEMBELAJARAN',
+      title: 'Materi Pembelajaran JFT-Basic A2',
+      desc: 'Struktur materi pembelajaran JFT-Basic siap diisi. Fokus pada penguasaan ekspresi komunikasi sehari-hari di Jepang mengacu pada kurikulum standar Japan Foundation (Irodori Tingkat Dasar A2).',
+      pills: [
+        '<b>Topik 1:</b> Perkenalan Diri, Tempat Tinggal & Lingkungan Sekitar',
+        '<b>Topik 2:</b> Berbelanja, Memesan Makanan & Transportasi Umum',
+        '<b>Topik 3:</b> Komunikasi di Tempat Kerja, Instruksi & Jadwal Shift',
+        '<b>Topik 4:</b> Keadaan Darurat, Kesehatan & Aturan Kehidupan di Jepang'
+      ]
+    },
+    latihan: {
+      tag: 'MODUL 02 • LATIHAN SOAL',
+      title: 'Latihan Soal Per Seksi JFT-Basic',
+      desc: 'Wadah latihan soal terfokus per seksi kompetensi JFT-Basic. Memudahkan latihan bertahap sebelum masuk ke simulasi penuh.',
+      pills: [
+        '<b>Seksi 1 (Moji & Goi):</b> ~15 Soal bacaan Kanji kontekstual & makna kosakata harian',
+        '<b>Seksi 2 (Kaiwa & Hyougen):</b> ~15 Soal melengkapi dialog & ekspresi sopan santun',
+        '<b>Seksi 3 (Choukai):</b> ~10 Soal mendengarkan pengumuman, percakapan kerja & instruksi',
+        '<b>Seksi 4 (Dokkai):</b> ~10 Soal membaca pesan singkat, poster, email & jadwal kerja'
+      ]
+    },
+    simulasi: {
+      tag: 'MODUL 03 • SIMULASI UJIAN (CBT)',
+      title: 'Simulasi Ujian CBT JFT-Basic (60 Menit)',
+      desc: 'Kerangka simulasi Computer-Based Testing (CBT) dengan format penilaian terkalibrasi (0–250 poin). Batas nilai lulus (Passing Grade) adalah 200 poin.',
+      pills: [
+        '<b>Durasi Ujian:</b> 60 Menit nonstop tanpa jeda antar seksi',
+        '<b>Total Soal:</b> ~50 Soal pilihan ganda berbasis layar komputer / HP',
+        '<b>Skor Kelulusan:</b> Minimal 200 dari maksimal 250 Poin (Standar Level A2)',
+        '<b>Fitur CBT:</b> Penanda soal ragu-ragu, pemutar audio Choukai & rekap skor instan'
+      ]
+    },
+    pembahasan: {
+      tag: 'MODUL 04 • PEMBAHASAN SOAL',
+      title: 'Pembahasan Soal, Transkrip & Strategi Lulus',
+      desc: 'Halaman pembahasan mendalam untuk mengulas kunci jawaban, bedah kosakata pengecoh, serta transkrip lengkap untuk bagian pendengaran (Choukai).',
+      pills: [
+        '<b>Bedah Moji & Goi:</b> Daftar Kanji yang sering muncul di kehidupan kerja Jepang',
+        '<b>Analisis Kaiwa:</b> Penggunaan bentuk sopan (Desu/Masu) vs bentuk kasual',
+        '<b>Transkrip Choukai:</b> Teks percakapan lengkap beserta kata kunci jawaban',
+        '<b>Teknik Skimming Dokkai:</b> Cara cepat menemukan informasi inti pada memo & tabel'
+      ]
+    }
+  };
+
   // =========================================================================
-  // 4. VIEW SWITCHING & TOPBAR CONTROLLER
+  // 5. VIEW SWITCHING, ROUTING & TOPBAR CONTROLLER (DENGAN HISTORY API)
   // =========================================================================
   const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
+  const viewJft = $('viewJft');
   const viewKotobaBooks = $('viewKotobaBooks');
   const viewChapters = $('viewChapters');
 
@@ -121,6 +222,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectedLevel = 'N5';
   let selectedBook = null;
 
+  const viewMap = {
+    viewMain,
+    viewKanji,
+    viewJft,
+    viewKotobaBooks,
+    viewChapters
+  };
+
   function updateTopbarState(targetView) {
     if (targetView === viewMain) {
       globalBackBtn?.classList.add('hidden-el');
@@ -131,6 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = 'Kanji';
+      openModalBtn?.classList.add('hidden-el');
+      document.body.classList.remove('cinema-mode');
+    } else if (targetView === viewJft) {
+      globalBackBtn?.classList.remove('hidden-el');
+      navCrumbTag?.classList.remove('hidden-el');
+      navCrumbTag.textContent = 'JFT-Basic';
       openModalBtn?.classList.add('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewKotobaBooks) {
@@ -148,24 +263,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function swapView(fromEl, toEl) {
+  function swapView(fromEl, toEl, pushHistory = true) {
     if (!fromEl || !toEl || fromEl === toEl) return;
     playPopSound();
+
+    if (pushHistory) {
+      const viewId = toEl.id || 'viewMain';
+      const hash = viewId === 'viewMain' ? location.pathname : `#${viewId}`;
+      history.pushState({ viewId }, '', hash);
+    }
+
     fromEl.classList.add('fade-out');
     setTimeout(() => {
-      fromEl.classList.remove('active', 'fade-out');
+      Object.values(viewMap).forEach(v => {
+        if (v && v !== toEl) v.classList.remove('active', 'fade-out');
+      });
       toEl.classList.add('active');
       currentView = toEl;
       updateTopbarState(toEl);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 240);
+    }, 200);
+  }
+
+  function handleHistoryPopState(e) {
+    const targetId = (e.state && e.state.viewId) ? e.state.viewId : 'viewMain';
+    const targetEl = viewMap[targetId] || viewMain;
+    if (currentView !== targetEl) {
+      swapView(currentView, targetEl, false);
+    }
+  }
+
+  // Set state awal di history agar kembali ke viewMain selalu terdeteksi
+  if (!history.state || !history.state.viewId) {
+    history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
   }
 
   // Tombol Back di Topbar Kapsul
   globalBackBtn?.addEventListener('click', () => {
     if (currentView === viewChapters) {
       swapView(viewChapters, viewKotobaBooks);
-    } else if (currentView === viewKotobaBooks || currentView === viewKanji) {
+    } else if (currentView === viewKotobaBooks || currentView === viewKanji || currentView === viewJft) {
       swapView(currentView, viewMain);
     }
   });
@@ -193,16 +330,66 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       icon.classList.remove('spin-anim');
       swapView(viewMain, viewKanji);
-    }, 420);
+    }, 380);
   });
 
-  // Klik Link Langsung (Angka, Kotoba, Pemula, Bunpou, SSW, Kanji N5/N4)
+  // Klik JFT (Buka Halaman Khusus JFT)
+  $('btnJft')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!isFeatureActive('jft')) {
+      playPopSound();
+      this.classList.remove('shake-locked');
+      void this.offsetWidth;
+      this.classList.add('shake-locked');
+      return;
+    }
+    const icon = this.querySelector('.icon-box') || this;
+    icon.classList.add('spin-anim');
+    setTimeout(() => {
+      icon.classList.remove('spin-anim');
+      swapView(viewMain, viewJft);
+    }, 380);
+  });
+
+  // Interaksi 4 Modul di dalam Halaman JFT
+  const jftModuleCards = document.querySelectorAll('.jft-module-card');
+  const jftWorkspaceTag = $('jftWorkspaceTag');
+  const jftWorkspaceTitle = $('jftWorkspaceTitle');
+  const jftWorkspaceDesc = $('jftWorkspaceDesc');
+  const jftSectionPills = $('jftSectionPills');
+  const jftWorkspacePanel = $('jftWorkspacePanel');
+
+  jftModuleCards.forEach(card => {
+    card.addEventListener('click', function (e) {
+      e.preventDefault();
+      playPopSound();
+      const modKey = this.getAttribute('data-jft-module');
+      const data = JFT_MODULES_DATA[modKey];
+      if (!data) return;
+
+      jftModuleCards.forEach(c => c.classList.remove('active-module'));
+      this.classList.add('active-module');
+
+      if (jftWorkspaceTag) jftWorkspaceTag.textContent = data.tag;
+      if (jftWorkspaceTitle) jftWorkspaceTitle.textContent = data.title;
+      if (jftWorkspaceDesc) jftWorkspaceDesc.textContent = data.desc;
+      if (jftSectionPills) {
+        jftSectionPills.innerHTML = data.pills
+          .map(item => `<div class="jft-pill-item">${item}</div>`)
+          .join('');
+      }
+
+      jftWorkspacePanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+
+  // Klik Link Langsung (Angka, Kotoba, Pemula, Bunpou, SSW, Choukai, Kanji N5/N4)
   document.querySelectorAll('.tile-link').forEach(card => {
     card.addEventListener('click', function (e) {
       e.preventDefault();
       const feat = this.getAttribute('data-feature');
 
-      // Efek Shake apabila diklik namun masih berstatus LOCKED (mis. Bunpou)
+      // Efek Shake apabila diklik namun masih berstatus LOCKED (mis. Bunpou / Choukai)
       if (feat && !isFeatureActive(feat)) {
         playPopSound();
         this.classList.remove('shake-locked');
@@ -218,12 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         icon.classList.remove('spin-anim');
         if (href && href !== '#') smoothNavigate(href);
-      }, 420);
+      }, 360);
     });
   });
 
   // =========================================================================
-  // 5. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
+  // 6. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
   // =========================================================================
   const carouselContainer = $('carouselContainer');
   const modalGrid = $('modalChapterGrid');
@@ -421,14 +608,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 6. PARALLAX, SPARKS, 3D TILT & ENHANCED MOUSE TRACK (SPOTLIGHT + TRAIL)
+  // 7. PARALLAX, SPARKS, 3D TILT & ENHANCED MOUSE TRACK (SPOTLIGHT + TRAIL)
   // =========================================================================
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
   function bindTiltAndMouseTrack(nodes) {
     nodes.forEach(card => {
-      // Mouse & Touch Spotlight Tracking di setiap kartu
       card.addEventListener('pointermove', e => {
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
@@ -464,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const fx = $('fx');
-    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1'];
+    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1', '#FFEDD5', '#ECFCCB'];
     addEventListener('pointerdown', e => {
       if (!fx) return;
       const pulse = document.createElement('div');
@@ -490,7 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Mouse & Touch Trail Canvas (Mendukung Desktop & Sentuhan HP)
     const cv = $('trail');
     if (cv) {
       const ctx = cv.getContext('2d');
@@ -554,7 +739,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.stroke();
           }
 
-          // Titik kursor aktif di ujung jejak
           const head = pts[pts.length - 1];
           ctx.beginPath();
           ctx.arc(head.x, head.y, 4, 0, Math.PI * 2);

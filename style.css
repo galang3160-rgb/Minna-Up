@@ -1,5 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED 6-BLOCK BENTO + MOUSE TRACK NEO-BRUTALIST SYSTEM
+   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + MOBILE-FIRST NEO-BRUTALIST
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -10,13 +10,15 @@
   --dot-grid: #1111111a;
   --dashed-line: #DEDAD0;
 
-  /* Palet Kategori 6 Blok Neo-Brutalism */
+  /* Palet Kategori 8 Blok Neo-Brutalism */
   --c-matcha: #DCFCE7;
   --c-sky: #E0F2FE;
   --c-amber: #FEF3C7;
   --c-lavender: #E9D5FF;
   --c-rose: #FFE4E6;
   --c-teal: #CCFBF1;
+  --c-peach: #FFEDD5;
+  --c-lime: #ECFCCB;
   --green-brand: #15803D;
 
   /* Border & Hard Shadows */
@@ -53,6 +55,8 @@ html[data-theme="dark"] {
   --c-lavender: #D8B4FE;
   --c-rose: #FDA4AF;
   --c-teal: #5EEAD4;
+  --c-peach: #FDBA74;
+  --c-lime: #BEF264;
   --green-brand: #4ADE80;
 
   --border-color: #384152;
@@ -67,7 +71,9 @@ html[data-theme="dark"] {
 }
 
 html, body {
+  width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
@@ -78,10 +84,17 @@ body {
   background-size: 22px 22px;
   color: var(--ink);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+@media (min-width: 961px) {
+  body {
+    justify-content: center;
+  }
 }
 
 body.cinema-mode {
@@ -107,11 +120,12 @@ body.cinema-mode {
   align-items: center;
   justify-content: center;
   gap: 18px;
-  transition: opacity 0.6s var(--ease), visibility 0.6s;
+  transition: opacity 0.5s var(--ease), visibility 0.5s;
 }
 #splash.hidden {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .splash-box {
@@ -145,7 +159,7 @@ body.cinema-mode {
 @keyframes stroke { to { stroke-dashoffset: 0; } }
 
 .splash-title {
-  font-size: clamp(1.75rem, 5vw, 2.35rem);
+  font-size: clamp(1.6rem, 5vw, 2.35rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   background: var(--surface);
@@ -214,17 +228,17 @@ html[data-theme="dark"] .sun {
 }
 
 /* =========================================================================
-   TOPBAR KAPSUL NEO-BRUTALISM
+   TOPBAR KAPSUL NEO-BRUTALISM (RESPONSIVE & TOUCH-FRIENDLY >= 44x44px)
    ========================================================================= */
 .fixed-topbar {
   position: fixed;
-  top: 20px;
+  top: 16px;
   left: 0;
   right: 0;
   width: 100%;
   z-index: 60;
   pointer-events: none;
-  padding: 0 24px;
+  padding: 0 20px;
   animation: navSlideDown 0.55s var(--ease) forwards;
 }
 @keyframes navSlideDown {
@@ -234,13 +248,13 @@ html[data-theme="dark"] .sun {
 
 .topbar-capsule {
   pointer-events: auto;
-  max-width: 1040px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 10px 18px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   border-radius: 20px;
   background: var(--surface);
   border: var(--border);
@@ -251,12 +265,15 @@ html[data-theme="dark"] .sun {
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
 }
 
 .nav-back-circle {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 12px;
   display: grid;
   place-items: center;
@@ -265,6 +282,7 @@ html[data-theme="dark"] .sun {
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
+  flex-shrink: 0;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
 .nav-back-circle:hover {
@@ -282,35 +300,44 @@ html[data-theme="dark"] .sun {
   align-items: center;
   text-decoration: none;
   color: var(--ink);
+  min-height: 44px;
 }
 .logo-word {
-  font-size: 1.25rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   font-weight: 700;
   letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 .logo-word b {
   color: var(--green-brand);
 }
 
 .nav-crumb {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 99px;
   background: var(--c-sky);
   color: var(--ink-badge);
   border: 2px solid var(--border-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .theme-toggle-btn {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 12px;
   display: grid;
   place-items: center;
@@ -337,15 +364,16 @@ html[data-theme="dark"] .theme-toggle-btn .icon-sun { display: block; }
 html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 
 .chapter-trigger-btn {
+  min-height: 44px;
   background: var(--c-matcha);
   color: var(--ink-badge);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
-  padding: 7px 12px 7px 16px;
+  padding: 6px 12px 6px 14px;
   border-radius: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   font-family: inherit;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
@@ -359,7 +387,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   transform: translate(3px, 3px);
   box-shadow: none;
 }
-.trigger-label { font-size: 0.95rem; font-weight: 700; }
+.trigger-label { font-size: 0.92rem; font-weight: 700; white-space: nowrap; }
 .trigger-icon-wrap {
   width: 28px;
   height: 28px;
@@ -378,42 +406,45 @@ main {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1040px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 96px 24px 36px;
+  padding: 94px 20px 40px;
 }
 
 body.page-leaving .fixed-topbar {
-  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
-  transform: translateY(-25px);
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  transform: translateY(-20px);
   opacity: 0;
 }
 body.page-leaving main {
-  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
-  transform: translateY(30px);
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  transform: translateY(20px);
   opacity: 0;
 }
 
 .view { display: none; width: 100%; }
-.view.active { display: block; animation: viewIn 0.32s var(--ease) forwards; }
-.view.fade-out { display: block; animation: viewOut 0.24s var(--ease) forwards; }
+.view.active { display: block; animation: viewIn 0.3s var(--ease) forwards; }
+.view.fade-out { display: block; animation: viewOut 0.2s var(--ease) forwards; }
 
 @keyframes viewIn {
-  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes viewOut {
   from { opacity: 1; transform: translateY(0) scale(1); }
-  to { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 0; transform: translateY(-8px) scale(0.985); }
 }
 
 /* =========================================================================
-   BENTO GRID 6 BLOK & MOUSE TRACK SPOTLIGHT CARDS
+   BENTO GRID 8 BLOK & MOUSE TRACK SPOTLIGHT CARDS
    ========================================================================= */
 .bento-grid {
   display: grid;
   width: 100%;
-  gap: 22px;
+  gap: 20px;
+}
+.grid-8 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .grid-6 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -426,7 +457,7 @@ body.page-leaving main {
 }
 .grid-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 560px;
+  max-width: 580px;
   margin: 0 auto;
 }
 
@@ -444,8 +475,8 @@ body.page-leaving main {
   background: var(--surface);
   border: var(--border);
   border-radius: var(--radius-card);
-  min-height: 235px;
-  padding: 22px;
+  min-height: 225px;
+  padding: 20px;
   box-shadow: var(--shadow);
   transform-style: preserve-3d;
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.25s ease;
@@ -475,14 +506,16 @@ html[data-theme="dark"] .neo-card:hover::before {
   opacity: 0.14;
 }
 
-.card-angka  { --accent: var(--c-matcha); }
-.card-kanji  { --accent: var(--c-sky); }
-.card-kotoba { --accent: var(--c-amber); }
-.card-pemula { --accent: var(--c-lavender); }
-.card-bunpou { --accent: var(--c-rose); }
-.card-ssw    { --accent: var(--c-teal); }
+.card-angka, .card-matcha     { --accent: var(--c-matcha); }
+.card-kanji, .card-sky        { --accent: var(--c-sky); }
+.card-kotoba, .card-amber     { --accent: var(--c-amber); }
+.card-pemula, .card-lavender  { --accent: var(--c-lavender); }
+.card-bunpou, .card-rose      { --accent: var(--c-rose); }
+.card-ssw, .card-teal         { --accent: var(--c-teal); }
+.card-choukai                 { --accent: var(--c-peach); }
+.card-jft                     { --accent: var(--c-lime); }
 
-/* Kartu Terkunci (Kanji & Bunpou) */
+/* Kartu Terkunci (Kanji, Bunpou, Choukai jika LOCKED) */
 .neo-card.is-locked {
   opacity: 0.58;
   cursor: not-allowed;
@@ -515,9 +548,9 @@ html[data-theme="dark"] .neo-card:hover::before {
 .icon-box {
   position: relative;
   z-index: 1;
-  width: 80px;
-  height: 80px;
-  margin: 14px auto;
+  width: 76px;
+  height: 76px;
+  margin: 12px auto;
   border-radius: var(--radius-icon);
   background: var(--accent);
   border: var(--border);
@@ -528,8 +561,8 @@ html[data-theme="dark"] .neo-card:hover::before {
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .icon-box svg {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   color: var(--ink-badge);
 }
 
@@ -546,14 +579,17 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .card-title {
-  font-size: 1.3rem;
+  font-size: clamp(1.12rem, 2vw, 1.28rem);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 .card-arrow {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   border-radius: 10px;
   background: var(--bg);
   color: var(--ink);
@@ -588,12 +624,179 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .spin-anim {
-  animation: flip360 0.48s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flip360 0.44s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes flip360 {
   0%   { transform: translateZ(32px) rotateY(0deg) scale(1); }
   50%  { transform: translateZ(32px) rotateY(180deg) scale(1.1); }
   100% { transform: translateZ(32px) rotateY(360deg) scale(1); }
+}
+
+/* =========================================================================
+   HALAMAN KHUSUS FITUR KE-8: JFT (JAPAN FOUNDATION TEST)
+   ========================================================================= */
+.jft-hero-banner {
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.jft-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.jft-badge {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: var(--c-lime);
+  color: var(--ink-badge);
+  border: 2px solid var(--border-color);
+}
+
+.jft-jp-tag {
+  font-size: 0.85rem;
+  color: var(--dim);
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--dashed-line);
+}
+
+.jft-hero-title {
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.jft-hero-desc {
+  font-size: clamp(0.92rem, 1.8vw, 1rem);
+  color: var(--dim);
+  line-height: 1.6;
+}
+.jft-hero-desc b {
+  color: var(--ink);
+}
+
+.jft-modules-grid {
+  margin-bottom: 22px;
+}
+
+.jft-module-card {
+  min-height: 250px;
+  gap: 10px;
+}
+.jft-module-card.active-module {
+  outline: 3px solid var(--green-brand);
+}
+
+.jft-card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jft-card-sub {
+  font-size: 0.86rem;
+  color: var(--dim);
+  line-height: 1.45;
+}
+
+.jft-status-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--accent);
+  color: var(--ink-badge);
+  border: 1.5px solid var(--border-color);
+}
+
+.jft-workspace-panel {
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius-card);
+  padding: 22px 24px;
+}
+
+.jft-workspace-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--dashed-line);
+}
+
+.jft-workspace-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--c-amber);
+  color: var(--ink-badge);
+  border: 2px solid var(--border-color);
+  padding: 2px 10px;
+  border-radius: 99px;
+  margin-bottom: 4px;
+}
+
+.jft-workspace-title {
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  font-weight: 700;
+}
+
+.jft-ready-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 10px;
+  background: var(--c-matcha);
+  color: var(--ink-badge);
+  border: 2px solid var(--border-color);
+}
+
+.jft-workspace-desc {
+  font-size: 0.94rem;
+  color: var(--dim);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.jft-section-pills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.jft-pill-item {
+  background: var(--bg);
+  border: 2px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  box-shadow: var(--shadow-sm);
 }
 
 /* =========================================================================
@@ -605,13 +808,15 @@ html[data-theme="dark"] .neo-card:hover::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 24px;
   padding: 10px 0;
 }
 
 .nav-arrow-btn {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 16px;
   z-index: 25;
   background: var(--surface);
@@ -639,7 +844,7 @@ html[data-theme="dark"] .neo-card:hover::before {
   position: relative;
   width: 100%;
   max-width: 860px;
-  height: 440px;
+  height: 430px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -651,12 +856,12 @@ html[data-theme="dark"] .neo-card:hover::before {
   --card-accent: var(--c-matcha);
 
   position: absolute;
-  width: 320px;
-  height: 410px;
+  width: 310px;
+  height: 400px;
   background: var(--surface);
   border: var(--border);
   border-radius: var(--radius-card);
-  padding: 26px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -747,8 +952,8 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .chapter-icon-box {
-  width: 92px;
-  height: 92px;
+  width: 88px;
+  height: 88px;
   border-radius: 22px;
   background: var(--card-accent);
   border: var(--border);
@@ -758,8 +963,8 @@ html[data-theme="dark"] .neo-card:hover::before {
   transition: transform 0.25s var(--ease);
 }
 .chapter-icon-box svg {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   color: var(--ink-badge);
 }
 .chapter-flashcard.active:hover .chapter-icon-box {
@@ -767,7 +972,7 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .chapter-title {
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 5vw, 2.7rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -783,7 +988,7 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .action-hint {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 700;
   color: var(--ink);
 }
@@ -816,7 +1021,7 @@ html[data-theme="dark"] .neo-card:hover::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.28s var(--ease), visibility 0.28s;
@@ -836,7 +1041,7 @@ html[data-theme="dark"] .neo-card:hover::before {
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  padding: 26px;
+  padding: 24px;
   transform: scale(0.94) translateY(14px);
   transition: transform 0.28s var(--ease), background-color 0.25s ease;
   overflow: hidden;
@@ -849,7 +1054,7 @@ html[data-theme="dark"] .neo-card:hover::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .modal-tag {
@@ -866,14 +1071,16 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .modal-title {
-  font-size: 1.6rem;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
   font-weight: 700;
   color: var(--ink);
 }
 
 .modal-close-btn {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 12px;
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
@@ -892,17 +1099,18 @@ html[data-theme="dark"] .neo-card:hover::before {
 .modal-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 10px;
   overflow-y: auto;
   padding: 4px 6px 6px 2px;
 }
 
 .chapter-grid-item {
+  min-height: 54px;
   background: var(--surface);
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
   border-radius: 14px;
-  padding: 14px 10px;
+  padding: 12px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -922,13 +1130,13 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 .cgi-num {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.1;
 }
 .cgi-label {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
   color: var(--dim);
   letter-spacing: 0.06em;
@@ -946,86 +1154,222 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 /* =========================================================================
-   RESPONSIVE DESIGN (TABLET & HP)
+   RESPONSIVE DESIGN BREAKPOINTS (1440px, 1024px, 768px, 430px, 390px, 360px, 320px)
    ========================================================================= */
-@media (max-width: 960px) {
+
+/* Laptop & Tablet Landscape (<= 1024px) */
+@media (max-width: 1024px) {
+  .grid-8 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .jft-modules-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .neo-card {
+    min-height: 210px;
+  }
+}
+
+/* Tablet Portrait (<= 768px) */
+@media (max-width: 768px) {
+  .fixed-topbar { padding: 0 14px; top: 12px; }
+  .topbar-capsule { padding: 8px 12px; border-radius: 16px; }
+  main { padding: 86px 14px 32px; }
+
+  .grid-8,
   .grid-6,
   .grid-4,
   .grid-5 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
+
   .neo-card {
-    min-height: 215px;
+    min-height: 195px;
+    padding: 18px;
+    border-radius: 20px;
   }
+
+  .icon-box {
+    width: 68px;
+    height: 68px;
+    margin: 10px auto;
+  }
+  .icon-box svg { width: 32px; height: 32px; }
+
+  .jft-hero-banner { padding: 18px; border-radius: 20px; }
+  .jft-workspace-panel { padding: 18px; border-radius: 20px; }
+  .jft-section-pills { grid-template-columns: 1fr; gap: 10px; }
+
+  .chapter-flashcard { width: 270px; height: 370px; padding: 20px; }
+  .chapter-icon-box { width: 76px; height: 76px; }
+  .chapter-flashcard.prev { transform: translateX(-56%) scale(0.76) rotate(-3deg); }
+  .chapter-flashcard.next { transform: translateX(56%) scale(0.76) rotate(3deg); }
+  .modal-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-@media (max-width: 768px) {
-  .fixed-topbar { padding: 0 14px; top: 14px; }
-  .topbar-capsule { padding: 8px 14px; border-radius: 16px; }
-  .logo-word { font-size: 1.1rem; }
-  .theme-toggle-btn { width: 38px; height: 38px; border-radius: 10px; }
-  .chapter-trigger-btn { padding: 6px 10px 6px 14px; }
-  .chapter-flashcard { width: 280px; height: 380px; padding: 22px; }
-  .chapter-title { font-size: 2.35rem; }
-  .chapter-icon-box { width: 78px; height: 78px; }
-  .chapter-flashcard.prev { transform: translateX(-58%) scale(0.76) rotate(-3deg); }
-  .chapter-flashcard.next { transform: translateX(58%) scale(0.76) rotate(3deg); }
-}
-
-@media (max-width: 680px) {
-  .modal-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .modal-sheet { padding: 20px 16px; }
-  .modal-title { font-size: 1.35rem; }
-}
-
+/* Smartphone Besar & Modern (<= 600px: 430px, 390px, 360px) */
 @media (max-width: 600px) {
-  body {
-    align-items: flex-start;
+  body.cinema-mode {
+    overflow-y: auto;
   }
   main {
-    padding: 82px 16px 28px;
+    padding: 80px 14px 28px;
   }
-  .bento-grid,
+
+  /* 2 Kolom Kompak untuk Menu Utama di HP Standar/Modern (360px - 430px) */
+  .grid-8 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
   .grid-6,
   .grid-4,
   .grid-5,
-  .grid-2 {
+  .grid-2,
+  .jft-modules-grid {
     grid-template-columns: 1fr;
-    gap: 13px;
+    gap: 12px;
     max-width: none;
   }
-  .neo-card {
+
+  /* Desain Kartu Grid 2 Kolom di HP agar Proporsional & Nyaman Disentuh */
+  #viewMain .neo-card {
+    min-height: 162px;
+    padding: 14px;
+    border-radius: 18px;
+    box-shadow: 4px 4px 0px 0px var(--shadow-color);
+  }
+  #viewMain .card-index {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+  #viewMain .icon-box {
+    width: 56px;
+    height: 56px;
+    margin: 8px auto;
+    border-radius: 14px;
+  }
+  #viewMain .icon-box svg {
+    width: 28px;
+    height: 28px;
+  }
+  #viewMain .card-footer {
+    padding-top: 10px;
+    gap: 6px;
+  }
+  #viewMain .card-title {
+    font-size: 1.05rem;
+  }
+  #viewMain .card-arrow {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 9px;
+  }
+
+  /* Kartu Horizontal untuk Submenu (Kanji N5/N4, Kotoba Books, Modul JFT) */
+  #viewKanji .neo-card,
+  #viewKotobaBooks .neo-card {
     min-height: 84px;
     padding: 13px 16px;
     display: grid;
     grid-template-columns: 56px 1fr auto;
     align-items: center;
-    column-gap: 15px;
-    border-radius: 20px;
+    column-gap: 14px;
+    border-radius: 18px;
   }
-  .card-index { display: none; }
-  .icon-box {
+  #viewKanji .card-index,
+  #viewKotobaBooks .card-index {
+    display: none;
+  }
+  #viewKanji .icon-box,
+  #viewKotobaBooks .icon-box {
     grid-column: 1;
     width: 56px;
     height: 56px;
     margin: 0;
     border-radius: 14px;
   }
-  .icon-box svg { width: 28px; height: 28px; }
-  .card-footer {
+  #viewKanji .card-footer,
+  #viewKotobaBooks .card-footer {
     grid-column: 2 / 4;
     border-top: none;
     padding-top: 0;
     width: 100%;
   }
-  .card-title { font-size: 1.18rem; }
-  .nav-crumb { display: none !important; }
-  .flashcard-stage { gap: 10px; }
-  .nav-arrow-btn { width: 46px; height: 46px; border-radius: 14px; }
-  .carousel-container { height: 370px; }
-  .chapter-flashcard { width: 250px; height: 350px; }
+
+  .jft-module-card {
+    min-height: auto;
+    padding: 16px;
+    border-radius: 18px;
+  }
+  .jft-module-card .icon-box {
+    width: 56px;
+    height: 56px;
+    margin: 6px 0;
+  }
+
+  .nav-crumb {
+    max-width: 110px;
+    font-size: 0.74rem;
+    padding: 3px 9px;
+  }
+
+  .flashcard-stage { gap: 8px; }
+  .nav-arrow-btn { width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 12px; }
+  .carousel-container { height: 350px; }
+  .chapter-flashcard { width: 235px; height: 330px; padding: 18px; }
   .chapter-flashcard.prev,
   .chapter-flashcard.next { opacity: 0; pointer-events: none; }
+
+  .modal-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .modal-sheet { padding: 18px 14px; }
+}
+
+/* Smartphone Kecil (<= 350px / 320px) */
+@media (max-width: 350px) {
+  .topbar-capsule {
+    padding: 7px 10px;
+    gap: 8px;
+  }
+  .logo-word {
+    font-size: 0.98rem;
+  }
+  .nav-crumb {
+    display: none !important;
+  }
+  .grid-8 {
+    grid-template-columns: 1fr;
+  }
+  #viewMain .neo-card {
+    min-height: 82px;
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: center;
+    column-gap: 12px;
+  }
+  #viewMain .card-index {
+    display: none;
+  }
+  #viewMain .icon-box {
+    grid-column: 1;
+    width: 52px;
+    height: 52px;
+    margin: 0;
+  }
+  #viewMain .card-footer {
+    grid-column: 2 / 4;
+    border-top: none;
+    padding-top: 0;
+    width: 100%;
+  }
+  .chapter-flashcard {
+    width: 210px;
+    height: 310px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

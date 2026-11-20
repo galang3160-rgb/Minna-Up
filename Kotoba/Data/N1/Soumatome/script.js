@@ -1,7 +1,7 @@
 /**
- * NAKAMA GAKKOU — SOUMATOME LEARNING ENGINE (LIGHT & DARK MODE)
- * Membaca: kode/soumatome1.json, kode/soumatome2.json, dst. sesuai jumlah file yang ada
- * Tampilan & Judul: Part 1, Part 2, dst.
+ * NAKAMA GAKKOU — SOUMATOME LEARNING ENGINE + STATUS HAFALAN (TANPA NOTIF HAFALAN)
+ * Membaca: kode/soumatome1.json, kode/soumatome2.json, dst.
+ * Interval Pengulangan "Belum": 1 menit -> 5 menit -> 15 menit
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,16 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return r;
   };
 
-  // Regex pendeteksi Kanji & Kana Jepang
   const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
   const JP_CHAR_REGEX = /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf々]/;
 
   // ---------- KONFIGURASI PATH FILE SOUMATOME ----------
   const DATA_PATH = n => `kode/soumatome${n}.json`;
   const SAVE_KEY = 'nakama:soumatome_part';
-  const THEME_KEY = 'nakama:theme';
+  const THEME_KEY = 'nakama_theme';
+  const HAFALAN_KEY = 'nakama:soumatome_hafalan_v1';
 
-  // Cache hasil pembacaan JSON agar perpindahan Part instan
+  // Interval Spaced Repetition dalam menit (1 menit, 5 menit, 15 menit)
+  const SR_INTERVALS_MIN = [1, 5, 15];
+
   const partDataCache = new Map();
   let availableParts = [];
 
@@ -38,32 +40,72 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioOn = true;
   let vocabZoomRem = 3.6;
 
-  // State Fitur Kartu
-  let isKanjiVisible = true;   // Toggle tombol K
-  let isFuriVisible = true;    // Toggle tombol F
-  let isReversedCard = false;  // false = ID -> JP | true = JP -> ID
+  let isKanjiVisible = true;
+  let isFuriVisible = true;
+  let isReversedCard = false;
 
   let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
+
+  // ---------- PENYIMPANAN STATUS HAFALAN (LOCALSTORAGE) ----------
+  let hafalanStore = {};
+  try {
+    hafalanStore = JSON.parse(localStorage.getItem(HAFALAN_KEY) || '{}') || {};
+  } catch (e) {
+    hafalanStore = {};
+  }
+
+  function saveHafalanStore() {
+    try {
+      localStorage.setItem(HAFALAN_KEY, JSON.stringify(hafalanStore));
+    } catch (e) {}
+  }
+
+  function getItemKey(item) {
+    return `${item.kanji}|${item.furigana}`;
+  }
+
+  function getPartStore(partNum = currentPart) {
+    if (!hafalanStore[partNum]) hafalanStore[partNum] = {};
+    return hafalanStore[partNum];
+  }
+
+  function getItemHafalan(item) {
+    return getPartStore()[getItemKey(item)] || null;
+  }
+
+  function isItemMastered(item) {
+    const rec = getItemHafalan(item);
+    return rec && rec.status === 'sudah';
+  }
+
+  function isItemDue(item, now = Date.now()) {
+    const rec = getItemHafalan(item);
+    return rec && rec.status === 'belum' && rec.nextReview && rec.nextReview <= now;
+  }
+
+  function updateHafalanSummary() {
+    const summaryEl = $('hafalanSummary');
+    if (!summaryEl) return;
+    const total = rawChapterVocab.length;
+    const masteredCount = rawChapterVocab.filter(isItemMastered).length;
+    summaryEl.textContent = `Hafal: ${masteredCount} / ${total}`;
+  }
 
   // ---------- FITUR DARK MODE / LIGHT MODE ----------
   const btnThemeToggle = $('btnThemeToggle');
 
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    if (btnThemeToggle) {
-      const isDark = theme === 'dark';
-      btnThemeToggle.querySelector('.icon-moon').style.display = isDark ? 'none' : 'block';
-      btnThemeToggle.querySelector('.icon-sun').style.display = isDark ? 'block' : 'none';
-    }
     try {
       localStorage.setItem(THEME_KEY, theme);
+      localStorage.setItem('nakama:theme', theme);
     } catch (e) {}
   }
 
-  // Muat tema yang tersimpan saat halaman dibuka
   let savedTheme = 'light';
   try {
-    savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+    savedTheme = localStorage.getItem(THEME_KEY) || localStorage.getItem('nakama:theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   } catch (e) {}
   applyTheme(savedTheme);
 
@@ -75,35 +117,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- WEB AUDIO SFX & JAPANESE TTS ----------
+  // ---------- WEB AUDIO SFX & NATIVE JAPANESE TTS ----------
   let actx = null;
   let jpVoice = null;
 
-  function initJapaneseVoice() {
+  function selectBestJapaneseVoice() {
     if (!('speechSynthesis' in window)) return;
     const voices = window.speechSynthesis.getVoices();
-    const ja = voices.filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
-    if (ja.length) {
-      ja.sort((a, b) => {
-        const score = v => (v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('google') ? 10 : 0);
-        return score(b) - score(a);
-      });
-      jpVoice = ja[0];
-    }
+    const jaVoices = voices.filter(v => v.lang && (v.lang.toLowerCase().startsWith('ja') || v.lang.includes('JP')));
+    if (!jaVoices.length) return;
+
+    const rankVoice = (v) => {
+      const name = v.name.toLowerCase();
+      let s = 0;
+      if (name.includes('natural') || name.includes('neural') || name.includes('online')) s += 120;
+      if (name.includes('nanami') || name.includes('keita') || name.includes('aoi') || name.includes('mayu')) s += 95;
+      if (name.includes('google') && (name.includes('日本語') || name.includes('japanese'))) s += 85;
+      if (name.includes('kyoko') || name.includes('otoya') || name.includes('siri')) s += 75;
+      if (!v.localService) s += 25;
+      return s;
+    };
+
+    jaVoices.sort((a, b) => rankVoice(b) - rankVoice(a));
+    jpVoice = jaVoices[0];
   }
+
   if ('speechSynthesis' in window) {
-    initJapaneseVoice();
-    window.speechSynthesis.onvoiceschanged = initJapaneseVoice;
+    selectBestJapaneseVoice();
+    window.speechSynthesis.onvoiceschanged = selectBestJapaneseVoice;
   }
 
   function speakJapanese(text) {
     if (!audioOn || !text || !('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
-    const ut = new SpeechSynthesisUtterance(text);
+    if (!jpVoice) selectBestJapaneseVoice();
+
+    const ut = new SpeechSynthesisUtterance(`${text.trim()}。`);
     ut.lang = 'ja-JP';
     if (jpVoice) ut.voice = jpVoice;
     ut.rate = 0.85;
-    ut.pitch = 1.04;
+    ut.pitch = 1.0;
+    ut.volume = 1.0;
     window.speechSynthesis.speak(ut);
   }
 
@@ -139,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ---------- VISUAL FX (AMBIENT, SPARKS & SMOOTH TRAIL) ----------
+  // ---------- VISUAL FX ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
@@ -209,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         for (let i = 1; i < pts.length; i++) {
           const t = i / pts.length;
-          cctx.strokeStyle = isDark ? `rgba(74, 222, 128, ${t * 0.22})` : `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.strokeStyle = isDark ? `rgba(110, 231, 183, ${t * 0.24})` : `rgba(21, 128, 61, ${t * 0.18})`;
           cctx.lineWidth = t * 8;
           cctx.beginPath();
           cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
@@ -221,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ---------- NOTIFIKASI STATUS DATA ----------
+  // ---------- NOTIFIKASI STATUS DATA (HANYA UNTUK ERROR / PERINGATAN) ----------
   let noticeTimer = null;
   function showNotice(msg, autoHide = 0) {
     const n = $('dataNotice');
@@ -283,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- FITUR KONTROL KARTU: KANJI ON/OFF, FURIGANA ON/OFF, ARAH, ACAK ----------
+  // ---------- KONTROL KARTU: KANJI, FURIGANA, ARAH, ACAK ----------
   function updateCardVisibilityUI() {
     const container = $('carouselContainer');
     container.classList.toggle('kanji-off', !isKanjiVisible);
@@ -302,18 +356,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleKanjiVisibility() {
     isKanjiVisible = !isKanjiVisible;
-    if (!isKanjiVisible && !isFuriVisible) {
-      isFuriVisible = true;
-    }
+    if (!isKanjiVisible && !isFuriVisible) isFuriVisible = true;
     updateCardVisibilityUI();
     playTone('pop');
   }
 
   function toggleFuriVisibility() {
     isFuriVisible = !isFuriVisible;
-    if (!isFuriVisible && !isKanjiVisible) {
-      isKanjiVisible = true;
-    }
+    if (!isFuriVisible && !isKanjiVisible) isKanjiVisible = true;
     updateCardVisibilityUI();
     playTone('pop');
   }
@@ -321,14 +371,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleCardDirection() {
     isReversedCard = !isReversedCard;
     $('swapDirectionLabel').textContent = isReversedCard ? 'JP ➔ ID' : 'ID ➔ JP';
-    Carousel.render();
+    Carousel.render(Carousel.index);
     playTone('flip');
   }
 
   function handleShuffleCards() {
     if (activeVocab.length <= 1) return;
     activeVocab = shuffle(activeVocab);
-    Carousel.render();
+    Carousel.render(0);
     playTone('pop');
   }
 
@@ -337,15 +387,35 @@ document.addEventListener('DOMContentLoaded', () => {
   $('swapDirectionBtn').addEventListener('click', toggleCardDirection);
   $('shuffleBtn').addEventListener('click', handleShuffleCards);
 
-  // ---------- SISTEM FILTER PENCARIAN & CHECKLIST ----------
+  // ---------- PRIORITAS ANTREAN SPACED REPETITION ----------
+  function prioritizeVocab(list) {
+    const now = Date.now();
+    return [...list].sort((a, b) => {
+      const aDue = isItemDue(a, now) ? 1 : 0;
+      const bDue = isItemDue(b, now) ? 1 : 0;
+      if (aDue !== bDue) return bDue - aDue;
+
+      const recA = getItemHafalan(a);
+      const recB = getItemHafalan(b);
+      const aBelum = recA && recA.status === 'belum' ? 1 : 0;
+      const bBelum = recB && recB.status === 'belum' ? 1 : 0;
+
+      if (aBelum && bBelum) {
+        return (recA.nextReview || 0) - (recB.nextReview || 0);
+      }
+      return a.id - b.id;
+    });
+  }
+
+  // ---------- PENCARIAN & CHECKLIST ----------
   const searchInput = $('searchInput');
   const btnClearSearch = $('btnClearSearch');
 
-  function syncActiveVocab() {
+  function syncActiveVocab(preserveIndex = 0) {
     const query = searchInput.value.trim().toLowerCase();
     btnClearSearch.hidden = !query;
 
-    activeVocab = rawChapterVocab.filter(item => {
+    const filtered = rawChapterVocab.filter(item => {
       if (!selectedIds.has(item.id)) return false;
       if (!query) return true;
       const arti = (item.arti || '').toLowerCase();
@@ -354,10 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return arti.includes(query) || furi.includes(query) || kanji.includes(query);
     });
 
+    activeVocab = prioritizeVocab(filtered);
+
     $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
+    updateHafalanSummary();
 
     if (mode === 'carousel') {
-      Carousel.render();
+      Carousel.render(preserveIndex);
     } else if (mode === 'list') {
       renderChecklist();
     } else if (mode === 'mc' || mode === 'typing') {
@@ -371,14 +444,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  searchInput.addEventListener('input', syncActiveVocab);
+  searchInput.addEventListener('input', () => syncActiveVocab(0));
   btnClearSearch.addEventListener('click', () => {
     searchInput.value = '';
-    syncActiveVocab();
+    syncActiveVocab(0);
     searchInput.focus();
   });
 
-  // ---------- FITUR CHECKLIST PILIH KOSAKATA ----------
   function renderChecklist() {
     const grid = $('checklistGrid');
     grid.innerHTML = '';
@@ -394,11 +466,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     listToShow.forEach(item => {
       const isChecked = selectedIds.has(item.id);
+      const mastered = isItemMastered(item);
       const tile = document.createElement('div');
       tile.className = `check-tile ${isChecked ? 'is-checked' : ''}`;
 
       const mainJp = item.hasKanji ? item.kanji : item.furigana;
       const subJp = item.hasKanji ? item.furigana : '';
+
+      const badgeHtml = mastered
+        ? `<span class="tile-type-badge is-mastered">Hafal</span>`
+        : `<span class="tile-type-badge ${item.hasKanji ? 'is-kanji' : 'is-kana'}">${item.hasKanji ? 'Kanji' : 'Kana'}</span>`;
 
       tile.innerHTML = `
         <div class="anim-check-box">
@@ -408,26 +485,36 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="tile-jp">
             <span class="tile-kanji furigana-font">${esc(mainJp)}</span>
             ${subJp ? `<span class="tile-furi furigana-font">${esc(subJp)}</span>` : ''}
-            <span class="tile-type-badge ${item.hasKanji ? 'is-kanji' : 'is-kana'}">${item.hasKanji ? 'Kanji' : 'Kana'}</span>
+            ${badgeHtml}
           </div>
           <span class="tile-arti">${esc(item.arti)}</span>
         </div>
       `;
 
       tile.addEventListener('click', () => {
+        const store = getPartStore();
+        const key = getItemKey(item);
+
         if (selectedIds.has(item.id)) {
           selectedIds.delete(item.id);
           tile.classList.remove('is-checked');
         } else {
           selectedIds.add(item.id);
           tile.classList.add('is-checked');
+          if (store[key] && store[key].status === 'sudah') {
+            delete store[key];
+            saveHafalanStore();
+            updateHafalanSummary();
+          }
         }
         playTone('pop');
         $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
         const q = searchInput.value.trim().toLowerCase();
-        activeVocab = rawChapterVocab.filter(v =>
-          selectedIds.has(v.id) &&
-          (!q || v.arti.toLowerCase().includes(q) || v.furigana.toLowerCase().includes(q) || v.kanji.toLowerCase().includes(q))
+        activeVocab = prioritizeVocab(
+          rawChapterVocab.filter(v =>
+            selectedIds.has(v.id) &&
+            (!q || v.arti.toLowerCase().includes(q) || v.furigana.toLowerCase().includes(q) || v.kanji.toLowerCase().includes(q))
+          )
         );
       });
 
@@ -436,9 +523,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   $('selectAllBtn').addEventListener('click', () => {
-    selectedIds = new Set(rawChapterVocab.map(v => v.id));
+    const store = getPartStore();
+    rawChapterVocab.forEach(v => {
+      selectedIds.add(v.id);
+      const k = getItemKey(v);
+      if (store[k] && store[k].status === 'sudah') delete store[k];
+    });
+    saveHafalanStore();
     playTone('pop');
-    syncActiveVocab();
+    syncActiveVocab(0);
   });
 
   $('selectKanjiOnlyBtn').addEventListener('click', () => {
@@ -449,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     selectedIds = new Set(kanjiItems.map(v => v.id));
     playTone('pop');
-    syncActiveVocab();
+    syncActiveVocab(0);
   });
 
   $('selectKanaOnlyBtn').addEventListener('click', () => {
@@ -460,14 +553,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     selectedIds = new Set(kanaItems.map(v => v.id));
     playTone('pop');
-    syncActiveVocab();
+    syncActiveVocab(0);
   });
 
   $('deselectAllBtn').addEventListener('click', () => {
     selectedIds.clear();
     playTone('pop');
-    syncActiveVocab();
+    syncActiveVocab(0);
   });
+
+  // ---------- AKSI STATUS HAFALAN: "SUDAH" & "BELUM" (TANPA NOTIF) ----------
+  const btnStatusBelum = $('btnStatusBelum');
+  const btnStatusSudah = $('btnStatusSudah');
+
+  function updateStatusButtonsState() {
+    const hasCard = activeVocab.length > 0;
+    if (btnStatusBelum) btnStatusBelum.disabled = !hasCard;
+    if (btnStatusSudah) btnStatusSudah.disabled = !hasCard;
+  }
+
+  function markCurrentSudah() {
+    if (!activeVocab.length) return;
+    const item = activeVocab[Carousel.index];
+    if (!item) return;
+
+    const store = getPartStore();
+    store[getItemKey(item)] = {
+      status: 'sudah',
+      level: 0,
+      nextReview: null,
+      updatedAt: Date.now()
+    };
+    saveHafalanStore();
+
+    selectedIds.delete(item.id);
+    playTone('correct');
+
+    const nextIdx = Math.min(Carousel.index, Math.max(0, activeVocab.length - 2));
+    syncActiveVocab(nextIdx);
+  }
+
+  function markCurrentBelum() {
+    if (!activeVocab.length) return;
+    const item = activeVocab[Carousel.index];
+    if (!item) return;
+
+    const store = getPartStore();
+    const key = getItemKey(item);
+    const prev = store[key];
+
+    const nextLevel = (prev && prev.status === 'belum')
+      ? Math.min((prev.level || 0) + 1, SR_INTERVALS_MIN.length - 1)
+      : 0;
+    const delayMin = SR_INTERVALS_MIN[nextLevel];
+
+    store[key] = {
+      status: 'belum',
+      level: nextLevel,
+      nextReview: Date.now() + delayMin * 60 * 1000,
+      updatedAt: Date.now()
+    };
+    saveHafalanStore();
+
+    selectedIds.add(item.id);
+    playTone('pop');
+
+    if (activeVocab.length > 1) {
+      const [moved] = activeVocab.splice(Carousel.index, 1);
+      activeVocab.push(moved);
+      const nextIdx = Carousel.index >= activeVocab.length ? 0 : Carousel.index;
+      Carousel.render(nextIdx);
+    } else {
+      Carousel.render(0);
+    }
+  }
+
+  btnStatusSudah?.addEventListener('click', markCurrentSudah);
+  btnStatusBelum?.addEventListener('click', markCurrentBelum);
+
+  // Pemeriksa Otomatis Spaced Repetition (tanpa notif pop-up)
+  setInterval(() => {
+    if (mode !== 'carousel' || !activeVocab.length) return;
+    const now = Date.now();
+    const dueIdx = activeVocab.findIndex((item, idx) => idx !== Carousel.index && isItemDue(item, now));
+    if (dueIdx !== -1) {
+      const [dueItem] = activeVocab.splice(dueIdx, 1);
+      const insertPos = Math.min(Carousel.index + 1, activeVocab.length);
+      activeVocab.splice(insertPos, 0, dueItem);
+
+      const currentCardEl = $('carouselContainer')?.children[Carousel.index];
+      const isFlipped = currentCardEl && currentCardEl.classList.contains('is-flipped');
+      if (!isFlipped) {
+        Carousel.render(insertPos);
+      }
+    }
+  }, 5000);
 
   // ---------- FLASHCARD KOSAKATA INTERAKTIF ----------
   function buildJapaneseContentHTML(v, includeSubArti = false) {
@@ -486,29 +666,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const Carousel = {
     index: 0,
-    render() {
+    render(startIndex = 0) {
       const container = $('carouselContainer');
       container.innerHTML = '';
       updateCardVisibilityUI();
+      updateStatusButtonsState();
 
       if (!activeVocab.length) {
         $('carouselCounter').textContent = '0 / 0';
+        const allDone = rawChapterVocab.length > 0 && rawChapterVocab.every(isItemMastered);
         container.innerHTML = `
           <div class="chapter-flashcard center">
             <div class="carousel-card-inner">
               <div class="carousel-face front">
-                <div class="face-top-bar"><span class="c-tag">Info</span></div>
-                <div class="face-center-content"><span class="c-arti">Tidak Ada Kata Aktif</span></div>
-                <div class="face-bottom-hint">Pilih kata di menu "Pilih Kata" atau ubah pencarian</div>
+                <div class="face-top-bar"><span class="c-tag">${allDone ? 'Selesai' : 'Info'}</span></div>
+                <div class="face-center-content"><span class="c-arti">${allDone ? 'Semua Sudah Hafal!' : 'Tidak Ada Kata Aktif'}</span></div>
+                <div class="face-bottom-hint">${allDone ? 'Buka "Pilih Kata" untuk mengulang materi lagi' : 'Pilih kata di menu "Pilih Kata" atau ubah pencarian'}</div>
               </div>
             </div>
           </div>`;
         return;
       }
 
+      const now = Date.now();
       activeVocab.forEach((v, i) => {
         const card = document.createElement('div');
         card.className = `chapter-flashcard hidden ${v.hasKanji ? 'has-kanji' : 'kana-only-card'}`;
+
+        const rec = getItemHafalan(v);
+        const srBadge = (rec && rec.status === 'belum')
+          ? `<span class="sr-badge">${rec.nextReview <= now ? 'Ulang Sekarang' : 'Perlu Diulang'}</span>`
+          : '';
 
         const frontTag = isReversedCard ? 'Bahasa Jepang' : 'Bahasa Indonesia';
         const backTag = isReversedCard ? 'Bahasa Indonesia' : 'Bahasa Jepang';
@@ -529,7 +717,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="carousel-card-inner">
             <div class="carousel-face front">
               <div class="face-top-bar">
-                <span class="c-tag">${frontTag}</span>
+                <div class="face-tags-left">
+                  <span class="c-tag">${frontTag}</span>
+                  ${srBadge}
+                </div>
                 <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Bahasa Jepang">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -545,7 +736,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <div class="carousel-face back">
               <div class="face-top-bar">
-                <span class="c-tag">${backTag}</span>
+                <div class="face-tags-left">
+                  <span class="c-tag">${backTag}</span>
+                  ${srBadge}
+                </div>
                 <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Pengucapan">
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -584,16 +778,18 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(card);
       });
 
-      this.index = 0;
+      this.index = Math.max(0, Math.min(startIndex, activeVocab.length - 1));
       this.update();
     },
     update() {
       const cards = $('carouselContainer').children;
       const n = activeVocab.length;
       $('carouselCounter').textContent = n ? `${Math.min(this.index + 1, n)} / ${n}` : '0 / 0';
+      updateStatusButtonsState();
       if (!n) return;
 
       [...cards].forEach((c, i) => {
+        c.style.transform = '';
         if (i === this.index) {
           c.classList.remove('hidden');
           c.classList.add('center');
@@ -622,21 +818,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Swipe Jari Kiri/Kanan di Flashcard HP
   let touchStartX = 0;
+  let touchDeltaX = 0;
   const carouselEl = $('carouselContainer');
+
   if (carouselEl) {
     carouselEl.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
+      touchDeltaX = 0;
     }, { passive: true });
-    carouselEl.addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) Carousel.go(1);
+
+    carouselEl.addEventListener('touchmove', e => {
+      const activeCard = carouselEl.children[Carousel.index];
+      if (!activeCard) return;
+      touchDeltaX = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(touchDeltaX) > 10) {
+        const clamped = Math.max(-70, Math.min(70, touchDeltaX * 0.45));
+        activeCard.style.transform = `translateX(${clamped}px) rotate(${clamped * 0.05}deg)`;
+      }
+    }, { passive: true });
+
+    carouselEl.addEventListener('touchend', () => {
+      const activeCard = carouselEl.children[Carousel.index];
+      if (activeCard) activeCard.style.transform = '';
+      if (Math.abs(touchDeltaX) > 40) {
+        if (touchDeltaX < 0) Carousel.go(1);
         else Carousel.go(-1);
       }
+      touchDeltaX = 0;
     }, { passive: true });
   }
 
-  // ---------- KONTROL ZOOM UKURAN TEKS (+ & -) ----------
+  // ---------- ZOOM UKURAN TEKS ----------
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
@@ -647,7 +859,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (vocabZoomRem > 2.0) { vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1); updateVocabFontSize(); }
   });
 
-  // Tombol Speak di Kuis
   $('btnMcSpeak')?.addEventListener('click', () => { if (quizPool[qi]) speakJapanese(quizPool[qi].furigana); });
   $('btnTypingSpeak')?.addEventListener('click', () => { if (quizPool[qi]) speakJapanese(quizPool[qi].furigana); });
 
@@ -669,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('mode-typing').hidden = (newMode !== 'typing');
 
     if (newMode === 'carousel') {
-      Carousel.render();
+      Carousel.render(Carousel.index);
     } else if (newMode === 'list') {
       renderChecklist();
     } else {
@@ -750,7 +961,6 @@ document.addEventListener('DOMContentLoaded', () => {
     playTone('win');
   }
 
-  // 1. Pilihan Ganda
   function runMC() {
     if (qi >= quizPool.length) {
       return showResult(qScore, quizPool.length);
@@ -813,7 +1023,6 @@ document.addEventListener('DOMContentLoaded', () => {
     runMC();
   });
 
-  // 2. Mengetik
   const normalize = s => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
 
   function runTyping() {
@@ -1093,8 +1302,12 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', url);
     } catch (e) {}
 
-    selectedIds = new Set(rawChapterVocab.map(v => v.id));
-    syncActiveVocab();
+    selectedIds = new Set(
+      rawChapterVocab
+        .filter(v => !isItemMastered(v))
+        .map(v => v.id)
+    );
+    syncActiveVocab(0);
   }
 
   // ---------- INISIALISASI AWAL ----------

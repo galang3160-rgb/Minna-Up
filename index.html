@@ -2,7 +2,7 @@
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Nakama Gakkou</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,9 +94,9 @@
   </header>
 
   <main id="appMain">
-    <!-- VIEW 1: 6 MENU UTAMA (ANGKA, KANJI, KOTOBA, PEMULA, BUNPOU, SSW) -->
+    <!-- VIEW 1: 8 MENU UTAMA (ANGKA, KANJI, KOTOBA, PEMULA, BUNPOU, SSW, CHOUKAI, JFT) -->
     <section class="view active" id="viewMain">
-      <div class="bento-grid grid-6">
+      <div class="bento-grid grid-8">
 
         <!-- 1. ANGKA -->
         <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-tilt>
@@ -121,7 +121,7 @@
           </div>
         </a>
 
-        <!-- 2. KANJI (LOCKED SESUAI KONFIGURASI) -->
+        <!-- 2. KANJI -->
         <a href="#Kanji" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-tilt>
           <span class="card-index">02</span>
           <div class="icon-box">
@@ -141,7 +141,7 @@
           </div>
         </a>
 
-        <!-- 3. KOTOBA (LANGSUNG KE Kotoba/index.html) -->
+        <!-- 3. KOTOBA -->
         <a href="Kotoba/index.html" class="neo-card card-kotoba tile-link" id="btnKotoba" data-feature="kotoba" data-tilt>
           <span class="card-index">03</span>
           <div class="icon-box">
@@ -160,7 +160,7 @@
           </div>
         </a>
 
-        <!-- 4. PEMULA (TETAP Pemula/index.html) -->
+        <!-- 4. PEMULA -->
         <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-feature="pemula" data-tilt>
           <span class="card-index">04</span>
           <div class="icon-box">
@@ -176,7 +176,7 @@
           </div>
         </a>
 
-        <!-- 5. BUNPOU (LOCKED — Bunpou/index.html) -->
+        <!-- 5. BUNPOU -->
         <a href="Bunpou/index.html" class="neo-card card-bunpou tile-link" id="btnBunpou" data-feature="bunpou" data-tilt>
           <span class="card-index">05</span>
           <div class="icon-box">
@@ -193,7 +193,7 @@
           </div>
         </a>
 
-        <!-- 6. SSW (ACTIVE — Ssw/index.html) -->
+        <!-- 6. SSW -->
         <a href="Ssw/index.html" class="neo-card card-ssw tile-link" id="btnSsw" data-feature="ssw" data-tilt>
           <span class="card-index">06</span>
           <div class="icon-box">
@@ -208,6 +208,41 @@
             <h2 class="card-title">SSW</h2>
             <span class="card-arrow">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 7. CHOUKAI (FITUR KE-7 PENGGENAP BENTO 8 FITUR) -->
+        <a href="Choukai/index.html" class="neo-card card-choukai tile-link" id="btnChoukai" data-feature="choukai" data-tilt>
+          <span class="card-index">07</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">Choukai</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 8. JFT (FITUR KE-8 BARU: JAPAN FOUNDATION TEST) -->
+        <a href="#Jft" class="neo-card card-jft" id="btnJft" data-feature="jft" data-tilt>
+          <span class="card-index">08</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="6"/>
+              <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+              <path d="M9.5 8l1.8 1.8 3.5-3.5"/>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <h2 class="card-title">JFT</h2>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </span>
           </div>
         </a>
@@ -249,6 +284,139 @@
             </span>
           </div>
         </a>
+      </div>
+    </section>
+
+    <!-- VIEW 3: HALAMAN KHUSUS JFT (FITUR KE-8) -->
+    <section class="view" id="viewJft">
+      <!-- Header & Deskripsi Singkat JFT -->
+      <div class="jft-hero-banner">
+        <div class="jft-hero-top">
+          <span class="jft-badge">JFT-BASIC • LEVEL A2</span>
+          <span class="jft-jp-tag japanese-text">国際交流基金日本語基礎テスト</span>
+        </div>
+        <h1 class="jft-hero-title">Japan Foundation Test for Basic Japanese (JFT)</h1>
+        <p class="jft-hero-desc">
+          Persiapan terstruktur untuk menghadapi ujian kemampuan bahasa Jepang JFT-Basic (setara CEFR A2) sebagai syarat utama program kerja <b>Specified Skilled Worker (SSW / Tokutei Ginou)</b>. Mencakup 4 seksi kompetensi utama: <i>Huruf &amp; Kosakata</i>, <i>Percakapan &amp; Ungkapan</i>, <i>Pendengaran (Choukai)</i>, serta <i>Pemahaman Bacaan (Dokkai)</i>.
+        </p>
+      </div>
+
+      <!-- 4 Menu Utama JFT -->
+      <div class="bento-grid grid-4 jft-modules-grid">
+
+        <!-- 1. Materi Pembelajaran -->
+        <a href="#jft-materi" class="neo-card card-matcha jft-module-card" data-jft-module="materi" data-tilt>
+          <span class="card-index">MODUL 01</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <div class="jft-card-body">
+            <h2 class="card-title">Materi Pembelajaran</h2>
+            <p class="jft-card-sub">Rangkuman Irodori A2, pola ungkapan harian, dan kosakata tematik JFT-Basic.</p>
+          </div>
+          <div class="card-footer">
+            <span class="jft-status-pill">Siap Dipelajari</span>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 2. Latihan Soal -->
+        <a href="#jft-latihan" class="neo-card card-sky jft-module-card" data-jft-module="latihan" data-tilt>
+          <span class="card-index">MODUL 02</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <div class="jft-card-body">
+            <h2 class="card-title">Latihan Soal</h2>
+            <p class="jft-card-sub">Latihan per seksi: Moji/Goi, Kaiwa/Hyougen, Choukai, dan Dokkai.</p>
+          </div>
+          <div class="card-footer">
+            <span class="jft-status-pill">4 Seksi Ujian</span>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 3. Simulasi Ujian -->
+        <a href="#jft-simulasi" class="neo-card card-amber jft-module-card" data-jft-module="simulasi" data-tilt>
+          <span class="card-index">MODUL 03</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="jft-card-body">
+            <h2 class="card-title">Simulasi Ujian</h2>
+            <p class="jft-card-sub">Tryout CBT dengan timer 60 menit dan target kelulusan minimal 200/250 poin.</p>
+          </div>
+          <div class="card-footer">
+            <span class="jft-status-pill">Mode CBT</span>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- 4. Pembahasan Soal -->
+        <a href="#jft-pembahasan" class="neo-card card-lavender jft-module-card" data-jft-module="pembahasan" data-tilt>
+          <span class="card-index">MODUL 04</span>
+          <div class="icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="jft-card-body">
+            <h2 class="card-title">Pembahasan Soal</h2>
+            <p class="jft-card-sub">Bedah strategi menjawab cepat, analisis kosakata pengecoh, dan transkrip audio.</p>
+          </div>
+          <div class="card-footer">
+            <span class="jft-status-pill">Analisis &amp; Tips</span>
+            <span class="card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Panel Detail / Workspace JFT (Siap Dikembangkan untuk Konten Materi & Soal) -->
+      <div class="jft-workspace-panel" id="jftWorkspacePanel">
+        <div class="jft-workspace-header">
+          <div>
+            <span class="jft-workspace-tag" id="jftWorkspaceTag">STATUS MODUL</span>
+            <h3 class="jft-workspace-title" id="jftWorkspaceTitle">Pilih Modul JFT di Atas</h3>
+          </div>
+          <span class="jft-ready-badge">Struktur Siap Dikembangkan</span>
+        </div>
+        <p class="jft-workspace-desc" id="jftWorkspaceDesc">
+          Klik salah satu dari keempat menu JFT di atas (<b>Materi Pembelajaran</b>, <b>Latihan Soal</b>, <b>Simulasi Ujian</b>, atau <b>Pembahasan Soal</b>) untuk melihat struktur modul yang telah disiapkan.
+        </p>
+        <div class="jft-section-pills" id="jftSectionPills">
+          <div class="jft-pill-item">
+            <b>Seksi 1:</b> Huruf &amp; Kosakata (Moji &amp; Goi)
+          </div>
+          <div class="jft-pill-item">
+            <b>Seksi 2:</b> Percakapan &amp; Ungkapan (Kaiwa &amp; Hyougen)
+          </div>
+          <div class="jft-pill-item">
+            <b>Seksi 3:</b> Pendengaran (Choukai)
+          </div>
+          <div class="jft-pill-item">
+            <b>Seksi 4:</b> Pemahaman Bacaan (Dokkai)
+          </div>
+        </div>
       </div>
     </section>
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nakama Gakkou — Pilihan Materi & Bab</title>
-  
+  <title>Nakama Gakkou — Pilihan Materi &amp; Bab</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -15,15 +15,15 @@
   <!-- AMBIENT & EFEK INTERAKTIF -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="trail"></canvas>
+  <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR KAPSUL NEO-BRUTALISM -->
+  <!-- TOPBAR (DIPERTAHANKAN SESUAI DESAIN YANG DISUKAI) -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
-      
+
       <!-- Kiri: Tombol Back & Brand -->
       <div class="topbar-left">
-        <a href="../../index.html" id="navBackBtn" class="nav-back-circle" title="Kembali">
+        <a href="../../index.html" id="navBackBtn" class="nav-back-circle" title="Kembali" aria-label="Kembali">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
@@ -35,7 +35,7 @@
 
       <!-- Tengah: Tab Level N5 - N1 -->
       <div class="topbar-center">
-        <div class="level-pills" id="levelPills">
+        <div class="level-pills" id="levelPills" role="tablist" aria-label="Pilih Level">
           <button type="button" class="lvl-pill" data-level="N5">N5</button>
           <button type="button" class="lvl-pill" data-level="N4">N4</button>
           <button type="button" class="lvl-pill" data-level="N3">N3</button>
@@ -88,41 +88,73 @@
   </header>
 
   <!-- =====================================================================
-       TAMPILAN 1: LAYAR PILIH KATEGORI BUKU (2 KARTU BENTO BESAR)
+       TAMPILAN 1: LAYAR PILIH KATEGORI BUKU (CLEAN MONOCHROME + AMBER)
        ===================================================================== -->
   <section class="book-selection-stage" id="bookSelectionStage">
-    <div class="stage-heading">
-      <span class="stage-pill" id="stageLevelBadge">JLPT N5</span>
-      <h1 class="stage-title" id="stageMainTitle">Pilih Buku Materi</h1>
-    </div>
+    <div class="stage-shell">
+      <div class="stage-heading">
+        <span class="stage-pill" id="stageLevelBadge">JLPT N5</span>
+        <h1 class="stage-title" id="stageMainTitle">Pilih Buku Materi</h1>
+      </div>
 
-    <div class="book-bento-grid" id="bookBentoGrid">
-      <!-- 2 Kartu Buku (Minna/Mori & Soumatome) di-generate otomatis oleh JS -->
+      <div class="book-bento-grid" id="bookBentoGrid">
+        <!-- 2 Kartu Buku di-generate otomatis oleh JS -->
+      </div>
     </div>
   </section>
 
   <!-- =====================================================================
-       TAMPILAN 2: SLIDER CAROUSEL KARTU BAB (MUNCUL SETELAH KLIK BUKU)
+       TAMPILAN 2: LAYERED DECK & QUICK-JUMP STRIP BAB
        ===================================================================== -->
   <main class="flashcard-stage hidden" id="chapterCarouselStage">
-    <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Bab Sebelumnya">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
-    </button>
+    <div class="deck-layout">
 
-    <div class="carousel-container" id="carouselContainer"></div>
+      <div class="deck-stage-row">
+        <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Bab Sebelumnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
 
-    <button type="button" class="nav-arrow-btn next-btn" id="nextBtn" aria-label="Bab Selanjutnya">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18l6-6-6-6"/>
-      </svg>
-    </button>
+        <div class="carousel-container" id="carouselContainer"></div>
+
+        <button type="button" class="nav-arrow-btn next-btn" id="nextBtn" aria-label="Bab Selanjutnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Dock Bawah: Progress + Quick-Jump -->
+      <div class="deck-dock">
+        <div class="deck-dock-top">
+          <button type="button" class="dock-arrow-btn" id="prevBtnMobile" aria-label="Bab Sebelumnya">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+
+          <div class="deck-progress-track">
+            <div class="deck-progress-fill" id="deckProgressFill"></div>
+          </div>
+
+          <button type="button" class="dock-arrow-btn" id="nextBtnMobile" aria-label="Bab Selanjutnya">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="quick-jump-strip" id="quickJumpStrip" aria-label="Navigasi Cepat Bab"></div>
+      </div>
+
+    </div>
   </main>
 
-  <!-- MODAL VISUAL GRID BAB -->
-  <div class="modal-backdrop" id="chapterModal">
+  <!-- MODAL VISUAL GRID BAB (BOTTOM SHEET DI HP) -->
+  <div class="modal-backdrop" id="chapterModal" role="dialog" aria-modal="true" aria-labelledby="modalTitleLabel">
     <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
       <div class="modal-header">
         <div>
           <span class="modal-tag" id="modalTagLabel">N5 • MINNA 1</span>

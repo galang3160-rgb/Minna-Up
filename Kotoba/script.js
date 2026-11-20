@@ -5,29 +5,25 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // =========================================================================
-  // 1. DATA LEVEL N5 - N1, SUB-KATEGORI, JUMLAH JSON & LINK HTML TUJUAN
-  //    Mengikuti struktur: Data/{Level}/{Kategori}/index.html
-  // =========================================================================
   const SUB_DATA = {
     N5: {
       Minna1: {
         title: "Minna 1",
         desc: "Kosakata Dasar N5",
         itemLabel: "Bab",
-        jsonPrefix: "bab",                        // bab1.json, bab2.json ...
+        jsonPrefix: "bab",
         startNum: 1,
-        total: 25,                                // Bab 1 - 25
-        htmlPath: "Data/N5/Minna1/index.html"     // Menuju Data/N5/Minna1/index.html
+        total: 25,
+        htmlPath: "Data/N5/Minna1/index.html"
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N5",
-        itemLabel: "Bab",
-        jsonPrefix: "Soumatome",                  // Soumatome1.json, Soumatome2.json ...
+        itemLabel: "Part",
+        jsonPrefix: "Soumatome",
         startNum: 1,
         total: 6,
-        htmlPath: "Data/N5/Soumatome/index.html"  // Menuju Data/N5/Soumatome/index.html
+        htmlPath: "Data/N5/Soumatome/index.html"
       }
     },
     N4: {
@@ -35,92 +31,113 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Minna 2",
         desc: "Kosakata Lanjutan N4",
         itemLabel: "Bab",
-        jsonPrefix: "bab",                        // bab26.json, bab27.json ...
+        jsonPrefix: "bab",
         startNum: 26,
-        total: 25,                                // Bab 26 - 50
-        htmlPath: "Data/N4/Minna2/index.html"     // Menuju Data/N4/Minna2/index.html
+        total: 25,
+        htmlPath: "Data/N4/Minna2/index.html"
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N4",
-        itemLabel: "Bab",
-        jsonPrefix: "Soumatome",                  // Soumatome1.json, dst.
+        itemLabel: "Part",
+        jsonPrefix: "Soumatome",
         startNum: 1,
         total: 6,
-        htmlPath: "Data/N4/Soumatome/index.html"  // Menuju Data/N4/Soumatome/index.html
+        htmlPath: "Data/N4/Soumatome/index.html"
       }
     },
     N3: {
       Mori: {
         title: "Mori",
         desc: "Nihongo no Mori N3",
-        itemLabel: "Bab",
-        jsonPrefix: "Mori",                       // Mori1.json, Mori2.json ...
+        itemLabel: "Mori",
+        jsonPrefix: "Mori",
         startNum: 1,
         total: 37,
-        htmlPath: "Data/N3/Mori/index.html"       // Menuju Data/N3/Mori/index.html
+        htmlPath: "Data/N3/Mori/index.html"
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N3",
-        itemLabel: "Bab",
-        jsonPrefix: "Soumatome",                  // Soumatome1.json, dst.
+        itemLabel: "Part",
+        jsonPrefix: "Soumatome",
         startNum: 1,
         total: 36,
-        htmlPath: "Data/N3/Soumatome/index.html"  // Menuju Data/N3/Soumatome/index.html
+        htmlPath: "Data/N3/Soumatome/index.html"
       }
     },
     N2: {
       Mori: {
         title: "Mori",
         desc: "Nihongo no Mori N2",
-        itemLabel: "Bab",
-        jsonPrefix: "Mori",                       // Mori1.json, Mori2.json ...
+        itemLabel: "Mori",
+        jsonPrefix: "Mori",
         startNum: 1,
         total: 63,
-        htmlPath: "Data/N2/Mori/index.html"       // Menuju Data/N2/Mori/index.html
+        htmlPath: "Data/N2/Mori/index.html"
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N2",
-        itemLabel: "Bab",
-        jsonPrefix: "Soumatome",                  // Soumatome1.json, dst.
+        itemLabel: "Part",
+        jsonPrefix: "Soumatome",
         startNum: 1,
         total: 47,
-        htmlPath: "Data/N2/Soumatome/index.html"  // Menuju Data/N2/Soumatome/index.html
+        htmlPath: "Data/N2/Soumatome/index.html"
       }
     },
     N1: {
       Mori: {
         title: "Mori",
         desc: "Nihongo no Mori N1",
-        itemLabel: "Bab",
-        jsonPrefix: "Mori",                       // Mori1.json, Mori2.json ...
+        itemLabel: "Mori",
+        jsonPrefix: "Mori",
         startNum: 1,
         total: 69,
-        htmlPath: "Data/N1/Mori/index.html"       // Menuju Data/N1/Mori/index.html
+        htmlPath: "Data/N1/Mori/index.html"
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N1",
-        itemLabel: "Bab",
-        jsonPrefix: "Soumatome",                  // Soumatome1.json, dst.
+        itemLabel: "Part",
+        jsonPrefix: "Soumatome",
         startNum: 1,
         total: 49,
-        htmlPath: "Data/N1/Soumatome/index.html"  // Menuju Data/N1/Soumatome/index.html
+        htmlPath: "Data/N1/Soumatome/index.html"
       }
     }
   };
 
-  // State Aplikasi
-  const urlParams = new URLSearchParams(window.location.search);
-  let currentLevel = urlParams.get('level') || localStorage.getItem('nakama_level') || 'N5';
-  if (!SUB_DATA[currentLevel]) currentLevel = 'N5';
+  function normalizeLevel(raw) {
+    if (!raw) return null;
+    const upper = String(raw).trim().toUpperCase();
+    return SUB_DATA[upper] ? upper : null;
+  }
 
-  let currentBookKey = urlParams.get('buku') || null;
+  function normalizeBookKey(level, rawBook) {
+    if (!level || !rawBook || !SUB_DATA[level]) return null;
+    const target = String(rawBook).trim().toLowerCase();
+    const keys = Object.keys(SUB_DATA[level]);
+    return keys.find(k => k.toLowerCase() === target) || null;
+  }
+
+  function syncUrlState(level, bookKey) {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('level', level);
+      if (bookKey) url.searchParams.set('buku', bookKey);
+      else url.searchParams.delete('buku');
+      window.history.replaceState({}, '', url.toString());
+    } catch (_) {}
+  }
+
+  // State Aplikasi
+  let currentLevel = 'N5';
+  let currentBookKey = null;
   let currentIndex = 0;
   let cards = [];
   let gridItems = [];
+  let jumpPills = [];
 
   // Elemen DOM
   const bookSelectionStage = document.getElementById('bookSelectionStage');
@@ -131,17 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const chapterCarouselStage = document.getElementById('chapterCarouselStage');
   const container = document.getElementById('carouselContainer');
   const modalGrid = document.getElementById('modalChapterGrid');
+  const quickJumpStrip = document.getElementById('quickJumpStrip');
   const currentChapterDisplay = document.getElementById('currentChapterDisplay');
   const openModalBtn = document.getElementById('openChapterModal');
   const modalTagLabel = document.getElementById('modalTagLabel');
   const modalTitleLabel = document.getElementById('modalTitleLabel');
+  const deckProgressFill = document.getElementById('deckProgressFill');
 
   const levelPillsContainer = document.getElementById('levelPills');
   const backToBookBtn = document.getElementById('backToBookBtn');
   const activeBookLabel = document.getElementById('activeBookLabel');
   const navBackBtn = document.getElementById('navBackBtn');
 
-  // === 0. INISIALISASI & TOGGLE MODE MALAM ===
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtnMobile = document.getElementById('nextBtnMobile');
+  const prevBtnMobile = document.getElementById('prevBtnMobile');
+
+  // === 0. TEMA SIANG / MALAM ===
   const htmlEl = document.documentElement;
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const savedTheme = localStorage.getItem('nakama_theme');
@@ -172,10 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-leaving');
     setTimeout(() => {
       window.location.href = targetUrl;
-    }, 320);
+    }, 260);
   }
 
-  // === 1. UPDATE TOMBOL LEVEL (N5 - N1) ===
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('page-leaving');
+    initFromUrlOrStorage();
+  });
+
+  // === 1. LEVEL PILLS ===
   function updateLevelPills() {
     if (!levelPillsContainer) return;
     levelPillsContainer.querySelectorAll('.lvl-pill').forEach(btn => {
@@ -186,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (levelPillsContainer) {
     levelPillsContainer.querySelectorAll('.lvl-pill').forEach(btn => {
       btn.addEventListener('click', () => {
-        const lvl = btn.dataset.level;
-        if (SUB_DATA[lvl]) {
+        const lvl = normalizeLevel(btn.dataset.level);
+        if (lvl) {
           currentLevel = lvl;
           localStorage.setItem('nakama_level', currentLevel);
           playPopSound();
@@ -197,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Klik Chip Buku -> Kembali ke Pilihan Buku
   if (backToBookBtn) {
     backToBookBtn.addEventListener('click', () => {
       playPopSound();
@@ -205,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Klik Tombol Back Kiri Atas
   if (navBackBtn) {
     navBackBtn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -218,14 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // =========================================================================
-  // 2. TAMPILAN 1: TAMPILKAN 2 KARTU BUKU BESAR (CONTOH N5: MINNA 1 & SOUMATOME)
-  // =========================================================================
+  // === 2. TAMPILAN 1: KARTU BUKU MINIMALIS ===
   function showBookSelectionStage() {
     currentBookKey = null;
     updateLevelPills();
+    syncUrlState(currentLevel, null);
 
-    // Sembunyikan Carousel Bab, tampilkan Bento Buku
     if (chapterCarouselStage) chapterCarouselStage.classList.add('hidden');
     if (openModalBtn) openModalBtn.classList.add('hidden');
     if (backToBookBtn) backToBookBtn.classList.add('hidden');
@@ -247,21 +272,21 @@ document.addEventListener('DOMContentLoaded', () => {
       btnCard.className = 'book-bento-card';
 
       btnCard.innerHTML = `
-        <div class="book-card-header">
-          <span class="book-level-tag">${currentLevel}</span>
-          <span class="book-total-tag">${book.total} ${book.itemLabel}</span>
-        </div>
-        <div class="book-card-center">
+        <div class="book-card-top">
           <div class="book-big-icon">${iconSvg}</div>
-          <div>
-            <h2 class="book-card-name">${book.title}</h2>
-            <p class="book-card-desc">${book.desc}</p>
+          <div class="book-meta-badges">
+            <span class="book-level-tag">${currentLevel}</span>
+            <span class="book-total-tag">${book.total} ${book.itemLabel}</span>
           </div>
         </div>
-        <div class="book-card-footer">
+        <div class="book-card-body">
+          <h2 class="book-card-name">${book.title}</h2>
+          <p class="book-card-desc">${book.desc}</p>
+        </div>
+        <div class="book-cta-bar">
           <span class="book-cta-text">Buka ${book.title}</span>
           <div class="book-cta-arrow">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </div>
@@ -270,23 +295,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
       btnCard.addEventListener('click', () => {
         playPopSound();
-        openChapterCarousel(bookKey);
+        openChapterCarousel(currentLevel, bookKey);
       });
 
       bookBentoGrid.appendChild(btnCard);
     });
   }
 
-  // =========================================================================
-  // 3. TAMPILAN 2: BUKA CAROUSEL BAB SESUAI BUKU YANG DIKLIK
-  // =========================================================================
-  function openChapterCarousel(bookKey) {
-    currentBookKey = bookKey;
+  // === 3. TAMPILAN 2: LAYERED DECK & QUICK-JUMP ===
+  function openChapterCarousel(level, bookKey) {
+    const validLevel = normalizeLevel(level) || 'N5';
+    const validBookKey = normalizeBookKey(validLevel, bookKey);
+    if (!validBookKey) {
+      currentLevel = validLevel;
+      showBookSelectionStage();
+      return;
+    }
+
+    currentLevel = validLevel;
+    currentBookKey = validBookKey;
     currentIndex = 0;
+
+    localStorage.setItem('nakama_level', currentLevel);
+    updateLevelPills();
+    syncUrlState(currentLevel, currentBookKey);
 
     const book = SUB_DATA[currentLevel][currentBookKey];
 
-    // Sembunyikan Bento Buku, tampilkan Carousel Bab
     if (bookSelectionStage) bookSelectionStage.classList.add('hidden');
     if (chapterCarouselStage) chapterCarouselStage.classList.remove('hidden');
     if (openModalBtn) openModalBtn.classList.remove('hidden');
@@ -303,26 +338,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.innerHTML = '';
     if (modalGrid) modalGrid.innerHTML = '';
+    if (quickJumpStrip) quickJumpStrip.innerHTML = '';
     cards = [];
     gridItems = [];
+    jumpPills = [];
 
-    // Folder dasar tempat HTML berada (contoh: Data/N5/Minna1)
     const folderBase = `Data/${currentLevel}/${currentBookKey}`;
-    // Path HTML (contoh: Data/N5/Minna1/index.html)
     const targetHtmlPath = book.htmlPath || `${folderBase}/index.html`;
 
     for (let i = 0; i < total; i++) {
       const babNum = startNum + i;
       const paddedNum = babNum < 10 ? `0${babNum}` : babNum;
       const svgIcon = vectorIcons[i % vectorIcons.length];
-
-      // Nama file JSON sesuai aturanmu: bab1.json, bab26.json, Mori1.json, Soumatome1.json
       const jsonFile = `${book.jsonPrefix}${babNum}.json`;
-
-      // Link ke Data/{Level}/{Kategori}/index.html beserta parameter lengkap
       const targetHref = `${targetHtmlPath}?bab=${babNum}&file=${jsonFile}&kode=kode/${jsonFile}&level=${currentLevel}&kategori=${currentBookKey}`;
 
-      // A. Buat Kartu Bab di Carousel
       const card = document.createElement('a');
       card.href = targetHref;
       card.className = 'chapter-flashcard';
@@ -334,15 +364,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="badge-book">${book.title}</span>
         </div>
         <div class="flashcard-body">
-          <div class="chapter-icon-box">
-            ${svgIcon}
-          </div>
+          <span class="chapter-watermark" aria-hidden="true">${paddedNum}</span>
+          <div class="chapter-icon-box">${svgIcon}</div>
           <h2 class="chapter-title">${book.itemLabel} ${babNum}</h2>
         </div>
-        <div class="flashcard-footer">
+        <div class="chapter-start-bar">
           <span class="action-hint">Mulai</span>
           <div class="action-icon-circle">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 17L17 7M7 7h10v10"/>
             </svg>
           </div>
@@ -360,73 +389,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Efek 3D Tilt
-      card.addEventListener('mousemove', function (e) {
-        if (this.classList.contains('active')) {
-          const r = this.getBoundingClientRect();
-          const x = e.clientX - r.left;
-          const y = e.clientY - r.top;
-          this.style.transform = `perspective(1000px) rotateX(${-((y / r.height - 0.5) * 7)}deg) rotateY(${(x / r.width - 0.5) * 7}deg) scale(1.02)`;
-        }
-      });
-
-      card.addEventListener('mouseleave', function () {
-        if (this.classList.contains('active')) {
-          this.style.transform = '';
-        }
-      });
-
       container.appendChild(card);
       cards.push(card);
 
-      // B. Buat Tombol di Modal Grid
+      if (quickJumpStrip) {
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = 'jump-pill';
+        pill.textContent = `#${paddedNum}`;
+        pill.addEventListener('click', () => {
+          currentIndex = i;
+          updateCarousel();
+        });
+        quickJumpStrip.appendChild(pill);
+        jumpPills.push(pill);
+      }
+
       if (modalGrid) {
         const gridBtn = document.createElement('button');
         gridBtn.type = 'button';
         gridBtn.className = 'chapter-grid-item';
         gridBtn.dataset.index = i;
-
         gridBtn.innerHTML = `
           <span class="cgi-num">${paddedNum}</span>
           <span class="cgi-label">${book.itemLabel.toUpperCase()}</span>
         `;
-
         gridBtn.addEventListener('click', () => {
           currentIndex = i;
           updateCarousel();
           closeModal();
         });
-
         modalGrid.appendChild(gridBtn);
         gridItems.push(gridBtn);
       }
     }
 
-    updateCarousel();
+    updateCarousel(false);
   }
 
-  // === 4. UPDATE POSISI SLIDER CAROUSEL ===
-  function updateCarousel() {
-    if (!currentBookKey) return;
-    playPopSound();
+  // === 4. UPDATE DECK & QUICK-JUMP ===
+  function updateCarousel(withSound = true) {
+    if (!currentBookKey || !SUB_DATA[currentLevel][currentBookKey]) return;
+    if (withSound) playPopSound();
 
     const book = SUB_DATA[currentLevel][currentBookKey];
 
     cards.forEach((card, i) => {
       card.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
-      card.style.transform = '';
-
-      if (i === currentIndex) {
-        card.classList.add('active');
-      } else if (i === currentIndex - 1) {
-        card.classList.add('prev');
-      } else if (i === currentIndex + 1) {
-        card.classList.add('next');
-      } else if (i < currentIndex - 1) {
-        card.classList.add('hidden-left');
-      } else if (i > currentIndex + 1) {
-        card.classList.add('hidden-right');
-      }
+      if (i === currentIndex) card.classList.add('active');
+      else if (i === currentIndex - 1) card.classList.add('prev');
+      else if (i === currentIndex + 1) card.classList.add('next');
+      else if (i < currentIndex - 1) card.classList.add('hidden-left');
+      else card.classList.add('hidden-right');
     });
 
     const activeBabNum = book.startNum + currentIndex;
@@ -435,12 +449,31 @@ document.addEventListener('DOMContentLoaded', () => {
       currentChapterDisplay.textContent = `${book.itemLabel} ${formatted}`;
     }
 
+    if (deckProgressFill && cards.length > 0) {
+      deckProgressFill.style.width = `${Math.round(((currentIndex + 1) / cards.length) * 100)}%`;
+    }
+
+    const atStart = currentIndex <= 0;
+    const atEnd = currentIndex >= cards.length - 1;
+    if (prevBtn) prevBtn.disabled = atStart;
+    if (prevBtnMobile) prevBtnMobile.disabled = atStart;
+    if (nextBtn) nextBtn.disabled = atEnd;
+    if (nextBtnMobile) nextBtnMobile.disabled = atEnd;
+
+    jumpPills.forEach((pill, i) => {
+      const isAct = i === currentIndex;
+      pill.classList.toggle('active', isAct);
+      if (isAct) {
+        pill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    });
+
     gridItems.forEach((btn, i) => {
       btn.classList.toggle('active', i === currentIndex);
     });
   }
 
-  // === 5. MODAL KONTROL ===
+  // === 5. MODAL ===
   const chapterModal = document.getElementById('chapterModal');
   const closeModalBtn = document.getElementById('closeChapterModal');
 
@@ -460,9 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === 6. NAVIGASI PANAH, KEYBOARD & SWIPE ===
-  const nextBtn = document.getElementById('nextBtn');
-  const prevBtn = document.getElementById('prevBtn');
-
   function goNext() {
     if (currentBookKey && currentIndex < cards.length - 1) {
       currentIndex++;
@@ -479,6 +509,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (nextBtn) nextBtn.addEventListener('click', goNext);
   if (prevBtn) prevBtn.addEventListener('click', goPrev);
+  if (nextBtnMobile) nextBtnMobile.addEventListener('click', goNext);
+  if (prevBtnMobile) prevBtnMobile.addEventListener('click', goPrev);
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
@@ -503,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // === 7. EFEK AUDIO POP ===
+  // === 7. AUDIO POP ===
   let audioCtx = null;
   function playPopSound() {
     try {
@@ -521,10 +553,10 @@ document.addEventListener('DOMContentLoaded', () => {
       gain.connect(audioCtx.destination);
       osc.start(now);
       osc.stop(now + 0.09);
-    } catch (e) {}
+    } catch (_) {}
   }
 
-  // === 8. VISUAL FX (SPARKS & MOUSE TRAIL) ===
+  // === 8. VISUAL FX ===
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
@@ -537,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const fx = document.getElementById('fx');
-    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF'];
+    const sparkColors = ['#FDE047', '#FEF3C7', '#EAB308', '#FFFFFF'];
     addEventListener('pointerdown', e => {
       if (!fx) return;
       const pulse = document.createElement('div');
@@ -594,9 +626,9 @@ document.addEventListener('DOMContentLoaded', () => {
           for (let i = 1; i < pts.length; i++) {
             const t = i / pts.length;
             ctx.strokeStyle = isDark
-              ? `rgba(74, 222, 128, ${t * 0.28})`
-              : `rgba(21, 128, 61, ${t * 0.22})`;
-            ctx.lineWidth = t * 9;
+              ? `rgba(234, 179, 8, ${t * 0.24})`
+              : `rgba(17, 17, 17, ${t * 0.16})`;
+            ctx.lineWidth = t * 8;
             ctx.beginPath();
             ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
             ctx.lineTo(pts[i].x, pts[i].y);
@@ -608,10 +640,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Jalankan: Jika ada ?buku=Minna1 di URL langsung buka carousel, jika tidak tampilkan Pilihan Buku
-  if (currentBookKey && SUB_DATA[currentLevel][currentBookKey]) {
-    openChapterCarousel(currentBookKey);
-  } else {
-    showBookSelectionStage();
+  // === 9. INISIALISASI DARI URL / LOCALSTORAGE ===
+  function initFromUrlOrStorage() {
+    const params = new URLSearchParams(window.location.search);
+    const paramLevel = normalizeLevel(params.get('level'));
+    const savedLevel = normalizeLevel(localStorage.getItem('nakama_level'));
+    currentLevel = paramLevel || savedLevel || 'N5';
+    localStorage.setItem('nakama_level', currentLevel);
+
+    const paramBook = normalizeBookKey(currentLevel, params.get('buku'));
+    if (paramBook) {
+      openChapterCarousel(currentLevel, paramBook);
+    } else {
+      showBookSelectionStage();
+    }
   }
+
+  initFromUrlOrStorage();
 });

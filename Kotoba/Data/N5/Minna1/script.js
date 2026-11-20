@@ -1,7 +1,6 @@
 /**
- * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE (N5 UPGRADED)
+ * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE (ORIGINAL + DARK MODE + NATIVE JP VOICE)
  * Koneksi Tetap: kode/bab${n}.json, localStorage 'nihonggo:bab', ?bab=, Modal Bab 1-25
- * Fitur Baru: Kanji ON/OFF [K], Furigana ON/OFF [F], Arah ID<->JP, Acak [R], Checklist Filter (Semua/Kanji/Kana)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,10 +15,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return r;
   };
 
-  // Deteksi apakah string mengandung karakter Kanji Jepang
   const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
 
-  // ---------- KONFIGURASI DATA & MODAL (TETAP SAMA) ----------
+  // ---------- TEMA SIANG / MALAM ----------
+  const htmlEl = document.documentElement;
+  const themeToggleBtn = $('themeToggleBtn');
+  const savedTheme = localStorage.getItem('nakama_theme');
+
+  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    htmlEl.setAttribute('data-theme', 'dark');
+  } else {
+    htmlEl.setAttribute('data-theme', 'light');
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const nextTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('nakama_theme', nextTheme);
+      playTone('pop');
+    });
+  }
+
+  // ---------- KONFIGURASI DATA & MODAL ----------
   const DATA_PATH = n => `kode/bab${n}.json`;
   const totalChapters = 25;
   const SAVE_KEY = 'nihonggo:bab';
@@ -33,42 +51,53 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioOn = true;
   let vocabZoomRem = 3.6;
 
-  // State Fitur Kartu Baru
-  let isKanjiVisible = true;   // Toggle tombol K
-  let isFuriVisible = true;    // Toggle tombol F
-  let isReversedCard = false;  // false = ID -> JP | true = JP -> ID
+  let isKanjiVisible = true;
+  let isFuriVisible = true;
+  let isReversedCard = false;
 
   let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
 
-  // ---------- WEB AUDIO SFX & JAPANESE TTS ----------
+  // ---------- WEB AUDIO SFX & NATIVE JAPANESE TTS ----------
   let actx = null;
   let jpVoice = null;
 
-  function initJapaneseVoice() {
+  function selectBestJapaneseVoice() {
     if (!('speechSynthesis' in window)) return;
     const voices = window.speechSynthesis.getVoices();
-    const ja = voices.filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
-    if (ja.length) {
-      ja.sort((a, b) => {
-        const score = v => (v.name.toLowerCase().includes('natural') || v.name.toLowerCase().includes('google') ? 10 : 0);
-        return score(b) - score(a);
-      });
-      jpVoice = ja[0];
-    }
+    const jaVoices = voices.filter(v => v.lang && (v.lang.toLowerCase().startsWith('ja') || v.lang.includes('JP')));
+    if (!jaVoices.length) return;
+
+    const rankVoice = (v) => {
+      const name = v.name.toLowerCase();
+      let s = 0;
+      if (name.includes('natural') || name.includes('neural') || name.includes('online')) s += 120;
+      if (name.includes('nanami') || name.includes('keita') || name.includes('aoi') || name.includes('mayu')) s += 95;
+      if (name.includes('google') && (name.includes('日本語') || name.includes('japanese'))) s += 85;
+      if (name.includes('kyoko') || name.includes('otoya') || name.includes('siri')) s += 75;
+      if (!v.localService) s += 25;
+      return s;
+    };
+
+    jaVoices.sort((a, b) => rankVoice(b) - rankVoice(a));
+    jpVoice = jaVoices[0];
   }
+
   if ('speechSynthesis' in window) {
-    initJapaneseVoice();
-    window.speechSynthesis.onvoiceschanged = initJapaneseVoice;
+    selectBestJapaneseVoice();
+    window.speechSynthesis.onvoiceschanged = selectBestJapaneseVoice;
   }
 
   function speakJapanese(text) {
     if (!audioOn || !text || !('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
-    const ut = new SpeechSynthesisUtterance(text);
+    if (!jpVoice) selectBestJapaneseVoice();
+
+    const ut = new SpeechSynthesisUtterance(`${text.trim()}。`);
     ut.lang = 'ja-JP';
     if (jpVoice) ut.voice = jpVoice;
     ut.rate = 0.85;
-    ut.pitch = 1.04;
+    ut.pitch = 1.0;
+    ut.volume = 1.0;
     window.speechSynthesis.speak(ut);
   }
 
@@ -104,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ---------- VISUAL FX (AMBIENT, SPARKS & SMOOTH TRAIL) ----------
+  // ---------- VISUAL FX ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
@@ -171,9 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
         cctx.lineCap = 'round';
         cctx.lineJoin = 'round';
 
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+
         for (let i = 1; i < pts.length; i++) {
           const t = i / pts.length;
-          cctx.strokeStyle = `rgba(21, 128, 61, ${t * 0.18})`;
+          cctx.strokeStyle = isDark
+            ? `rgba(82, 183, 136, ${t * 0.24})`
+            : `rgba(21, 128, 61, ${t * 0.18})`;
           cctx.lineWidth = t * 8;
           cctx.beginPath();
           cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
@@ -243,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- FITUR KONTROL KARTU: KANJI ON/OFF, FURIGANA ON/OFF, ARAH, ACAK ----------
+  // ---------- KONTROL KARTU: KANJI, FURIGANA, ARAH, ACAK ----------
   function updateCardVisibilityUI() {
     const container = $('carouselContainer');
     container.classList.toggle('kanji-off', !isKanjiVisible);
@@ -262,20 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleKanjiVisibility() {
     isKanjiVisible = !isKanjiVisible;
-    // Pengaman: Jangan biarkan Kanji dan Furigana mati bersamaan
-    if (!isKanjiVisible && !isFuriVisible) {
-      isFuriVisible = true;
-    }
+    if (!isKanjiVisible && !isFuriVisible) isFuriVisible = true;
     updateCardVisibilityUI();
     playTone('pop');
   }
 
   function toggleFuriVisibility() {
     isFuriVisible = !isFuriVisible;
-    // Pengaman: Jika Furigana dimatikan saat Kanji mati, nyalakan Kanji
-    if (!isFuriVisible && !isKanjiVisible) {
-      isKanjiVisible = true;
-    }
+    if (!isFuriVisible && !isKanjiVisible) isKanjiVisible = true;
     updateCardVisibilityUI();
     playTone('pop');
   }
@@ -299,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('swapDirectionBtn').addEventListener('click', toggleCardDirection);
   $('shuffleBtn').addEventListener('click', handleShuffleCards);
 
-  // ---------- SISTEM FILTER PENCARIAN & CHECKLIST ----------
+  // ---------- PENCARIAN & CHECKLIST ----------
   const searchInput = $('searchInput');
   const btnClearSearch = $('btnClearSearch');
 
@@ -340,7 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.focus();
   });
 
-  // ---------- FITUR CHECKLIST PILIH KOSAKATA (SEMUA / KANJI SAJA / KANA SAJA / RESET) ----------
   function renderChecklist() {
     const grid = $('checklistGrid');
     grid.innerHTML = '';
@@ -386,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         playTone('pop');
         $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
-        // Perbarui daftar aktif tanpa merender ulang seluruh DOM checklist agar animasi mulus
         const q = searchInput.value.trim().toLowerCase();
         activeVocab = rawChapterVocab.filter(v =>
           selectedIds.has(v.id) &&
@@ -398,14 +423,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tombol Pilih Semua
   $('selectAllBtn').addEventListener('click', () => {
     selectedIds = new Set(rawChapterVocab.map(v => v.id));
     playTone('pop');
     syncActiveVocab();
   });
 
-  // Tombol Kanji Saja
   $('selectKanjiOnlyBtn').addEventListener('click', () => {
     const kanjiItems = rawChapterVocab.filter(v => v.hasKanji);
     if (!kanjiItems.length) {
@@ -417,7 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
     syncActiveVocab();
   });
 
-  // Tombol Kana Saja
   $('selectKanaOnlyBtn').addEventListener('click', () => {
     const kanaItems = rawChapterVocab.filter(v => !v.hasKanji);
     if (!kanaItems.length) {
@@ -429,16 +451,14 @@ document.addEventListener('DOMContentLoaded', () => {
     syncActiveVocab();
   });
 
-  // Tombol Reset Pilihan
   $('deselectAllBtn').addEventListener('click', () => {
     selectedIds.clear();
     playTone('pop');
     syncActiveVocab();
   });
 
-  // ---------- FLASHCARD KOSAKATA INTERAKTIF ----------
+  // ---------- FLASHCARD KOSAKATA ----------
   function buildJapaneseContentHTML(v, includeSubArti = false) {
-    // Jika kata memiliki Kanji berbeda dari Furigana
     if (v.hasKanji) {
       return `
         <span class="c-kanji furigana-font">${esc(v.kanji)}</span>
@@ -446,7 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
       `;
     }
-    // Jika murni Kana (Hiragana/Katakana), tampilkan sebagai teks utama yang selalu terlihat
     return `
       <span class="c-kana-only furigana-font">${esc(v.furigana)}</span>
       ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
@@ -563,6 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!n) return;
 
       [...cards].forEach((c, i) => {
+        c.style.transform = '';
         if (i === this.index) {
           c.classList.remove('hidden');
           c.classList.add('center');
@@ -591,21 +611,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Swipe Jari Kiri/Kanan di Flashcard HP
   let touchStartX = 0;
+  let touchDeltaX = 0;
   const carouselEl = $('carouselContainer');
+
   if (carouselEl) {
     carouselEl.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
+      touchDeltaX = 0;
     }, { passive: true });
-    carouselEl.addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) Carousel.go(1);
+
+    carouselEl.addEventListener('touchmove', e => {
+      const activeCard = carouselEl.children[Carousel.index];
+      if (!activeCard) return;
+      touchDeltaX = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(touchDeltaX) > 10) {
+        const clamped = Math.max(-70, Math.min(70, touchDeltaX * 0.45));
+        activeCard.style.transform = `translateX(${clamped}px) rotate(${clamped * 0.05}deg)`;
+      }
+    }, { passive: true });
+
+    carouselEl.addEventListener('touchend', () => {
+      const activeCard = carouselEl.children[Carousel.index];
+      if (activeCard) activeCard.style.transform = '';
+      if (Math.abs(touchDeltaX) > 40) {
+        if (touchDeltaX < 0) Carousel.go(1);
         else Carousel.go(-1);
       }
+      touchDeltaX = 0;
     }, { passive: true });
   }
 
-  // ---------- KONTROL ZOOM UKURAN TEKS (+ & -) ----------
+  // ---------- ZOOM UKURAN TEKS ----------
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
@@ -616,7 +652,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (vocabZoomRem > 2.0) { vocabZoomRem = +(vocabZoomRem - 0.3).toFixed(1); updateVocabFontSize(); }
   });
 
-  // Tombol Speak di Kuis
   $('btnMcSpeak')?.addEventListener('click', () => { if (quizPool[qi]) speakJapanese(quizPool[qi].furigana); });
   $('btnTypingSpeak')?.addEventListener('click', () => { if (quizPool[qi]) speakJapanese(quizPool[qi].furigana); });
 
@@ -719,7 +754,6 @@ document.addEventListener('DOMContentLoaded', () => {
     playTone('win');
   }
 
-  // 1. Pilihan Ganda
   function runMC() {
     if (qi >= quizPool.length) {
       return showResult(qScore, quizPool.length);
@@ -782,7 +816,6 @@ document.addEventListener('DOMContentLoaded', () => {
     runMC();
   });
 
-  // 2. Mengetik
   const normalize = s => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
 
   function runTyping() {
@@ -883,9 +916,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---------- PEMUATAN DATA JSON LEVEL BAB (MENDUKUNG KANJI & FURIGANA FLEKSIBEL) ----------
+  // ---------- PEMUATAN DATA JSON LEVEL BAB ----------
   function parseBracketedJapanese(str) {
-    // Mendukung format gabungan seperti "私（わたし）" atau "先生 [せんせい]" jika JSON hanya punya 1 field
     const match = str.match(/^(.+?)[（(\[](.+?)[）)\]]$/);
     if (match) {
       return { kanji: match[1].trim(), furigana: match[2].trim() };
@@ -910,7 +942,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let rawFuri = pick(o, ['furigana', 'hiragana', 'kana', 'bacaan', 'cara_baca', 'jepang', 'kata', 'word']);
         const arti = pick(o, ['arti', 'indonesia', 'meaning', 'terjemahan']);
 
-        // Jika furigana berisi format "漢字(かんじ)" dan field kanji kosong
         if (!rawKanji && rawFuri) {
           const parsed = parseBracketedJapanese(rawFuri);
           if (parsed) {
@@ -973,7 +1004,6 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', url);
     } catch (e) {}
 
-    // Pilih semua kosakata secara default saat ganti bab
     selectedIds = new Set(rawChapterVocab.map(v => v.id));
     syncActiveVocab();
   }

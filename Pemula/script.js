@@ -38,7 +38,7 @@ if (themeToggleBtn) {
   themeToggleBtn.addEventListener("click", toggleTheme);
 }
 
-/* ===================== DATASET BAWAAN ===================== */
+/* ===================== DATASET BAWAAN (FALLBACK) ===================== */
 const BUILTIN_CHARACTERS = [
   // Hiragana Seion
   { character: "あ", romaji: "a", group: "a", category: "hiragana", set: "seion" },
@@ -171,6 +171,33 @@ const BUILTIN_CHARACTERS = [
   { character: "ヲ", romaji: "wo", group: "wa", category: "katakana", set: "seion" },
   { character: "ン", romaji: "n", group: "wa", category: "katakana", set: "seion" },
 
+  // Katakana Dakuon & Handakuon
+  { character: "ガ", romaji: "ga", group: "ga", category: "katakana", set: "dakuon" },
+  { character: "ギ", romaji: "gi", group: "ga", category: "katakana", set: "dakuon" },
+  { character: "グ", romaji: "gu", group: "ga", category: "katakana", set: "dakuon" },
+  { character: "ゲ", romaji: "ge", group: "ga", category: "katakana", set: "dakuon" },
+  { character: "ゴ", romaji: "go", group: "ga", category: "katakana", set: "dakuon" },
+  { character: "ザ", romaji: "za", group: "za", category: "katakana", set: "dakuon" },
+  { character: "ジ", romaji: "ji", group: "za", category: "katakana", set: "dakuon" },
+  { character: "ズ", romaji: "zu", group: "za", category: "katakana", set: "dakuon" },
+  { character: "ゼ", romaji: "ze", group: "za", category: "katakana", set: "dakuon" },
+  { character: "ゾ", romaji: "zo", group: "za", category: "katakana", set: "dakuon" },
+  { character: "ダ", romaji: "da", group: "da", category: "katakana", set: "dakuon" },
+  { character: "ヂ", romaji: "ji", group: "da", category: "katakana", set: "dakuon" },
+  { character: "ヅ", romaji: "zu", group: "da", category: "katakana", set: "dakuon" },
+  { character: "デ", romaji: "de", group: "da", category: "katakana", set: "dakuon" },
+  { character: "ド", romaji: "do", group: "da", category: "katakana", set: "dakuon" },
+  { character: "バ", romaji: "ba", group: "ba", category: "katakana", set: "dakuon" },
+  { character: "ビ", romaji: "bi", group: "ba", category: "katakana", set: "dakuon" },
+  { character: "ブ", romaji: "bu", group: "ba", category: "katakana", set: "dakuon" },
+  { character: "ベ", romaji: "be", group: "ba", category: "katakana", set: "dakuon" },
+  { character: "ボ", romaji: "bo", group: "ba", category: "katakana", set: "dakuon" },
+  { character: "パ", romaji: "pa", group: "pa", category: "katakana", set: "handakuon" },
+  { character: "ピ", romaji: "pi", group: "pa", category: "katakana", set: "handakuon" },
+  { character: "プ", romaji: "pu", group: "pa", category: "katakana", set: "handakuon" },
+  { character: "ペ", romaji: "pe", group: "pa", category: "katakana", set: "handakuon" },
+  { character: "ポ", romaji: "po", group: "pa", category: "katakana", set: "handakuon" },
+
   // Katakana Yoon
   { character: "キャ", romaji: "kya", group: "kya", category: "katakana", set: "youon" },
   { character: "キュ", romaji: "kyu", group: "kya", category: "katakana", set: "youon" },
@@ -220,7 +247,7 @@ let vocabFilter = "all";
 let vocabViewMode = "list";
 
 let currentCharModal = null;
-let preferStrokeStudio = false; // Ingat jika pengguna sudah masuk ke Tahap 2 (Goresan)
+let preferStrokeStudio = false;
 let currentStepStrokeIdx = 0;
 
 let canvasEl = null;
@@ -296,15 +323,10 @@ if ("speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = selectBestJapaneseVoice;
 }
 
-/**
- * Memperpanjang durasi pelafalan huruf tunggal dengan Double-Mora Vowel Sustain
- * sehingga terdengar seperti guru Native Jepang yang melafalkan huruf dengan jelas & panjang.
- */
 function buildNativeLongPhonetic(text) {
   const clean = text.trim();
   const charObj = allCharacters.find(c => c.character === clean);
 
-  // Jika bukan huruf tunggal (misal Kosakata), tambahkan jeda akhir agar tidak terpotong
   if (!charObj) {
     return `${clean}。`;
   }
@@ -315,7 +337,6 @@ function buildNativeLongPhonetic(text) {
   const lastVowel = charObj.romaji.slice(-1).toLowerCase();
   const vowelHira = VOWEL_EXTENSION_MAP[lastVowel] || "";
 
-  // Gabungkan karakter + vokal pemanjang + choonpu agar durasi panjang dan intonasi datar natural
   return `${clean}${vowelHira}ー。`;
 }
 
@@ -337,7 +358,6 @@ function speak(text, triggerBtn = null) {
   ut.lang = "ja-JP";
   if (bestJapaneseVoice) ut.voice = bestJapaneseVoice;
 
-  // Durasi pembacaan lebih lambat & jelas mirip penutur asli
   ut.rate = isSingleChar ? 0.55 : 0.72;
   ut.pitch = 1.0;
   ut.volume = 1.0;
@@ -434,6 +454,8 @@ function renderLearn() {
   });
 
   const learnGrid = document.getElementById("learnGrid");
+  if (!learnGrid) return;
+
   const items = allCharacters.filter(i => i.category === learnCategory && i.set === learnSet);
   const rows = buildChartRows(items, learnSet);
 
@@ -460,7 +482,7 @@ function renderLearn() {
       animIndex++;
 
       box.innerHTML = `
-        <span class="kana-char ${isYouon ? 'is-youon' : ''}">${c.character}</span>
+        <span class="kana-char ${isYouon ? "is-youon" : ""}">${c.character}</span>
         <span class="kana-romaji">${c.romaji}</span>
       `;
       box.addEventListener("click", () => openKanaFlow(c));
@@ -488,36 +510,38 @@ document.querySelectorAll("#subsetTabs .seg-btn").forEach(btn => {
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.trim().toLowerCase();
-  if (!q) {
-    searchResults.classList.add("hidden");
-    return;
-  }
-  const matches = allCharacters.filter(c => c.romaji.includes(q) || c.character.includes(q)).slice(0, 8);
-  searchResults.innerHTML = "";
+if (searchInput && searchResults) {
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) {
+      searchResults.classList.add("hidden");
+      return;
+    }
+    const matches = allCharacters.filter(c => c.romaji.includes(q) || c.character.includes(q)).slice(0, 8);
+    searchResults.innerHTML = "";
 
-  if (!matches.length) {
-    searchResults.innerHTML = `<div class="search-item"><span>Tidak ada hasil</span></div>`;
-  } else {
-    matches.forEach(item => {
-      const d = document.createElement("div");
-      d.className = "search-item";
-      d.innerHTML = `<span><strong>${item.character}</strong> (${item.romaji})</span> <small>${CATEGORY_LABELS[item.category]}</small>`;
-      d.addEventListener("click", () => {
-        searchResults.classList.add("hidden");
-        searchInput.value = "";
-        openKanaFlow(item);
+    if (!matches.length) {
+      searchResults.innerHTML = `<div class="search-item"><span>Tidak ada hasil</span></div>`;
+    } else {
+      matches.forEach(item => {
+        const d = document.createElement("div");
+        d.className = "search-item";
+        d.innerHTML = `<span><strong>${item.character}</strong> (${item.romaji})</span> <small>${CATEGORY_LABELS[item.category]}</small>`;
+        d.addEventListener("click", () => {
+          searchResults.classList.add("hidden");
+          searchInput.value = "";
+          openKanaFlow(item);
+        });
+        searchResults.appendChild(d);
       });
-      searchResults.appendChild(d);
-    });
-  }
-  searchResults.classList.remove("hidden");
-});
+    }
+    searchResults.classList.remove("hidden");
+  });
 
-document.addEventListener("click", e => {
-  if (!e.target.closest(".search-box")) searchResults.classList.add("hidden");
-});
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search-box")) searchResults.classList.add("hidden");
+  });
+}
 
 /* =========================================================================
    MODAL GORESAN & SUARA (PINDAH HURUF LANGSUNG TANPA KELUAR MODAL)
@@ -531,7 +555,6 @@ function openKanaFlow(c) {
   document.body.classList.add("modal-open");
   modalOverlay.classList.remove("hidden", "is-closing");
 
-  // Jika pengguna sebelumnya sudah berada di latihan goresan (Tahap 2), langsung buka Tahap 2!
   if (preferStrokeStudio) {
     showStep2(c, true);
   } else {
@@ -581,9 +604,6 @@ function showStep2(c, autoSpeak = false) {
   }
 }
 
-/**
- * Berpindah ke huruf sebelum/sesudah di dalam Set yang sama tanpa menutup modal
- */
 function navigateModalCharacter(direction) {
   if (!currentCharModal) return;
   const list = allCharacters.filter(
@@ -617,29 +637,29 @@ function closeAllKanaModals() {
   }, 200);
 }
 
-document.getElementById("step1CharBox").addEventListener("click", () => {
+document.getElementById("step1CharBox")?.addEventListener("click", () => {
   if (currentCharModal) speak(currentCharModal.character, document.getElementById("step1SoundBtn"));
 });
-document.getElementById("step1SoundBtn").addEventListener("click", (e) => {
+document.getElementById("step1SoundBtn")?.addEventListener("click", (e) => {
   if (currentCharModal) speak(currentCharModal.character, e.currentTarget);
 });
-document.getElementById("step1NextBtn").addEventListener("click", () => {
+document.getElementById("step1NextBtn")?.addEventListener("click", () => {
   if (currentCharModal) showStep2(currentCharModal, false);
 });
-document.getElementById("step1BackBtn").addEventListener("click", closeAllKanaModals);
-document.getElementById("modalCloseBtnStep1").addEventListener("click", closeAllKanaModals);
-document.getElementById("modalBackToStep1Btn").addEventListener("click", () => {
+document.getElementById("step1BackBtn")?.addEventListener("click", closeAllKanaModals);
+document.getElementById("modalCloseBtnStep1")?.addEventListener("click", closeAllKanaModals);
+document.getElementById("modalBackToStep1Btn")?.addEventListener("click", () => {
   preferStrokeStudio = false;
   if (currentCharModal) showStep1(currentCharModal);
 });
-document.getElementById("modalCloseBtnStep2").addEventListener("click", closeAllKanaModals);
+document.getElementById("modalCloseBtnStep2")?.addEventListener("click", closeAllKanaModals);
 
-document.getElementById("step1PrevCharBtn").addEventListener("click", () => navigateModalCharacter(-1));
-document.getElementById("step1NextCharBtn").addEventListener("click", () => navigateModalCharacter(1));
-document.getElementById("step2PrevCharBtn").addEventListener("click", () => navigateModalCharacter(-1));
-document.getElementById("step2NextCharBtn").addEventListener("click", () => navigateModalCharacter(1));
+document.getElementById("step1PrevCharBtn")?.addEventListener("click", () => navigateModalCharacter(-1));
+document.getElementById("step1NextCharBtn")?.addEventListener("click", () => navigateModalCharacter(1));
+document.getElementById("step2PrevCharBtn")?.addEventListener("click", () => navigateModalCharacter(-1));
+document.getElementById("step2NextCharBtn")?.addEventListener("click", () => navigateModalCharacter(1));
 
-modalOverlay.addEventListener("click", (e) => {
+modalOverlay?.addEventListener("click", (e) => {
   if (e.target === modalOverlay) closeAllKanaModals();
 });
 
@@ -647,6 +667,7 @@ modalOverlay.addEventListener("click", (e) => {
 const SVG_NS = "http://www.w3.org/2000/svg";
 const strokeSvgWrapper = document.getElementById("strokeSvgWrapper");
 const noAnimationNotice = document.getElementById("noAnimationNotice");
+const noAnimChar = document.getElementById("noAnimChar");
 const modalPlayStrokeBtn = document.getElementById("modalPlayStrokeBtn");
 const modalNextStrokeBtn = document.getElementById("modalNextStrokeBtn");
 const modalSpeedBtn = document.getElementById("modalSpeedBtn");
@@ -724,7 +745,7 @@ function clearUserCanvas() {
   canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
   canvasCtx.restore();
 }
-if (clearCanvasBtn) clearCanvasBtn.addEventListener("click", clearUserCanvas);
+clearCanvasBtn?.addEventListener("click", clearUserCanvas);
 
 function cleanKanjiVgSvg(svgText) {
   return svgText
@@ -936,7 +957,7 @@ async function loadAndInjectSvg(c) {
   isAnimatingStroke = false;
   renderStrokeLegend(0);
   clearUserCanvas();
-  noAnimationNotice.classList.add("hidden");
+  noAnimationNotice?.classList.add("hidden");
   strokeSvgWrapper.classList.remove("hidden");
 
   const chars = Array.from(c.character);
@@ -956,18 +977,20 @@ async function loadAndInjectSvg(c) {
     modalNextStrokeBtn.disabled = false;
     animateStrokeOrder();
   } catch (_) {
-    strokeSvgWrapper.innerHTML = `<span class="stroke-loading">Data goresan belum tersedia</span>`;
+    if (myToken !== animToken) return;
+    strokeSvgWrapper.innerHTML = "";
+    strokeSvgWrapper.classList.add("hidden");
+    if (noAnimChar) noAnimChar.textContent = c.character;
+    noAnimationNotice?.classList.remove("hidden");
   }
 }
 
-modalPlayStrokeBtn.addEventListener("click", () => animateStrokeOrder());
-modalNextStrokeBtn.addEventListener("click", () => playNextSingleStroke());
-if (modalSpeedBtn) {
-  modalSpeedBtn.addEventListener("click", () => {
-    speedIdx = (speedIdx + 1) % SPEEDS.length;
-    modalSpeedBtn.querySelector("span").textContent = `Kecepatan: ${SPEED_LABELS[speedIdx]}`;
-  });
-}
+modalPlayStrokeBtn?.addEventListener("click", () => animateStrokeOrder());
+modalNextStrokeBtn?.addEventListener("click", () => playNextSingleStroke());
+modalSpeedBtn?.addEventListener("click", () => {
+  speedIdx = (speedIdx + 1) % SPEEDS.length;
+  modalSpeedBtn.querySelector("span").textContent = `Kecepatan: ${SPEED_LABELS[speedIdx]}`;
+});
 
 function updateLeftColumnStripAndRow(c) {
   document.getElementById("stripTrace1").textContent = c.character;
@@ -983,17 +1006,16 @@ function updateLeftColumnStripAndRow(c) {
 
   sameGroupList.forEach(item => {
     const itemBtn = document.createElement("div");
-    itemBtn.className = `group-kana-item ${item.character === c.character ? 'active' : ''}`;
+    itemBtn.className = `group-kana-item ${item.character === c.character ? "active" : ""}`;
     itemBtn.textContent = item.character;
     itemBtn.addEventListener("click", () => {
-      // Tetap di Tahap 2 (Goresan) tanpa mental kembali ke Tahap 1!
       showStep2(item, true);
     });
     groupContainer.appendChild(itemBtn);
   });
 }
 
-document.getElementById("modalSoundBtn").addEventListener("click", (e) => {
+document.getElementById("modalSoundBtn")?.addEventListener("click", (e) => {
   if (currentCharModal) speak(currentCharModal.character, e.currentTarget);
 });
 
@@ -1028,11 +1050,11 @@ document.querySelectorAll("#quickModeSwitch .seg-btn").forEach(btn => {
   });
 });
 
-document.getElementById("openSetupBtn").addEventListener("click", () => {
+document.getElementById("openSetupBtn")?.addEventListener("click", () => {
   showView("quiz-setup");
 });
 
-document.getElementById("quizKana").addEventListener("click", () => {
+document.getElementById("quizKana")?.addEventListener("click", () => {
   if (currentItem && currentMode !== "r2h") {
     speak(currentItem.character);
   }
@@ -1043,6 +1065,7 @@ function renderSetup() {
     b.classList.toggle("active", b.dataset.category === setupCategory);
   });
   const container = document.getElementById("setupCharGroups");
+  if (!container) return;
   container.innerHTML = "";
 
   SET_ORDER.forEach(set => {
@@ -1079,9 +1102,9 @@ function renderSetup() {
         const box = document.createElement("div");
         const isYouon = c.set === "youon" || c.character.length > 1;
         const isSelected = selectedChars.has(keyOf(c));
-        box.className = `kana-box ${isSelected ? 'is-selected' : ''}`;
+        box.className = `kana-box ${isSelected ? "is-selected" : ""}`;
         box.innerHTML = `
-          <span class="kana-char ${isYouon ? 'is-youon' : ''}">${c.character}</span>
+          <span class="kana-char ${isYouon ? "is-youon" : ""}">${c.character}</span>
           <span class="kana-romaji">${c.romaji}</span>
         `;
         box.addEventListener("click", () => {
@@ -1118,22 +1141,22 @@ document.querySelectorAll("#setupScriptToggle .seg-btn").forEach(btn => {
   });
 });
 
-document.getElementById("selectAllBtn").addEventListener("click", () => {
+document.getElementById("selectAllBtn")?.addEventListener("click", () => {
   allCharacters.filter(i => i.category === setupCategory).forEach(i => selectedChars.add(`${i.category}|${i.character}`));
   renderSetup();
 });
 
-document.getElementById("clearAllBtn").addEventListener("click", () => {
+document.getElementById("clearAllBtn")?.addEventListener("click", () => {
   [...selectedChars].filter(k => k.startsWith(setupCategory + "|")).forEach(k => selectedChars.delete(k));
   renderSetup();
 });
 
-document.getElementById("startStudyBtn").addEventListener("click", () => {
+document.getElementById("startStudyBtn")?.addEventListener("click", () => {
   const chosen = allCharacters.filter(i => selectedChars.has(`${i.category}|${i.character}`));
   if (chosen.length) openKanaFlow(chosen[0]);
 });
 
-document.getElementById("startQuizBtn").addEventListener("click", () => {
+document.getElementById("startQuizBtn")?.addEventListener("click", () => {
   const chosen = allCharacters.filter(i => selectedChars.has(`${i.category}|${i.character}`));
   if (!chosen.length) return;
   showView("quiz");
@@ -1153,6 +1176,7 @@ function startQuiz(pool, mode) {
 function generateQuizItem() {
   hasAnswered = false;
   currentItem = sessionQueue[currentIndex];
+  if (!currentItem) return;
 
   document.getElementById("quizCounter").textContent = `${currentIndex + 1} / ${sessionQueue.length}`;
   document.getElementById("quizProgressFill").style.width = `${Math.round(((currentIndex + 1) / sessionQueue.length) * 100)}%`;
@@ -1250,23 +1274,29 @@ function toggleQuizFlashcardFlip() {
   if (flipped) speak(currentItem.character, quizFcSoundBtn);
 }
 
-quizFlashcardCard.addEventListener("click", (e) => {
+quizFlashcardCard?.addEventListener("click", (e) => {
   if (e.target.closest("#quizFcSoundBtn")) return;
   toggleQuizFlashcardFlip();
 });
+quizFlashcardCard?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleQuizFlashcardFlip();
+  }
+});
 
-quizFcFlipBtn.addEventListener("click", toggleQuizFlashcardFlip);
-quizFcSoundBtn.addEventListener("click", (e) => {
+quizFcFlipBtn?.addEventListener("click", toggleQuizFlashcardFlip);
+quizFcSoundBtn?.addEventListener("click", (e) => {
   e.stopPropagation();
   if (currentItem) speak(currentItem.character, quizFcSoundBtn);
 });
-quizFcPrevBtn.addEventListener("click", () => {
+quizFcPrevBtn?.addEventListener("click", () => {
   if (currentIndex > 0) {
     currentIndex--;
     generateQuizItem();
   }
 });
-quizFcNextBtn.addEventListener("click", () => {
+quizFcNextBtn?.addEventListener("click", () => {
   currentIndex++;
   if (currentIndex >= sessionQueue.length) finishQuiz();
   else generateQuizItem();
@@ -1386,8 +1416,8 @@ function checkTyped() {
   }, 1050);
 }
 
-document.getElementById("submitAnswerBtn").addEventListener("click", checkTyped);
-document.getElementById("answerInput").addEventListener("keydown", e => {
+document.getElementById("submitAnswerBtn")?.addEventListener("click", checkTyped);
+document.getElementById("answerInput")?.addEventListener("keydown", e => {
   if (e.key === "Enter") checkTyped();
 });
 
@@ -1411,17 +1441,16 @@ function finishQuiz() {
   showView("result");
 }
 
-document.getElementById("retrySameBtn").addEventListener("click", () => {
+document.getElementById("retrySameBtn")?.addEventListener("click", () => {
   showView("quiz");
 });
-document.getElementById("backToSelectBtn").addEventListener("click", () => {
+document.getElementById("backToSelectBtn")?.addEventListener("click", () => {
   showView("quiz-setup");
 });
 
 /* ===================== SHORTCUT KEYBOARD GLOBAL (KUIS & MODAL) ===================== */
 document.addEventListener("keydown", (e) => {
-  // 1. Jika Modal terbuka: Panah Kiri / Kanan untuk ganti huruf tanpa keluar modal, Escape untuk tutup
-  if (!modalOverlay.classList.contains("hidden")) {
+  if (modalOverlay && !modalOverlay.classList.contains("hidden")) {
     if (e.key === "Escape") {
       closeAllKanaModals();
     } else if (e.key === "ArrowRight") {
@@ -1434,8 +1463,7 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  // 2. Jika berada di View Kuis Pilihan Ganda: angka 1 - 4 memilih jawaban
-  const quizViewActive = document.getElementById("view-quiz").classList.contains("active");
+  const quizViewActive = document.getElementById("view-quiz")?.classList.contains("active");
   if (quizViewActive && (currentMode === "h2r" || currentMode === "r2h") && !hasAnswered) {
     if (["1", "2", "3", "4"].includes(e.key)) {
       const idx = parseInt(e.key, 10) - 1;
@@ -1511,9 +1539,7 @@ function renderVocabCard() {
   document.getElementById("vocabFrontTypeTag").textContent = (cur.type || "kana").toUpperCase();
 }
 
-if (vocabSearchInput) {
-  vocabSearchInput.addEventListener("input", initVocabReading);
-}
+vocabSearchInput?.addEventListener("input", initVocabReading);
 
 document.querySelectorAll("#vocabCategoryFilter .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -1540,28 +1566,34 @@ function toggleVocabCardFlip() {
   if (flipped) speak(vocabList[vocabIndex].word, document.getElementById("vocabAudioBtn"));
 }
 
-vocabFlashcard.addEventListener("click", toggleVocabCardFlip);
-document.getElementById("vocabFlipBtn").addEventListener("click", toggleVocabCardFlip);
+vocabFlashcard?.addEventListener("click", toggleVocabCardFlip);
+vocabFlashcard?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleVocabCardFlip();
+  }
+});
+document.getElementById("vocabFlipBtn")?.addEventListener("click", toggleVocabCardFlip);
 
-document.getElementById("vocabPrevCardBtn").addEventListener("click", () => {
+document.getElementById("vocabPrevCardBtn")?.addEventListener("click", () => {
   if (!vocabList.length) return;
   vocabIndex = (vocabIndex - 1 + vocabList.length) % vocabList.length;
   renderVocabCard();
 });
 
-document.getElementById("vocabNextCardBtn").addEventListener("click", () => {
+document.getElementById("vocabNextCardBtn")?.addEventListener("click", () => {
   if (!vocabList.length) return;
   vocabIndex = (vocabIndex + 1) % vocabList.length;
   renderVocabCard();
 });
 
-document.getElementById("vocabShuffleBtn").addEventListener("click", () => {
+document.getElementById("vocabShuffleBtn")?.addEventListener("click", () => {
   vocabList = shuffle(vocabList);
   vocabIndex = 0;
   renderVocabCard();
 });
 
-document.getElementById("vocabAudioBtn").addEventListener("click", (e) => {
+document.getElementById("vocabAudioBtn")?.addEventListener("click", (e) => {
   e.stopPropagation();
   if (vocabList[vocabIndex]) speak(vocabList[vocabIndex].word, e.currentTarget);
 });
