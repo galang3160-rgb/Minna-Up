@@ -2,63 +2,57 @@
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Nakama Gakkou</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nakama Gakkou — Pilihan Materi &amp; Bab</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    @font-face {
-      font-family: 'KanjiTimes';
-      src: local('Times New Roman'), local('Hiragino Mincho ProN'), local('Yu Mincho');
-      unicode-range: U+4E00-9FAF, U+3400-4DBF;
-    }
-    body {
-      font-family: 'Space Grotesk', 'KanjiTimes', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif !important;
-    }
-    .kanji, .kanji-text, .japanese-text {
-      font-weight: normal !important;
-    }
-  </style>
 </head>
-<body>
+<body class="cinema-body">
 
-  <!-- SPLASH SCREEN -->
-  <div id="splash">
-    <div class="splash-box">
-      <svg class="checkmark-svg" viewBox="0 0 52 52">
-        <circle class="checkmark-circle" cx="26" cy="26" r="22" fill="none"/>
-        <path class="checkmark-check" fill="none" d="M15 27l7 7 15-15"/>
-      </svg>
-    </div>
-    <h1 class="splash-title">Nakama<b>Gakkou</b></h1>
-  </div>
-
-  <!-- EFEK INTERAKTIF & MOUSE TRAIL -->
+  <!-- AMBIENT & EFEK INTERAKTIF -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
   <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR KAPSUL NEO-BRUTALISM -->
+  <!-- TOPBAR (DIPERTAHANKAN SESUAI DESAIN YANG DISUKAI) -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
 
-      <!-- Kiri: Tombol Back Dinamis & Brand -->
+      <!-- Kiri: Tombol Back & Brand -->
       <div class="topbar-left">
-        <button type="button" id="globalBackBtn" class="nav-back-circle hidden-el" title="Kembali" aria-label="Kembali">
+        <a href="../../index.html" id="navBackBtn" class="nav-back-circle" title="Kembali" aria-label="Kembali">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
-        </button>
-        <a href="index.html" class="logo" id="brandHomeLink">
+        </a>
+        <a href="index.html" class="logo">
           <span class="logo-word">Nakama<b>Gakkou</b></span>
         </a>
-        <span class="nav-crumb hidden-el" id="navCrumbTag">Kotoba</span>
       </div>
 
-      <!-- Kanan: Tombol Mode Malam & Pemicu Modal Bab -->
+      <!-- Tengah: Tab Level N5 - N1 -->
+      <div class="topbar-center">
+        <div class="level-pills" id="levelPills" role="tablist" aria-label="Pilih Level">
+          <button type="button" class="lvl-pill" data-level="N5">N5</button>
+          <button type="button" class="lvl-pill" data-level="N4">N4</button>
+          <button type="button" class="lvl-pill" data-level="N3">N3</button>
+          <button type="button" class="lvl-pill" data-level="N2">N2</button>
+          <button type="button" class="lvl-pill" data-level="N1">N1</button>
+        </div>
+
+        <!-- Tombol Ganti Buku (Muncul saat sedang di dalam Carousel Bab) -->
+        <button type="button" id="backToBookBtn" class="book-switch-chip hidden">
+          <span id="activeBookLabel">Minna 1</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Kanan: Mode Malam & Pemicu Modal Daftar Bab -->
       <div class="topbar-right">
         <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Ganti Tema" title="Ganti Mode Siang/Malam">
           <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
@@ -77,7 +71,7 @@
           </svg>
         </button>
 
-        <button type="button" id="openChapterModal" class="chapter-trigger-btn hidden-el" aria-label="Buka Daftar Bab">
+        <button type="button" id="openChapterModal" class="chapter-trigger-btn hidden" aria-label="Buka Daftar Bab">
           <span class="trigger-label"><b id="currentChapterDisplay">Bab 01</b></span>
           <div class="trigger-icon-wrap">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
@@ -93,344 +87,29 @@
     </div>
   </header>
 
-  <main id="appMain">
-    <!-- VIEW 1: 8 MENU UTAMA -->
-    <section class="view active" id="viewMain">
-      <div class="bento-grid grid-8" id="mainBentoGrid">
-
-        <!-- 1. ANGKA -->
-        <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-tilt>
-          <span class="card-index">01</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="3" width="16" height="18" rx="3"/>
-              <line x1="8" y1="7" x2="16" y2="7"/>
-              <circle cx="8.5" cy="12" r="1" fill="currentColor"/>
-              <circle cx="12" cy="12" r="1" fill="currentColor"/>
-              <circle cx="15.5" cy="12" r="1" fill="currentColor"/>
-              <circle cx="8.5" cy="16" r="1" fill="currentColor"/>
-              <circle cx="12" cy="16" r="1" fill="currentColor"/>
-              <circle cx="15.5" cy="16" r="1" fill="currentColor"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Angka</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 2. KANJI -->
-        <a href="Kanji/index.html" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-view-target="viewKanji" data-tilt>
-          <span class="card-index">02</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 6c5 1.5 13 1.5 18 0"/>
-              <path d="M5 10h14"/>
-              <path d="M7 6v15"/>
-              <path d="M17 6v15"/>
-              <path d="M12 6v4"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Kanji</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 3. KOTOBA -->
-        <a href="Kotoba/index.html" class="neo-card card-kotoba tile-link" id="btnKotoba" data-feature="kotoba" data-tilt>
-          <span class="card-index">03</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="5" width="14" height="15" rx="2.5"/>
-              <path d="M17 8h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2"/>
-              <line x1="7" y1="10" x2="13" y2="10"/>
-              <line x1="7" y1="14" x2="11" y2="14"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Kotoba</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 4. PEMULA -->
-        <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-feature="pemula" data-tilt>
-          <span class="card-index">04</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2l3.2 6.6L22 9.7l-5 4.9 1.2 6.9L12 18.2 5.8 21.5 7 14.6 2 9.7l6.8-1.1L12 2z"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Pemula</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 5. BUNPOU -->
-        <a href="Bunpou/index.html" class="neo-card card-bunpou tile-link" id="btnBunpou" data-feature="bunpou" data-tilt>
-          <span class="card-index">05</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Bunpou</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 6. SSW -->
-        <a href="Ssw/index.html" class="neo-card card-ssw tile-link" id="btnSsw" data-feature="ssw" data-tilt>
-          <span class="card-index">06</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="14" rx="2.5"/>
-              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-              <path d="M12 12v3"/>
-              <path d="M2 12h20"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">SSW</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 7. CHOUKAI -->
-        <a href="Choukai/index.html" class="neo-card card-choukai tile-link" id="btnChoukai" data-feature="choukai" data-tilt>
-          <span class="card-index">07</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">Choukai</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 8. JFT -->
-        <a href="Jft/index.html" class="neo-card card-jft" id="btnJft" data-feature="jft" data-view-target="viewJft" data-tilt>
-          <span class="card-index">08</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="6"/>
-              <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
-              <path d="M9.5 8l1.8 1.8 3.5-3.5"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">JFT</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- VIEW 2: SUBMENU KANJI (HREF ASLI TETAP UTUH) -->
-    <section class="view" id="viewKanji">
-      <div class="bento-grid grid-2">
-        <a href="Kanji/index.html" class="neo-card card-kanji tile-link" data-tilt>
-          <span class="card-index">LV.1</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-              <polyline points="2 17 12 22 22 17"/>
-              <polyline points="2 12 12 17 22 12"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">N5</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <a href="Kanji/N4/index.html" class="neo-card card-kanji tile-link" data-tilt>
-          <span class="card-index">LV.2</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <h2 class="card-title">N4</h2>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-            </span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- VIEW 3: HALAMAN KHUSUS JFT (DENGAN HREF EKSPLISIT PER MODUL) -->
-    <section class="view" id="viewJft">
-      <div class="jft-hero-banner">
-        <div class="jft-hero-top">
-          <span class="jft-badge">JFT-BASIC • LEVEL A2</span>
-          <span class="jft-jp-tag japanese-text">国際交流基金日本語基礎テスト</span>
-        </div>
-        <h1 class="jft-hero-title">Japan Foundation Test for Basic Japanese (JFT)</h1>
-        <p class="jft-hero-desc">
-          Persiapan terstruktur untuk menghadapi ujian kemampuan bahasa Jepang JFT-Basic (setara CEFR A2) sebagai syarat utama program kerja <b>Specified Skilled Worker (SSW / Tokutei Ginou)</b>. Mencakup 4 seksi kompetensi utama: <i>Huruf &amp; Kosakata</i>, <i>Percakapan &amp; Ungkapan</i>, <i>Pendengaran (Choukai)</i>, serta <i>Pemahaman Bacaan (Dokkai)</i>.
-        </p>
+  <!-- =====================================================================
+       TAMPILAN 1: LAYAR PILIH KATEGORI BUKU (CLEAN MONOCHROME + AMBER)
+       ===================================================================== -->
+  <section class="book-selection-stage" id="bookSelectionStage">
+    <div class="stage-shell">
+      <div class="stage-heading">
+        <span class="stage-pill" id="stageLevelBadge">JLPT N5</span>
+        <h1 class="stage-title" id="stageMainTitle">Pilih Buku Materi</h1>
       </div>
 
-      <!-- 4 Menu Utama JFT dengan href langsung ke folder modul masing-masing -->
-      <div class="bento-grid grid-4 jft-modules-grid">
-
-        <!-- 1. Materi Pembelajaran -->
-        <a href="Jft/Materi/index.html" class="neo-card card-matcha jft-module-card" data-jft-module="materi" data-tilt>
-          <span class="card-index">MODUL 01</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-            </svg>
-          </div>
-          <div class="jft-card-body">
-            <h2 class="card-title">Materi Pembelajaran</h2>
-            <p class="jft-card-sub">Rangkuman Irodori A2, pola ungkapan harian, dan kosakata tematik JFT-Basic.</p>
-          </div>
-          <div class="card-footer">
-            <span class="jft-status-pill">Siap Dipelajari</span>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 2. Latihan Soal -->
-        <a href="Jft/Latihan/index.html" class="neo-card card-sky jft-module-card" data-jft-module="latihan" data-tilt>
-          <span class="card-index">MODUL 02</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-          </div>
-          <div class="jft-card-body">
-            <h2 class="card-title">Latihan Soal</h2>
-            <p class="jft-card-sub">Latihan per seksi: Moji/Goi, Kaiwa/Hyougen, Choukai, dan Dokkai.</p>
-          </div>
-          <div class="card-footer">
-            <span class="jft-status-pill">4 Seksi Ujian</span>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 3. Simulasi Ujian -->
-        <a href="Jft/Simulasi/index.html" class="neo-card card-amber jft-module-card" data-jft-module="simulasi" data-tilt>
-          <span class="card-index">MODUL 03</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-          </div>
-          <div class="jft-card-body">
-            <h2 class="card-title">Simulasi Ujian</h2>
-            <p class="jft-card-sub">Tryout CBT dengan timer 60 menit dan target kelulusan minimal 200/250 poin.</p>
-          </div>
-          <div class="card-footer">
-            <span class="jft-status-pill">Mode CBT</span>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- 4. Pembahasan Soal -->
-        <a href="Jft/Pembahasan/index.html" class="neo-card card-lavender jft-module-card" data-jft-module="pembahasan" data-tilt>
-          <span class="card-index">MODUL 04</span>
-          <div class="icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-          </div>
-          <div class="jft-card-body">
-            <h2 class="card-title">Pembahasan Soal</h2>
-            <p class="jft-card-sub">Bedah strategi menjawab cepat, analisis kosakata pengecoh, dan transkrip audio.</p>
-          </div>
-          <div class="card-footer">
-            <span class="jft-status-pill">Analisis &amp; Tips</span>
-            <span class="card-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </a>
-
+      <div class="book-bento-grid" id="bookBentoGrid">
+        <!-- 2 Kartu Buku di-generate otomatis oleh JS -->
       </div>
+    </div>
+  </section>
 
-      <!-- Panel Detail / Workspace JFT + Tombol Buka Modul (href dinamis) -->
-      <div class="jft-workspace-panel" id="jftWorkspacePanel">
-        <div class="jft-workspace-header">
-          <div>
-            <span class="jft-workspace-tag" id="jftWorkspaceTag">STATUS MODUL</span>
-            <h3 class="jft-workspace-title" id="jftWorkspaceTitle">Pilih Modul JFT di Atas</h3>
-          </div>
-          <a href="Jft/Materi/index.html" class="jft-cta-btn hidden-el" id="jftWorkspaceLink">
-            <span>Buka Halaman Modul</span>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 17L17 7M7 7h10v10"/>
-            </svg>
-          </a>
-        </div>
-        <p class="jft-workspace-desc" id="jftWorkspaceDesc">
-          Klik salah satu dari keempat menu JFT di atas (<b>Materi Pembelajaran</b>, <b>Latihan Soal</b>, <b>Simulasi Ujian</b>, atau <b>Pembahasan Soal</b>) untuk melihat rincian modul dan membukanya.
-        </p>
-        <div class="jft-section-pills" id="jftSectionPills">
-          <div class="jft-pill-item">
-            <b>Seksi 1:</b> Huruf &amp; Kosakata (Moji &amp; Goi)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 2:</b> Percakapan &amp; Ungkapan (Kaiwa &amp; Hyougen)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 3:</b> Pendengaran (Choukai)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 4:</b> Pemahaman Bacaan (Dokkai)
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- =====================================================================
+       TAMPILAN 2: LAYERED DECK & QUICK-JUMP STRIP BAB
+       ===================================================================== -->
+  <main class="flashcard-stage hidden" id="chapterCarouselStage">
+    <div class="deck-layout">
 
-    <!-- VIEW CADANGAN TETAP DISIMPAN AGAR FITUR TIDAK HILANG -->
-    <section class="view" id="viewKotobaBooks">
-      <div class="bento-grid grid-2" id="kotobaBooksGrid"></div>
-    </section>
-
-    <section class="view" id="viewChapters">
-      <div class="flashcard-stage">
+      <div class="deck-stage-row">
         <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Bab Sebelumnya">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"/>
@@ -445,16 +124,41 @@
           </svg>
         </button>
       </div>
-    </section>
+
+      <!-- Dock Bawah: Progress + Quick-Jump -->
+      <div class="deck-dock">
+        <div class="deck-dock-top">
+          <button type="button" class="dock-arrow-btn" id="prevBtnMobile" aria-label="Bab Sebelumnya">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+
+          <div class="deck-progress-track">
+            <div class="deck-progress-fill" id="deckProgressFill"></div>
+          </div>
+
+          <button type="button" class="dock-arrow-btn" id="nextBtnMobile" aria-label="Bab Selanjutnya">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="quick-jump-strip" id="quickJumpStrip" aria-label="Navigasi Cepat Bab"></div>
+      </div>
+
+    </div>
   </main>
 
-  <!-- MODAL VISUAL GRID LEVEL 1-25 -->
-  <div class="modal-backdrop" id="chapterModal">
+  <!-- MODAL VISUAL GRID BAB (BOTTOM SHEET DI HP) -->
+  <div class="modal-backdrop" id="chapterModal" role="dialog" aria-modal="true" aria-labelledby="modalTitleLabel">
     <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
       <div class="modal-header">
         <div>
-          <span class="modal-tag" id="modalRangeTag">BAB 1 - 25</span>
-          <h3 class="modal-title">Pilih Bab</h3>
+          <span class="modal-tag" id="modalTagLabel">N5 • MINNA 1</span>
+          <h3 class="modal-title" id="modalTitleLabel">Pilih Bab</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeChapterModal" aria-label="Tutup">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">

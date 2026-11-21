@@ -1,5 +1,18 @@
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + MOBILE-FIRST
+   FONT KHUSUS KANJI & TIPOGRAFI
+   ========================================================================= */
+@font-face {
+  font-family: 'KanjiTimes';
+  src: local('Times New Roman'), local('Hiragino Mincho ProN'), local('Yu Mincho');
+  unicode-range: U+4E00-9FAF, U+3400-4DBF;
+}
+
+.kanji, .kanji-text, .japanese-text {
+  font-weight: normal !important;
+}
+
+/* =========================================================================
+   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + LEARNING PATH + JFT + MOBILE-FIRST
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -80,7 +93,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: clip;
-  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-family: 'Space Grotesk', 'KanjiTimes', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif !important;
   background-color: var(--bg);
   background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
   background-size: 22px 22px;
@@ -423,6 +436,60 @@ body.page-leaving main {
 }
 
 /* =========================================================================
+   BAR PILIHAN JALUR BELAJAR (LEARNING PATH SELECTOR)
+   ========================================================================= */
+.path-selector-bar {
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.path-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.path-tab-btn {
+  min-height: 40px;
+  padding: 7px 14px;
+  border-radius: 12px;
+  border: var(--border-sm);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease, color 0.14s ease;
+}
+
+.path-tab-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.path-tab-btn.active {
+  background: var(--c-matcha);
+  color: var(--ink-badge);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--shadow-color);
+}
+
+.path-hint {
+  font-size: 0.84rem;
+  color: var(--dim);
+  line-height: 1.4;
+}
+
+/* =========================================================================
    BENTO GRID 8 BLOK & SPOTLIGHT CARDS
    ========================================================================= */
 .bento-grid {
@@ -469,6 +536,10 @@ body.page-leaving main {
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.25s ease;
   cursor: pointer;
   overflow: hidden;
+}
+
+.neo-card.path-hidden {
+  display: none !important;
 }
 
 .neo-card::before {
@@ -588,6 +659,7 @@ body.page-leaving main {
   height: 17px;
 }
 
+/* Efek Hover Hanya untuk Perangkat Pointer Halus (Mencegah Sticky Hover di HP) */
 @media (hover: hover) {
   .nav-back-circle:hover {
     background: var(--c-matcha);
@@ -601,6 +673,12 @@ body.page-leaving main {
   }
   .chapter-trigger-btn:hover {
     background: var(--c-amber);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
+  }
+  .path-tab-btn:not(.active):hover {
+    background: var(--c-amber);
+    color: var(--ink-badge);
     transform: translate(1px, 1px);
     box-shadow: 2px 2px 0px 0px var(--shadow-color);
   }
@@ -821,7 +899,7 @@ body.page-leaving main {
 }
 
 /* =========================================================================
-   SLIDER CAROUSEL KARTU BAB
+   SLIDER CAROUSEL KARTU BAB (TETAP UTUH)
    ========================================================================= */
 .flashcard-stage {
   position: relative;
@@ -1238,6 +1316,27 @@ body.page-leaving main {
   }
   main {
     padding: 80px 14px 28px;
+  }
+
+  .path-selector-bar {
+    padding: 12px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+  }
+  .path-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .path-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .path-tab-btn {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    padding: 6px 12px;
   }
 
   .grid-8 {

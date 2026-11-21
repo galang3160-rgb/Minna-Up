@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     bunpou:  'LOCKED',
     ssw:     'ACTIVE',
     choukai: 'LOCKED',
-    jft:     'LOCKED'
+    jft:     'ACTIVE'
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
 
+  // Helper: abaikan klik dengan tombol modifier (Ctrl/Cmd/Shift/Klik Tengah)
+  // agar buka tab baru di desktop tetap bekerja normal
   const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
   document.querySelectorAll('[data-feature]').forEach(card => {
@@ -141,7 +143,57 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 4. DATA HIRARKI KOTOBA (CADANGAN) & DATA MODUL JFT
+  // 4. OPSI JALUR BELAJAR (LEARNING PATH SELECTOR)
+  // =========================================================================
+  const PATH_HINTS = {
+    all:    'Menampilkan seluruh 8 modul pembelajaran Nakama Gakkou.',
+    pemula: 'Jalur Pemula (N5): Mulai dari huruf dasar, angka, kosakata, dan kanji dasar.',
+    jlpt:   'Jalur JLPT (N4–N3): Fokus penguasaan kosakata, kanji, tata bahasa, dan pendengaran.',
+    kerja:  'Jalur Kerja Jepang (JFT & SSW): Persiapan khusus ujian JFT-Basic A2 dan bidang SSW.'
+  };
+
+  const pathTabBtns = document.querySelectorAll('.path-tab-btn');
+  const pathHintEl = $('pathHint');
+  const mainCards = document.querySelectorAll('#mainBentoGrid .neo-card');
+
+  function applyLearningPath(pathKey, save = true) {
+    const validKey = PATH_HINTS[pathKey] ? pathKey : 'all';
+
+    pathTabBtns.forEach(btn => {
+      const isActive = btn.getAttribute('data-path') === validKey;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    if (pathHintEl) {
+      pathHintEl.textContent = PATH_HINTS[validKey];
+    }
+
+    mainCards.forEach(card => {
+      if (validKey === 'all') {
+        card.classList.remove('path-hidden');
+      } else {
+        const paths = (card.getAttribute('data-paths') || '').split(/\s+/);
+        card.classList.toggle('path-hidden', !paths.includes(validKey));
+      }
+    });
+
+    if (save) {
+      localStorage.setItem('nakama_learning_path', validKey);
+    }
+  }
+
+  pathTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      playPopSound();
+      applyLearningPath(btn.getAttribute('data-path'), true);
+    });
+  });
+
+  applyLearningPath(localStorage.getItem('nakama_learning_path') || 'all', false);
+
+  // =========================================================================
+  // 5. DATA HIRARKI KOTOBA (CADANGAN) & DATA MODUL JFT
   // =========================================================================
   const KOTOBA_BOOKS = {
     N5: [
@@ -210,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // =========================================================================
-  // 5. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
+  // 6. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
   // =========================================================================
   const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
@@ -310,6 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handleHistoryPopState(e);
   });
 
+  // Sinkronisasi hash awal saat halaman dibuka atau di-refresh (misal #viewJft)
   const initialHash = location.hash ? location.hash.replace('#', '') : '';
   if (initialHash && viewMap[initialHash] && initialHash !== 'viewMain') {
     const allowInitial =
@@ -329,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
   }
 
+  // Tombol Back di Topbar: gunakan history.back() jika ada riwayat internal agar tidak loop
   globalBackBtn?.addEventListener('click', () => {
     if (internalNavDepth > 0) {
       history.back();
@@ -342,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Klik Logo Brand -> Kembali ke Menu Utama
   $('brandHomeLink')?.addEventListener('click', (e) => {
     if (isModifiedClick(e)) return;
     if (currentView !== viewMain) {
@@ -356,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Helper getar untuk fitur LOCKED
   function triggerLockedFeedback(cardEl) {
     playPopSound();
     cardEl.classList.remove('shake-locked');
@@ -363,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardEl.classList.add('shake-locked');
   }
 
+  // Klik Kanji
   $('btnKanji')?.addEventListener('click', function (e) {
     if (!isFeatureActive('kanji')) {
       e.preventDefault();
@@ -379,6 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 340);
   });
 
+  // Klik JFT
   $('btnJft')?.addEventListener('click', function (e) {
     if (!isFeatureActive('jft')) {
       e.preventDefault();
@@ -395,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 340);
   });
 
+  // Interaksi 4 Modul di dalam Halaman JFT
   const jftModuleCards = document.querySelectorAll('.jft-module-card');
   const jftWorkspaceTag = $('jftWorkspaceTag');
   const jftWorkspaceTitle = $('jftWorkspaceTitle');
@@ -437,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Tombol Buka Halaman Modul di Workspace JFT
   jftWorkspaceLink?.addEventListener('click', function (e) {
     if (isModifiedClick(e)) return;
     e.preventDefault();
@@ -444,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
     smoothNavigate(this.getAttribute('href'));
   });
 
+  // Klik Link Langsung (.tile-link)
   document.querySelectorAll('.tile-link').forEach(card => {
     card.addEventListener('click', function (e) {
       const feat = this.getAttribute('data-feature');
@@ -469,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 6. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
+  // 7. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
   // =========================================================================
   const carouselContainer = $('carouselContainer');
   const modalGrid = $('modalChapterGrid');
@@ -645,7 +706,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 7. PARALLAX, SPARKS, 3D TILT & TRAIL ON-DEMAND
+  // 8. PARALLAX, SPARKS, 3D TILT & TRAIL ON-DEMAND (HEMAT BATERAI HP)
   // =========================================================================
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
@@ -680,6 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
     }
 
+    // Canvas Trail On-Demand: hanya jalan saat mouse bergerak, berhenti saat diam
     const cv = $('trail');
     if (cv) {
       const ctx = cv.getContext('2d');
@@ -758,6 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Sparks saat klik (hanya pada click agar tidak mengganggu scroll di HP)
   if (!reduce) {
     const fx = $('fx');
     const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1', '#FFEDD5', '#ECFCCB'];
