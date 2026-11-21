@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
 
   // =========================================================================
-  // 0. KONFIGURASI AKTIVASI FITUR (8 BLOK UTAMA TERMASUK JFT)
+  // 0. KONFIGURASI AKTIVASI FITUR (8 BLOK UTAMA)
   // =========================================================================
   const FEATURE_CONFIG = {
     angka:   'ACTIVE',
@@ -12,16 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     bunpou:  'LOCKED',
     ssw:     'ACTIVE',
     choukai: 'LOCKED',
-    jft:     'ACTIVE'
+    jft:     'LOCKED'
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
 
-  // Terapkan status terkunci pada kartu menu utama yang berstatus LOCKED
+  const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+
   document.querySelectorAll('[data-feature]').forEach(card => {
     const key = card.getAttribute('data-feature');
     if (!isFeatureActive(key)) {
       card.classList.add('is-locked');
+      card.setAttribute('aria-disabled', 'true');
       card.removeAttribute('data-tilt');
       const arrow = card.querySelector('.card-arrow');
       if (arrow) {
@@ -36,44 +38,38 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 1. PERBAIKAN UTAMA BUG BLANK SCREEN (BFCACHE & PAGE RESTORATION)
+  // 1. ANTI BLANK SCREEN (BFCACHE, BACK BUTTON HP & GUARD NAVIGASI)
   // =========================================================================
+  let navTimeout = null;
+  let isNavigating = false;
+
   function restorePageFromCache() {
-    // Hapus class transisi keluar yang membuat halaman blank (opacity: 0)
+    clearTimeout(navTimeout);
+    isNavigating = false;
     document.body.classList.remove('page-leaving');
 
-    // Pastikan splash screen tidak menghalangi layar saat kembali via tombol Back
     const splash = $('splash');
     if (splash && sessionStorage.getItem('nakama_splash_seen') === '1') {
       splash.classList.add('hidden');
       splash.style.display = 'none';
     }
 
-    // Reset semua animasi putar atau inline transform yang tertinggal di kartu
     document.querySelectorAll('.spin-anim').forEach(el => el.classList.remove('spin-anim'));
     document.querySelectorAll('.neo-card').forEach(card => {
       card.style.transform = '';
     });
   }
 
-  // Tangani event pageshow (terpanggil saat tombol Back browser/HP ditekan)
-  window.addEventListener('pageshow', () => {
-    restorePageFromCache();
-  });
-
-  window.addEventListener('popstate', (e) => {
-    restorePageFromCache();
-    handleHistoryPopState(e);
-  });
+  window.addEventListener('pageshow', restorePageFromCache);
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      document.body.classList.remove('page-leaving');
+      restorePageFromCache();
     }
   });
 
   // =========================================================================
-  // 2. SPLASH SCREEN (CERDAS: HANYA MUNCUL SEKALI PER SESI AGAR BACK INSTAN)
+  // 2. SPLASH SCREEN & TEMA SIANG/MALAM
   // =========================================================================
   const splash = $('splash');
   if (splash) {
@@ -85,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         splash.classList.add('hidden');
         setTimeout(() => { splash.style.display = 'none'; }, 550);
-      }, 950);
+      }, 900);
     }
   }
 
@@ -107,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 3. EFEK AUDIO POP & TRANSISI HALAMAN AMAN
+  // 3. AUDIO POP & NAVIGASI HALAMAN AMAN
   // =========================================================================
   let audioCtx = null;
   function playPopSound() {
@@ -126,26 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
       gain.connect(audioCtx.destination);
       osc.start(now);
       osc.stop(now + 0.09);
-    } catch (e) {}
+    } catch (_) {}
   }
 
-  let navTimeout = null;
   function smoothNavigate(targetUrl) {
-    if (!targetUrl || targetUrl === '#') return;
+    if (!targetUrl || targetUrl === '#' || isNavigating) return;
+    isNavigating = true;
     clearTimeout(navTimeout);
     document.body.classList.add('page-leaving');
 
     navTimeout = setTimeout(() => {
-      window.location.href = targetUrl;
-      // Fallback: pastikan class page-leaving dibersihkan jika halaman gagal berpindah
+      window.location.href = encodeURI(targetUrl);
       setTimeout(() => {
+        isNavigating = false;
         document.body.classList.remove('page-leaving');
-      }, 450);
-    }, 260);
+      }, 500);
+    }, 240);
   }
 
   // =========================================================================
-  // 4. DATA HIRARKI KOTOBA & DATA MODUL JFT
+  // 4. DATA HIRARKI KOTOBA (CADANGAN) & DATA MODUL JFT
   // =========================================================================
   const KOTOBA_BOOKS = {
     N5: [
@@ -162,7 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     materi: {
       tag: 'MODUL 01 • MATERI PEMBELAJARAN',
       title: 'Materi Pembelajaran JFT-Basic A2',
-      desc: 'Struktur materi pembelajaran JFT-Basic siap diisi. Fokus pada penguasaan ekspresi komunikasi sehari-hari di Jepang mengacu pada kurikulum standar Japan Foundation (Irodori Tingkat Dasar A2).',
+      href: 'Jft/Materi/index.html',
+      ctaText: 'Buka Materi Pembelajaran',
+      desc: 'Fokus pada penguasaan ekspresi komunikasi sehari-hari di Jepang mengacu pada kurikulum standar Japan Foundation (Irodori Tingkat Dasar A2).',
       pills: [
         '<b>Topik 1:</b> Perkenalan Diri, Tempat Tinggal & Lingkungan Sekitar',
         '<b>Topik 2:</b> Berbelanja, Memesan Makanan & Transportasi Umum',
@@ -173,6 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     latihan: {
       tag: 'MODUL 02 • LATIHAN SOAL',
       title: 'Latihan Soal Per Seksi JFT-Basic',
+      href: 'Jft/Latihan/index.html',
+      ctaText: 'Mulai Latihan Soal',
       desc: 'Wadah latihan soal terfokus per seksi kompetensi JFT-Basic. Memudahkan latihan bertahap sebelum masuk ke simulasi penuh.',
       pills: [
         '<b>Seksi 1 (Moji & Goi):</b> ~15 Soal bacaan Kanji kontekstual & makna kosakata harian',
@@ -184,6 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
     simulasi: {
       tag: 'MODUL 03 • SIMULASI UJIAN (CBT)',
       title: 'Simulasi Ujian CBT JFT-Basic (60 Menit)',
+      href: 'Jft/Simulasi/index.html',
+      ctaText: 'Mulai Simulasi CBT',
       desc: 'Kerangka simulasi Computer-Based Testing (CBT) dengan format penilaian terkalibrasi (0–250 poin). Batas nilai lulus (Passing Grade) adalah 200 poin.',
       pills: [
         '<b>Durasi Ujian:</b> 60 Menit nonstop tanpa jeda antar seksi',
@@ -195,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pembahasan: {
       tag: 'MODUL 04 • PEMBAHASAN SOAL',
       title: 'Pembahasan Soal, Transkrip & Strategi Lulus',
+      href: 'Jft/Pembahasan/index.html',
+      ctaText: 'Buka Pembahasan Soal',
       desc: 'Halaman pembahasan mendalam untuk mengulas kunci jawaban, bedah kosakata pengecoh, serta transkrip lengkap untuk bagian pendengaran (Choukai).',
       pills: [
         '<b>Bedah Moji & Goi:</b> Daftar Kanji yang sering muncul di kehidupan kerja Jepang',
@@ -206,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // =========================================================================
-  // 5. VIEW SWITCHING, ROUTING & TOPBAR CONTROLLER (DENGAN HISTORY API)
+  // 5. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
   // =========================================================================
   const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
@@ -218,10 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const navCrumbTag = $('navCrumbTag');
   const openModalBtn = $('openChapterModal');
 
-  let currentView = viewMain;
-  let selectedLevel = 'N5';
-  let selectedBook = null;
-
   const viewMap = {
     viewMain,
     viewKanji,
@@ -229,6 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
     viewKotobaBooks,
     viewChapters
   };
+
+  let currentView = viewMain;
+  let selectedLevel = 'N5';
+  let selectedBook = null;
+  let swapTimer = null;
+  let internalNavDepth = 0;
 
   function updateTopbarState(targetView) {
     if (targetView === viewMain) {
@@ -263,109 +269,151 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function swapView(fromEl, toEl, pushHistory = true) {
-    if (!fromEl || !toEl || fromEl === toEl) return;
-    playPopSound();
+  function swapView(fromEl, toEl, pushHistory = true, withSound = true) {
+    if (!toEl || fromEl === toEl) return;
+    clearTimeout(swapTimer);
+    if (withSound) playPopSound();
 
     if (pushHistory) {
       const viewId = toEl.id || 'viewMain';
-      const hash = viewId === 'viewMain' ? location.pathname : `#${viewId}`;
+      const hash = viewId === 'viewMain' ? location.pathname + location.search : `#${viewId}`;
       history.pushState({ viewId }, '', hash);
+      internalNavDepth++;
     }
 
-    fromEl.classList.add('fade-out');
-    setTimeout(() => {
+    if (fromEl) fromEl.classList.add('fade-out');
+
+    swapTimer = setTimeout(() => {
       Object.values(viewMap).forEach(v => {
         if (v && v !== toEl) v.classList.remove('active', 'fade-out');
       });
+      toEl.classList.remove('fade-out');
       toEl.classList.add('active');
       currentView = toEl;
       updateTopbarState(toEl);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 200);
+    }, 180);
   }
 
   function handleHistoryPopState(e) {
-    const targetId = (e.state && e.state.viewId) ? e.state.viewId : 'viewMain';
+    if (internalNavDepth > 0) internalNavDepth--;
+    const hashId = location.hash ? location.hash.replace('#', '') : '';
+    const targetId = (e.state && e.state.viewId) ? e.state.viewId : (viewMap[hashId] ? hashId : 'viewMain');
     const targetEl = viewMap[targetId] || viewMain;
     if (currentView !== targetEl) {
-      swapView(currentView, targetEl, false);
+      swapView(currentView, targetEl, false, false);
     }
   }
 
-  // Set state awal di history agar kembali ke viewMain selalu terdeteksi
-  if (!history.state || !history.state.viewId) {
+  window.addEventListener('popstate', (e) => {
+    restorePageFromCache();
+    handleHistoryPopState(e);
+  });
+
+  const initialHash = location.hash ? location.hash.replace('#', '') : '';
+  if (initialHash && viewMap[initialHash] && initialHash !== 'viewMain') {
+    const allowInitial =
+      (initialHash === 'viewJft' && isFeatureActive('jft')) ||
+      (initialHash === 'viewKanji' && isFeatureActive('kanji'));
+
+    if (allowInitial) {
+      Object.values(viewMap).forEach(v => v?.classList.remove('active'));
+      viewMap[initialHash].classList.add('active');
+      currentView = viewMap[initialHash];
+      updateTopbarState(currentView);
+      history.replaceState({ viewId: initialHash }, '', `#${initialHash}`);
+    } else {
+      history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
+    }
+  } else {
     history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
   }
 
-  // Tombol Back di Topbar Kapsul
   globalBackBtn?.addEventListener('click', () => {
+    if (internalNavDepth > 0) {
+      history.back();
+      return;
+    }
     if (currentView === viewChapters) {
-      swapView(viewChapters, viewKotobaBooks);
-    } else if (currentView === viewKotobaBooks || currentView === viewKanji || currentView === viewJft) {
-      swapView(currentView, viewMain);
+      swapView(viewChapters, viewKotobaBooks, false);
+    } else {
+      swapView(currentView, viewMain, false);
+      history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
     }
   });
 
-  // Klik Logo Brand -> Kembali ke Menu Utama
   $('brandHomeLink')?.addEventListener('click', (e) => {
+    if (isModifiedClick(e)) return;
     if (currentView !== viewMain) {
       e.preventDefault();
-      swapView(currentView, viewMain);
+      if (internalNavDepth > 0) {
+        history.go(-internalNavDepth);
+        internalNavDepth = 0;
+      } else {
+        swapView(currentView, viewMain, false);
+        history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
+      }
     }
   });
 
-  // Klik Kanji (Terkunci jika LOCKED)
+  function triggerLockedFeedback(cardEl) {
+    playPopSound();
+    cardEl.classList.remove('shake-locked');
+    void cardEl.offsetWidth;
+    cardEl.classList.add('shake-locked');
+  }
+
   $('btnKanji')?.addEventListener('click', function (e) {
-    e.preventDefault();
     if (!isFeatureActive('kanji')) {
-      playPopSound();
-      this.classList.remove('shake-locked');
-      void this.offsetWidth;
-      this.classList.add('shake-locked');
+      e.preventDefault();
+      triggerLockedFeedback(this);
       return;
     }
-    const icon = this.querySelector('.icon-box') || this;
-    icon.classList.add('spin-anim');
-    setTimeout(() => {
-      icon.classList.remove('spin-anim');
-      swapView(viewMain, viewKanji);
-    }, 380);
-  });
-
-  // Klik JFT (Buka Halaman Khusus JFT)
-  $('btnJft')?.addEventListener('click', function (e) {
+    if (isModifiedClick(e)) return;
     e.preventDefault();
-    if (!isFeatureActive('jft')) {
-      playPopSound();
-      this.classList.remove('shake-locked');
-      void this.offsetWidth;
-      this.classList.add('shake-locked');
-      return;
-    }
     const icon = this.querySelector('.icon-box') || this;
     icon.classList.add('spin-anim');
     setTimeout(() => {
       icon.classList.remove('spin-anim');
-      swapView(viewMain, viewJft);
-    }, 380);
+      swapView(viewMain, viewKanji, true);
+    }, 340);
   });
 
-  // Interaksi 4 Modul di dalam Halaman JFT
+  $('btnJft')?.addEventListener('click', function (e) {
+    if (!isFeatureActive('jft')) {
+      e.preventDefault();
+      triggerLockedFeedback(this);
+      return;
+    }
+    if (isModifiedClick(e)) return;
+    e.preventDefault();
+    const icon = this.querySelector('.icon-box') || this;
+    icon.classList.add('spin-anim');
+    setTimeout(() => {
+      icon.classList.remove('spin-anim');
+      swapView(viewMain, viewJft, true);
+    }, 340);
+  });
+
   const jftModuleCards = document.querySelectorAll('.jft-module-card');
   const jftWorkspaceTag = $('jftWorkspaceTag');
   const jftWorkspaceTitle = $('jftWorkspaceTitle');
   const jftWorkspaceDesc = $('jftWorkspaceDesc');
   const jftSectionPills = $('jftSectionPills');
   const jftWorkspacePanel = $('jftWorkspacePanel');
+  const jftWorkspaceLink = $('jftWorkspaceLink');
 
   jftModuleCards.forEach(card => {
     card.addEventListener('click', function (e) {
+      if (isModifiedClick(e)) return;
       e.preventDefault();
       playPopSound();
+
       const modKey = this.getAttribute('data-jft-module');
       const data = JFT_MODULES_DATA[modKey];
       if (!data) return;
+
+      const targetHref = this.getAttribute('href') || data.href;
 
       jftModuleCards.forEach(c => c.classList.remove('active-module'));
       this.classList.add('active-module');
@@ -373,6 +421,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (jftWorkspaceTag) jftWorkspaceTag.textContent = data.tag;
       if (jftWorkspaceTitle) jftWorkspaceTitle.textContent = data.title;
       if (jftWorkspaceDesc) jftWorkspaceDesc.textContent = data.desc;
+      if (jftWorkspaceLink) {
+        jftWorkspaceLink.setAttribute('href', targetHref);
+        const spanText = jftWorkspaceLink.querySelector('span');
+        if (spanText) spanText.textContent = data.ctaText || 'Buka Halaman Modul';
+        jftWorkspaceLink.classList.remove('hidden-el');
+      }
       if (jftSectionPills) {
         jftSectionPills.innerHTML = data.pills
           .map(item => `<div class="jft-pill-item">${item}</div>`)
@@ -383,20 +437,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Klik Link Langsung (Angka, Kotoba, Pemula, Bunpou, SSW, Choukai, Kanji N5/N4)
+  jftWorkspaceLink?.addEventListener('click', function (e) {
+    if (isModifiedClick(e)) return;
+    e.preventDefault();
+    playPopSound();
+    smoothNavigate(this.getAttribute('href'));
+  });
+
   document.querySelectorAll('.tile-link').forEach(card => {
     card.addEventListener('click', function (e) {
-      e.preventDefault();
       const feat = this.getAttribute('data-feature');
 
-      // Efek Shake apabila diklik namun masih berstatus LOCKED (mis. Bunpou / Choukai)
       if (feat && !isFeatureActive(feat)) {
-        playPopSound();
-        this.classList.remove('shake-locked');
-        void this.offsetWidth;
-        this.classList.add('shake-locked');
+        e.preventDefault();
+        triggerLockedFeedback(this);
         return;
       }
+
+      if (isModifiedClick(e)) return;
+      e.preventDefault();
 
       const href = this.getAttribute('href');
       const icon = this.querySelector('.icon-box') || this;
@@ -405,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         icon.classList.remove('spin-anim');
         if (href && href !== '#') smoothNavigate(href);
-      }, 360);
+      }, 320);
     });
   });
 
@@ -461,9 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="badge-status">#${paddedNum}</span>
         </div>
         <div class="flashcard-body">
-          <div class="chapter-icon-box">
-            ${svgIcon}
-          </div>
+          <div class="chapter-icon-box">${svgIcon}</div>
           <h2 class="chapter-title">Bab ${babNumber}</h2>
         </div>
         <div class="flashcard-footer">
@@ -482,23 +539,9 @@ document.addEventListener('DOMContentLoaded', () => {
           currentIndex = parseInt(this.dataset.index, 10);
           updateCarousel();
         } else {
+          if (isModifiedClick(e)) return;
           e.preventDefault();
           smoothNavigate(this.getAttribute('href'));
-        }
-      });
-
-      card.addEventListener('mousemove', function (e) {
-        if (this.classList.contains('active')) {
-          const r = this.getBoundingClientRect();
-          const x = e.clientX - r.left;
-          const y = e.clientY - r.top;
-          this.style.transform = `perspective(1000px) rotateX(${-((y / r.height - 0.5) * 7)}deg) rotateY(${(x / r.width - 0.5) * 7}deg) scale(1.02)`;
-        }
-      });
-
-      card.addEventListener('mouseleave', function () {
-        if (this.classList.contains('active')) {
-          this.style.transform = '';
         }
       });
 
@@ -533,17 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
       card.style.transform = '';
 
-      if (i === currentIndex) {
-        card.classList.add('active');
-      } else if (i === currentIndex - 1) {
-        card.classList.add('prev');
-      } else if (i === currentIndex + 1) {
-        card.classList.add('next');
-      } else if (i < currentIndex - 1) {
-        card.classList.add('hidden-left');
-      } else if (i > currentIndex + 1) {
-        card.classList.add('hidden-right');
-      }
+      if (i === currentIndex) card.classList.add('active');
+      else if (i === currentIndex - 1) card.classList.add('prev');
+      else if (i === currentIndex + 1) card.classList.add('next');
+      else if (i < currentIndex - 1) card.classList.add('hidden-left');
+      else if (i > currentIndex + 1) card.classList.add('hidden-right');
     });
 
     const activeBabNum = activeStartChapter + currentIndex;
@@ -608,73 +645,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 7. PARALLAX, SPARKS, 3D TILT & ENHANCED MOUSE TRACK (SPOTLIGHT + TRAIL)
+  // 7. PARALLAX, SPARKS, 3D TILT & TRAIL ON-DEMAND
   // =========================================================================
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
-  function bindTiltAndMouseTrack(nodes) {
-    nodes.forEach(card => {
+  if (!reduce && fine) {
+    document.querySelectorAll('.neo-card').forEach(card => {
       card.addEventListener('pointermove', e => {
+        if (card.classList.contains('is-locked')) return;
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
         const y = e.clientY - r.top;
         card.style.setProperty('--mx', `${x}px`);
         card.style.setProperty('--my', `${y}px`);
 
-        if (!reduce && fine && !card.classList.contains('is-locked')) {
-          const rotX = -((y / r.height - 0.5) * 9);
-          const rotY = (x / r.width - 0.5) * 9;
-          card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-3px)`;
-        }
+        const rotX = -((y / r.height - 0.5) * 9);
+        const rotY = (x / r.width - 0.5) * 9;
+        card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-3px)`;
       });
 
       card.addEventListener('pointerleave', () => {
-        if (!reduce && fine && !card.classList.contains('is-locked')) {
-          card.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease';
-          card.style.transform = '';
-          setTimeout(() => { card.style.transition = ''; }, 350);
-        }
+        if (card.classList.contains('is-locked')) return;
+        card.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease';
+        card.style.transform = '';
+        setTimeout(() => { card.style.transition = ''; }, 350);
       });
     });
-  }
 
-  bindTiltAndMouseTrack(document.querySelectorAll('.neo-card'));
-
-  if (!reduce) {
     const sun = $('sun');
     if (sun) {
       addEventListener('pointermove', e => {
         sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -40}px, ${(e.clientY / innerHeight - 0.5) * -40}px)`;
-      });
+      }, { passive: true });
     }
-
-    const fx = $('fx');
-    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1', '#FFEDD5', '#ECFCCB'];
-    addEventListener('pointerdown', e => {
-      if (!fx) return;
-      const pulse = document.createElement('div');
-      pulse.className = 'pulse';
-      pulse.style.left = e.clientX + 'px';
-      pulse.style.top = e.clientY + 'px';
-      pulse.onanimationend = () => pulse.remove();
-      fx.appendChild(pulse);
-
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.4;
-        const dist = 42 + Math.random() * 52;
-        const sp = document.createElement('span');
-        sp.className = 'spark';
-        sp.style.left = e.clientX + 'px';
-        sp.style.top = e.clientY + 'px';
-        sp.style.background = sparkColors[i % sparkColors.length];
-        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
-        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 180}deg`);
-        sp.onanimationend = () => sp.remove();
-        fx.appendChild(sp);
-      }
-    });
 
     const cv = $('trail');
     if (cv) {
@@ -688,29 +692,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let mx = -100, my = -100, x = mx, y = my;
       let isPointerActive = false;
+      let isLoopRunning = false;
       let idleTimer = null;
       const pts = [];
 
-      const updateCoords = (clientX, clientY) => {
-        if (!isPointerActive) {
-          x = clientX;
-          y = clientY;
-        }
-        mx = clientX;
-        my = clientY;
-        isPointerActive = true;
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
-      };
-
-      addEventListener('pointermove', e => updateCoords(e.clientX, e.clientY), { passive: true });
-      addEventListener('touchmove', e => {
-        if (e.touches && e.touches[0]) {
-          updateCoords(e.touches[0].clientX, e.touches[0].clientY);
-        }
-      }, { passive: true });
-
-      (function drawTrail() {
+      function drawTrail() {
         if (isPointerActive) {
           x += (mx - x) * 0.34;
           y += (my - y) * 0.34;
@@ -746,8 +732,58 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.fill();
         }
 
-        requestAnimationFrame(drawTrail);
-      })();
+        if (isPointerActive || pts.length > 0) {
+          requestAnimationFrame(drawTrail);
+        } else {
+          isLoopRunning = false;
+        }
+      }
+
+      addEventListener('pointermove', e => {
+        if (!isPointerActive) {
+          x = e.clientX;
+          y = e.clientY;
+        }
+        mx = e.clientX;
+        my = e.clientY;
+        isPointerActive = true;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
+
+        if (!isLoopRunning) {
+          isLoopRunning = true;
+          requestAnimationFrame(drawTrail);
+        }
+      }, { passive: true });
     }
+  }
+
+  if (!reduce) {
+    const fx = $('fx');
+    const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1', '#FFEDD5', '#ECFCCB'];
+    addEventListener('click', e => {
+      if (!fx || (e.clientX === 0 && e.clientY === 0)) return;
+      const pulse = document.createElement('div');
+      pulse.className = 'pulse';
+      pulse.style.left = e.clientX + 'px';
+      pulse.style.top = e.clientY + 'px';
+      pulse.onanimationend = () => pulse.remove();
+      fx.appendChild(pulse);
+
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.4;
+        const dist = 42 + Math.random() * 52;
+        const sp = document.createElement('span');
+        sp.className = 'spark';
+        sp.style.left = e.clientX + 'px';
+        sp.style.top = e.clientY + 'px';
+        sp.style.background = sparkColors[i % sparkColors.length];
+        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 180}deg`);
+        sp.onanimationend = () => sp.remove();
+        fx.appendChild(sp);
+      }
+    });
   }
 });

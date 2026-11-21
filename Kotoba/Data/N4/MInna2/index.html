@@ -9,20 +9,40 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Membuat font-face khusus untuk mendeteksi karakter Kanji */
+    @font-face {
+      font-family: 'KanjiTimes';
+      src: local('Times New Roman');
+      /* Rentang Unicode untuk Kanji (CJK Unified Ideographs) */
+      unicode-range: U+4E00-9FAF, U+3400-4DBF;
+    }
+
+    /* Menerapkan font alfabet bawaan, dan Kanji akan otomatis memakai KanjiTimes */
+    body, .vocab-text, .furigana-font {
+      font-family: 'Plus Jakarta Sans', 'Space Grotesk', 'KanjiTimes', 'Times New Roman', sans-serif !important;
+    }
+
+    /* Memastikan teks Kanji memiliki ketebalan normal (tidak bold) */
+    .kanji, .kanji-text, .japanese-text, .vocab-text, .furigana-font {
+      font-weight: normal !important;
+    }
+  </style>
 </head>
 <body class="learning-body">
 
   <!-- AMBIENT & EFEK INTERAKTIF -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="mouseTrail"></canvas>
+  <canvas id="mouseTrail" aria-hidden="true"></canvas>
 
   <div class="app-layout">
     <!-- ===================== TOPBAR ===================== -->
     <header class="fixed-topbar">
       <div class="topbar-capsule">
-        
-        <!-- Kiri: Tombol Kembali & Brand -->
+
+        <!-- Kiri: Tombol Kembali (Circle) & Brand -->
         <div class="topbar-left">
           <button type="button" id="btnBack" class="nav-back-circle" title="Kembali" aria-label="Kembali">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
@@ -35,7 +55,7 @@
           </a>
         </div>
 
-        <!-- Tengah: Pencarian Kosakata -->
+        <!-- Tengah: Pencarian Kosakata (Tepat di Tengah) -->
         <div class="topbar-center">
           <div class="search-box">
             <svg class="search-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -52,8 +72,25 @@
           </div>
         </div>
 
-        <!-- Kanan: Audio & Trigger Level -->
+        <!-- Kanan: Mode Gelap, Suara & Daftar Materi -->
         <div class="topbar-right">
+          <button type="button" id="themeToggleBtn" class="theme-toggle-btn" title="Ganti Mode Siang/Malam" aria-label="Ganti Tema">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
           <button type="button" id="btnAudioToggle" class="audio-toggle-btn" title="Aktifkan/Matikan Suara" aria-label="Pengaturan Suara">
             <svg class="icon-unmuted" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -90,7 +127,7 @@
       <section id="mode-carousel" class="study-view">
         <div class="flashcard-deck-wrap">
 
-          <!-- BAR KONTROL ATAS KARTU (KANJI ON/OFF, FURIGANA ON/OFF, ACAK, BALIK ARAH) -->
+          <!-- BAR KONTROL ATAS KARTU -->
           <div class="top-card-controls">
             <button type="button" class="ctrl-pill bg-matcha" id="toggleKanjiBtn" title="Tekan tombol K di keyboard">
               <span class="status-dot" id="kanjiStatusDot"></span>
@@ -119,28 +156,47 @@
 
           <div class="carousel-container" id="carouselContainer"></div>
 
-          <!-- Bilah Navigasi Ergonomis -->
+          <!-- Bilah Navigasi + Status Hafalan (< | Belum | Sudah | >) -->
           <div class="flashcard-control-bar">
-            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" title="Kata Sebelumnya (Panah Kiri)" aria-label="Sebelumnya">
+            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" title="Sebelumnya (Panah Kiri)" aria-label="Sebelumnya">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 18l-6-6 6-6"/>
               </svg>
-              <span class="arrow-label">Sebelumnya</span>
             </button>
 
-            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="hafalan-btn-group">
+              <button type="button" class="status-btn btn-belum" id="btnStatusBelum" title="Tandai belum hafal (diulang otomatis)">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+                <span>Belum</span>
+              </button>
 
-            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" title="Kata Berikutnya (Panah Kanan)" aria-label="Berikutnya">
-              <span class="arrow-label">Berikutnya</span>
+              <button type="button" class="status-btn btn-sudah" id="btnStatusSudah" title="Tandai sudah hafal">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Sudah</span>
+              </button>
+            </div>
+
+            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" title="Sesudahnya (Panah Kanan)" aria-label="Sesudahnya">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 18l6-6-6-6"/>
               </svg>
             </button>
           </div>
+
+          <!-- Info Counter & Statistik Hafalan -->
+          <div class="flashcard-meta-row">
+            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="hafalan-summary" id="hafalanSummary">Hafal: 0</div>
+          </div>
         </div>
       </section>
 
-      <!-- FITUR 2: PILIH KATA (CHECKLIST FILTER KANJI / KANA / SEMUA) -->
+      <!-- FITUR 2: PILIH KATA -->
       <section id="mode-list" class="study-view" hidden>
         <div class="checklist-card">
           <div class="checklist-top">
@@ -175,7 +231,6 @@
       <!-- FITUR 3: QUIZ PILIHAN GANDA -->
       <section id="mode-mc" class="study-view mc-view-container" hidden>
         <div class="mc-split-grid">
-          <!-- Kolom Kiri: Kotak Kosakata Utama + Kontrol Zoom & Audio -->
           <div class="vocab-main-card">
             <div class="card-top-Controls">
               <button type="button" id="btnMcSpeak" class="btn-card-speak" title="Dengarkan Pengucapan">
@@ -196,7 +251,6 @@
             </div>
           </div>
 
-          <!-- Kolom Kanan: 4 Pilihan Jawaban Vertikal & Aksi -->
           <div class="mc-options-card">
             <div class="options-vertical-list" id="mcOptions"></div>
             <div class="mc-bottom-bar">
@@ -288,7 +342,7 @@
   </div>
 
   <!-- ===================== MODAL POPUP LEVEL BAB 26-50 ===================== -->
-  <div class="modal-backdrop" id="chapterModal">
+  <div class="modal-backdrop" id="chapterModal" role="dialog" aria-modal="true">
     <div class="modal-sheet">
       <div class="modal-header">
         <div>

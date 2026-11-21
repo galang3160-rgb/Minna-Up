@@ -1,5 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + MOBILE-FIRST NEO-BRUTALIST
+   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + MOBILE-FIRST
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -70,14 +70,16 @@ html[data-theme="dark"] {
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html {
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
+  min-height: 100%;
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   background-color: var(--bg);
   background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
@@ -228,7 +230,7 @@ html[data-theme="dark"] .sun {
 }
 
 /* =========================================================================
-   TOPBAR KAPSUL NEO-BRUTALISM (RESPONSIVE & TOUCH-FRIENDLY >= 44x44px)
+   TOPBAR KAPSUL NEO-BRUTALISM
    ========================================================================= */
 .fixed-topbar {
   position: fixed;
@@ -284,11 +286,6 @@ html[data-theme="dark"] .sun {
   cursor: pointer;
   flex-shrink: 0;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
-}
-.nav-back-circle:hover {
-  background: var(--c-matcha);
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px var(--shadow-color);
 }
 .nav-back-circle:active {
   transform: translate(3px, 3px);
@@ -348,11 +345,6 @@ html[data-theme="dark"] .sun {
   cursor: pointer;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
-.theme-toggle-btn:hover {
-  background: var(--c-sky);
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px var(--shadow-color);
-}
 .theme-toggle-btn:active {
   transform: translate(3px, 3px);
   box-shadow: none;
@@ -377,11 +369,6 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   cursor: pointer;
   font-family: inherit;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
-}
-.chapter-trigger-btn:hover {
-  background: var(--c-amber);
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px var(--shadow-color);
 }
 .chapter-trigger-btn:active {
   transform: translate(3px, 3px);
@@ -412,19 +399,19 @@ main {
 }
 
 body.page-leaving .fixed-topbar {
-  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
-  transform: translateY(-20px);
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(-16px);
   opacity: 0;
 }
 body.page-leaving main {
-  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
-  transform: translateY(20px);
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(16px);
   opacity: 0;
 }
 
 .view { display: none; width: 100%; }
-.view.active { display: block; animation: viewIn 0.3s var(--ease) forwards; }
-.view.fade-out { display: block; animation: viewOut 0.2s var(--ease) forwards; }
+.view.active { display: block; animation: viewIn 0.28s var(--ease) forwards; }
+.view.fade-out { display: block; animation: viewOut 0.18s var(--ease) forwards; }
 
 @keyframes viewIn {
   from { opacity: 0; transform: translateY(12px) scale(0.985); }
@@ -436,7 +423,7 @@ body.page-leaving main {
 }
 
 /* =========================================================================
-   BENTO GRID 8 BLOK & MOUSE TRACK SPOTLIGHT CARDS
+   BENTO GRID 8 BLOK & SPOTLIGHT CARDS
    ========================================================================= */
 .bento-grid {
   display: grid;
@@ -484,7 +471,6 @@ body.page-leaving main {
   overflow: hidden;
 }
 
-/* Mouse Track Spotlight Glow di Dalam Kartu */
 .neo-card::before {
   content: "";
   position: absolute;
@@ -499,12 +485,6 @@ body.page-leaving main {
   pointer-events: none;
   z-index: 0;
 }
-.neo-card:hover::before {
-  opacity: 0.35;
-}
-html[data-theme="dark"] .neo-card:hover::before {
-  opacity: 0.14;
-}
 
 .card-angka, .card-matcha     { --accent: var(--c-matcha); }
 .card-kanji, .card-sky        { --accent: var(--c-sky); }
@@ -515,12 +495,16 @@ html[data-theme="dark"] .neo-card:hover::before {
 .card-choukai                 { --accent: var(--c-peach); }
 .card-jft                     { --accent: var(--c-lime); }
 
-/* Kartu Terkunci (Kanji, Bunpou, Choukai jika LOCKED) */
+/* Kartu Terkunci */
 .neo-card.is-locked {
-  opacity: 0.58;
+  opacity: 0.62;
   cursor: not-allowed;
   filter: grayscale(0.25);
 }
+.neo-card.is-locked .card-index::after {
+  content: " • SEGERA";
+}
+
 @keyframes lockedShake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -605,8 +589,29 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 @media (hover: hover) {
+  .nav-back-circle:hover {
+    background: var(--c-matcha);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
+  }
+  .theme-toggle-btn:hover {
+    background: var(--c-sky);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
+  }
+  .chapter-trigger-btn:hover {
+    background: var(--c-amber);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
+  }
   .neo-card:not(.is-locked):hover {
     box-shadow: var(--shadow-hover);
+  }
+  .neo-card:not(.is-locked):hover::before {
+    opacity: 0.35;
+  }
+  html[data-theme="dark"] .neo-card:not(.is-locked):hover::before {
+    opacity: 0.14;
   }
   .neo-card:not(.is-locked):hover .icon-box {
     transform: translateZ(36px) scale(1.06) rotate(-3deg);
@@ -615,6 +620,11 @@ html[data-theme="dark"] .neo-card:hover::before {
     background: var(--accent);
     color: var(--ink-badge);
     transform: translate(2px, -2px);
+  }
+  .jft-cta-btn:hover {
+    background: var(--c-amber);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
   }
 }
 
@@ -766,14 +776,25 @@ html[data-theme="dark"] .neo-card:hover::before {
   font-weight: 700;
 }
 
-.jft-ready-badge {
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 10px;
+.jft-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-radius: 12px;
   background: var(--c-matcha);
   color: var(--ink-badge);
-  border: 2px solid var(--border-color);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+}
+.jft-cta-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
 }
 
 .jft-workspace-desc {
@@ -800,7 +821,7 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 /* =========================================================================
-   SLIDER CAROUSEL KARTU BAB (TETAP UTUH)
+   SLIDER CAROUSEL KARTU BAB
    ========================================================================= */
 .flashcard-stage {
   position: relative;
@@ -828,12 +849,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   cursor: pointer;
   flex-shrink: 0;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease, color 0.15s ease;
-}
-.nav-arrow-btn:hover {
-  background: var(--c-amber);
-  color: var(--ink-badge);
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-sm);
 }
 .nav-arrow-btn:active {
   transform: translate(4px, 4px);
@@ -885,9 +900,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   cursor: pointer;
   pointer-events: auto;
 }
-.chapter-flashcard.active:hover {
-  box-shadow: var(--shadow-lg);
-}
 
 .chapter-flashcard.prev {
   transform: translateX(-72%) scale(0.8) translateZ(-80px) rotate(-4deg);
@@ -895,20 +907,12 @@ html[data-theme="dark"] .neo-card:hover::before {
   z-index: 5;
   cursor: pointer;
 }
-.chapter-flashcard.prev:hover {
-  opacity: 0.85;
-  transform: translateX(-72%) scale(0.83) translateZ(-50px) rotate(-2deg);
-}
 
 .chapter-flashcard.next {
   transform: translateX(72%) scale(0.8) translateZ(-80px) rotate(4deg);
   opacity: 0.55;
   z-index: 5;
   cursor: pointer;
-}
-.chapter-flashcard.next:hover {
-  opacity: 0.85;
-  transform: translateX(72%) scale(0.83) translateZ(-50px) rotate(2deg);
 }
 
 .chapter-flashcard.hidden-left {
@@ -967,9 +971,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   height: 40px;
   color: var(--ink-badge);
 }
-.chapter-flashcard.active:hover .chapter-icon-box {
-  transform: scale(1.06) rotate(-3deg);
-}
 
 .chapter-title {
   font-size: clamp(2rem, 5vw, 2.7rem);
@@ -1004,10 +1005,33 @@ html[data-theme="dark"] .neo-card:hover::before {
   border: 2px solid var(--border-color);
   transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
 }
-.chapter-flashcard.active:hover .action-icon-circle {
-  background: var(--card-accent);
-  color: var(--ink-badge);
-  transform: translate(2px, -2px);
+
+@media (hover: hover) {
+  .nav-arrow-btn:hover {
+    background: var(--c-amber);
+    color: var(--ink-badge);
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .chapter-flashcard.active:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  .chapter-flashcard.prev:hover {
+    opacity: 0.85;
+    transform: translateX(-72%) scale(0.83) translateZ(-50px) rotate(-2deg);
+  }
+  .chapter-flashcard.next:hover {
+    opacity: 0.85;
+    transform: translateX(72%) scale(0.83) translateZ(-50px) rotate(2deg);
+  }
+  .chapter-flashcard.active:hover .chapter-icon-box {
+    transform: scale(1.06) rotate(-3deg);
+  }
+  .chapter-flashcard.active:hover .action-icon-circle {
+    background: var(--card-accent);
+    color: var(--ink-badge);
+    transform: translate(2px, -2px);
+  }
 }
 
 /* =========================================================================
@@ -1091,10 +1115,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   cursor: pointer;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
-.modal-close-btn:hover {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px 0px var(--shadow-color);
-}
 
 .modal-grid {
   display: grid;
@@ -1119,14 +1139,21 @@ html[data-theme="dark"] .neo-card:hover::before {
   font-family: inherit;
   transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
-.chapter-grid-item:hover {
-  background: var(--c-amber);
-  transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0px 0px var(--shadow-color);
-}
-.chapter-grid-item:hover .cgi-num,
-.chapter-grid-item:hover .cgi-label {
-  color: var(--ink-badge);
+
+@media (hover: hover) {
+  .modal-close-btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px 0px var(--shadow-color);
+  }
+  .chapter-grid-item:hover {
+    background: var(--c-amber);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px 0px var(--shadow-color);
+  }
+  .chapter-grid-item:hover .cgi-num,
+  .chapter-grid-item:hover .cgi-label {
+    color: var(--ink-badge);
+  }
 }
 
 .cgi-num {
@@ -1154,10 +1181,8 @@ html[data-theme="dark"] .neo-card:hover::before {
 }
 
 /* =========================================================================
-   RESPONSIVE DESIGN BREAKPOINTS (1440px, 1024px, 768px, 430px, 390px, 360px, 320px)
+   RESPONSIVE DESIGN BREAKPOINTS
    ========================================================================= */
-
-/* Laptop & Tablet Landscape (<= 1024px) */
 @media (max-width: 1024px) {
   .grid-8 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1170,7 +1195,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   }
 }
 
-/* Tablet Portrait (<= 768px) */
 @media (max-width: 768px) {
   .fixed-topbar { padding: 0 14px; top: 12px; }
   .topbar-capsule { padding: 8px 12px; border-radius: 16px; }
@@ -1208,7 +1232,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   .modal-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* Smartphone Besar & Modern (<= 600px: 430px, 390px, 360px) */
 @media (max-width: 600px) {
   body.cinema-mode {
     overflow-y: auto;
@@ -1217,7 +1240,6 @@ html[data-theme="dark"] .neo-card:hover::before {
     padding: 80px 14px 28px;
   }
 
-  /* 2 Kolom Kompak untuk Menu Utama di HP Standar/Modern (360px - 430px) */
   .grid-8 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
@@ -1233,7 +1255,6 @@ html[data-theme="dark"] .neo-card:hover::before {
     max-width: none;
   }
 
-  /* Desain Kartu Grid 2 Kolom di HP agar Proporsional & Nyaman Disentuh */
   #viewMain .neo-card {
     min-height: 162px;
     padding: 14px;
@@ -1269,7 +1290,6 @@ html[data-theme="dark"] .neo-card:hover::before {
     border-radius: 9px;
   }
 
-  /* Kartu Horizontal untuk Submenu (Kanji N5/N4, Kotoba Books, Modul JFT) */
   #viewKanji .neo-card,
   #viewKotobaBooks .neo-card {
     min-height: 84px;
@@ -1328,7 +1348,6 @@ html[data-theme="dark"] .neo-card:hover::before {
   .modal-sheet { padding: 18px 14px; }
 }
 
-/* Smartphone Kecil (<= 350px / 320px) */
 @media (max-width: 350px) {
   .topbar-capsule {
     padding: 7px 10px;

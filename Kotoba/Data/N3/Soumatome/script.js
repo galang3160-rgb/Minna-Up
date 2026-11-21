@@ -1,7 +1,22 @@
 /**
- * NAKAMA GAKKOU — SOUMATOME LEARNING ENGINE + STATUS HAFALAN (TANPA NOTIF HAFALAN)
- * Membaca: kode/soumatome1.json, kode/soumatome2.json, dst.
- * Interval Pengulangan "Belum": 1 menit -> 5 menit -> 15 menit
+- NAKAMA GAKKOU — SOUMATOME LEARNING ENGINE + STATUS HAFALAN + JP VOICE ENGINE v2
+- Membaca: kode/soumatome1.json, kode/soumatome2.json, dst.
+- Interval Pengulangan "Belum": 1 menit -> 5 menit -> 15 menit (tanpa notif pop-up)
+ *
+- AUDIO v2 (disamakan persis dengan engine Bab 1-25):
+-  - selectBestJapaneseVoice(): skor fleksibel (bahasa + kualitas + perkiraan gender), bukan daftar nama saja
+-  - voiceschanged + retry berkala agar voice tidak gagal dimuat saat halaman pertama dibuka
+-  - speakJapanese(text): satu kanal audio, antrean dibatalkan otomatis -> tidak ada suara ganda
+-  - Arsitektur AI TTS opsional via endpoint proxy milik Anda (API key HANYA di server, bukan di frontend)
+-  - Jika endpoint kosong / gagal -> otomatis memakai SpeechSynthesis browser
+ *
+- KONFIGURASI TTS EKSTERNAL (opsional) — pilih salah satu, sebelum script ini dimuat:
+-   <meta name="nakama-tts-endpoint" content="/api/tts">
+-   atau  <script>window.NAKAMA_TTS_CONFIG = { endpoint: '/api/tts', voiceId: '', style: 'cute' };</script>
+ *
+- KONTRAK ENDPOINT:
+-   POST  { text, lang: 'ja-JP', gender: 'female', style, voiceId }
+-   Balasan salah satu: audio biner (Content-Type: audio/*)  ATAU  JSON { audioUrl } / { audioBase64, mimeType }
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,50 +132,327 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- WEB AUDIO SFX & NATIVE JAPANESE TTS ----------
+  // =====================================================================
+  //  AUDIO ENGINE v2 — SUARA JEPANG (SpeechSynthesis + opsi AI TTS via proxy)
+  // =====================================================================
   let actx = null;
+
+  // ---- Konfigurasi TTS eksternal (tanpa secret di frontend) ----
+  const TTS_CONFIG = (() => {
+    const meta = document.querySelector('meta[name="nakama-tts-endpoint"]');
+    const user = window.NAKAMA_TTS_CONFIG || {};
+    return {
+      endpoint: String(user.endpoint || (meta && meta.content) || '').trim(),
+      voiceId: user.voiceId || '',
+      style: user.style || 'cute',
+      timeoutMs: user.timeoutMs || 6000,
+      cacheMax: user.cacheMax || 80,
+      failCooldownMs: user.failCooldownMs || 60000
+    };
+  })();
+
+  // ---- State suara ----
   let jpVoice = null;
+  let jpVoiceInfo = { tier: 'none', femaleHint: 'unknown', name: '' };
+  let voiceRetryTimers = [];
+
+  // Petunjuk gender dari nama/URI voice. Browser TIDAK menyediakan properti gender,
+  // jadi ini hanya heuristik; hasilnya bisa meleset di perangkat tertentu.
+  const FEMALE_HINT = /(female|woman|girl|kyoko|o-?ren|haruka|ayumi|sayaka|nanami|aoi|mayu|shiori|mizuki|ichika|momo|sakura|yui|hina|ja-jp-x-(htm|jab)|google (日本語|japanese))/;
+  const MALE_HINT = /(\bmale\b|\bman\b|keita|otoya|ichiro|daichi|naoki|hattori|takumi|kenji|ryo\b|ja-jp-x-(jac|jad))/;
+
+  // Kata kunci kualitas (bukan jaminan, hanya indikator)
+  const QUALITY_HIGH = /(neural|natural|premium|enhanced|high[\s-]?quality|wavenet|studio|online|siri)/;
+  const QUALITY_LOW = /(compact|espeak|novelty|robot)/;
+
+  const normLang = l => String(l || '').toLowerCase().replace('_', '-');
+
+  function scoreVoice(v) {
+    const name = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
+    const lang = normLang(v.lang);
+    let s = 0;
+
+    // Bahasa
+    if (lang === 'ja-jp') s += 60;
+    else if (lang.startsWith('ja')) s += 45;
+    else return -Infinity;
+
+    // Perkiraan gender (cewek diutamakan)
+    const looksFemale = FEMALE_HINT.test(name);
+    const looksMale = MALE_HINT.test(name);
+    if (looksMale && !looksFemale) s -= 200;
+    else if (looksFemale) s += 90;
+
+    // Kualitas
+    if (QUALITY_HIGH.test(name)) s += 70;
+    if (QUALITY_LOW.test(name)) s -= 60;
+    if (!v.localService) s += 25;            // voice online/jaringan umumnya lebih natural
+    if (/microsoft/.test(name) && /online|natural/.test(name)) s += 30;
+    if (/google/.test(name)) s += 20;
+    if (v.default) s += 3;
+
+    return s;
+  }
+
+  function tierOf(v) {
+    const name = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
+    if (QUALITY_HIGH.test(name)) return 'high';
+    if (!v.localService) return 'good';
+    return 'basic';
+  }
 
   function selectBestJapaneseVoice() {
-    if (!('speechSynthesis' in window)) return;
-    const voices = window.speechSynthesis.getVoices();
-    const jaVoices = voices.filter(v => v.lang && (v.lang.toLowerCase().startsWith('ja') || v.lang.includes('JP')));
-    if (!jaVoices.length) return;
+    if (!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices() || [];
+    const jaVoices = voices.filter(v => scoreVoice(v) > -Infinity);
 
-    const rankVoice = (v) => {
-      const name = v.name.toLowerCase();
-      let s = 0;
-      if (name.includes('natural') || name.includes('neural') || name.includes('online')) s += 120;
-      if (name.includes('nanami') || name.includes('keita') || name.includes('aoi') || name.includes('mayu')) s += 95;
-      if (name.includes('google') && (name.includes('日本語') || name.includes('japanese'))) s += 85;
-      if (name.includes('kyoko') || name.includes('otoya') || name.includes('siri')) s += 75;
-      if (!v.localService) s += 25;
-      return s;
-    };
+    if (!jaVoices.length) {
+      jpVoice = null;
+      jpVoiceInfo = { tier: 'none', femaleHint: 'unknown', name: '' };
+      return null;
+    }
 
-    jaVoices.sort((a, b) => rankVoice(b) - rankVoice(a));
+    jaVoices.sort((a, b) => scoreVoice(b) - scoreVoice(a));
     jpVoice = jaVoices[0];
+
+    const n = `${jpVoice.name} ${jpVoice.voiceURI}`.toLowerCase();
+    jpVoiceInfo = {
+      tier: tierOf(jpVoice),
+      femaleHint: MALE_HINT.test(n) && !FEMALE_HINT.test(n) ? 'male' : (FEMALE_HINT.test(n) ? 'female' : 'unknown'),
+      name: jpVoice.name
+    };
+    return jpVoice;
   }
 
-  if ('speechSynthesis' in window) {
+  // Muat voice dengan benar: langsung, via voiceschanged, dan retry berkala
+  // (Chrome sering mengisi daftar voice secara asinkron).
+  function initVoices() {
+    if (!('speechSynthesis' in window)) return;
+    const synth = window.speechSynthesis;
+
     selectBestJapaneseVoice();
-    window.speechSynthesis.onvoiceschanged = selectBestJapaneseVoice;
+
+    if (typeof synth.addEventListener === 'function') {
+      synth.addEventListener('voiceschanged', selectBestJapaneseVoice);
+    } else {
+      synth.onvoiceschanged = selectBestJapaneseVoice;
+    }
+
+    voiceRetryTimers.forEach(clearTimeout);
+    voiceRetryTimers = [250, 600, 1200, 2500, 5000].map(ms =>
+      setTimeout(() => { if (!jpVoice) selectBestJapaneseVoice(); }, ms)
+    );
+  }
+  initVoices();
+
+  // Gesture pertama pengguna: segarkan daftar voice (membantu Chrome Android)
+  window.addEventListener('pointerdown', () => {
+    if (!jpVoice) selectBestJapaneseVoice();
+  }, { once: true, passive: true });
+
+  // ---- Profil suara: lembut, jernih, sedikit tinggi tapi tetap natural ----
+  function getVoiceProfile() {
+    if (jpVoiceInfo.tier === 'high') {
+      // Voice neural/natural sudah ekspresif: jangan dipaksa terlalu tinggi
+      return { rate: 0.92, pitch: 1.08, volume: 1.0 };
+    }
+    if (jpVoiceInfo.femaleHint === 'male') {
+      // Hanya voice cowok yang tersedia: naikkan pitch sedikit (hasil tetap terbatas)
+      return { rate: 0.93, pitch: 1.35, volume: 1.0 };
+    }
+    return { rate: 0.9, pitch: 1.18, volume: 1.0 };
   }
 
-  function speakJapanese(text) {
-    if (!audioOn || !text || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
+  // ---- Persiapan teks agar pelafalan lebih akurat ----
+  // Pemanggil sudah mengirim furigana (bacaan), jadi kanji tidak salah dibaca.
+  function prepareSpeechText(text) {
+    let t = String(text == null ? '' : text)
+      .replace(/[（(][^）)]*[）)]/g, ' ')   // buang keterangan dalam kurung
+      .replace(/[〜～~]/g, '')               // tanda "sampai/pola"
+      .replace(/[\/／]/g, '、')              // pemisah varian -> jeda
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!t) return '';
+    if (!/[。！？!?、.]$/.test(t)) t += '。';  // akhiran memberi intonasi turun yang natural
+    return t;
+  }
+
+  // ---- Kanal audio tunggal (anti suara ganda) ----
+  let speakToken = 0;
+  let currentUtterance = null;      // referensi agar tidak di-GC (bug Chrome)
+  let audioEl = null;               // satu elemen <audio> dipakai ulang
+  let remoteAbort = null;
+  let remoteFailUntil = 0;
+  let lastSpoken = { text: '', at: 0 };
+  const remoteCache = new Map();    // teks -> URL audio
+
+  function stopPlayback() {
+    if (remoteAbort) { try { remoteAbort.abort(); } catch (e) {} remoteAbort = null; }
+    if (audioEl) { try { audioEl.pause(); audioEl.currentTime = 0; } catch (e) {} }
+    if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    currentUtterance = null;
+  }
+
+  function stopSpeech() {
+    speakToken++;
+    stopPlayback();
+  }
+
+  function remoteAvailable() {
+    return !!TTS_CONFIG.endpoint && Date.now() >= remoteFailUntil && typeof fetch === 'function';
+  }
+
+  function cacheRemote(key, url) {
+    remoteCache.set(key, url);
+    while (remoteCache.size > TTS_CONFIG.cacheMax) {
+      const oldestKey = remoteCache.keys().next().value;
+      const oldUrl = remoteCache.get(oldestKey);
+      remoteCache.delete(oldestKey);
+      if (typeof oldUrl === 'string' && oldUrl.startsWith('blob:')) URL.revokeObjectURL(oldUrl);
+    }
+  }
+
+  async function fetchRemoteAudioUrl(text, signal) {
+    if (remoteCache.has(text)) return remoteCache.get(text);
+
+    const res = await fetch(TTS_CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        lang: 'ja-JP',
+        gender: 'female',
+        style: TTS_CONFIG.style,
+        voiceId: TTS_CONFIG.voiceId
+      }),
+      credentials: 'same-origin',
+      signal
+    });
+    if (!res.ok) throw new Error(`TTS HTTP ${res.status}`);
+
+    const ct = (res.headers.get('content-type') || '').toLowerCase();
+    let url;
+
+    if (ct.includes('application/json')) {
+      const j = await res.json();
+      if (j.audioUrl) {
+        url = j.audioUrl;
+      } else if (j.audioBase64) {
+        const bin = atob(j.audioBase64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        url = URL.createObjectURL(new Blob([bytes], { type: j.mimeType || 'audio/mpeg' }));
+      } else {
+        throw new Error('Balasan TTS tidak berisi audio');
+      }
+    } else if (ct.startsWith('audio/') || ct.includes('octet-stream')) {
+      const blob = await res.blob();
+      if (!blob.size) throw new Error('Audio TTS kosong');
+      url = URL.createObjectURL(blob);
+    } else {
+      throw new Error('Tipe balasan TTS tidak dikenali');
+    }
+
+    cacheRemote(text, url);
+    return url;
+  }
+
+  async function speakWithRemote(text, token) {
+    const ctrl = new AbortController();
+    remoteAbort = ctrl;
+    const timer = setTimeout(() => ctrl.abort(), TTS_CONFIG.timeoutMs);
+
+    let url;
+    try {
+      url = await fetchRemoteAudioUrl(text, ctrl.signal);
+    } finally {
+      clearTimeout(timer);
+      if (remoteAbort === ctrl) remoteAbort = null;
+    }
+
+    if (token !== speakToken || !audioOn) return;   // sudah digantikan permintaan baru
+
+    if (!audioEl) audioEl = new Audio();
+    audioEl.src = url;
+    audioEl.volume = 1.0;
+    await audioEl.play();                           // gagal -> fallback ke browser TTS
+  }
+
+  function speakWithBrowser(text, token) {
+    if (!('speechSynthesis' in window)) return;
+    const synth = window.speechSynthesis;
     if (!jpVoice) selectBestJapaneseVoice();
 
-    const ut = new SpeechSynthesisUtterance(`${text.trim()}。`);
-    ut.lang = 'ja-JP';
-    if (jpVoice) ut.voice = jpVoice;
-    ut.rate = 0.85;
-    ut.pitch = 1.0;
-    ut.volume = 1.0;
-    window.speechSynthesis.speak(ut);
+    try { synth.cancel(); } catch (e) {}
+
+    // Jeda singkat setelah cancel() mencegah Chrome menelan utterance berikutnya
+    setTimeout(() => {
+      if (token !== speakToken || !audioOn) return;
+
+      const ut = new SpeechSynthesisUtterance(text);
+      const profile = getVoiceProfile();
+      ut.lang = jpVoice && jpVoice.lang ? jpVoice.lang.replace('_', '-') : 'ja-JP';
+      if (jpVoice) ut.voice = jpVoice;
+      ut.rate = profile.rate;
+      ut.pitch = profile.pitch;
+      ut.volume = profile.volume;
+
+      const clear = () => { if (currentUtterance === ut) currentUtterance = null; };
+      ut.onend = clear;
+      ut.onerror = clear;
+
+      currentUtterance = ut;
+      try { if (synth.paused) synth.resume(); } catch (e) {}
+      synth.speak(ut);
+    }, 60);
   }
 
+  // API publik lama dipertahankan: speakJapanese(text)
+  function speakJapanese(text) {
+    if (!audioOn || !text) return;
+
+    const spoken = prepareSpeechText(text);
+    if (!spoken) return;
+
+    // Abaikan ketukan beruntun untuk teks yang sama (<250 ms)
+    const t = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+    if (spoken === lastSpoken.text && t - lastSpoken.at < 250) return;
+    lastSpoken = { text: spoken, at: t };
+
+    stopPlayback();                 // hentikan suara sebelumnya -> tidak ada tumpang tindih
+    const token = ++speakToken;
+
+    if (remoteAvailable()) {
+      speakWithRemote(spoken, token).catch(() => {
+        if (token !== speakToken) return;                 // sengaja dibatalkan
+        remoteFailUntil = Date.now() + TTS_CONFIG.failCooldownMs;
+        speakWithBrowser(spoken, token);                  // fallback otomatis
+      });
+    } else {
+      speakWithBrowser(spoken, token);
+    }
+  }
+
+  // Hentikan suara saat tab disembunyikan / halaman ditutup
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeech(); });
+  window.addEventListener('pagehide', stopSpeech);
+
+  // Info diagnostik (opsional, untuk Console): NakamaVoice.info()
+  window.NakamaVoice = {
+    info: () => ({
+      voice: jpVoiceInfo.name || '(tidak ada voice Jepang terdeteksi)',
+      tier: jpVoiceInfo.tier,
+      genderHint: jpVoiceInfo.femaleHint,
+      externalTTS: !!TTS_CONFIG.endpoint,
+      externalAvailable: remoteAvailable()
+    }),
+    list: () => (window.speechSynthesis ? window.speechSynthesis.getVoices() : [])
+      .filter(v => scoreVoice(v) > -Infinity)
+      .map(v => ({ name: v.name, lang: v.lang, local: v.localService, score: scoreVoice(v) })),
+    stop: stopSpeech
+  };
+
+  // ---------- EFEK BUNYI UI (WEB AUDIO) ----------
   const TONES = {
     pop: ['sine', 560, 290, 0.08, 0.1],
     correct: ['sine', 580, 1160, 0.18, 0.16],
@@ -904,6 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('btnAudioToggle').addEventListener('click', function () {
     audioOn = !audioOn;
+    if (!audioOn) stopSpeech();   // [AUDIO v2] matikan suara yang sedang berjalan saat OFF
     this.querySelector('.icon-unmuted').style.display = audioOn ? 'block' : 'none';
     this.querySelector('.icon-muted').style.display = audioOn ? 'none' : 'block';
   });

@@ -12,11 +12,11 @@
   <style>
     @font-face {
       font-family: 'KanjiTimes';
-      src: local('Times New Roman');
+      src: local('Times New Roman'), local('Hiragino Mincho ProN'), local('Yu Mincho');
       unicode-range: U+4E00-9FAF, U+3400-4DBF;
     }
     body {
-      font-family: 'Space Grotesk', 'KanjiTimes', 'Times New Roman', serif !important;
+      font-family: 'Space Grotesk', 'KanjiTimes', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif !important;
     }
     .kanji, .kanji-text, .japanese-text {
       font-weight: normal !important;
@@ -39,9 +39,9 @@
   <!-- EFEK INTERAKTIF & MOUSE TRAIL -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="trail"></canvas>
+  <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR KAPSUL NEO-BRUTALISM (MENYATU DI SEMUA VIEW) -->
+  <!-- TOPBAR KAPSUL NEO-BRUTALISM -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
 
@@ -94,9 +94,9 @@
   </header>
 
   <main id="appMain">
-    <!-- VIEW 1: 8 MENU UTAMA (ANGKA, KANJI, KOTOBA, PEMULA, BUNPOU, SSW, CHOUKAI, JFT) -->
+    <!-- VIEW 1: 8 MENU UTAMA -->
     <section class="view active" id="viewMain">
-      <div class="bento-grid grid-8">
+      <div class="bento-grid grid-8" id="mainBentoGrid">
 
         <!-- 1. ANGKA -->
         <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-tilt>
@@ -122,7 +122,7 @@
         </a>
 
         <!-- 2. KANJI -->
-        <a href="#Kanji" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-tilt>
+        <a href="Kanji/index.html" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-view-target="viewKanji" data-tilt>
           <span class="card-index">02</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -212,7 +212,7 @@
           </div>
         </a>
 
-        <!-- 7. CHOUKAI (FITUR KE-7 PENGGENAP BENTO 8 FITUR) -->
+        <!-- 7. CHOUKAI -->
         <a href="Choukai/index.html" class="neo-card card-choukai tile-link" id="btnChoukai" data-feature="choukai" data-tilt>
           <span class="card-index">07</span>
           <div class="icon-box">
@@ -229,8 +229,8 @@
           </div>
         </a>
 
-        <!-- 8. JFT (FITUR KE-8 BARU: JAPAN FOUNDATION TEST) -->
-        <a href="#Jft" class="neo-card card-jft" id="btnJft" data-feature="jft" data-tilt>
+        <!-- 8. JFT -->
+        <a href="Jft/index.html" class="neo-card card-jft" id="btnJft" data-feature="jft" data-view-target="viewJft" data-tilt>
           <span class="card-index">08</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -250,7 +250,7 @@
       </div>
     </section>
 
-    <!-- VIEW 2: SUBMENU KANJI (HREF ASLI TETAP UTUH) -->
+    <!-- VIEW 2: SUBMENU KANJI -->
     <section class="view" id="viewKanji">
       <div class="bento-grid grid-2">
         <a href="Kanji/index.html" class="neo-card card-kanji tile-link" data-tilt>
@@ -287,9 +287,8 @@
       </div>
     </section>
 
-    <!-- VIEW 3: HALAMAN KHUSUS JFT (FITUR KE-8) -->
+    <!-- VIEW 3: HALAMAN KHUSUS JFT -->
     <section class="view" id="viewJft">
-      <!-- Header & Deskripsi Singkat JFT -->
       <div class="jft-hero-banner">
         <div class="jft-hero-top">
           <span class="jft-badge">JFT-BASIC • LEVEL A2</span>
@@ -301,11 +300,8 @@
         </p>
       </div>
 
-      <!-- 4 Menu Utama JFT -->
       <div class="bento-grid grid-4 jft-modules-grid">
-
-        <!-- 1. Materi Pembelajaran -->
-        <a href="#jft-materi" class="neo-card card-matcha jft-module-card" data-jft-module="materi" data-tilt>
+        <a href="Jft/Materi/index.html" class="neo-card card-matcha jft-module-card" data-jft-module="materi" data-tilt>
           <span class="card-index">MODUL 01</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -325,8 +321,7 @@
           </div>
         </a>
 
-        <!-- 2. Latihan Soal -->
-        <a href="#jft-latihan" class="neo-card card-sky jft-module-card" data-jft-module="latihan" data-tilt>
+        <a href="Jft/Latihan/index.html" class="neo-card card-sky jft-module-card" data-jft-module="latihan" data-tilt>
           <span class="card-index">MODUL 02</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -346,8 +341,7 @@
           </div>
         </a>
 
-        <!-- 3. Simulasi Ujian -->
-        <a href="#jft-simulasi" class="neo-card card-amber jft-module-card" data-jft-module="simulasi" data-tilt>
+        <a href="Jft/Simulasi/index.html" class="neo-card card-amber jft-module-card" data-jft-module="simulasi" data-tilt>
           <span class="card-index">MODUL 03</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -367,8 +361,7 @@
           </div>
         </a>
 
-        <!-- 4. Pembahasan Soal -->
-        <a href="#jft-pembahasan" class="neo-card card-lavender jft-module-card" data-jft-module="pembahasan" data-tilt>
+        <a href="Jft/Pembahasan/index.html" class="neo-card card-lavender jft-module-card" data-jft-module="pembahasan" data-tilt>
           <span class="card-index">MODUL 04</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -388,39 +381,34 @@
             </span>
           </div>
         </a>
-
       </div>
 
-      <!-- Panel Detail / Workspace JFT (Siap Dikembangkan untuk Konten Materi & Soal) -->
       <div class="jft-workspace-panel" id="jftWorkspacePanel">
         <div class="jft-workspace-header">
           <div>
             <span class="jft-workspace-tag" id="jftWorkspaceTag">STATUS MODUL</span>
             <h3 class="jft-workspace-title" id="jftWorkspaceTitle">Pilih Modul JFT di Atas</h3>
           </div>
-          <span class="jft-ready-badge">Struktur Siap Dikembangkan</span>
+          <a href="Jft/Materi/index.html" class="jft-cta-btn hidden-el" id="jftWorkspaceLink">
+            <span>Buka Halaman Modul</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M7 7h10v10"/>
+            </svg>
+          </a>
         </div>
         <p class="jft-workspace-desc" id="jftWorkspaceDesc">
-          Klik salah satu dari keempat menu JFT di atas (<b>Materi Pembelajaran</b>, <b>Latihan Soal</b>, <b>Simulasi Ujian</b>, atau <b>Pembahasan Soal</b>) untuk melihat struktur modul yang telah disiapkan.
+          Klik salah satu dari keempat menu JFT di atas (<b>Materi Pembelajaran</b>, <b>Latihan Soal</b>, <b>Simulasi Ujian</b>, atau <b>Pembahasan Soal</b>) untuk melihat rincian modul dan membukanya.
         </p>
         <div class="jft-section-pills" id="jftSectionPills">
-          <div class="jft-pill-item">
-            <b>Seksi 1:</b> Huruf &amp; Kosakata (Moji &amp; Goi)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 2:</b> Percakapan &amp; Ungkapan (Kaiwa &amp; Hyougen)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 3:</b> Pendengaran (Choukai)
-          </div>
-          <div class="jft-pill-item">
-            <b>Seksi 4:</b> Pemahaman Bacaan (Dokkai)
-          </div>
+          <div class="jft-pill-item"><b>Seksi 1:</b> Huruf &amp; Kosakata (Moji &amp; Goi)</div>
+          <div class="jft-pill-item"><b>Seksi 2:</b> Percakapan &amp; Ungkapan (Kaiwa &amp; Hyougen)</div>
+          <div class="jft-pill-item"><b>Seksi 3:</b> Pendengaran (Choukai)</div>
+          <div class="jft-pill-item"><b>Seksi 4:</b> Pemahaman Bacaan (Dokkai)</div>
         </div>
       </div>
     </section>
 
-    <!-- VIEW CADANGAN TETAP DISIMPAN AGAR FITUR TIDAK HILANG -->
+    <!-- VIEW CADANGAN -->
     <section class="view" id="viewKotobaBooks">
       <div class="bento-grid grid-2" id="kotobaBooksGrid"></div>
     </section>

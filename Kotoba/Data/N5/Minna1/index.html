@@ -156,23 +156,42 @@
 
           <div class="carousel-container" id="carouselContainer"></div>
 
-          <!-- Bilah Navigasi (Di HP panah disembunyikan, cukup swipe tangan) -->
+          <!-- Bilah Navigasi + Status Hafalan (< | Belum | Sudah | >) -->
           <div class="flashcard-control-bar">
-            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" title="Kata Sebelumnya (Panah Kiri)" aria-label="Sebelumnya">
+            <button type="button" class="nav-arrow-btn prev-btn" id="btnCarouselPrev" title="Sebelumnya (Panah Kiri)" aria-label="Sebelumnya">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 18l-6-6 6-6"/>
               </svg>
-              <span class="arrow-label">Sebelumnya</span>
             </button>
 
-            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="hafalan-btn-group">
+              <button type="button" class="status-btn btn-belum" id="btnStatusBelum" title="Tandai belum hafal (diulang otomatis)">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+                <span>Belum</span>
+              </button>
 
-            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" title="Kata Berikutnya (Panah Kanan)" aria-label="Berikutnya">
-              <span class="arrow-label">Berikutnya</span>
+              <button type="button" class="status-btn btn-sudah" id="btnStatusSudah" title="Tandai sudah hafal">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Sudah</span>
+              </button>
+            </div>
+
+            <button type="button" class="nav-arrow-btn next-btn" id="btnCarouselNext" title="Sesudahnya (Panah Kanan)" aria-label="Sesudahnya">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 18l6-6-6-6"/>
               </svg>
             </button>
+          </div>
+
+          <!-- Info Counter & Statistik Hafalan -->
+          <div class="flashcard-meta-row">
+            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="hafalan-summary" id="hafalanSummary">Hafal: 0</div>
           </div>
         </div>
       </section>
