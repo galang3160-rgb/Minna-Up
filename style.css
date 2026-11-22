@@ -12,7 +12,7 @@
 }
 
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + LEARNING PATH + JFT + MOBILE-FIRST
+   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + SPRING MOTION
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -47,6 +47,7 @@
   --radius-card: 24px;
   --radius-icon: 16px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.48, 0.64, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
@@ -103,7 +104,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.28s ease, color 0.28s ease;
 }
 
 @media (min-width: 961px) {
@@ -135,10 +136,11 @@ body.cinema-mode {
   align-items: center;
   justify-content: center;
   gap: 18px;
-  transition: opacity 0.5s var(--ease), visibility 0.5s;
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease), visibility 0.45s;
 }
 #splash.hidden {
   opacity: 0;
+  transform: scale(1.04);
   visibility: hidden;
   pointer-events: none;
 }
@@ -152,7 +154,13 @@ body.cinema-mode {
   box-shadow: var(--shadow);
   display: grid;
   place-items: center;
+  animation: splashPop 0.55s var(--ease-spring) both;
 }
+@keyframes splashPop {
+  0% { opacity: 0; transform: scale(0.6) rotate(-10deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
 .checkmark-svg { width: 46px; height: 46px; }
 .checkmark-circle {
   stroke-dasharray: 166;
@@ -160,7 +168,7 @@ body.cinema-mode {
   stroke-width: 3.5;
   stroke: var(--ink-badge);
   stroke-linecap: round;
-  animation: stroke 0.55s var(--ease) forwards;
+  animation: stroke 0.5s var(--ease) forwards;
 }
 .checkmark-check {
   stroke-dasharray: 48;
@@ -169,7 +177,7 @@ body.cinema-mode {
   stroke: #15803D;
   stroke-linecap: round;
   stroke-linejoin: round;
-  animation: stroke 0.4s var(--ease) 0.4s forwards;
+  animation: stroke 0.35s var(--ease) 0.35s forwards;
 }
 @keyframes stroke { to { stroke-dashoffset: 0; } }
 
@@ -184,11 +192,91 @@ body.cinema-mode {
   padding: 6px 18px;
   border-radius: 14px;
   opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.5s var(--ease) forwards 0.3s;
+  transform: translateY(12px);
+  animation: fadeUp 0.48s var(--ease-spring) forwards 0.24s;
 }
 .splash-title b { color: var(--green-brand); }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================================================
+   TRANSISI TIRAI PINDAH HALAMAN (NEO-BRUTALISM CURTAIN)
+   ========================================================================= */
+.page-transition {
+  --pt-accent: var(--c-matcha);
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+}
+
+.page-transition.active {
+  visibility: visible;
+  pointer-events: all;
+}
+
+.pt-curtain {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  border-top: 4px solid var(--border-color);
+  transform: translateY(105%);
+  transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-transition.active .pt-curtain {
+  transform: translateY(0%);
+}
+
+.pt-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(22px) scale(0.88);
+  transition: opacity 0.26s var(--ease) 0.12s, transform 0.36s var(--ease-spring) 0.1s;
+}
+
+.page-transition.active .pt-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pt-icon-box {
+  width: 82px;
+  height: 82px;
+  border-radius: 22px;
+  background: var(--pt-accent);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--ink-badge);
+}
+
+.pt-icon-box svg {
+  width: 38px;
+  height: 38px;
+}
+
+.pt-label {
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 6px 18px;
+  border-radius: 14px;
+}
 
 /* =========================================================================
    AMBIENT ORB, CLICK SPARKS & CURSOR TRAIL
@@ -254,11 +342,11 @@ html[data-theme="dark"] .sun {
   z-index: 60;
   pointer-events: none;
   padding: 0 20px;
-  animation: navSlideDown 0.55s var(--ease) forwards;
+  animation: navSlideDown 0.55s var(--ease-spring) forwards;
 }
 @keyframes navSlideDown {
-  0% { opacity: 0; transform: translateY(-30px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translateY(-28px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .topbar-capsule {
@@ -298,6 +386,7 @@ html[data-theme="dark"] .sun {
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   flex-shrink: 0;
+  animation: chipPopIn 0.3s var(--ease-spring) both;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
 .nav-back-circle:active {
@@ -334,6 +423,12 @@ html[data-theme="dark"] .sun {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 180px;
+  animation: chipPopIn 0.32s var(--ease-spring) both;
+}
+
+@keyframes chipPopIn {
+  0% { opacity: 0; transform: scale(0.75) translateX(-8px); }
+  100% { opacity: 1; transform: scale(1) translateX(0); }
 }
 
 .topbar-right {
@@ -381,6 +476,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   gap: 8px;
   cursor: pointer;
   font-family: inherit;
+  animation: chipPopIn 0.32s var(--ease-spring) both;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
 }
 .chapter-trigger-btn:active {
@@ -400,7 +496,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 }
 
 /* =========================================================================
-   MAIN LAYOUT & VIEW SWITCHING
+   MAIN LAYOUT, VIEW SWITCHING & STAGGERED ENTRANCE
    ========================================================================= */
 main {
   position: relative;
@@ -412,81 +508,74 @@ main {
 }
 
 body.page-leaving .fixed-topbar {
-  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
-  transform: translateY(-16px);
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(-18px) scale(0.98);
   opacity: 0;
 }
 body.page-leaving main {
-  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
-  transform: translateY(16px);
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: scale(0.97);
   opacity: 0;
 }
 
-.view { display: none; width: 100%; }
-.view.active { display: block; animation: viewIn 0.28s var(--ease) forwards; }
-.view.fade-out { display: block; animation: viewOut 0.18s var(--ease) forwards; }
-
-@keyframes viewIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.985); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+.view {
+  display: none;
+  width: 100%;
 }
-@keyframes viewOut {
-  from { opacity: 1; transform: translateY(0) scale(1); }
-  to { opacity: 0; transform: translateY(-8px) scale(0.985); }
+.view.active {
+  display: block;
 }
 
-/* =========================================================================
-   BAR PILIHAN JALUR BELAJAR (LEARNING PATH SELECTOR)
-   ========================================================================= */
-.path-selector-bar {
-  background: var(--surface);
-  border: var(--border);
-  box-shadow: var(--shadow);
-  border-radius: 20px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Animasi transisi tampilan internal (Maju / Mundur) */
+.view.enter-forward {
+  animation: viewEnterForward 0.38s var(--ease) both;
+}
+.view.enter-back {
+  animation: viewEnterBack 0.38s var(--ease) both;
+}
+.view.leave-forward {
+  display: block;
+  animation: viewLeaveForward 0.22s var(--ease) both;
+  pointer-events: none;
+}
+.view.leave-back {
+  display: block;
+  animation: viewLeaveBack 0.22s var(--ease) both;
+  pointer-events: none;
 }
 
-.path-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+@keyframes viewEnterForward {
+  0% { opacity: 0; transform: translateX(26px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes viewEnterBack {
+  0% { opacity: 0; transform: translateX(-26px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes viewLeaveForward {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-22px) scale(0.98); }
+}
+@keyframes viewLeaveBack {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(22px) scale(0.98); }
 }
 
-.path-tab-btn {
-  min-height: 40px;
-  padding: 7px 14px;
-  border-radius: 12px;
-  border: var(--border-sm);
-  background: var(--bg);
-  color: var(--ink);
-  font-family: inherit;
-  font-size: 0.86rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease, color 0.14s ease;
+/* Staggered Pop-In untuk kartu & blok konten */
+.stagger-animate {
+  animation: cardStaggerIn 0.52s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 52ms);
 }
 
-.path-tab-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: none;
-}
-
-.path-tab-btn.active {
-  background: var(--c-matcha);
-  color: var(--ink-badge);
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px 0px var(--shadow-color);
-}
-
-.path-hint {
-  font-size: 0.84rem;
-  color: var(--dim);
-  line-height: 1.4;
+@keyframes cardStaggerIn {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* =========================================================================
@@ -533,13 +622,9 @@ body.page-leaving main {
   padding: 20px;
   box-shadow: var(--shadow);
   transform-style: preserve-3d;
-  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.25s ease;
+  transition: transform 0.24s var(--ease), box-shadow 0.22s var(--ease), opacity 0.24s var(--ease), background-color 0.25s ease;
   cursor: pointer;
   overflow: hidden;
-}
-
-.neo-card.path-hidden {
-  display: none !important;
 }
 
 .neo-card::before {
@@ -566,6 +651,28 @@ body.page-leaving main {
 .card-choukai                 { --accent: var(--c-peach); }
 .card-jft                     { --accent: var(--c-lime); }
 
+/* Animasi Fokus Kartu Saat Diklik Menuju Fitur */
+.neo-card.card-launching {
+  z-index: 20;
+  transform: scale(1.04) translateY(-6px) !important;
+  box-shadow: 10px 10px 0px 0px var(--shadow-color) !important;
+  border-color: var(--border-color);
+}
+.neo-card.card-launching .icon-box {
+  animation: iconLaunchPop 0.42s var(--ease-spring) forwards;
+}
+.neo-card.sibling-dimmed {
+  opacity: 0.35 !important;
+  transform: scale(0.95) !important;
+  pointer-events: none;
+}
+
+@keyframes iconLaunchPop {
+  0%   { transform: translateZ(32px) scale(1) rotate(0deg); }
+  45%  { transform: translateZ(40px) scale(1.18) rotate(-8deg); }
+  100% { transform: translateZ(36px) scale(1.08) rotate(6deg); }
+}
+
 /* Kartu Terkunci */
 .neo-card.is-locked {
   opacity: 0.62;
@@ -578,11 +685,12 @@ body.page-leaving main {
 
 @keyframes lockedShake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  20% { transform: translateX(-6px) rotate(-1deg); }
+  50% { transform: translateX(6px) rotate(1deg); }
+  80% { transform: translateX(-3px); }
 }
 .shake-locked {
-  animation: lockedShake 0.28s ease-in-out;
+  animation: lockedShake 0.34s ease-in-out;
 }
 
 .card-index {
@@ -613,7 +721,7 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   transform: translateZ(32px);
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  transition: transform 0.28s var(--ease-spring), box-shadow 0.25s var(--ease);
 }
 .icon-box svg {
   width: 36px;
@@ -652,14 +760,14 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.22s var(--ease-spring), background-color 0.2s ease, color 0.2s ease;
 }
 .card-arrow svg {
   width: 17px;
   height: 17px;
 }
 
-/* Efek Hover Hanya untuk Perangkat Pointer Halus (Mencegah Sticky Hover di HP) */
+/* Efek Hover Hanya untuk Perangkat Pointer Halus */
 @media (hover: hover) {
   .nav-back-circle:hover {
     background: var(--c-matcha);
@@ -676,12 +784,6 @@ body.page-leaving main {
     transform: translate(1px, 1px);
     box-shadow: 2px 2px 0px 0px var(--shadow-color);
   }
-  .path-tab-btn:not(.active):hover {
-    background: var(--c-amber);
-    color: var(--ink-badge);
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0px 0px var(--shadow-color);
-  }
   .neo-card:not(.is-locked):hover {
     box-shadow: var(--shadow-hover);
   }
@@ -692,12 +794,12 @@ body.page-leaving main {
     opacity: 0.14;
   }
   .neo-card:not(.is-locked):hover .icon-box {
-    transform: translateZ(36px) scale(1.06) rotate(-3deg);
+    transform: translateZ(36px) scale(1.08) rotate(-4deg);
   }
   .neo-card:not(.is-locked):hover .card-arrow {
     background: var(--accent);
     color: var(--ink-badge);
-    transform: translate(2px, -2px);
+    transform: translate(2px, -2px) scale(1.05);
   }
   .jft-cta-btn:hover {
     background: var(--c-amber);
@@ -709,15 +811,6 @@ body.page-leaving main {
 .neo-card:not(.is-locked):active {
   transform: translate(3px, 3px) !important;
   box-shadow: 2px 2px 0px 0px var(--shadow-color) !important;
-}
-
-.spin-anim {
-  animation: flip360 0.44s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes flip360 {
-  0%   { transform: translateZ(32px) rotateY(0deg) scale(1); }
-  50%  { transform: translateZ(32px) rotateY(180deg) scale(1.1); }
-  100% { transform: translateZ(32px) rotateY(360deg) scale(1); }
 }
 
 /* =========================================================================
@@ -791,6 +884,7 @@ body.page-leaving main {
 }
 .jft-module-card.active-module {
   outline: 3px solid var(--green-brand);
+  outline-offset: 2px;
 }
 
 .jft-card-body {
@@ -823,6 +917,15 @@ body.page-leaving main {
   box-shadow: var(--shadow);
   border-radius: var(--radius-card);
   padding: 22px 24px;
+}
+
+.jft-workspace-panel.panel-refresh {
+  animation: panelPopRefresh 0.36s var(--ease-spring) both;
+}
+
+@keyframes panelPopRefresh {
+  0% { opacity: 0.6; transform: translateY(10px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .jft-workspace-header {
@@ -1144,8 +1247,8 @@ body.page-leaving main {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  transform: scale(0.94) translateY(14px);
-  transition: transform 0.28s var(--ease), background-color 0.25s ease;
+  transform: scale(0.92) translateY(18px);
+  transition: transform 0.34s var(--ease-spring), background-color 0.25s ease;
   overflow: hidden;
 }
 .modal-backdrop.open .modal-sheet {
@@ -1316,27 +1419,6 @@ body.page-leaving main {
   }
   main {
     padding: 80px 14px 28px;
-  }
-
-  .path-selector-bar {
-    padding: 12px;
-    border-radius: 16px;
-    margin-bottom: 14px;
-  }
-  .path-tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .path-tabs::-webkit-scrollbar {
-    display: none;
-  }
-  .path-tab-btn {
-    flex-shrink: 0;
-    font-size: 0.8rem;
-    padding: 6px 12px;
   }
 
   .grid-8 {

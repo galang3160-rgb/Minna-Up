@@ -22,6 +22,15 @@
     <h1 class="splash-title">Nakama<b>Gakkou</b></h1>
   </div>
 
+  <!-- TRANSISI TIRAI PINDAH HALAMAN -->
+  <div id="pageTransition" class="page-transition" aria-hidden="true">
+    <div class="pt-curtain"></div>
+    <div class="pt-content">
+      <div class="pt-icon-box" id="ptIconBox"></div>
+      <span class="pt-label" id="ptLabel">Memuat...</span>
+    </div>
+  </div>
+
   <!-- EFEK INTERAKTIF & MOUSE TRAIL -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
@@ -80,24 +89,12 @@
   </header>
 
   <main id="appMain">
-    <!-- VIEW 1: 8 MENU UTAMA + PILIHAN JALUR BELAJAR -->
+    <!-- VIEW 1: 8 MENU UTAMA -->
     <section class="view active" id="viewMain">
-
-      <!-- BAR PILIHAN JALUR BELAJAR -->
-      <div class="path-selector-bar" role="region" aria-label="Pilih Jalur Belajar">
-        <div class="path-tabs" id="pathTabs" role="tablist">
-          <button type="button" class="path-tab-btn active" data-path="all" role="tab" aria-selected="true">Semua Menu</button>
-          <button type="button" class="path-tab-btn" data-path="pemula" role="tab" aria-selected="false">Jalur Pemula (N5)</button>
-          <button type="button" class="path-tab-btn" data-path="jlpt" role="tab" aria-selected="false">Jalur JLPT (N4–N3)</button>
-          <button type="button" class="path-tab-btn" data-path="kerja" role="tab" aria-selected="false">Jalur Kerja (JFT &amp; SSW)</button>
-        </div>
-        <p class="path-hint" id="pathHint">Menampilkan seluruh 8 modul pembelajaran Nakama Gakkou.</p>
-      </div>
-
       <div class="bento-grid grid-8" id="mainBentoGrid">
 
         <!-- 1. ANGKA -->
-        <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-paths="pemula" data-tilt>
+        <a href="Angka/index.html" class="neo-card card-angka tile-link" data-feature="angka" data-tilt>
           <span class="card-index">01</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -120,7 +117,7 @@
         </a>
 
         <!-- 2. KANJI -->
-        <a href="Kanji/index.html" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-paths="pemula jlpt" data-view-target="viewKanji" data-tilt>
+        <a href="Kanji/index.html" class="neo-card card-kanji" id="btnKanji" data-feature="kanji" data-view-target="viewKanji" data-tilt>
           <span class="card-index">02</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -140,7 +137,7 @@
         </a>
 
         <!-- 3. KOTOBA -->
-        <a href="Kotoba/index.html" class="neo-card card-kotoba tile-link" id="btnKotoba" data-feature="kotoba" data-paths="pemula jlpt kerja" data-tilt>
+        <a href="Kotoba/index.html" class="neo-card card-kotoba tile-link" id="btnKotoba" data-feature="kotoba" data-tilt>
           <span class="card-index">03</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -159,7 +156,7 @@
         </a>
 
         <!-- 4. PEMULA -->
-        <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-feature="pemula" data-paths="pemula" data-tilt>
+        <a href="Pemula/index.html" class="neo-card card-pemula tile-link" data-feature="pemula" data-tilt>
           <span class="card-index">04</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -175,7 +172,7 @@
         </a>
 
         <!-- 5. BUNPOU -->
-        <a href="Bunpou/index.html" class="neo-card card-bunpou tile-link" id="btnBunpou" data-feature="bunpou" data-paths="jlpt" data-tilt>
+        <a href="Bunpou/index.html" class="neo-card card-bunpou tile-link" id="btnBunpou" data-feature="bunpou" data-tilt>
           <span class="card-index">05</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -192,7 +189,7 @@
         </a>
 
         <!-- 6. SSW -->
-        <a href="Ssw/index.html" class="neo-card card-ssw tile-link" id="btnSsw" data-feature="ssw" data-paths="kerja" data-tilt>
+        <a href="Ssw/index.html" class="neo-card card-ssw tile-link" id="btnSsw" data-feature="ssw" data-tilt>
           <span class="card-index">06</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -211,7 +208,7 @@
         </a>
 
         <!-- 7. CHOUKAI -->
-        <a href="Choukai/index.html" class="neo-card card-choukai tile-link" id="btnChoukai" data-feature="choukai" data-paths="jlpt kerja" data-tilt>
+        <a href="Choukai/index.html" class="neo-card card-choukai tile-link" id="btnChoukai" data-feature="choukai" data-tilt>
           <span class="card-index">07</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -228,7 +225,7 @@
         </a>
 
         <!-- 8. JFT -->
-        <a href="Jft/index.html" class="neo-card card-jft" id="btnJft" data-feature="jft" data-paths="kerja" data-view-target="viewJft" data-tilt>
+        <a href="Jft/index.html" class="neo-card card-jft" id="btnJft" data-feature="jft" data-view-target="viewJft" data-tilt>
           <span class="card-index">08</span>
           <div class="icon-box">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -287,7 +284,7 @@
 
     <!-- VIEW 3: HALAMAN KHUSUS JFT (DENGAN HREF EKSPLISIT PER MODUL) -->
     <section class="view" id="viewJft">
-      <div class="jft-hero-banner">
+      <div class="jft-hero-banner stagger-item">
         <div class="jft-hero-top">
           <span class="jft-badge">JFT-BASIC • LEVEL A2</span>
           <span class="jft-jp-tag japanese-text">国際交流基金日本語基礎テスト</span>
@@ -389,7 +386,7 @@
       </div>
 
       <!-- Panel Detail / Workspace JFT + Tombol Buka Modul (href dinamis) -->
-      <div class="jft-workspace-panel" id="jftWorkspacePanel">
+      <div class="jft-workspace-panel stagger-item" id="jftWorkspacePanel">
         <div class="jft-workspace-header">
           <div>
             <span class="jft-workspace-tag" id="jftWorkspaceTag">STATUS MODUL</span>

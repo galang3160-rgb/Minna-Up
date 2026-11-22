@@ -16,9 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
-
-  // Helper: abaikan klik dengan tombol modifier (Ctrl/Cmd/Shift/Klik Tengah)
-  // agar buka tab baru di desktop tetap bekerja normal
   const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
   document.querySelectorAll('[data-feature]').forEach(card => {
@@ -40,15 +37,31 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 1. ANTI BLANK SCREEN (BFCACHE, BACK BUTTON HP & GUARD NAVIGASI)
+  // 1. HELPER ANIMASI STAGGER & ANTI BLANK SCREEN (BFCACHE / BACK BUTTON)
   // =========================================================================
   let navTimeout = null;
   let isNavigating = false;
+
+  const pageTransition = $('pageTransition');
+  const ptIconBox = $('ptIconBox');
+  const ptLabel = $('ptLabel');
+
+  function runStaggerIn(containerEl) {
+    if (!containerEl) return;
+    const targets = containerEl.querySelectorAll('.neo-card, .stagger-item');
+    targets.forEach((el, idx) => {
+      el.style.setProperty('--stagger-i', idx);
+      el.classList.remove('stagger-animate');
+      void el.offsetWidth;
+      el.classList.add('stagger-animate');
+    });
+  }
 
   function restorePageFromCache() {
     clearTimeout(navTimeout);
     isNavigating = false;
     document.body.classList.remove('page-leaving');
+    pageTransition?.classList.remove('active');
 
     const splash = $('splash');
     if (splash && sessionStorage.getItem('nakama_splash_seen') === '1') {
@@ -56,13 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
       splash.style.display = 'none';
     }
 
-    document.querySelectorAll('.spin-anim').forEach(el => el.classList.remove('spin-anim'));
     document.querySelectorAll('.neo-card').forEach(card => {
+      card.classList.remove('card-launching', 'sibling-dimmed');
       card.style.transform = '';
     });
   }
 
-  window.addEventListener('pageshow', restorePageFromCache);
+  window.addEventListener('pageshow', (e) => {
+    restorePageFromCache();
+    if (e.persisted && currentView) {
+      runStaggerIn(currentView);
+    }
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
@@ -74,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. SPLASH SCREEN & TEMA SIANG/MALAM
   // =========================================================================
   const splash = $('splash');
+  const viewMain = $('viewMain');
+
   if (splash) {
     if (sessionStorage.getItem('nakama_splash_seen') === '1') {
       splash.classList.add('hidden');
@@ -82,8 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
       sessionStorage.setItem('nakama_splash_seen', '1');
       setTimeout(() => {
         splash.classList.add('hidden');
-        setTimeout(() => { splash.style.display = 'none'; }, 550);
-      }, 900);
+        runStaggerIn(currentView || viewMain);
+        setTimeout(() => { splash.style.display = 'none'; }, 500);
+      }, 880);
     }
   }
 
@@ -105,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 3. AUDIO POP & NAVIGASI HALAMAN AMAN
+  // 3. AUDIO POP & NAVIGASI HALAMAN DENGAN TIRAI TRANSISI
   // =========================================================================
   let audioCtx = null;
-  function playPopSound() {
+  function playPopSound(freqStart = 580, freqEnd = 290) {
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -116,9 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       const now = audioCtx.currentTime;
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(290, now + 0.09);
-      gain.gain.setValueAtTime(0.12, now);
+      osc.frequency.setValueAtTime(freqStart, now);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.09);
+      gain.gain.setValueAtTime(0.11, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -127,10 +148,32 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
-  function smoothNavigate(targetUrl) {
+  function smoothNavigate(targetUrl, sourceEl = null) {
     if (!targetUrl || targetUrl === '#' || isNavigating) return;
     isNavigating = true;
     clearTimeout(navTimeout);
+
+    // Siapkan konten tirai transisi berdasarkan kartu yang diklik
+    if (pageTransition && ptIconBox && ptLabel) {
+      const accent = sourceEl
+        ? getComputedStyle(sourceEl).getPropertyValue('--accent').trim() || 'var(--c-matcha)'
+        : 'var(--c-matcha)';
+      const titleText =
+        sourceEl?.querySelector('.card-title')?.textContent?.trim() ||
+        sourceEl?.querySelector('.chapter-title')?.textContent?.trim() ||
+        sourceEl?.querySelector('span')?.textContent?.trim() ||
+        'Nakama Gakkou';
+      const iconSvg =
+        sourceEl?.querySelector('.icon-box')?.innerHTML ||
+        sourceEl?.querySelector('.chapter-icon-box')?.innerHTML ||
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
+
+      pageTransition.style.setProperty('--pt-accent', accent);
+      ptIconBox.innerHTML = iconSvg;
+      ptLabel.textContent = titleText;
+      pageTransition.classList.add('active');
+    }
+
     document.body.classList.add('page-leaving');
 
     navTimeout = setTimeout(() => {
@@ -138,62 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         isNavigating = false;
         document.body.classList.remove('page-leaving');
-      }, 500);
-    }, 240);
+        pageTransition?.classList.remove('active');
+      }, 650);
+    }, 390);
   }
 
   // =========================================================================
-  // 4. OPSI JALUR BELAJAR (LEARNING PATH SELECTOR)
-  // =========================================================================
-  const PATH_HINTS = {
-    all:    'Menampilkan seluruh 8 modul pembelajaran Nakama Gakkou.',
-    pemula: 'Jalur Pemula (N5): Mulai dari huruf dasar, angka, kosakata, dan kanji dasar.',
-    jlpt:   'Jalur JLPT (N4–N3): Fokus penguasaan kosakata, kanji, tata bahasa, dan pendengaran.',
-    kerja:  'Jalur Kerja Jepang (JFT & SSW): Persiapan khusus ujian JFT-Basic A2 dan bidang SSW.'
-  };
-
-  const pathTabBtns = document.querySelectorAll('.path-tab-btn');
-  const pathHintEl = $('pathHint');
-  const mainCards = document.querySelectorAll('#mainBentoGrid .neo-card');
-
-  function applyLearningPath(pathKey, save = true) {
-    const validKey = PATH_HINTS[pathKey] ? pathKey : 'all';
-
-    pathTabBtns.forEach(btn => {
-      const isActive = btn.getAttribute('data-path') === validKey;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-
-    if (pathHintEl) {
-      pathHintEl.textContent = PATH_HINTS[validKey];
-    }
-
-    mainCards.forEach(card => {
-      if (validKey === 'all') {
-        card.classList.remove('path-hidden');
-      } else {
-        const paths = (card.getAttribute('data-paths') || '').split(/\s+/);
-        card.classList.toggle('path-hidden', !paths.includes(validKey));
-      }
-    });
-
-    if (save) {
-      localStorage.setItem('nakama_learning_path', validKey);
-    }
-  }
-
-  pathTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      playPopSound();
-      applyLearningPath(btn.getAttribute('data-path'), true);
-    });
-  });
-
-  applyLearningPath(localStorage.getItem('nakama_learning_path') || 'all', false);
-
-  // =========================================================================
-  // 5. DATA HIRARKI KOTOBA (CADANGAN) & DATA MODUL JFT
+  // 4. DATA HIRARKI KOTOBA (CADANGAN) & DATA MODUL JFT
   // =========================================================================
   const KOTOBA_BOOKS = {
     N5: [
@@ -262,9 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // =========================================================================
-  // 6. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
+  // 5. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
   // =========================================================================
-  const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
   const viewJft = $('viewJft');
   const viewKotobaBooks = $('viewKotobaBooks');
@@ -321,10 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function swapView(fromEl, toEl, pushHistory = true, withSound = true) {
+  function swapView(fromEl, toEl, pushHistory = true, withSound = true, direction = 'forward') {
     if (!toEl || fromEl === toEl) return;
     clearTimeout(swapTimer);
-    if (withSound) playPopSound();
+    if (withSound) playPopSound(direction === 'forward' ? 620 : 480, direction === 'forward' ? 340 : 260);
 
     if (pushHistory) {
       const viewId = toEl.id || 'viewMain';
@@ -333,18 +326,33 @@ document.addEventListener('DOMContentLoaded', () => {
       internalNavDepth++;
     }
 
-    if (fromEl) fromEl.classList.add('fade-out');
+    const leaveClass = direction === 'back' ? 'leave-back' : 'leave-forward';
+    const enterClass = direction === 'back' ? 'enter-back' : 'enter-forward';
+
+    if (fromEl) {
+      fromEl.classList.remove('enter-forward', 'enter-back', 'leave-forward', 'leave-back');
+      fromEl.classList.add(leaveClass);
+    }
 
     swapTimer = setTimeout(() => {
       Object.values(viewMap).forEach(v => {
-        if (v && v !== toEl) v.classList.remove('active', 'fade-out');
+        if (v && v !== toEl) {
+          v.classList.remove('active', 'enter-forward', 'enter-back', 'leave-forward', 'leave-back');
+        }
       });
-      toEl.classList.remove('fade-out');
-      toEl.classList.add('active');
+
+      document.querySelectorAll('.neo-card').forEach(c => {
+        c.classList.remove('card-launching', 'sibling-dimmed');
+        c.style.transform = '';
+      });
+
+      toEl.classList.remove('leave-forward', 'leave-back', 'enter-forward', 'enter-back');
+      toEl.classList.add('active', enterClass);
       currentView = toEl;
       updateTopbarState(toEl);
+      runStaggerIn(toEl);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 180);
+    }, 200);
   }
 
   function handleHistoryPopState(e) {
@@ -353,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetId = (e.state && e.state.viewId) ? e.state.viewId : (viewMap[hashId] ? hashId : 'viewMain');
     const targetEl = viewMap[targetId] || viewMain;
     if (currentView !== targetEl) {
-      swapView(currentView, targetEl, false, false);
+      swapView(currentView, targetEl, false, false, 'back');
     }
   }
 
@@ -382,16 +390,21 @@ document.addEventListener('DOMContentLoaded', () => {
     history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
   }
 
-  // Tombol Back di Topbar: gunakan history.back() jika ada riwayat internal agar tidak loop
+  // Jalankan staggered entrance langsung jika splash sudah dilewati
+  if (!splash || splash.classList.contains('hidden')) {
+    runStaggerIn(currentView);
+  }
+
+  // Tombol Back di Topbar
   globalBackBtn?.addEventListener('click', () => {
     if (internalNavDepth > 0) {
       history.back();
       return;
     }
     if (currentView === viewChapters) {
-      swapView(viewChapters, viewKotobaBooks, false);
+      swapView(viewChapters, viewKotobaBooks, false, true, 'back');
     } else {
-      swapView(currentView, viewMain, false);
+      swapView(currentView, viewMain, false, true, 'back');
       history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
     }
   });
@@ -405,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         history.go(-internalNavDepth);
         internalNavDepth = 0;
       } else {
-        swapView(currentView, viewMain, false);
+        swapView(currentView, viewMain, false, true, 'back');
         history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
       }
     }
@@ -413,10 +426,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper getar untuk fitur LOCKED
   function triggerLockedFeedback(cardEl) {
-    playPopSound();
+    playPopSound(260, 180);
     cardEl.classList.remove('shake-locked');
     void cardEl.offsetWidth;
     cardEl.classList.add('shake-locked');
+  }
+
+  // Helper animasi fokus kartu sebelum pindah tampilan/halaman
+  function animateCardLaunch(cardEl, callback) {
+    const parentGrid = cardEl.closest('.bento-grid');
+    if (parentGrid) {
+      parentGrid.querySelectorAll('.neo-card').forEach(c => {
+        if (c !== cardEl) c.classList.add('sibling-dimmed');
+      });
+    }
+    cardEl.classList.add('card-launching');
+    playPopSound(640, 360);
+    setTimeout(callback, 200);
   }
 
   // Klik Kanji
@@ -428,12 +454,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    const icon = this.querySelector('.icon-box') || this;
-    icon.classList.add('spin-anim');
-    setTimeout(() => {
-      icon.classList.remove('spin-anim');
-      swapView(viewMain, viewKanji, true);
-    }, 340);
+    animateCardLaunch(this, () => {
+      swapView(viewMain, viewKanji, true, false, 'forward');
+    });
   });
 
   // Klik JFT
@@ -445,12 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    const icon = this.querySelector('.icon-box') || this;
-    icon.classList.add('spin-anim');
-    setTimeout(() => {
-      icon.classList.remove('spin-anim');
-      swapView(viewMain, viewJft, true);
-    }, 340);
+    animateCardLaunch(this, () => {
+      swapView(viewMain, viewJft, true, false, 'forward');
+    });
   });
 
   // Interaksi 4 Modul di dalam Halaman JFT
@@ -461,18 +481,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const jftSectionPills = $('jftSectionPills');
   const jftWorkspacePanel = $('jftWorkspacePanel');
   const jftWorkspaceLink = $('jftWorkspaceLink');
+  let activeJftCard = null;
 
   jftModuleCards.forEach(card => {
     card.addEventListener('click', function (e) {
       if (isModifiedClick(e)) return;
       e.preventDefault();
-      playPopSound();
+      playPopSound(600, 330);
 
       const modKey = this.getAttribute('data-jft-module');
       const data = JFT_MODULES_DATA[modKey];
       if (!data) return;
 
       const targetHref = this.getAttribute('href') || data.href;
+      activeJftCard = this;
 
       jftModuleCards.forEach(c => c.classList.remove('active-module'));
       this.classList.add('active-module');
@@ -492,7 +514,12 @@ document.addEventListener('DOMContentLoaded', () => {
           .join('');
       }
 
-      jftWorkspacePanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (jftWorkspacePanel) {
+        jftWorkspacePanel.classList.remove('panel-refresh');
+        void jftWorkspacePanel.offsetWidth;
+        jftWorkspacePanel.classList.add('panel-refresh');
+        jftWorkspacePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     });
   });
 
@@ -500,11 +527,11 @@ document.addEventListener('DOMContentLoaded', () => {
   jftWorkspaceLink?.addEventListener('click', function (e) {
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    playPopSound();
-    smoothNavigate(this.getAttribute('href'));
+    playPopSound(640, 360);
+    smoothNavigate(this.getAttribute('href'), activeJftCard || this);
   });
 
-  // Klik Link Langsung (.tile-link)
+  // Klik Link Langsung (.tile-link -> Kotoba, Angka, Pemula, SSW, dll.)
   document.querySelectorAll('.tile-link').forEach(card => {
     card.addEventListener('click', function (e) {
       const feat = this.getAttribute('data-feature');
@@ -519,18 +546,14 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const href = this.getAttribute('href');
-      const icon = this.querySelector('.icon-box') || this;
-      playPopSound();
-      icon.classList.add('spin-anim');
-      setTimeout(() => {
-        icon.classList.remove('spin-anim');
-        if (href && href !== '#') smoothNavigate(href);
-      }, 320);
+      animateCardLaunch(this, () => {
+        if (href && href !== '#') smoothNavigate(href, this);
+      });
     });
   });
 
   // =========================================================================
-  // 7. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
+  // 6. SLIDER CAROUSEL KARTU BAB & MODAL GRID (1 - 25)
   // =========================================================================
   const carouselContainer = $('carouselContainer');
   const modalGrid = $('modalChapterGrid');
@@ -602,7 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           if (isModifiedClick(e)) return;
           e.preventDefault();
-          smoothNavigate(this.getAttribute('href'));
+          smoothNavigate(this.getAttribute('href'), this);
         }
       });
 
@@ -706,7 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 8. PARALLAX, SPARKS, 3D TILT & TRAIL ON-DEMAND (HEMAT BATERAI HP)
+  // 7. PARALLAX, SPARKS, 3D TILT & TRAIL ON-DEMAND (HEMAT BATERAI HP)
   // =========================================================================
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
@@ -714,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!reduce && fine) {
     document.querySelectorAll('.neo-card').forEach(card => {
       card.addEventListener('pointermove', e => {
-        if (card.classList.contains('is-locked')) return;
+        if (card.classList.contains('is-locked') || card.classList.contains('card-launching')) return;
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
         const y = e.clientY - r.top;
@@ -727,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       card.addEventListener('pointerleave', () => {
-        if (card.classList.contains('is-locked')) return;
+        if (card.classList.contains('is-locked') || card.classList.contains('card-launching')) return;
         card.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease';
         card.style.transform = '';
         setTimeout(() => { card.style.transition = ''; }, 350);
@@ -741,7 +764,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
     }
 
-    // Canvas Trail On-Demand: hanya jalan saat mouse bergerak, berhenti saat diam
     const cv = $('trail');
     if (cv) {
       const ctx = cv.getContext('2d');
@@ -820,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Sparks saat klik (hanya pada click agar tidak mengganggu scroll di HP)
+  // Sparks saat klik
   if (!reduce) {
     const fx = $('fx');
     const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF', '#FFE4E6', '#CCFBF1', '#FFEDD5', '#ECFCCB'];
