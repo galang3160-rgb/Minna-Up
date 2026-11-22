@@ -1,5 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU N5 — CAROUSEL TOPIK BILANGAN, MODAL GRID & TOUCH SWIPE
+   NAKAMAGAKKOU N5 — CAROUSEL TOPIK BILANGAN, MODAL GRID & SYNCED TRANSITIONS
    ========================================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
       playPopSound();
     });
   }
+
+  const HOME_ICON_SVG = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  `;
+
+  const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
   // === 2. DATA 17 TOPIK BILANGAN & PATH SUMBER JSON ===
   const DATA_BASE_DIR = 'Time/data';
@@ -54,6 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const totalCards = vocabList.length;
   let currentIndex = 0;
+  let isNavigating = false;
+  let navTimeout = null;
+
+  const pageTransition = document.getElementById('pageTransition');
+  const ptIconBox = document.getElementById('ptIconBox');
+  const ptLabel = document.getElementById('ptLabel');
 
   const container = document.getElementById('carouselContainer');
   const modalGrid = document.getElementById('modalTopicGrid');
@@ -61,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentCardIndexDOM = document.getElementById('currentCardIndex');
   const totalCardsCountDOM = document.getElementById('totalCardsCount');
   const topbarBadgeDOM = document.getElementById('topbarBadge');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
   const cards = [];
   const gridItems = [];
 
@@ -68,14 +85,43 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCardsCountDOM.textContent = totalCards < 10 ? `0${totalCards}` : totalCards;
   }
 
-  function smoothNavigate(targetUrl) {
-    document.body.classList.add('page-leaving');
-    setTimeout(() => {
-      window.location.href = targetUrl;
-    }, 320);
+  // === ANTI BLANK SCREEN & TIRAI TRANSISI PINDAH HALAMAN ===
+  function restoreFromCache() {
+    clearTimeout(navTimeout);
+    isNavigating = false;
+    document.body.classList.remove('page-leaving');
+    pageTransition?.classList.remove('active');
+    cards.forEach(c => {
+      c.classList.remove('card-launching');
+      c.style.transform = '';
+    });
   }
 
-  // === 3. GENERATE KARTU SLIDER & MODAL GRID SECARA DINAMIS ===
+  window.addEventListener('pageshow', restoreFromCache);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') restoreFromCache();
+  });
+
+  function smoothNavigate(targetUrl, labelText = 'Memuat...', iconHtml = HOME_ICON_SVG, accentColor = 'var(--c-matcha)') {
+    if (!targetUrl || targetUrl === '#' || isNavigating) return;
+    isNavigating = true;
+    clearTimeout(navTimeout);
+
+    if (pageTransition) {
+      pageTransition.style.setProperty('--pt-accent', accentColor);
+      if (ptLabel) ptLabel.textContent = labelText;
+      if (ptIconBox) ptIconBox.innerHTML = iconHtml;
+      pageTransition.classList.add('active');
+    }
+    document.body.classList.add('page-leaving');
+
+    navTimeout = setTimeout(() => {
+      window.location.href = encodeURI(targetUrl);
+      setTimeout(restoreFromCache, 650);
+    }, 380);
+  }
+
+  // === 3. GENERATE KARTU SLIDER & MODAL GRID (HANYA JUDUL DI POP-UP) ===
   for (let i = 0; i < totalCards; i++) {
     const item = vocabList[i];
     const paddedIndex = (i + 1) < 10 ? `0${i + 1}` : (i + 1);
@@ -99,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${svgIcon}
         </div>
         <h2 class="chapter-title">${item.title}</h2>
-        <p class="chapter-desc">Materi hitungan & satuan ${item.title.toLowerCase()}</p>
+        <p class="chapter-desc">Materi hitungan &amp; satuan ${item.title.toLowerCase()}</p>
       </div>
       <div class="flashcard-footer">
         <span class="action-hint">Mulai Belajar</span>
@@ -111,27 +157,27 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // B. Buat Tombol di Modal Grid
-    let gridBtn = null;
+    // B. Buat Tombol di Modal Grid (HANYA JUDUL + IKON VISUAL, TANPA ANGKA/JUMLAH KATA)
     if (modalGrid) {
-      gridBtn = document.createElement('button');
+      const gridBtn = document.createElement('button');
       gridBtn.type = 'button';
       gridBtn.className = 'topic-grid-btn';
       gridBtn.dataset.index = i;
+      gridBtn.style.setProperty('--item-i', i);
       gridBtn.innerHTML = `
-        <span class="tgb-title">${paddedIndex}. ${item.title}</span>
-        <span class="tgb-sub" id="grid-count-${item.path}">Memuat...</span>
+        <span class="tgb-icon" aria-hidden="true">${svgIcon}</span>
+        <span class="tgb-title">${item.title}</span>
       `;
       gridBtn.addEventListener('click', () => {
         currentIndex = i;
-        updateCarousel();
+        updateCarousel(true);
         closeModal();
       });
       modalGrid.appendChild(gridBtn);
       gridItems.push(gridBtn);
     }
 
-    // Fetch jumlah kosakata dari file JSON
+    // Fetch jumlah kosakata hanya untuk kartu carousel
     fetch(jsonPath)
       .then(res => res.ok ? res.json() : [])
       .then(data => {
@@ -139,34 +185,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const labelText = list.length ? `${list.length} Kosakata` : 'Materi Siap';
         const countBadge = card.querySelector(`#count-${item.path}`);
         if (countBadge) countBadge.textContent = labelText;
-        if (gridBtn) {
-          const gridSub = gridBtn.querySelector(`#grid-count-${item.path}`);
-          if (gridSub) gridSub.textContent = labelText;
-        }
       })
       .catch(() => {
         const countBadge = card.querySelector(`#count-${item.path}`);
         if (countBadge) countBadge.textContent = 'Materi Siap';
-        if (gridBtn) {
-          const gridSub = gridBtn.querySelector(`#grid-count-${item.path}`);
-          if (gridSub) gridSub.textContent = 'Materi Siap';
-        }
       });
 
     card.addEventListener('click', function (e) {
       if (!this.classList.contains('active')) {
         e.preventDefault();
         currentIndex = parseInt(this.dataset.index, 10);
-        updateCarousel();
+        updateCarousel(true);
       } else {
+        if (isModifiedClick(e)) return;
         e.preventDefault();
-        smoothNavigate(this.getAttribute('href'));
+        playPopSound(640, 360);
+        const accent = getComputedStyle(this).getPropertyValue('--card-accent').trim() || 'var(--c-matcha)';
+        this.classList.add('card-launching');
+        setTimeout(() => {
+          smoothNavigate(this.getAttribute('href'), item.title, svgIcon, accent);
+        }, 160);
       }
     });
 
     // Efek 3D Tilt pada Kartu Aktif
     card.addEventListener('mousemove', function (e) {
-      if (this.classList.contains('active')) {
+      if (this.classList.contains('active') && !this.classList.contains('card-launching')) {
         const r = this.getBoundingClientRect();
         const x = e.clientX - r.left;
         const y = e.clientY - r.top;
@@ -175,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     card.addEventListener('mouseleave', function () {
-      if (this.classList.contains('active')) {
+      if (this.classList.contains('active') && !this.classList.contains('card-launching')) {
         this.style.transform = '';
       }
     });
@@ -185,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === 4. LOGIKA SLIDER ===
-  function updateCarousel() {
-    playPopSound();
+  function updateCarousel(withSound = true) {
+    if (withSound) playPopSound();
 
     cards.forEach((card, i) => {
       card.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
@@ -217,6 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
       topbarBadgeDOM.textContent = `N5 • ${activeTopic.title}`;
     }
 
+    if (prevBtn) prevBtn.disabled = currentIndex <= 0;
+    if (nextBtn) nextBtn.disabled = currentIndex >= totalCards - 1;
+
     gridItems.forEach((btn, i) => {
       btn.classList.toggle('active', i === currentIndex);
     });
@@ -228,14 +275,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('closeTopicModal');
 
   function openModal() {
-    if (topicModal) topicModal.classList.add('open');
+    if (!topicModal) return;
+    playPopSound(620, 340);
+    topicModal.classList.add('open');
   }
   function closeModal() {
-    if (topicModal) topicModal.classList.remove('open');
+    if (!topicModal) return;
+    topicModal.classList.remove('open');
   }
 
   if (openModalBtn) openModalBtn.addEventListener('click', openModal);
-  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+  if (closeModalBtn) closeModalBtn.addEventListener('click', () => {
+    playPopSound(480, 260);
+    closeModal();
+  });
   if (topicModal) {
     topicModal.addEventListener('click', (e) => {
       if (e.target === topicModal) closeModal();
@@ -245,26 +298,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const navBackBtn = document.getElementById('navBackBtn');
   if (navBackBtn) {
     navBackBtn.addEventListener('click', function (e) {
+      if (isModifiedClick(e)) return;
       e.preventDefault();
-      smoothNavigate(this.getAttribute('href'));
+      playPopSound(520, 280);
+      smoothNavigate(this.getAttribute('href'), 'Menu Utama', HOME_ICON_SVG, 'var(--c-matcha)');
     });
   }
 
   // === 6. NAVIGASI TOMBOL, KEYBOARD & TOUCH SWIPE ===
-  const nextBtn = document.getElementById('nextBtn');
-  const prevBtn = document.getElementById('prevBtn');
-
   function goNext() {
     if (currentIndex < totalCards - 1) {
       currentIndex++;
-      updateCarousel();
+      updateCarousel(true);
     }
   }
 
   function goPrev() {
     if (currentIndex > 0) {
       currentIndex--;
-      updateCarousel();
+      updateCarousel(true);
     }
   }
 
@@ -295,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === 7. SOUND EFFECT POP ===
   let audioCtx = null;
-  function playPopSound() {
+  function playPopSound(freqStart = 560, freqEnd = 280) {
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -303,18 +355,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       const now = audioCtx.currentTime;
-      osc.frequency.setValueAtTime(560, now);
-      osc.frequency.exponentialRampToValueAtTime(280, now + 0.08);
-      gain.gain.setValueAtTime(0.12, now);
+      osc.frequency.setValueAtTime(freqStart, now);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.08);
+      gain.gain.setValueAtTime(0.11, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
       osc.stop(now + 0.08);
-    } catch (e) {}
+    } catch (_) {}
   }
 
-  // === 8. VISUAL FX (SPARKS & MOUSE TRAIL) ===
+  // === 8. VISUAL FX (SPARKS & ON-DEMAND MOUSE TRAIL) ===
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
@@ -323,13 +375,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sun && fine) {
       addEventListener('pointermove', e => {
         sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -32}px, ${(e.clientY / innerHeight - 0.5) * -32}px)`;
-      });
+      }, { passive: true });
     }
 
     const fx = document.getElementById('fx');
     const sparkColors = ['#DCFCE7', '#E0F2FE', '#FEF3C7', '#E9D5FF'];
-    addEventListener('pointerdown', e => {
-      if (!fx || e.target.closest('button, input, select, a')) return;
+    addEventListener('click', e => {
+      if (!fx || (e.clientX === 0 && e.clientY === 0) || e.target.closest('button, input, select, a')) return;
       const pulse = document.createElement('div');
       pulse.className = 'pulse';
       pulse.style.left = e.clientX + 'px';
@@ -364,41 +416,67 @@ document.addEventListener('DOMContentLoaded', () => {
       resizeCanvas();
 
       let mx = -100, my = -100, x = mx, y = my;
+      let isPointerActive = false;
+      let isLoopRunning = false;
+      let idleTimer = null;
       const pts = [];
 
-      window.addEventListener('pointermove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-
-      (function drawTrail() {
-        x += (mx - x) * 0.32;
-        y += (my - y) * 0.32;
-        pts.push({ x, y });
-        if (pts.length > 14) pts.shift();
+      function drawTrail() {
+        if (isPointerActive) {
+          x += (mx - x) * 0.34;
+          y += (my - y) * 0.34;
+          pts.push({ x, y });
+          if (pts.length > 14) pts.shift();
+        } else if (pts.length > 0) {
+          pts.shift();
+        }
 
         cctx.clearRect(0, 0, canvas.width, canvas.height);
-        cctx.lineCap = 'round';
-        cctx.lineJoin = 'round';
 
-        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        if (pts.length > 1) {
+          cctx.lineCap = 'round';
+          cctx.lineJoin = 'round';
+          const isDark = htmlEl.getAttribute('data-theme') === 'dark';
 
-        for (let i = 1; i < pts.length; i++) {
-          const t = i / pts.length;
-          cctx.strokeStyle = isDark
-            ? `rgba(74, 222, 128, ${t * 0.26})`
-            : `rgba(21, 128, 61, ${t * 0.18})`;
-          cctx.lineWidth = t * 8;
-          cctx.beginPath();
-          cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-          cctx.lineTo(pts[i].x, pts[i].y);
-          cctx.stroke();
+          for (let i = 1; i < pts.length; i++) {
+            const t = i / pts.length;
+            cctx.strokeStyle = isDark
+              ? `rgba(74, 222, 128, ${t * 0.26})`
+              : `rgba(21, 128, 61, ${t * 0.18})`;
+            cctx.lineWidth = t * 8;
+            cctx.beginPath();
+            cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+            cctx.lineTo(pts[i].x, pts[i].y);
+            cctx.stroke();
+          }
         }
-        requestAnimationFrame(drawTrail);
-      })();
+
+        if (isPointerActive || pts.length > 0) {
+          requestAnimationFrame(drawTrail);
+        } else {
+          isLoopRunning = false;
+        }
+      }
+
+      window.addEventListener('pointermove', e => {
+        if (!isPointerActive) {
+          x = e.clientX;
+          y = e.clientY;
+        }
+        mx = e.clientX;
+        my = e.clientY;
+        isPointerActive = true;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
+
+        if (!isLoopRunning) {
+          isLoopRunning = true;
+          requestAnimationFrame(drawTrail);
+        }
+      }, { passive: true });
     }
   }
 
-  // Inisialisasi posisi awal
-  updateCarousel();
+  // Inisialisasi posisi awal tanpa bunyi pop otomatis
+  updateCarousel(false);
 });

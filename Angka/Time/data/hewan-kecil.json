@@ -1,13 +1,57 @@
 [
-  { "furigana": "いっぴき", "arti": "1 ekor" },
-  { "furigana": "にひき", "arti": "2 ekor" },
-  { "furigana": "さんびき", "arti": "3 ekor" },
-  { "furigana": "よんひき", "arti": "4 ekor" },
-  { "furigana": "ごひき", "arti": "5 ekor" },
-  { "furigana": "ろっぴき", "arti": "6 ekor" },
-  { "furigana": "ななひき", "arti": "7 ekor" },
-  { "furigana": "はっぴき", "arti": "8 ekor" },
-  { "furigana": "きゅうひき", "arti": "9 ekor" },
-  { "furigana": "じゅっぴき / じっぴき", "arti": "10 ekor" },
-  { "furigana": "なんびき", "arti": "Berapa ekor?" }
+  {
+    "kanji": "一匹",
+    "furigana": "いっぴき",
+    "arti": "1 ekor"
+  },
+  {
+    "kanji": "二匹",
+    "furigana": "にひき",
+    "arti": "2 ekor"
+  },
+  {
+    "kanji": "三匹",
+    "furigana": "さんびき",
+    "arti": "3 ekor"
+  },
+  {
+    "kanji": "四匹",
+    "furigana": "よんひき",
+    "arti": "4 ekor"
+  },
+  {
+    "kanji": "五匹",
+    "furigana": "ごひき",
+    "arti": "5 ekor"
+  },
+  {
+    "kanji": "六匹",
+    "furigana": "ろっぴき",
+    "arti": "6 ekor"
+  },
+  {
+    "kanji": "七匹",
+    "furigana": "ななひき",
+    "arti": "7 ekor"
+  },
+  {
+    "kanji": "八匹",
+    "furigana": "はっぴき",
+    "arti": "8 ekor"
+  },
+  {
+    "kanji": "九匹",
+    "furigana": "きゅうひき",
+    "arti": "9 ekor"
+  },
+  {
+    "kanji": "十匹",
+    "furigana": "じゅっぴき / じっぴき",
+    "arti": "10 ekor"
+  },
+  {
+    "kanji": "何匹",
+    "furigana": "なんびき",
+    "arti": "Berapa ekor?"
+  }
 ]

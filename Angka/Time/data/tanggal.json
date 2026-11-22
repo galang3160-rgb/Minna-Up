@@ -1,34 +1,162 @@
 [
-  { "furigana": "ついたち", "arti": "Tanggal 1" },
-  { "furigana": "ふつか", "arti": "Tanggal 2" },
-  { "furigana": "みっか", "arti": "Tanggal 3" },
-  { "furigana": "よっか", "arti": "Tanggal 4" },
-  { "furigana": "いつか", "arti": "Tanggal 5" },
-  { "furigana": "むいか", "arti": "Tanggal 6" },
-  { "furigana": "なのか", "arti": "Tanggal 7" },
-  { "furigana": "ようか", "arti": "Tanggal 8" },
-  { "furigana": "ここのか", "arti": "Tanggal 9" },
-  { "furigana": "とおか", "arti": "Tanggal 10" },
-  { "furigana": "じゅういちにち", "arti": "Tanggal 11" },
-  { "furigana": "じゅうににち", "arti": "Tanggal 12" },
-  { "furigana": "じゅうさんにち", "arti": "Tanggal 13" },
-  { "furigana": "じゅうよっか", "arti": "Tanggal 14" },
-  { "furigana": "じゅうごにち", "arti": "Tanggal 15" },
-  { "furigana": "じゅうろくにち", "arti": "Tanggal 16" },
-  { "furigana": "じゅうしちにち / じゅうななにち", "arti": "Tanggal 17" },
-  { "furigana": "じゅうはちにち", "arti": "Tanggal 18" },
-  { "furigana": "じゅうくにち", "arti": "Tanggal 19" },
-  { "furigana": "はつか", "arti": "Tanggal 20" },
-  { "furigana": "にじゅういちにち", "arti": "Tanggal 21" },
-  { "furigana": "にじゅうににち", "arti": "Tanggal 22" },
-  { "furigana": "にじゅうさんにち", "arti": "Tanggal 23" },
-  { "furigana": "にじゅうよっか", "arti": "Tanggal 24" },
-  { "furigana": "にじゅうごにち", "arti": "Tanggal 25" },
-  { "furigana": "にじゅうろくにち", "arti": "Tanggal 26" },
-  { "furigana": "にじゅうしちにち", "arti": "Tanggal 27" },
-  { "furigana": "にじゅうはちにち", "arti": "Tanggal 28" },
-  { "furigana": "にじゅうくにち", "arti": "Tanggal 29" },
-  { "furigana": "さんじゅうにち", "arti": "Tanggal 30" },
-  { "furigana": "さんじゅういちにち", "arti": "Tanggal 31" },
-  { "furigana": "なんにち", "arti": "Tanggal berapa?" }
+  {
+    "kanji": "一日",
+    "furigana": "ついたち",
+    "arti": "Tanggal 1"
+  },
+  {
+    "kanji": "二日",
+    "furigana": "ふつか",
+    "arti": "Tanggal 2"
+  },
+  {
+    "kanji": "三日",
+    "furigana": "みっか",
+    "arti": "Tanggal 3"
+  },
+  {
+    "kanji": "四日",
+    "furigana": "よっか",
+    "arti": "Tanggal 4"
+  },
+  {
+    "kanji": "五日",
+    "furigana": "いつか",
+    "arti": "Tanggal 5"
+  },
+  {
+    "kanji": "六日",
+    "furigana": "むいか",
+    "arti": "Tanggal 6"
+  },
+  {
+    "kanji": "七日",
+    "furigana": "なのか",
+    "arti": "Tanggal 7"
+  },
+  {
+    "kanji": "八日",
+    "furigana": "ようか",
+    "arti": "Tanggal 8"
+  },
+  {
+    "kanji": "九日",
+    "furigana": "ここのか",
+    "arti": "Tanggal 9"
+  },
+  {
+    "kanji": "十日",
+    "furigana": "とおか",
+    "arti": "Tanggal 10"
+  },
+  {
+    "kanji": "十一日",
+    "furigana": "じゅういちにち",
+    "arti": "Tanggal 11"
+  },
+  {
+    "kanji": "十二日",
+    "furigana": "じゅうににち",
+    "arti": "Tanggal 12"
+  },
+  {
+    "kanji": "十三日",
+    "furigana": "じゅうさんにち",
+    "arti": "Tanggal 13"
+  },
+  {
+    "kanji": "十四日",
+    "furigana": "じゅうよっか",
+    "arti": "Tanggal 14"
+  },
+  {
+    "kanji": "十五日",
+    "furigana": "じゅうごにち",
+    "arti": "Tanggal 15"
+  },
+  {
+    "kanji": "十六日",
+    "furigana": "じゅうろくにち",
+    "arti": "Tanggal 16"
+  },
+  {
+    "kanji": "十七日",
+    "furigana": "じゅうしちにち / じゅうななにち",
+    "arti": "Tanggal 17"
+  },
+  {
+    "kanji": "十八日",
+    "furigana": "じゅうはちにち",
+    "arti": "Tanggal 18"
+  },
+  {
+    "kanji": "十九日",
+    "furigana": "じゅうくにち",
+    "arti": "Tanggal 19"
+  },
+  {
+    "kanji": "二十日",
+    "furigana": "はつか",
+    "arti": "Tanggal 20"
+  },
+  {
+    "kanji": "二十一日",
+    "furigana": "にじゅういちにち",
+    "arti": "Tanggal 21"
+  },
+  {
+    "kanji": "二十二日",
+    "furigana": "にじゅうににち",
+    "arti": "Tanggal 22"
+  },
+  {
+    "kanji": "二十三日",
+    "furigana": "にじゅうさんにち",
+    "arti": "Tanggal 23"
+  },
+  {
+    "kanji": "二十四日",
+    "furigana": "にじゅうよっか",
+    "arti": "Tanggal 24"
+  },
+  {
+    "kanji": "二十五日",
+    "furigana": "にじゅうごにち",
+    "arti": "Tanggal 25"
+  },
+  {
+    "kanji": "二十六日",
+    "furigana": "にじゅうろくにち",
+    "arti": "Tanggal 26"
+  },
+  {
+    "kanji": "二十七日",
+    "furigana": "にじゅうしちにち",
+    "arti": "Tanggal 27"
+  },
+  {
+    "kanji": "二十八日",
+    "furigana": "にじゅうはちにち",
+    "arti": "Tanggal 28"
+  },
+  {
+    "kanji": "二十九日",
+    "furigana": "にじゅうくにち",
+    "arti": "Tanggal 29"
+  },
+  {
+    "kanji": "三十日",
+    "furigana": "さんじゅうにち",
+    "arti": "Tanggal 30"
+  },
+  {
+    "kanji": "三十一日",
+    "furigana": "さんじゅういちにち",
+    "arti": "Tanggal 31"
+  },
+  {
+    "kanji": "何日",
+    "furigana": "なんにち",
+    "arti": "Tanggal berapa?"
+  }
 ]

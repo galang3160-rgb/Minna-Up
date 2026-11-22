@@ -1,13 +1,57 @@
 [
-  { "furigana": "いっぱい", "arti": "1 cangkir / porsi" },
-  { "furigana": "にはい", "arti": "2 cangkir" },
-  { "furigana": "さんばい", "arti": "3 cangkir" },
-  { "furigana": "よんはい", "arti": "4 cangkir" },
-  { "furigana": "ごはい", "arti": "5 cangkir" },
-  { "furigana": "ろっぱい", "arti": "6 cangkir" },
-  { "furigana": "ななはい", "arti": "7 cangkir" },
-  { "furigana": "はっぱい", "arti": "8 cangkir" },
-  { "furigana": "きゅうはい", "arti": "9 cangkir" },
-  { "furigana": "じゅっぱい / じっぱい", "arti": "10 cangkir" },
-  { "furigana": "なんばい", "arti": "Berapa cangkir?" }
+  {
+    "kanji": "一杯",
+    "furigana": "いっぱい",
+    "arti": "1 cangkir / porsi"
+  },
+  {
+    "kanji": "二杯",
+    "furigana": "にはい",
+    "arti": "2 cangkir"
+  },
+  {
+    "kanji": "三杯",
+    "furigana": "さんばい",
+    "arti": "3 cangkir"
+  },
+  {
+    "kanji": "四杯",
+    "furigana": "よんはい",
+    "arti": "4 cangkir"
+  },
+  {
+    "kanji": "五杯",
+    "furigana": "ごはい",
+    "arti": "5 cangkir"
+  },
+  {
+    "kanji": "六杯",
+    "furigana": "ろっぱい",
+    "arti": "6 cangkir"
+  },
+  {
+    "kanji": "七杯",
+    "furigana": "ななはい",
+    "arti": "7 cangkir"
+  },
+  {
+    "kanji": "八杯",
+    "furigana": "はっぱい",
+    "arti": "8 cangkir"
+  },
+  {
+    "kanji": "九杯",
+    "furigana": "きゅうはい",
+    "arti": "9 cangkir"
+  },
+  {
+    "kanji": "十杯",
+    "furigana": "じゅっぱい / じっぱい",
+    "arti": "10 cangkir"
+  },
+  {
+    "kanji": "何杯",
+    "furigana": "なんばい",
+    "arti": "Berapa cangkir?"
+  }
 ]

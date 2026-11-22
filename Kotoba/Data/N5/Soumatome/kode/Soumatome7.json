@@ -1,0 +1,152 @@
+[
+  {
+    "kanji": "頭",
+    "furigana": "あたま",
+    "arti": "Kepala"
+  },
+  {
+    "kanji": "顔",
+    "furigana": "かお",
+    "arti": "Wajah"
+  },
+  {
+    "kanji": "首",
+    "furigana": "くび",
+    "arti": "Leher"
+  },
+  {
+    "kanji": "手",
+    "furigana": "て",
+    "arti": "Tangan"
+  },
+  {
+    "kanji": "足",
+    "furigana": "あし",
+    "arti": "Kaki"
+  },
+  {
+    "kanji": "体",
+    "furigana": "からだ",
+    "arti": "Tubuh, badan"
+  },
+  {
+    "kanji": "目",
+    "furigana": "め",
+    "arti": "Mata"
+  },
+  {
+    "kanji": "耳",
+    "furigana": "みみ",
+    "arti": "Telinga"
+  },
+  {
+    "kanji": "鼻",
+    "furigana": "はな",
+    "arti": "Hidung"
+  },
+  {
+    "kanji": "歯",
+    "furigana": "は",
+    "arti": "Gigi"
+  },
+  {
+    "kanji": "口",
+    "furigana": "くち",
+    "arti": "Mulut"
+  },
+  {
+    "kanji": "服",
+    "furigana": "ふく",
+    "arti": "Pakaian"
+  },
+  {
+    "kanji": "ネクタイをする",
+    "furigana": "ネクタイをする",
+    "arti": "Memakai dasi"
+  },
+  {
+    "kanji": "時計をする",
+    "furigana": "とけいをする",
+    "arti": "Memakai jam tangan"
+  },
+  {
+    "kanji": "シャツを着る",
+    "furigana": "シャツをきる",
+    "arti": "Memakai kemeja"
+  },
+  {
+    "kanji": "ポケット",
+    "furigana": "ポケット",
+    "arti": "Saku, kantong"
+  },
+  {
+    "kanji": "ベルトをする",
+    "furigana": "ベルトをする",
+    "arti": "Memakai ikat pinggang"
+  },
+  {
+    "kanji": "帽子をかぶる",
+    "furigana": "ぼうしをかぶる",
+    "arti": "Memakai topi"
+  },
+  {
+    "kanji": "ズボンを履く",
+    "furigana": "ズボンをはく",
+    "arti": "Memakai celana panjang"
+  },
+  {
+    "kanji": "眼鏡をかける",
+    "furigana": "めがねをかける",
+    "arti": "Memakai kacamata"
+  },
+  {
+    "kanji": "スカーフをする",
+    "furigana": "スカーフをする",
+    "arti": "Memakai syal"
+  },
+  {
+    "kanji": "セーターを着る",
+    "furigana": "セーターをきる",
+    "arti": "Memakai sweter"
+  },
+  {
+    "kanji": "靴下を履く",
+    "furigana": "くつしたをはく",
+    "arti": "Memakai kaus kaki"
+  },
+  {
+    "kanji": "靴を履く",
+    "furigana": "くつをはく",
+    "arti": "Memakai sepatu"
+  },
+  {
+    "kanji": "〜つ",
+    "furigana": "〜つ",
+    "arti": "Satuan hitung benda umum (一つ, 二つ, dst.)"
+  },
+  {
+    "kanji": "〜人",
+    "furigana": "〜にん",
+    "arti": "Satuan hitung orang (一人, 二人, dst.)"
+  },
+  {
+    "kanji": "〜枚",
+    "furigana": "〜まい",
+    "arti": "Satuan hitung benda tipis/lembaran"
+  },
+  {
+    "kanji": "〜台",
+    "furigana": "〜だい",
+    "arti": "Satuan hitung mesin/kendaraan"
+  },
+  {
+    "kanji": "〜本",
+    "furigana": "〜ほん",
+    "arti": "Satuan hitung benda panjang/silinder"
+  },
+  {
+    "kanji": "〜冊",
+    "furigana": "〜さつ",
+    "arti": "Satuan hitung buku/jilid"
+  }
+]

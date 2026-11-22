@@ -1,26 +1,122 @@
 [
-  { "furigana": "いち", "arti": "1" },
-  { "furigana": "に", "arti": "2" },
-  { "furigana": "さん", "arti": "3" },
-  { "furigana": "よん / し", "arti": "4" },
-  { "furigana": "ご", "arti": "5" },
-  { "furigana": "ろく", "arti": "6" },
-  { "furigana": "なな / しち", "arti": "7" },
-  { "furigana": "はち", "arti": "8" },
-  { "furigana": "きゅう / く", "arti": "9" },
-  { "furigana": "じゅう", "arti": "10" },
-  { "furigana": "じゅういち", "arti": "11" },
-  { "furigana": "じゅうに", "arti": "12" },
-  { "furigana": "じゅうさん", "arti": "13" },
-  { "furigana": "じゅうよん / じゅうし", "arti": "14" },
-  { "furigana": "じゅうご", "arti": "15" },
-  { "furigana": "じゅうろく", "arti": "16" },
-  { "furigana": "じゅうなな / じゅうしち", "arti": "17" },
-  { "furigana": "じゅうはち", "arti": "18" },
-  { "furigana": "じゅうきゅう / じゅうく", "arti": "19" },
-  { "furigana": "にじゅう", "arti": "20" },
-  { "furigana": "ひゃく", "arti": "100" },
-  { "furigana": "せん", "arti": "1.000" },
-  { "furigana": "まん", "arti": "10.000" },
-  { "furigana": "おく", "arti": "100.000.000" }
+  {
+    "kanji": "一",
+    "furigana": "いち",
+    "arti": "1"
+  },
+  {
+    "kanji": "二",
+    "furigana": "に",
+    "arti": "2"
+  },
+  {
+    "kanji": "三",
+    "furigana": "さん",
+    "arti": "3"
+  },
+  {
+    "kanji": "四",
+    "furigana": "よん / し",
+    "arti": "4"
+  },
+  {
+    "kanji": "五",
+    "furigana": "ご",
+    "arti": "5"
+  },
+  {
+    "kanji": "六",
+    "furigana": "ろく",
+    "arti": "6"
+  },
+  {
+    "kanji": "七",
+    "furigana": "なな / しち",
+    "arti": "7"
+  },
+  {
+    "kanji": "八",
+    "furigana": "はち",
+    "arti": "8"
+  },
+  {
+    "kanji": "九",
+    "furigana": "きゅう / く",
+    "arti": "9"
+  },
+  {
+    "kanji": "十",
+    "furigana": "じゅう",
+    "arti": "10"
+  },
+  {
+    "kanji": "十一",
+    "furigana": "じゅういち",
+    "arti": "11"
+  },
+  {
+    "kanji": "十二",
+    "furigana": "じゅうに",
+    "arti": "12"
+  },
+  {
+    "kanji": "十三",
+    "furigana": "じゅうさん",
+    "arti": "13"
+  },
+  {
+    "kanji": "十四",
+    "furigana": "じゅうよん / じゅうし",
+    "arti": "14"
+  },
+  {
+    "kanji": "十五",
+    "furigana": "じゅうご",
+    "arti": "15"
+  },
+  {
+    "kanji": "十六",
+    "furigana": "じゅうろく",
+    "arti": "16"
+  },
+  {
+    "kanji": "十七",
+    "furigana": "じゅうなな / じゅうしち",
+    "arti": "17"
+  },
+  {
+    "kanji": "十八",
+    "furigana": "じゅうはち",
+    "arti": "18"
+  },
+  {
+    "kanji": "十九",
+    "furigana": "じゅうきゅう / じゅうく",
+    "arti": "19"
+  },
+  {
+    "kanji": "二十",
+    "furigana": "にじゅう",
+    "arti": "20"
+  },
+  {
+    "kanji": "百",
+    "furigana": "ひゃく",
+    "arti": "100"
+  },
+  {
+    "kanji": "千",
+    "furigana": "せん",
+    "arti": "1.000"
+  },
+  {
+    "kanji": "万",
+    "furigana": "まん",
+    "arti": "10.000"
+  },
+  {
+    "kanji": "億",
+    "furigana": "おく",
+    "arti": "100.000.000"
+  }
 ]

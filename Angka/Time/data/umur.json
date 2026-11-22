@@ -1,38 +1,182 @@
 [
-  { "furigana": "いっさい", "arti": "1 tahun" },
-  { "furigana": "にさい", "arti": "2 tahun" },
-  { "furigana": "さんさい", "arti": "3 tahun" },
-  { "furigana": "よんさい", "arti": "4 tahun" },
-  { "furigana": "ごさい", "arti": "5 tahun" },
-  { "furigana": "ろくさい", "arti": "6 tahun" },
-  { "furigana": "ななさい", "arti": "7 tahun" },
-  { "furigana": "はっさい", "arti": "8 tahun" },
-  { "furigana": "きゅうさい", "arti": "9 tahun" },
-  { "furigana": "じゅっさい / じっさい", "arti": "10 tahun" },
-  { "furigana": "じゅういっさい", "arti": "11 tahun" },
-  { "furigana": "じゅうにさい", "arti": "12 tahun" },
-  { "furigana": "じゅうさんさい", "arti": "13 tahun" },
-  { "furigana": "じゅうよんさい", "arti": "14 tahun" },
-  { "furigana": "じゅうごさい", "arti": "15 tahun" },
-  { "furigana": "じゅうろくさい", "arti": "16 tahun" },
-  { "furigana": "じゅうななさい", "arti": "17 tahun" },
-  { "furigana": "じゅうはっさい", "arti": "18 tahun" },
-  { "furigana": "じゅうきゅうさい", "arti": "19 tahun" },
-  { "furigana": "はたち / にじゅっさい", "arti": "20 tahun" },
-  { "furigana": "にじゅういっさい", "arti": "21 tahun" },
-  { "furigana": "にじゅうにさい", "arti": "22 tahun" },
-  { "furigana": "にじゅうさんさい", "arti": "23 tahun" },
-  { "furigana": "にじゅうよんさい", "arti": "24 tahun" },
-  { "furigana": "にじゅうごさい", "arti": "25 tahun" },
-  { "furigana": "にじゅうろくさい", "arti": "26 tahun" },
-  { "furigana": "にじゅうななさい", "arti": "27 tahun" },
-  { "furigana": "にじゅうはっさい", "arti": "28 tahun" },
-  { "furigana": "にじゅうきゅうさい", "arti": "29 tahun" },
-  { "furigana": "さんじゅっさい / さんじっさい", "arti": "30 tahun" },
-  { "furigana": "さんじゅういっさい", "arti": "31 tahun" },
-  { "furigana": "さんじゅうにさい", "arti": "32 tahun" },
-  { "furigana": "さんじゅうさんさい", "arti": "33 tahun" },
-  { "furigana": "さんじゅうよんさい", "arti": "34 tahun" },
-  { "furigana": "さんじゅうごさい", "arti": "35 tahun" },
-  { "furigana": "なんさい / おいくつ", "arti": "Berapa usianya?" }
+  {
+    "kanji": "一歳",
+    "furigana": "いっさい",
+    "arti": "1 tahun"
+  },
+  {
+    "kanji": "二歳",
+    "furigana": "にさい",
+    "arti": "2 tahun"
+  },
+  {
+    "kanji": "三歳",
+    "furigana": "さんさい",
+    "arti": "3 tahun"
+  },
+  {
+    "kanji": "四歳",
+    "furigana": "よんさい",
+    "arti": "4 tahun"
+  },
+  {
+    "kanji": "五歳",
+    "furigana": "ごさい",
+    "arti": "5 tahun"
+  },
+  {
+    "kanji": "六歳",
+    "furigana": "ろくさい",
+    "arti": "6 tahun"
+  },
+  {
+    "kanji": "七歳",
+    "furigana": "ななさい",
+    "arti": "7 tahun"
+  },
+  {
+    "kanji": "八歳",
+    "furigana": "はっさい",
+    "arti": "8 tahun"
+  },
+  {
+    "kanji": "九歳",
+    "furigana": "きゅうさい",
+    "arti": "9 tahun"
+  },
+  {
+    "kanji": "十歳",
+    "furigana": "じゅっさい / じっさい",
+    "arti": "10 tahun"
+  },
+  {
+    "kanji": "十一歳",
+    "furigana": "じゅういっさい",
+    "arti": "11 tahun"
+  },
+  {
+    "kanji": "十二歳",
+    "furigana": "じゅうにさい",
+    "arti": "12 tahun"
+  },
+  {
+    "kanji": "十三歳",
+    "furigana": "じゅうさんさい",
+    "arti": "13 tahun"
+  },
+  {
+    "kanji": "十四歳",
+    "furigana": "じゅうよんさい",
+    "arti": "14 tahun"
+  },
+  {
+    "kanji": "十五歳",
+    "furigana": "じゅうごさい",
+    "arti": "15 tahun"
+  },
+  {
+    "kanji": "十六歳",
+    "furigana": "じゅうろくさい",
+    "arti": "16 tahun"
+  },
+  {
+    "kanji": "十七歳",
+    "furigana": "じゅうななさい",
+    "arti": "17 tahun"
+  },
+  {
+    "kanji": "十八歳",
+    "furigana": "じゅうはっさい",
+    "arti": "18 tahun"
+  },
+  {
+    "kanji": "十九歳",
+    "furigana": "じゅうきゅうさい",
+    "arti": "19 tahun"
+  },
+  {
+    "kanji": "二十歳",
+    "furigana": "はたち / にじゅっさい",
+    "arti": "20 tahun"
+  },
+  {
+    "kanji": "二十一歳",
+    "furigana": "にじゅういっさい",
+    "arti": "21 tahun"
+  },
+  {
+    "kanji": "二十二歳",
+    "furigana": "にじゅうにさい",
+    "arti": "22 tahun"
+  },
+  {
+    "kanji": "二十三歳",
+    "furigana": "にじゅうさんさい",
+    "arti": "23 tahun"
+  },
+  {
+    "kanji": "二十四歳",
+    "furigana": "にじゅうよんさい",
+    "arti": "24 tahun"
+  },
+  {
+    "kanji": "二十五歳",
+    "furigana": "にじゅうごさい",
+    "arti": "25 tahun"
+  },
+  {
+    "kanji": "二十六歳",
+    "furigana": "にじゅうろくさい",
+    "arti": "26 tahun"
+  },
+  {
+    "kanji": "二十七歳",
+    "furigana": "にじゅうななさい",
+    "arti": "27 tahun"
+  },
+  {
+    "kanji": "二十八歳",
+    "furigana": "にじゅうはっさい",
+    "arti": "28 tahun"
+  },
+  {
+    "kanji": "二十九歳",
+    "furigana": "にじゅうきゅうさい",
+    "arti": "29 tahun"
+  },
+  {
+    "kanji": "三十歳",
+    "furigana": "さんじゅっさい / さんじっさい",
+    "arti": "30 tahun"
+  },
+  {
+    "kanji": "三十一歳",
+    "furigana": "さんじゅういっさい",
+    "arti": "31 tahun"
+  },
+  {
+    "kanji": "三十二歳",
+    "furigana": "さんじゅうにさい",
+    "arti": "32 tahun"
+  },
+  {
+    "kanji": "三十三歳",
+    "furigana": "さんじゅうさんさい",
+    "arti": "33 tahun"
+  },
+  {
+    "kanji": "三十四歳",
+    "furigana": "さんじゅうよんさい",
+    "arti": "34 tahun"
+  },
+  {
+    "kanji": "三十五歳",
+    "furigana": "さんじゅうごさい",
+    "arti": "35 tahun"
+  },
+  {
+    "kanji": "何歳 / おいくつ",
+    "furigana": "なんさい / おいくつ",
+    "arti": "Berapa usianya?"
+  }
 ]

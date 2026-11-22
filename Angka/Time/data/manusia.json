@@ -1,13 +1,57 @@
 [
-  { "furigana": "ひとり", "arti": "1 orang" },
-  { "furigana": "ふたり", "arti": "2 orang" },
-  { "furigana": "さんにん", "arti": "3 orang" },
-  { "furigana": "よにん", "arti": "4 orang" },
-  { "furigana": "ごにん", "arti": "5 orang" },
-  { "furigana": "ろくにん", "arti": "6 orang" },
-  { "furigana": "しちにん / ななにん", "arti": "7 orang" },
-  { "furigana": "はちにん", "arti": "8 orang" },
-  { "furigana": "きゅうにん / くにん", "arti": "9 orang" },
-  { "furigana": "じゅうにん", "arti": "10 orang" },
-  { "furigana": "なんにん", "arti": "Berapa orang?" }
+  {
+    "kanji": "一人",
+    "furigana": "ひとり",
+    "arti": "1 orang"
+  },
+  {
+    "kanji": "二人",
+    "furigana": "ふたり",
+    "arti": "2 orang"
+  },
+  {
+    "kanji": "三人",
+    "furigana": "さんにん",
+    "arti": "3 orang"
+  },
+  {
+    "kanji": "四人",
+    "furigana": "よにん",
+    "arti": "4 orang"
+  },
+  {
+    "kanji": "五人",
+    "furigana": "ごにん",
+    "arti": "5 orang"
+  },
+  {
+    "kanji": "六人",
+    "furigana": "ろくにん",
+    "arti": "6 orang"
+  },
+  {
+    "kanji": "七人",
+    "furigana": "しちにん / ななにん",
+    "arti": "7 orang"
+  },
+  {
+    "kanji": "八人",
+    "furigana": "はちにん",
+    "arti": "8 orang"
+  },
+  {
+    "kanji": "九人",
+    "furigana": "きゅうにん / くにん",
+    "arti": "9 orang"
+  },
+  {
+    "kanji": "十人",
+    "furigana": "じゅうにん",
+    "arti": "10 orang"
+  },
+  {
+    "kanji": "何人",
+    "furigana": "なんにん",
+    "arti": "Berapa orang?"
+  }
 ]

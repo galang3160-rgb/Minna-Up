@@ -1,27 +1,127 @@
 [
-  { "furigana": "おととい", "arti": "Dua hari lalu / Kemarin lusa" },
-  { "furigana": "きのう", "arti": "Kemarin" },
-  { "furigana": "きょう", "arti": "Hari ini" },
-  { "furigana": "あした / あす", "arti": "Besok" },
-  { "furigana": "あさって", "arti": "Lusa" },
-  { "furigana": "まいにち", "arti": "Setiap hari" },
-  { "furigana": "せんせんしゅう", "arti": "Dua minggu lalu" },
-  { "furigana": "せんしゅう", "arti": "Minggu lalu" },
-  { "furigana": "こんしゅう", "arti": "Minggu ini" },
-  { "furigana": "らいしゅう", "arti": "Minggu depan" },
-  { "furigana": "さらいしゅう", "arti": "Dua minggu lagi" },
-  { "furigana": "まいしゅう", "arti": "Setiap minggu" },
-  { "furigana": "せんせんげつ", "arti": "Dua bulan lalu" },
-  { "furigana": "せんげつ", "arti": "Bulan lalu" },
-  { "furigana": "こんげつ", "arti": "Bulan ini" },
-  { "furigana": "らいげつ", "arti": "Bulan depan" },
-  { "furigana": "さらいげつ", "arti": "Dua bulan lagi" },
-  { "furigana": "まいつき / まいげつ", "arti": "Setiap bulan" },
-  { "furigana": "おととし", "arti": "Dua tahun lalu" },
-  { "furigana": "きょねん", "arti": "Tahun lalu" },
-  { "furigana": "ことし", "arti": "Tahun ini" },
-  { "furigana": "らいねん", "arti": "Tahun depan" },
-  { "furigana": "さらいねん", "arti": "Dua tahun lagi" },
-  { "furigana": "まいとし / まいねん", "arti": "Setiap tahun" },
-  { "furigana": "いま", "arti": "Sekarang" }
+  {
+    "kanji": "一昨日",
+    "furigana": "おととい",
+    "arti": "Dua hari lalu / Kemarin lusa"
+  },
+  {
+    "kanji": "昨日",
+    "furigana": "きのう",
+    "arti": "Kemarin"
+  },
+  {
+    "kanji": "今日",
+    "furigana": "きょう",
+    "arti": "Hari ini"
+  },
+  {
+    "kanji": "明日",
+    "furigana": "あした / あす",
+    "arti": "Besok"
+  },
+  {
+    "kanji": "明後日",
+    "furigana": "あさって",
+    "arti": "Lusa"
+  },
+  {
+    "kanji": "毎日",
+    "furigana": "まいにち",
+    "arti": "Setiap hari"
+  },
+  {
+    "kanji": "先々週",
+    "furigana": "せんせんしゅう",
+    "arti": "Dua minggu lalu"
+  },
+  {
+    "kanji": "先週",
+    "furigana": "せんしゅう",
+    "arti": "Minggu lalu"
+  },
+  {
+    "kanji": "今週",
+    "furigana": "こんしゅう",
+    "arti": "Minggu ini"
+  },
+  {
+    "kanji": "来週",
+    "furigana": "らいしゅう",
+    "arti": "Minggu depan"
+  },
+  {
+    "kanji": "再来週",
+    "furigana": "さらいしゅう",
+    "arti": "Dua minggu lagi"
+  },
+  {
+    "kanji": "毎週",
+    "furigana": "まいしゅう",
+    "arti": "Setiap minggu"
+  },
+  {
+    "kanji": "先々月",
+    "furigana": "せんせんげつ",
+    "arti": "Dua bulan lalu"
+  },
+  {
+    "kanji": "先月",
+    "furigana": "せんげつ",
+    "arti": "Bulan lalu"
+  },
+  {
+    "kanji": "今月",
+    "furigana": "こんげつ",
+    "arti": "Bulan ini"
+  },
+  {
+    "kanji": "来月",
+    "furigana": "らいげつ",
+    "arti": "Bulan depan"
+  },
+  {
+    "kanji": "再来月",
+    "furigana": "さらいげつ",
+    "arti": "Dua bulan lagi"
+  },
+  {
+    "kanji": "毎月",
+    "furigana": "まいつき / まいげつ",
+    "arti": "Setiap bulan"
+  },
+  {
+    "kanji": "一昨年",
+    "furigana": "おととし",
+    "arti": "Dua tahun lalu"
+  },
+  {
+    "kanji": "去年",
+    "furigana": "きょねん",
+    "arti": "Tahun lalu"
+  },
+  {
+    "kanji": "今年",
+    "furigana": "ことし",
+    "arti": "Tahun ini"
+  },
+  {
+    "kanji": "来年",
+    "furigana": "らいねん",
+    "arti": "Tahun depan"
+  },
+  {
+    "kanji": "再来年",
+    "furigana": "さらいねん",
+    "arti": "Dua tahun lagi"
+  },
+  {
+    "kanji": "毎年",
+    "furigana": "まいとし / まいねん",
+    "arti": "Setiap tahun"
+  },
+  {
+    "kanji": "今",
+    "furigana": "いま",
+    "arti": "Sekarang"
+  }
 ]

@@ -1,15 +1,67 @@
 [
-  { "furigana": "いっぷん", "arti": "1 menit" },
-  { "furigana": "にふん", "arti": "2 menit" },
-  { "furigana": "さんぷん", "arti": "3 menit" },
-  { "furigana": "よんぷん", "arti": "4 menit" },
-  { "furigana": "ごふん", "arti": "5 menit" },
-  { "furigana": "ろっぷん", "arti": "6 menit" },
-  { "furigana": "ななふん", "arti": "7 menit" },
-  { "furigana": "はっぷん / はちふん", "arti": "8 menit" },
-  { "furigana": "きゅうふん", "arti": "9 menit" },
-  { "furigana": "じゅっぷん / じっぷん", "arti": "10 menit" },
-  { "furigana": "じゅうごふん", "arti": "15 menit" },
-  { "furigana": "さんじゅっぷん / はん", "arti": "30 menit / Setengah" },
-  { "furigana": "なんぷん", "arti": "Berapa menit?" }
+  {
+    "kanji": "一分",
+    "furigana": "いっぷん",
+    "arti": "1 menit"
+  },
+  {
+    "kanji": "二分",
+    "furigana": "にふん",
+    "arti": "2 menit"
+  },
+  {
+    "kanji": "三分",
+    "furigana": "さんぷん",
+    "arti": "3 menit"
+  },
+  {
+    "kanji": "四分",
+    "furigana": "よんぷん",
+    "arti": "4 menit"
+  },
+  {
+    "kanji": "五分",
+    "furigana": "ごふん",
+    "arti": "5 menit"
+  },
+  {
+    "kanji": "六分",
+    "furigana": "ろっぷん",
+    "arti": "6 menit"
+  },
+  {
+    "kanji": "七分",
+    "furigana": "ななふん",
+    "arti": "7 menit"
+  },
+  {
+    "kanji": "八分",
+    "furigana": "はっぷん / はちふん",
+    "arti": "8 menit"
+  },
+  {
+    "kanji": "九分",
+    "furigana": "きゅうふん",
+    "arti": "9 menit"
+  },
+  {
+    "kanji": "十分",
+    "furigana": "じゅっぷん / じっぷん",
+    "arti": "10 menit"
+  },
+  {
+    "kanji": "十五分",
+    "furigana": "じゅうごふん",
+    "arti": "15 menit"
+  },
+  {
+    "kanji": "三十分 / 半",
+    "furigana": "さんじゅっぷん / はん",
+    "arti": "30 menit / Setengah"
+  },
+  {
+    "kanji": "何分",
+    "furigana": "なんぷん",
+    "arti": "Berapa menit?"
+  }
 ]

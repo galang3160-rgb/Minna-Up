@@ -1,13 +1,57 @@
 [
-  { "furigana": "いっかい", "arti": "1 kali" },
-  { "furigana": "にかい", "arti": "2 kali" },
-  { "furigana": "さんかい", "arti": "3 kali" },
-  { "furigana": "よんかい", "arti": "4 kali" },
-  { "furigana": "ごかい", "arti": "5 kali" },
-  { "furigana": "ろっかい", "arti": "6 kali" },
-  { "furigana": "ななかい", "arti": "7 kali" },
-  { "furigana": "はっかい", "arti": "8 kali" },
-  { "furigana": "きゅうかい", "arti": "9 kali" },
-  { "furigana": "じゅっかい / じっかい", "arti": "10 kali" },
-  { "furigana": "なんかい", "arti": "Berapa kali?" }
+  {
+    "kanji": "一回",
+    "furigana": "いっかい",
+    "arti": "1 kali"
+  },
+  {
+    "kanji": "二回",
+    "furigana": "にかい",
+    "arti": "2 kali"
+  },
+  {
+    "kanji": "三回",
+    "furigana": "さんかい",
+    "arti": "3 kali"
+  },
+  {
+    "kanji": "四回",
+    "furigana": "よんかい",
+    "arti": "4 kali"
+  },
+  {
+    "kanji": "五回",
+    "furigana": "ごかい",
+    "arti": "5 kali"
+  },
+  {
+    "kanji": "六回",
+    "furigana": "ろっかい",
+    "arti": "6 kali"
+  },
+  {
+    "kanji": "七回",
+    "furigana": "ななかい",
+    "arti": "7 kali"
+  },
+  {
+    "kanji": "八回",
+    "furigana": "はっかい",
+    "arti": "8 kali"
+  },
+  {
+    "kanji": "九回",
+    "furigana": "きゅうかい",
+    "arti": "9 kali"
+  },
+  {
+    "kanji": "十回",
+    "furigana": "じゅっかい / じっかい",
+    "arti": "10 kali"
+  },
+  {
+    "kanji": "何回",
+    "furigana": "なんかい",
+    "arti": "Berapa kali?"
+  }
 ]

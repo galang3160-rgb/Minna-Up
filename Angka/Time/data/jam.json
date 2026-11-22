@@ -1,15 +1,67 @@
 [
-  { "furigana": "いちじ", "arti": "Jam 1" },
-  { "furigana": "にじ", "arti": "Jam 2" },
-  { "furigana": "さんじ", "arti": "Jam 3" },
-  { "furigana": "よじ", "arti": "Jam 4" },
-  { "furigana": "ごじ", "arti": "Jam 5" },
-  { "furigana": "ろくじ", "arti": "Jam 6" },
-  { "furigana": "しちじ / ななじ", "arti": "Jam 7" },
-  { "furigana": "はちじ", "arti": "Jam 8" },
-  { "furigana": "くじ", "arti": "Jam 9" },
-  { "furigana": "じゅうじ", "arti": "Jam 10" },
-  { "furigana": "じゅういちじ", "arti": "Jam 11" },
-  { "furigana": "じゅうにじ", "arti": "Jam 12" },
-  { "furigana": "なんじ", "arti": "Jam berapa?" }
+  {
+    "kanji": "一時",
+    "furigana": "いちじ",
+    "arti": "Jam 1"
+  },
+  {
+    "kanji": "二時",
+    "furigana": "にじ",
+    "arti": "Jam 2"
+  },
+  {
+    "kanji": "三時",
+    "furigana": "さんじ",
+    "arti": "Jam 3"
+  },
+  {
+    "kanji": "四時",
+    "furigana": "よじ",
+    "arti": "Jam 4"
+  },
+  {
+    "kanji": "五時",
+    "furigana": "ごじ",
+    "arti": "Jam 5"
+  },
+  {
+    "kanji": "六時",
+    "furigana": "ろくじ",
+    "arti": "Jam 6"
+  },
+  {
+    "kanji": "七時",
+    "furigana": "しちじ / ななじ",
+    "arti": "Jam 7"
+  },
+  {
+    "kanji": "八時",
+    "furigana": "はちじ",
+    "arti": "Jam 8"
+  },
+  {
+    "kanji": "九時",
+    "furigana": "くじ",
+    "arti": "Jam 9"
+  },
+  {
+    "kanji": "十時",
+    "furigana": "じゅうじ",
+    "arti": "Jam 10"
+  },
+  {
+    "kanji": "十一時",
+    "furigana": "じゅういちじ",
+    "arti": "Jam 11"
+  },
+  {
+    "kanji": "十二時",
+    "furigana": "じゅうにじ",
+    "arti": "Jam 12"
+  },
+  {
+    "kanji": "何時",
+    "furigana": "なんじ",
+    "arti": "Jam berapa?"
+  }
 ]

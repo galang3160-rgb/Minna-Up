@@ -1,13 +1,57 @@
 [
-  { "furigana": "いちまい", "arti": "1 lembar" },
-  { "furigana": "にまい", "arti": "2 lembar" },
-  { "furigana": "さんまい", "arti": "3 lembar" },
-  { "furigana": "よんまい", "arti": "4 lembar" },
-  { "furigana": "ごまい", "arti": "5 lembar" },
-  { "furigana": "ろくまい", "arti": "6 lembar" },
-  { "furigana": "ななまい", "arti": "7 lembar" },
-  { "furigana": "はちまい", "arti": "8 lembar" },
-  { "furigana": "きゅうまい", "arti": "9 lembar" },
-  { "furigana": "じゅうまい", "arti": "10 lembar" },
-  { "furigana": "なんまい", "arti": "Berapa lembar?" }
+  {
+    "kanji": "一枚",
+    "furigana": "いちまい",
+    "arti": "1 lembar"
+  },
+  {
+    "kanji": "二枚",
+    "furigana": "にまい",
+    "arti": "2 lembar"
+  },
+  {
+    "kanji": "三枚",
+    "furigana": "さんまい",
+    "arti": "3 lembar"
+  },
+  {
+    "kanji": "四枚",
+    "furigana": "よんまい",
+    "arti": "4 lembar"
+  },
+  {
+    "kanji": "五枚",
+    "furigana": "ごまい",
+    "arti": "5 lembar"
+  },
+  {
+    "kanji": "六枚",
+    "furigana": "ろくまい",
+    "arti": "6 lembar"
+  },
+  {
+    "kanji": "七枚",
+    "furigana": "ななまい",
+    "arti": "7 lembar"
+  },
+  {
+    "kanji": "八枚",
+    "furigana": "はちまい",
+    "arti": "8 lembar"
+  },
+  {
+    "kanji": "九枚",
+    "furigana": "きゅうまい",
+    "arti": "9 lembar"
+  },
+  {
+    "kanji": "十枚",
+    "furigana": "じゅうまい",
+    "arti": "10 lembar"
+  },
+  {
+    "kanji": "何枚",
+    "furigana": "なんまい",
+    "arti": "Berapa lembar?"
+  }
 ]

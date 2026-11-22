@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Nakama Gakkou — Topik Bilangan & Satuan N5</title>
-  
+  <title>Nakama Gakkou — Topik Bilangan &amp; Satuan N5</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
@@ -12,15 +12,29 @@
 </head>
 <body class="cinema-body">
 
+  <!-- TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA) -->
+  <div id="pageTransition" class="page-transition" aria-hidden="true">
+    <div class="pt-curtain"></div>
+    <div class="pt-content">
+      <div class="pt-icon-box" id="ptIconBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="pt-label" id="ptLabel">Memuat...</span>
+    </div>
+  </div>
+
   <!-- AMBIENT & EFEK INTERAKTIF -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="trail"></canvas>
+  <canvas id="trail" aria-hidden="true"></canvas>
 
   <!-- TOPBAR KAPSUL NEO-BRUTALISM -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
-      
+
       <!-- Sisi Kiri: Tombol Back & Headline -->
       <div class="topbar-left">
         <a href="../../index.html" id="navBackBtn" class="capsule-back-btn" title="Kembali ke Menu Utama" aria-label="Kembali ke Menu Utama">
@@ -65,7 +79,7 @@
             </svg>
           </div>
         </button>
-        
+
         <div class="counter-box" id="counterBox">
           <span id="currentCardIndex">01</span><span class="sep">/</span><span id="totalCardsCount">17</span>
         </div>
@@ -76,7 +90,7 @@
 
   <!-- KONTEN TENGAH: SLIDER CAROUSEL KARTU -->
   <main class="flashcard-stage">
-    
+
     <!-- Tombol Kiri -->
     <button type="button" class="nav-arrow-btn prev-btn" id="prevBtn" aria-label="Sebelumnya">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
@@ -97,12 +111,13 @@
   </main>
 
   <!-- MODAL POPUP GRID 17 TOPIK BILANGAN & SATUAN -->
-  <div class="modal-backdrop" id="topicModal">
+  <div class="modal-backdrop" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="topicModalTitle">
     <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
       <div class="modal-header">
         <div>
           <span class="modal-tag">17 TOPIK HITUNGAN N5</span>
-          <h3 class="modal-title">Pilih Topik Pembelajaran</h3>
+          <h3 class="modal-title" id="topicModalTitle">Pilih Topik Pembelajaran</h3>
         </div>
         <button type="button" class="modal-close-btn" id="closeTopicModal" aria-label="Tutup">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">

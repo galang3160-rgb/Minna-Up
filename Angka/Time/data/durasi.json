@@ -1,21 +1,97 @@
 [
-  { "furigana": "いちじかん", "arti": "Selama 1 jam" },
-  { "furigana": "にじかん", "arti": "Selama 2 jam" },
-  { "furigana": "なんじかん", "arti": "Berapa jam?" },
-  { "furigana": "いっぷんかん", "arti": "Selama 1 menit" },
-  { "furigana": "じゅっぷんかん", "arti": "Selama 10 menit" },
-  { "furigana": "いちにち", "arti": "Selama 1 hari" },
-  { "furigana": "ふつかかん", "arti": "Selama 2 hari" },
-  { "furigana": "みっかかん", "arti": "Selama 3 hari" },
-  { "furigana": "なんにちかん", "arti": "Berapa hari?" },
-  { "furigana": "いっしゅうかん", "arti": "Selama 1 minggu" },
-  { "furigana": "にしゅうかん", "arti": "Selama 2 minggu" },
-  { "furigana": "なんしゅうかん", "arti": "Berapa minggu?" },
-  { "furigana": "いっかげつ", "arti": "Selama 1 bulan" },
-  { "furigana": "にかげつ", "arti": "Selama 2 bulan" },
-  { "furigana": "さんかげつ", "arti": "Selama 3 bulan" },
-  { "furigana": "なんかげつ", "arti": "Berapa bulan?" },
-  { "furigana": "いちねんかん", "arti": "Selama 1 tahun" },
-  { "furigana": "にねんかん", "arti": "Selama 2 tahun" },
-  { "furigana": "なんねんかん", "arti": "Berapa tahun?" }
+  {
+    "kanji": "一時間",
+    "furigana": "いちじかん",
+    "arti": "Selama 1 jam"
+  },
+  {
+    "kanji": "二時間",
+    "furigana": "にじかん",
+    "arti": "Selama 2 jam"
+  },
+  {
+    "kanji": "何時間",
+    "furigana": "なんじかん",
+    "arti": "Berapa jam?"
+  },
+  {
+    "kanji": "一分間",
+    "furigana": "いっぷんかん",
+    "arti": "Selama 1 menit"
+  },
+  {
+    "kanji": "十分間",
+    "furigana": "じゅっぷんかん",
+    "arti": "Selama 10 menit"
+  },
+  {
+    "kanji": "一日",
+    "furigana": "いちにち",
+    "arti": "Selama 1 hari"
+  },
+  {
+    "kanji": "二日間",
+    "furigana": "ふつかかん",
+    "arti": "Selama 2 hari"
+  },
+  {
+    "kanji": "三日間",
+    "furigana": "みっかかん",
+    "arti": "Selama 3 hari"
+  },
+  {
+    "kanji": "何日間",
+    "furigana": "なんにちかん",
+    "arti": "Berapa hari?"
+  },
+  {
+    "kanji": "一週間",
+    "furigana": "いっしゅうかん",
+    "arti": "Selama 1 minggu"
+  },
+  {
+    "kanji": "二週間",
+    "furigana": "にしゅうかん",
+    "arti": "Selama 2 minggu"
+  },
+  {
+    "kanji": "何週間",
+    "furigana": "なんしゅうかん",
+    "arti": "Berapa minggu?"
+  },
+  {
+    "kanji": "一か月",
+    "furigana": "いっかげつ",
+    "arti": "Selama 1 bulan"
+  },
+  {
+    "kanji": "二か月",
+    "furigana": "にかげつ",
+    "arti": "Selama 2 bulan"
+  },
+  {
+    "kanji": "三か月",
+    "furigana": "さんかげつ",
+    "arti": "Selama 3 bulan"
+  },
+  {
+    "kanji": "何か月",
+    "furigana": "なんかげつ",
+    "arti": "Berapa bulan?"
+  },
+  {
+    "kanji": "一年間",
+    "furigana": "いちねんかん",
+    "arti": "Selama 1 tahun"
+  },
+  {
+    "kanji": "二年間",
+    "furigana": "にねんかん",
+    "arti": "Selama 2 tahun"
+  },
+  {
+    "kanji": "何年間",
+    "furigana": "なんねんかん",
+    "arti": "Berapa tahun?"
+  }
 ]

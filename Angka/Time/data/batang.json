@@ -1,13 +1,57 @@
 [
-  { "furigana": "いっぽん", "arti": "1 batang" },
-  { "furigana": "にほん", "arti": "2 batang" },
-  { "furigana": "さんぼん", "arti": "3 batang" },
-  { "furigana": "よんほん", "arti": "4 batang" },
-  { "furigana": "ごほん", "arti": "5 batang" },
-  { "furigana": "ろっぽん", "arti": "6 batang" },
-  { "furigana": "ななほん", "arti": "7 batang" },
-  { "furigana": "はっぽん", "arti": "8 batang" },
-  { "furigana": "きゅうほん", "arti": "9 batang" },
-  { "furigana": "じゅっぽん / じっぽん", "arti": "10 batang" },
-  { "furigana": "なんぼん", "arti": "Berapa batang?" }
+  {
+    "kanji": "一本",
+    "furigana": "いっぽん",
+    "arti": "1 batang"
+  },
+  {
+    "kanji": "二本",
+    "furigana": "にほん",
+    "arti": "2 batang"
+  },
+  {
+    "kanji": "三本",
+    "furigana": "さんぼん",
+    "arti": "3 batang"
+  },
+  {
+    "kanji": "四本",
+    "furigana": "よんほん",
+    "arti": "4 batang"
+  },
+  {
+    "kanji": "五本",
+    "furigana": "ごほん",
+    "arti": "5 batang"
+  },
+  {
+    "kanji": "六本",
+    "furigana": "ろっぽん",
+    "arti": "6 batang"
+  },
+  {
+    "kanji": "七本",
+    "furigana": "ななほん",
+    "arti": "7 batang"
+  },
+  {
+    "kanji": "八本",
+    "furigana": "はっぽん",
+    "arti": "8 batang"
+  },
+  {
+    "kanji": "九本",
+    "furigana": "きゅうほん",
+    "arti": "9 batang"
+  },
+  {
+    "kanji": "十本",
+    "furigana": "じゅっぽん / じっぽん",
+    "arti": "10 batang"
+  },
+  {
+    "kanji": "何本",
+    "furigana": "なんぼん",
+    "arti": "Berapa batang?"
+  }
 ]

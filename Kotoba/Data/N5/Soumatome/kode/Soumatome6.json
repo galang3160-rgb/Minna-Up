@@ -1,0 +1,317 @@
+[
+  {
+    "kanji": "季節",
+    "furigana": "きせつ",
+    "arti": "Musim"
+  },
+  {
+    "kanji": "春",
+    "furigana": "はる",
+    "arti": "Musim semi"
+  },
+  {
+    "kanji": "夏",
+    "furigana": "なつ",
+    "arti": "Musim panas"
+  },
+  {
+    "kanji": "秋",
+    "furigana": "あき",
+    "arti": "Musim gugur"
+  },
+  {
+    "kanji": "冬",
+    "furigana": "ふゆ",
+    "arti": "Musim dingin"
+  },
+  {
+    "kanji": "色",
+    "furigana": "いろ",
+    "arti": "Warna"
+  },
+  {
+    "kanji": "白",
+    "furigana": "しろ",
+    "arti": "Putih"
+  },
+  {
+    "kanji": "黒",
+    "furigana": "くろ",
+    "arti": "Hitam"
+  },
+  {
+    "kanji": "赤",
+    "furigana": "あか",
+    "arti": "Merah"
+  },
+  {
+    "kanji": "青",
+    "furigana": "あお",
+    "arti": "Biru"
+  },
+  {
+    "kanji": "緑",
+    "furigana": "みどり",
+    "arti": "Hijau"
+  },
+  {
+    "kanji": "黄色",
+    "furigana": "きいろ",
+    "arti": "Kuning"
+  },
+  {
+    "kanji": "茶色",
+    "furigana": "ちゃいろ",
+    "arti": "Cokelat"
+  },
+  {
+    "kanji": "ピンク",
+    "furigana": "ピンク",
+    "arti": "Merah muda (pink)"
+  },
+  {
+    "kanji": "所",
+    "furigana": "ところ",
+    "arti": "Tempat"
+  },
+  {
+    "kanji": "公園",
+    "furigana": "こうえん",
+    "arti": "Taman"
+  },
+  {
+    "kanji": "動物園",
+    "furigana": "どうぶつえん",
+    "arti": "Kebun binatang"
+  },
+  {
+    "kanji": "遊園地",
+    "furigana": "ゆうえんち",
+    "arti": "Taman hiburan"
+  },
+  {
+    "kanji": "海",
+    "furigana": "うみ",
+    "arti": "Laut"
+  },
+  {
+    "kanji": "スポーツ",
+    "furigana": "スポーツ",
+    "arti": "Olahraga"
+  },
+  {
+    "kanji": "水泳",
+    "furigana": "すいえい",
+    "arti": "Renang"
+  },
+  {
+    "kanji": "サッカー",
+    "furigana": "サッカー",
+    "arti": "Sepak bola"
+  },
+  {
+    "kanji": "野球",
+    "furigana": "やきゅう",
+    "arti": "Bisbol"
+  },
+  {
+    "kanji": "バスケットボール",
+    "furigana": "バスケットボール",
+    "arti": "Bola basket"
+  },
+  {
+    "kanji": "テニス",
+    "furigana": "テニス",
+    "arti": "Tenis"
+  },
+  {
+    "kanji": "音楽",
+    "furigana": "おんがく",
+    "arti": "Musik"
+  },
+  {
+    "kanji": "ジャズ",
+    "furigana": "ジャズ",
+    "arti": "Musik jazz"
+  },
+  {
+    "kanji": "ポップス",
+    "furigana": "ポップス",
+    "arti": "Musik pop"
+  },
+  {
+    "kanji": "クラシック",
+    "furigana": "クラシック",
+    "arti": "Musik klasik"
+  },
+  {
+    "kanji": "ロック",
+    "furigana": "ロック",
+    "arti": "Musik rock"
+  },
+  {
+    "kanji": "果物",
+    "furigana": "くだもの",
+    "arti": "Buah-buahan"
+  },
+  {
+    "kanji": "蜜柑",
+    "furigana": "みかん",
+    "arti": "Jeruk mandarin"
+  },
+  {
+    "kanji": "葡萄",
+    "furigana": "ぶどう",
+    "arti": "Anggur"
+  },
+  {
+    "kanji": "林檎",
+    "furigana": "りんご",
+    "arti": "Apel"
+  },
+  {
+    "kanji": "苺",
+    "furigana": "いちご",
+    "arti": "Stroberi"
+  },
+  {
+    "kanji": "乗り物",
+    "furigana": "のりもの",
+    "arti": "Kendaraan"
+  },
+  {
+    "kanji": "電車",
+    "furigana": "でんしゃ",
+    "arti": "Kereta listrik"
+  },
+  {
+    "kanji": "自転車",
+    "furigana": "じてんしゃ",
+    "arti": "Sepeda"
+  },
+  {
+    "kanji": "車",
+    "furigana": "くるま",
+    "arti": "Mobil"
+  },
+  {
+    "kanji": "オートバイ",
+    "furigana": "オートバイ",
+    "arti": "Sepeda motor"
+  },
+  {
+    "kanji": "飛行機",
+    "furigana": "ひこうき",
+    "arti": "Pesawat terbang"
+  },
+  {
+    "kanji": "船",
+    "furigana": "ふね",
+    "arti": "Kapal laut"
+  },
+  {
+    "kanji": "天気",
+    "furigana": "てんき",
+    "arti": "Cuaca"
+  },
+  {
+    "kanji": "晴れ",
+    "furigana": "はれ",
+    "arti": "Cerah"
+  },
+  {
+    "kanji": "曇り",
+    "furigana": "くもり",
+    "arti": "Mendung, berawan"
+  },
+  {
+    "kanji": "雨",
+    "furigana": "あめ",
+    "arti": "Hujan"
+  },
+  {
+    "kanji": "雪",
+    "furigana": "ゆき",
+    "arti": "Salju"
+  },
+  {
+    "kanji": "台風",
+    "furigana": "たいふう",
+    "arti": "Topan"
+  },
+  {
+    "kanji": "食器",
+    "furigana": "しょっき",
+    "arti": "Alat makan"
+  },
+  {
+    "kanji": "茶碗",
+    "furigana": "ちゃわん",
+    "arti": "Mangkuk nasi"
+  },
+  {
+    "kanji": "お皿",
+    "furigana": "おさら",
+    "arti": "Piring"
+  },
+  {
+    "kanji": "箸",
+    "furigana": "はし",
+    "arti": "Sumpit"
+  },
+  {
+    "kanji": "コップ",
+    "furigana": "コップ",
+    "arti": "Gelas"
+  },
+  {
+    "kanji": "カップ",
+    "furigana": "カップ",
+    "arti": "Cangkir"
+  },
+  {
+    "kanji": "家具",
+    "furigana": "かぐ",
+    "arti": "Perabotan"
+  },
+  {
+    "kanji": "ベッド",
+    "furigana": "ベッド",
+    "arti": "Tempat tidur"
+  },
+  {
+    "kanji": "机",
+    "furigana": "つくえ",
+    "arti": "Meja"
+  },
+  {
+    "kanji": "椅子",
+    "furigana": "いす",
+    "arti": "Kursi"
+  },
+  {
+    "kanji": "本棚",
+    "furigana": "ほんだな",
+    "arti": "Rak buku"
+  },
+  {
+    "kanji": "テレビ",
+    "furigana": "テレビ",
+    "arti": "Televisi"
+  },
+  {
+    "kanji": "エアコン",
+    "furigana": "エアコン",
+    "arti": "AC (pendingin ruangan)"
+  },
+  {
+    "kanji": "冷蔵庫",
+    "furigana": "れいぞうこ",
+    "arti": "Kulkas"
+  },
+  {
+    "kanji": "電子レンジ",
+    "furigana": "でんしレンジ",
+    "arti": "Microwave"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "kanji": "一階",
+    "furigana": "いっかい",
+    "arti": "Lantai 1"
+  },
+  {
+    "kanji": "二階",
+    "furigana": "にかい",
+    "arti": "Lantai 2"
+  },
+  {
+    "kanji": "三階",
+    "furigana": "さんがい",
+    "arti": "Lantai 3"
+  },
+  {
+    "kanji": "四階",
+    "furigana": "よんかい",
+    "arti": "Lantai 4"
+  },
+  {
+    "kanji": "五階",
+    "furigana": "ごかい",
+    "arti": "Lantai 5"
+  },
+  {
+    "kanji": "六階",
+    "furigana": "ろっかい",
+    "arti": "Lantai 6"
+  },
+  {
+    "kanji": "七階",
+    "furigana": "ななかい",
+    "arti": "Lantai 7"
+  },
+  {
+    "kanji": "八階",
+    "furigana": "はっかい",
+    "arti": "Lantai 8"
+  },
+  {
+    "kanji": "九階",
+    "furigana": "きゅうかい",
+    "arti": "Lantai 9"
+  },
+  {
+    "kanji": "十階",
+    "furigana": "じゅっかい / じっかい",
+    "arti": "Lantai 10"
+  },
+  {
+    "kanji": "何階",
+    "furigana": "なんがい",
+    "arti": "Lantai berapa?"
+  }
+]

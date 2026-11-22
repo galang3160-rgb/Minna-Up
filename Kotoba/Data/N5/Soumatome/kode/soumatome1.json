@@ -1,217 +1,117 @@
 [
   {
-    "kanji": "台所",
-    "furigana": "だいどころ",
-    "arti": "Dapur"
+    "kanji": "甘い",
+    "furigana": "あまい",
+    "arti": "Manis"
   },
   {
-    "kanji": "冷蔵庫",
-    "furigana": "れいぞうこ",
-    "arti": "Kulkas"
+    "kanji": "辛い",
+    "furigana": "からい",
+    "arti": "Pedas, asin"
   },
   {
-    "kanji": "電子レンジ",
-    "furigana": "でんしレンジ",
-    "arti": "Microwave"
+    "kanji": "苦い",
+    "furigana": "にがい",
+    "arti": "Pahit"
   },
   {
-    "kanji": "ガスレンジ",
-    "furigana": "ガスレンジ",
-    "arti": "Kompor"
+    "kanji": "重い",
+    "furigana": "おもい",
+    "arti": "Berat"
   },
   {
-    "kanji": "ガスコンロ",
-    "furigana": "ガスコンロ",
-    "arti": "Kompor"
+    "kanji": "軽い",
+    "furigana": "かるい",
+    "arti": "Ringan"
   },
   {
-    "kanji": "湯のみ",
-    "furigana": "ゆのみ",
-    "arti": "Gelas teh"
+    "kanji": "熱い",
+    "furigana": "あつい",
+    "arti": "Panas (benda/minuman)"
   },
   {
-    "kanji": "茶わん",
-    "furigana": "ちゃわん",
-    "arti": "Mangkuk"
+    "kanji": "暑い",
+    "furigana": "あつい",
+    "arti": "Panas (cuaca)"
   },
   {
-    "kanji": "ワイングラス",
-    "furigana": "ワイングラス",
-    "arti": "Gelas wine"
+    "kanji": "冷たい",
+    "furigana": "つめたい",
+    "arti": "Dingin (benda/minuman)"
   },
   {
-    "kanji": "コーヒーカップ",
-    "furigana": "コーヒーカップ",
-    "arti": "Cangkir kopi"
+    "kanji": "寒い",
+    "furigana": "さむい",
+    "arti": "Dingin (cuaca)"
   },
   {
-    "kanji": "コップ",
-    "furigana": "コップ",
-    "arti": "Gelas"
+    "kanji": "暖かい",
+    "furigana": "あたたかい",
+    "arti": "Hangat (cuaca)"
   },
   {
-    "kanji": "レバー",
-    "furigana": "レバー",
-    "arti": "Tuas"
+    "kanji": "涼しい",
+    "furigana": "すずしい",
+    "arti": "Sejuk"
   },
   {
-    "kanji": "流し",
-    "furigana": "ながし",
-    "arti": "Wastafel"
+    "kanji": "面白い",
+    "furigana": "おもしろい",
+    "arti": "Menarik"
   },
   {
-    "kanji": "居間",
-    "furigana": "いま",
-    "arti": "Ruang tamu"
+    "kanji": "詰まらない",
+    "furigana": "つまらない",
+    "arti": "Membosankan"
   },
   {
-    "kanji": "窓ガラス",
-    "furigana": "まどガラス",
-    "arti": "Kaca jendela"
+    "kanji": "狭い",
+    "furigana": "せまい",
+    "arti": "Sempit"
   },
   {
-    "kanji": "雨戸",
-    "furigana": "あまど",
-    "arti": "Pintu hujan"
+    "kanji": "広い",
+    "furigana": "ひろい",
+    "arti": "Luas"
   },
   {
-    "kanji": "網戸",
-    "furigana": "あみど",
-    "arti": "Pintu kasa"
+    "kanji": "遠い",
+    "furigana": "とおい",
+    "arti": "Jauh"
   },
   {
-    "kanji": "床",
-    "furigana": "ゆか",
-    "arti": "Lantai"
+    "kanji": "近い",
+    "furigana": "ちかい",
+    "arti": "Dekat"
   },
   {
-    "kanji": "天井",
-    "furigana": "てんじょう",
-    "arti": "Langit-langit"
+    "kanji": "易しい",
+    "furigana": "やさしい",
+    "arti": "Mudah"
   },
   {
-    "kanji": "エアコン",
-    "furigana": "エアコン",
-    "arti": "AC"
+    "kanji": "難しい",
+    "furigana": "むずかしい",
+    "arti": "Sulit"
   },
   {
-    "kanji": "ヒーター",
-    "furigana": "ヒーター",
-    "arti": "Pemanas"
+    "kanji": "忙しい",
+    "furigana": "いそがしい",
+    "arti": "Sibuk"
   },
   {
-    "kanji": "コンセント",
-    "furigana": "コンセント",
-    "arti": "Stop kontak"
+    "kanji": "暇な",
+    "furigana": "ひまな",
+    "arti": "Senggang"
   },
   {
-    "kanji": "じゅうたん",
-    "furigana": "じゅうたん",
-    "arti": "Karpet"
+    "kanji": "嫌いな",
+    "furigana": "きらいな",
+    "arti": "Benci, tidak suka"
   },
   {
-    "kanji": "カーペット",
-    "furigana": "カーペット",
-    "arti": "Karpet"
-  },
-  {
-    "kanji": "コード",
-    "furigana": "コード",
-    "arti": "Kabel"
-  },
-  {
-    "kanji": "蛇口",
-    "furigana": "じゃぐち",
-    "arti": "Keran"
-  },
-  {
-    "kanji": "凍る",
-    "furigana": "こおる",
-    "arti": "Membeku"
-  },
-  {
-    "kanji": "氷",
-    "furigana": "こおり",
-    "arti": "Es"
-  },
-  {
-    "kanji": "冷凍する",
-    "furigana": "れいとうする",
-    "arti": "Membekukan"
-  },
-  {
-    "kanji": "保存する",
-    "furigana": "ほぞんする",
-    "arti": "Menyimpan"
-  },
-  {
-    "kanji": "残り物",
-    "furigana": "のこりもの",
-    "arti": "Sisa makanan"
-  },
-  {
-    "kanji": "温める",
-    "furigana": "あたためる",
-    "arti": "Menghangatkan"
-  },
-  {
-    "kanji": "冷やす",
-    "furigana": "ひやす",
-    "arti": "Mendinginkan"
-  },
-  {
-    "kanji": "冷える",
-    "furigana": "ひえる",
-    "arti": "Menjadi dingin"
-  },
-  {
-    "kanji": "リモコン",
-    "furigana": "リモコン",
-    "arti": "Remote"
-  },
-  {
-    "kanji": "スイッチ",
-    "furigana": "スイッチ",
-    "arti": "Sakelar"
-  },
-  {
-    "kanji": "電源",
-    "furigana": "でんげん",
-    "arti": "Daya"
-  },
-  {
-    "kanji": "電源を入れる",
-    "furigana": "でんげんをいれる",
-    "arti": "Menyalakan"
-  },
-  {
-    "kanji": "電源を切る",
-    "furigana": "でんげんをきる",
-    "arti": "Mematikan"
-  },
-  {
-    "kanji": "敷く",
-    "furigana": "しく",
-    "arti": "Menggelar"
-  },
-  {
-    "kanji": "暖める",
-    "furigana": "あたためる",
-    "arti": "Menghangatkan"
-  },
-  {
-    "kanji": "暖房",
-    "furigana": "だんぼう",
-    "arti": "Pemanas"
-  },
-  {
-    "kanji": "冷房",
-    "furigana": "れいぼう",
-    "arti": "Pendingin"
-  },
-  {
-    "kanji": "日当たり",
-    "furigana": "ひあたり",
-    "arti": "Sinar matahari"
+    "kanji": "好きな",
+    "furigana": "すきな",
+    "arti": "Suka"
   }
 ]
