@@ -1,6 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU — CLEAN MONOCHROME + AMBER REDESIGN
-   Headbar dipertahankan, blok hijau & biru dihapus agar elegan & konsisten
+   NAKAMAGAKKOU — CLEAN MONOCHROME + AMBER REDESIGN + SYNCED TRANSITIONS
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -12,7 +11,7 @@
   --dot-grid: #1111111a;
   --dashed-line: #DEDAD0;
 
-  /* Aksen Utama: Amber + Netral (Tanpa Blok Hijau/Biru) */
+  /* Aksen Utama: Amber + Netral */
   --c-amber: #FDE047;
   --c-amber-soft: #FEF3C7;
   --c-rose: #FFE4E6;
@@ -32,6 +31,7 @@
   --radius-sm: 10px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.48, 0.64, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
@@ -45,12 +45,12 @@ html[data-theme="dark"] {
   --dot-grid: #ffffff12;
   --dashed-line: #2E3440;
 
-  --c-amber: #EAB308;
-  --c-amber-soft: #CA8A04;
-  --c-rose: #FB7185;
-  --green-brand: #52B788;
+  --c-amber: #FDE047;
+  --c-amber-soft: #EAB308;
+  --c-rose: #FDA4AF;
+  --green-brand: #4ADE80;
 
-  --border-color: #323946;
+  --border-color: #384152;
   --shadow-color: #050608;
 }
 
@@ -74,7 +74,7 @@ body {
   color: var(--ink);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.28s ease, color 0.28s ease;
 }
 
 body.cinema-body {
@@ -83,6 +83,86 @@ body.cinema-body {
 
 .hidden {
   display: none !important;
+}
+
+/* =========================================================================
+   TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA & PEMULA)
+   ========================================================================= */
+.page-transition {
+  --pt-accent: var(--c-amber);
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+}
+
+.page-transition.active {
+  visibility: visible;
+  pointer-events: all;
+}
+
+.pt-curtain {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  border-top: 4px solid var(--border-color);
+  transform: translateY(105%);
+  transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-transition.active .pt-curtain {
+  transform: translateY(0%);
+}
+
+.pt-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(22px) scale(0.88);
+  transition: opacity 0.26s var(--ease) 0.12s, transform 0.36s var(--ease-spring) 0.1s;
+}
+
+.page-transition.active .pt-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pt-icon-box {
+  width: 82px;
+  height: 82px;
+  border-radius: 22px;
+  background: var(--pt-accent);
+  border: 2.5px solid var(--border-color);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--ink-badge);
+}
+
+.pt-icon-box svg {
+  width: 38px;
+  height: 38px;
+}
+
+.pt-label {
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  color: var(--ink);
+  border: 2.5px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 6px 18px;
+  border-radius: 14px;
 }
 
 /* =========================================================================
@@ -103,7 +183,7 @@ body.cinema-body {
   transition: transform 0.3s ease-out, background 0.3s ease;
 }
 html[data-theme="dark"] .sun {
-  background: radial-gradient(circle, rgba(234, 179, 8, 0.08), transparent 70%);
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.09), transparent 70%);
 }
 
 .fx {
@@ -151,35 +231,77 @@ html[data-theme="dark"] .sun {
 }
 
 /* =========================================================================
-   ANIMASI TRANSISI
+   ANIMASI MASUK, KELUAR & PERPINDAHAN STAGE BERARAH
    ========================================================================= */
 .fixed-topbar {
-  animation: navSlideDown 0.45s var(--ease) forwards;
+  animation: navSlideDown 0.55s var(--ease-spring) forwards;
 }
 @keyframes navSlideDown {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translateY(-28px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.book-selection-stage,
-.flashcard-stage {
-  animation: contentFadeUp 0.4s var(--ease) forwards;
+.stage-enter-forward {
+  animation: stageEnterForward 0.38s var(--ease) both;
 }
-@keyframes contentFadeUp {
-  0% { opacity: 0; transform: translateY(18px); }
-  100% { opacity: 1; transform: translateY(0); }
+.stage-enter-back {
+  animation: stageEnterBack 0.38s var(--ease) both;
+}
+.stage-leave-forward {
+  animation: stageLeaveForward 0.22s var(--ease) both;
+  pointer-events: none;
+}
+.stage-leave-back {
+  animation: stageLeaveBack 0.22s var(--ease) both;
+  pointer-events: none;
 }
 
-body.page-leaving .fixed-topbar,
+@keyframes stageEnterForward {
+  0% { opacity: 0; transform: translateX(28px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes stageEnterBack {
+  0% { opacity: 0; transform: translateX(-28px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes stageLeaveForward {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-22px) scale(0.98); }
+}
+@keyframes stageLeaveBack {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(22px) scale(0.98); }
+}
+
+/* Staggered Pop-In */
+.stagger-animate {
+  animation: cardStaggerIn 0.52s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 65ms);
+}
+@keyframes cardStaggerIn {
+  0% { opacity: 0; transform: translateY(26px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes chipPopIn {
+  0% { opacity: 0; transform: scale(0.75) translateX(-8px); }
+  100% { opacity: 1; transform: scale(1) translateX(0); }
+}
+
+body.page-leaving .fixed-topbar {
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(-18px) scale(0.98);
+  opacity: 0;
+}
 body.page-leaving .book-selection-stage,
 body.page-leaving .flashcard-stage {
-  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
   opacity: 0;
-  transform: translateY(14px);
+  transform: scale(0.97);
 }
 
 /* =========================================================================
-   TOPBAR FLOATING DOCK (IDENTIK DENGAN SCREENSHOT)
+   TOPBAR FLOATING DOCK
    ========================================================================= */
 .fixed-topbar {
   position: fixed;
@@ -308,6 +430,7 @@ body.page-leaving .flashcard-stage {
   border-radius: 10px;
   cursor: pointer;
   white-space: nowrap;
+  animation: chipPopIn 0.3s var(--ease-spring) both;
   transition: transform 0.14s var(--ease), background-color 0.14s ease, color 0.14s ease;
 }
 .book-switch-chip:hover {
@@ -363,6 +486,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   cursor: pointer;
   font-family: inherit;
   white-space: nowrap;
+  animation: chipPopIn 0.3s var(--ease-spring) both;
   transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease, color 0.14s ease;
 }
 .chapter-trigger-btn:hover {
@@ -443,7 +567,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   width: 100%;
 }
 
-/* Kartu Buku Minimalis Elegan Senada Headbar */
+/* Kartu Buku Minimalis Elegan */
 .book-bento-card {
   width: 100%;
   background: var(--surface);
@@ -459,7 +583,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   text-align: left;
   font-family: inherit;
   color: var(--ink);
-  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease), border-color 0.18s ease;
+  transition: transform 0.22s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s ease, opacity 0.22s ease;
 }
 
 .book-bento-card:hover {
@@ -470,6 +594,24 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 .book-bento-card:active {
   transform: translate(3px, 3px);
   box-shadow: none;
+}
+
+/* Efek Fokus Kartu Buku Saat Diklik */
+.book-bento-card.card-launching {
+  transform: scale(1.035) translateY(-5px) !important;
+  box-shadow: 10px 10px 0px 0px var(--shadow-color) !important;
+  border-color: var(--c-amber) !important;
+  z-index: 15;
+}
+.book-bento-card.card-launching .book-big-icon {
+  background: var(--c-amber);
+  color: var(--ink-badge);
+  transform: scale(1.12) rotate(-7deg);
+}
+.book-bento-card.sibling-dimmed {
+  opacity: 0.35 !important;
+  transform: scale(0.96) !important;
+  pointer-events: none;
 }
 
 .book-card-top {
@@ -489,7 +631,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   display: grid;
   place-items: center;
   color: var(--ink);
-  transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.24s var(--ease-spring), background-color 0.2s ease, color 0.2s ease;
 }
 .book-big-icon svg {
   width: 26px;
@@ -498,7 +640,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 .book-bento-card:hover .book-big-icon {
   background: var(--c-amber);
   color: var(--ink-badge);
-  transform: rotate(-5deg) scale(1.05);
+  transform: rotate(-5deg) scale(1.06);
 }
 
 .book-meta-badges {
@@ -585,7 +727,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 }
 
 /* =========================================================================
-   TAMPILAN 2: LAYERED DECK & QUICK-JUMP DOCK (SENADA HEADBAR)
+   TAMPILAN 2: LAYERED DECK & QUICK-JUMP DOCK
    ========================================================================= */
 .flashcard-stage {
   position: relative;
@@ -673,7 +815,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   color: var(--ink);
   text-decoration: none;
   box-shadow: var(--shadow-lg);
-  transition: transform 0.44s var(--ease-slider), opacity 0.44s var(--ease-slider), border-color 0.2s ease;
+  transition: transform 0.44s var(--ease-slider), opacity 0.44s var(--ease-slider), border-color 0.2s ease, box-shadow 0.2s ease;
   user-select: none;
 }
 
@@ -687,6 +829,11 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 .chapter-flashcard.active:hover {
   transform: translateY(-4px);
   border-color: var(--c-amber);
+}
+.chapter-flashcard.card-launching {
+  transform: scale(1.04) translateY(-6px) !important;
+  box-shadow: 10px 10px 0px 0px var(--shadow-color) !important;
+  border-color: var(--c-amber) !important;
 }
 
 .chapter-flashcard.prev {
@@ -773,7 +920,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   place-items: center;
   flex-shrink: 0;
   color: var(--ink);
-  transition: transform 0.22s var(--ease), background-color 0.22s ease, color 0.22s ease;
+  transition: transform 0.24s var(--ease-spring), background-color 0.22s ease, color 0.22s ease;
 }
 .chapter-icon-box svg {
   width: 34px;
@@ -958,8 +1105,8 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   display: flex;
   flex-direction: column;
   padding: 22px;
-  transform: scale(0.95) translateY(16px);
-  transition: transform 0.25s var(--ease), background-color 0.25s ease;
+  transform: scale(0.92) translateY(18px);
+  transition: transform 0.34s var(--ease-spring), background-color 0.25s ease;
   overflow: hidden;
 }
 
@@ -1175,7 +1322,6 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
     padding: 12px;
   }
 
-  /* Modal jadi Bottom Sheet di HP */
   .modal-backdrop {
     align-items: flex-end;
     padding: 0;
@@ -1196,5 +1342,12 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   .modal-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

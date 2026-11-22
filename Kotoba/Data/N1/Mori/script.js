@@ -1,6 +1,6 @@
 /**
 - NAKAMA GAKKOU — MORI LEARNING ENGINE + STATUS HAFALAN + JP VOICE ENGINE v2
-- Membaca: kode/mori1.json, mori1.json, atau data/mori1.json secara otomatis
+- Membaca: Kotoba/N1/Mori/kode/Mori1.json, Kotoba/N1/Mori/kode/Mori2.json, dst.
 - Interval Pengulangan "Belum": 1 menit -> 5 menit -> 15 menit (tanpa notif pop-up)
  *
 - AUDIO v2 (disamakan persis dengan engine Bab 1-25):
@@ -34,9 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
   const JP_CHAR_REGEX = /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf々]/;
 
-  // ---------- KONFIGURASI PATH FILE MORI (TIDAK DIUBAH) ----------
-  let activePrefix = 'kode/mori';
-  const CANDIDATE_PREFIXES = ['kode/mori', 'mori', 'data/mori'];
+  // ---------- KONFIGURASI PATH FILE MORI ----------
+  const DATA_PATH = n => `kode/Mori${n}.json`;
   const SAVE_KEY = 'nakama:mori_level';
   const THEME_KEY = 'nakama_theme';
   const HAFALAN_KEY = 'nakama:mori_hafalan_v1';
@@ -157,12 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let jpVoiceInfo = { tier: 'none', femaleHint: 'unknown', name: '' };
   let voiceRetryTimers = [];
 
-  // Petunjuk gender dari nama/URI voice. Browser TIDAK menyediakan properti gender,
-  // jadi ini hanya heuristik; hasilnya bisa meleset di perangkat tertentu.
   const FEMALE_HINT = /(female|woman|girl|kyoko|o-?ren|haruka|ayumi|sayaka|nanami|aoi|mayu|shiori|mizuki|ichika|momo|sakura|yui|hina|ja-jp-x-(htm|jab)|google (日本語|japanese))/;
   const MALE_HINT = /(\bmale\b|\bman\b|keita|otoya|ichiro|daichi|naoki|hattori|takumi|kenji|ryo\b|ja-jp-x-(jac|jad))/;
 
-  // Kata kunci kualitas (bukan jaminan, hanya indikator)
   const QUALITY_HIGH = /(neural|natural|premium|enhanced|high[\s-]?quality|wavenet|studio|online|siri)/;
   const QUALITY_LOW = /(compact|espeak|novelty|robot)/;
 
@@ -173,21 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = normLang(v.lang);
     let s = 0;
 
-    // Bahasa
     if (lang === 'ja-jp') s += 60;
     else if (lang.startsWith('ja')) s += 45;
     else return -Infinity;
 
-    // Perkiraan gender (cewek diutamakan)
     const looksFemale = FEMALE_HINT.test(name);
     const looksMale = MALE_HINT.test(name);
     if (looksMale && !looksFemale) s -= 200;
     else if (looksFemale) s += 90;
 
-    // Kualitas
     if (QUALITY_HIGH.test(name)) s += 70;
     if (QUALITY_LOW.test(name)) s -= 60;
-    if (!v.localService) s += 25;            // voice online/jaringan umumnya lebih natural
+    if (!v.localService) s += 25;
     if (/microsoft/.test(name) && /online|natural/.test(name)) s += 30;
     if (/google/.test(name)) s += 20;
     if (v.default) s += 3;
@@ -225,8 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return jpVoice;
   }
 
-  // Muat voice dengan benar: langsung, via voiceschanged, dan retry berkala
-  // (Chrome sering mengisi daftar voice secara asinkron).
   function initVoices() {
     if (!('speechSynthesis' in window)) return;
     const synth = window.speechSynthesis;
@@ -246,46 +237,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initVoices();
 
-  // Gesture pertama pengguna: segarkan daftar voice (membantu Chrome Android)
   window.addEventListener('pointerdown', () => {
     if (!jpVoice) selectBestJapaneseVoice();
   }, { once: true, passive: true });
 
-  // ---- Profil suara: lembut, jernih, sedikit tinggi tapi tetap natural ----
   function getVoiceProfile() {
     if (jpVoiceInfo.tier === 'high') {
-      // Voice neural/natural sudah ekspresif: jangan dipaksa terlalu tinggi
       return { rate: 0.92, pitch: 1.08, volume: 1.0 };
     }
     if (jpVoiceInfo.femaleHint === 'male') {
-      // Hanya voice cowok yang tersedia: naikkan pitch sedikit (hasil tetap terbatas)
       return { rate: 0.93, pitch: 1.35, volume: 1.0 };
     }
     return { rate: 0.9, pitch: 1.18, volume: 1.0 };
   }
 
-  // ---- Persiapan teks agar pelafalan lebih akurat ----
-  // Pemanggil sudah mengirim furigana (bacaan), jadi kanji tidak salah dibaca.
   function prepareSpeechText(text) {
     let t = String(text == null ? '' : text)
-      .replace(/[（(][^）)]*[）)]/g, ' ')   // buang keterangan dalam kurung
-      .replace(/[〜～~]/g, '')               // tanda "sampai/pola"
-      .replace(/[\/／]/g, '、')              // pemisah varian -> jeda
+      .replace(/[（(][^）)]*[）)]/g, ' ')
+      .replace(/[〜～~]/g, '')
+      .replace(/[\/／]/g, '、')
       .replace(/\s+/g, ' ')
       .trim();
     if (!t) return '';
-    if (!/[。！？!?、.]$/.test(t)) t += '。';  // akhiran memberi intonasi turun yang natural
+    if (!/[。！？!?、.]$/.test(t)) t += '。';
     return t;
   }
 
-  // ---- Kanal audio tunggal (anti suara ganda) ----
   let speakToken = 0;
-  let currentUtterance = null;      // referensi agar tidak di-GC (bug Chrome)
-  let audioEl = null;               // satu elemen <audio> dipakai ulang
+  let currentUtterance = null;
+  let audioEl = null;
   let remoteAbort = null;
   let remoteFailUntil = 0;
   let lastSpoken = { text: '', at: 0 };
-  const remoteCache = new Map();    // teks -> URL audio
+  const remoteCache = new Map();
 
   function stopPlayback() {
     if (remoteAbort) { try { remoteAbort.abort(); } catch (e) {} remoteAbort = null; }
@@ -371,12 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (remoteAbort === ctrl) remoteAbort = null;
     }
 
-    if (token !== speakToken || !audioOn) return;   // sudah digantikan permintaan baru
+    if (token !== speakToken || !audioOn) return;
 
     if (!audioEl) audioEl = new Audio();
     audioEl.src = url;
     audioEl.volume = 1.0;
-    await audioEl.play();                           // gagal -> fallback ke browser TTS
+    await audioEl.play();
   }
 
   function speakWithBrowser(text, token) {
@@ -386,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try { synth.cancel(); } catch (e) {}
 
-    // Jeda singkat setelah cancel() mencegah Chrome menelan utterance berikutnya
     setTimeout(() => {
       if (token !== speakToken || !audioOn) return;
 
@@ -408,37 +391,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 60);
   }
 
-  // API publik lama dipertahankan: speakJapanese(text)
   function speakJapanese(text) {
     if (!audioOn || !text) return;
 
     const spoken = prepareSpeechText(text);
     if (!spoken) return;
 
-    // Abaikan ketukan beruntun untuk teks yang sama (<250 ms)
     const t = (typeof performance !== 'undefined' ? performance.now() : Date.now());
     if (spoken === lastSpoken.text && t - lastSpoken.at < 250) return;
     lastSpoken = { text: spoken, at: t };
 
-    stopPlayback();                 // hentikan suara sebelumnya -> tidak ada tumpang tindih
+    stopPlayback();
     const token = ++speakToken;
 
     if (remoteAvailable()) {
       speakWithRemote(spoken, token).catch(() => {
-        if (token !== speakToken) return;                 // sengaja dibatalkan
+        if (token !== speakToken) return;
         remoteFailUntil = Date.now() + TTS_CONFIG.failCooldownMs;
-        speakWithBrowser(spoken, token);                  // fallback otomatis
+        speakWithBrowser(spoken, token);
       });
     } else {
       speakWithBrowser(spoken, token);
     }
   }
 
-  // Hentikan suara saat tab disembunyikan / halaman ditutup
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeech(); });
   window.addEventListener('pagehide', stopSpeech);
 
-  // Info diagnostik (opsional, untuk Console): NakamaVoice.info()
   window.NakamaVoice = {
     info: () => ({
       voice: jpVoiceInfo.name || '(tidak ada voice Jepang terdeteksi)',
@@ -924,7 +903,6 @@ document.addEventListener('DOMContentLoaded', () => {
   btnStatusSudah?.addEventListener('click', markCurrentSudah);
   btnStatusBelum?.addEventListener('click', markCurrentBelum);
 
-  // Pemeriksa Otomatis Spaced Repetition (tanpa notif pop-up)
   setInterval(() => {
     if (mode !== 'carousel' || !activeVocab.length) return;
     const now = Date.now();
@@ -1109,7 +1087,6 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
   $('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
 
-  // Swipe Jari Kiri/Kanan di Flashcard HP
   let touchStartX = 0;
   let touchDeltaX = 0;
   const carouselEl = $('carouselContainer');
@@ -1197,7 +1174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('btnAudioToggle').addEventListener('click', function () {
     audioOn = !audioOn;
-    if (!audioOn) stopSpeech();   // [AUDIO v2] matikan suara yang sedang berjalan saat OFF
+    if (!audioOn) stopSpeech();
     this.querySelector('.icon-unmuted').style.display = audioOn ? 'block' : 'none';
     this.querySelector('.icon-muted').style.display = audioOn ? 'none' : 'block';
   });
@@ -1417,7 +1394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---------- PARSER UNIVERSAL JSON MORI (TIDAK DIUBAH) ----------
+  // ---------- PARSER UNIVERSAL JSON MORI ----------
   function parseBracketedJapanese(str) {
     const match = str.match(/^(.+?)[（(\[](.+?)[）)\]]$/);
     if (match) {
@@ -1507,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .map((v, idx) => ({ ...v, id: idx }));
   }
 
-  // ---------- PEMINDAIAN OTOMATIS FILE mori1.json DST (TIDAK DIUBAH) ----------
+  // ---------- PEMINDAIAN OTOMATIS FILE MORI ----------
   async function fetchFromPath(url) {
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1517,39 +1494,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return parsed;
   }
 
-  async function detectPrefixAndFetchMori1() {
-    for (const prefix of CANDIDATE_PREFIXES) {
-      try {
-        const data = await fetchFromPath(`${prefix}1.json`);
-        activePrefix = prefix;
-        moriDataCache.set(1, data);
-        return true;
-      } catch (e) {}
-    }
-    return false;
-  }
-
   async function fetchAndParseMori(moriNum) {
     if (moriDataCache.has(moriNum)) {
       return moriDataCache.get(moriNum);
     }
-    const data = await fetchFromPath(`${activePrefix}${moriNum}.json`);
+    const data = await fetchFromPath(DATA_PATH(moriNum));
     moriDataCache.set(moriNum, data);
     return data;
   }
 
   async function scanAllAvailableMori() {
-    const hasFirst = await detectPrefixAndFetchMori1();
-    if (!hasFirst) {
-      availableMori = [1];
-      buildModalButtons(availableMori);
-      return;
-    }
-
-    const found = [1];
+    const found = [];
     const batchSize = 10;
     let keepScanning = true;
-    let start = 2;
+    let start = 1;
 
     while (keepScanning && start <= 100) {
       const nums = Array.from({ length: batchSize }, (_, idx) => start + idx);
@@ -1575,7 +1533,7 @@ document.addEventListener('DOMContentLoaded', () => {
       start += batchSize;
     }
 
-    availableMori = found;
+    availableMori = found.length > 0 ? found : [1];
     buildModalButtons(availableMori);
   }
 
@@ -1606,7 +1564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       if (currentLoad !== loadId) return;
       rawChapterVocab = EMERGENCY_DATA;
-      failMsg = `File ${activePrefix}${currentMori}.json gagal dimuat (${e.message}). Pastikan file tersedia & dibuka via Live Server.`;
+      failMsg = `File ${DATA_PATH(currentMori)} gagal dimuat (${e.message}). Pastikan file tersedia & dibuka via Live Server.`;
     }
 
     if (failMsg) showNotice(failMsg, 5000);

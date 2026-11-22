@@ -12,12 +12,26 @@
 </head>
 <body class="cinema-body">
 
+  <!-- TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA) -->
+  <div id="pageTransition" class="page-transition" aria-hidden="true">
+    <div class="pt-curtain"></div>
+    <div class="pt-content">
+      <div class="pt-icon-box" id="ptIconBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="pt-label" id="ptLabel">Memuat...</span>
+    </div>
+  </div>
+
   <!-- AMBIENT & EFEK INTERAKTIF -->
   <div class="sun" id="sun" aria-hidden="true"></div>
   <div class="fx" id="fx" aria-hidden="true"></div>
   <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR (DIPERTAHANKAN SESUAI DESAIN YANG DISUKAI) -->
+  <!-- TOPBAR -->
   <header class="fixed-topbar">
     <div class="topbar-capsule">
 
@@ -28,7 +42,7 @@
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
         </a>
-        <a href="index.html" class="logo">
+        <a href="index.html" class="logo" id="brandHomeLink">
           <span class="logo-word">Nakama<b>Gakkou</b></span>
         </a>
       </div>
@@ -92,7 +106,7 @@
        ===================================================================== -->
   <section class="book-selection-stage" id="bookSelectionStage">
     <div class="stage-shell">
-      <div class="stage-heading">
+      <div class="stage-heading stagger-item">
         <span class="stage-pill" id="stageLevelBadge">JLPT N5</span>
         <h1 class="stage-title" id="stageMainTitle">Pilih Buku Materi</h1>
       </div>

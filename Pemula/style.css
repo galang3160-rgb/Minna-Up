@@ -1,5 +1,5 @@
 /* =========================================================================
-   NAKAMAGAKKOU — NEO-BRUTALISM 3D POP UI (SYNCED WITH CAPSULE TOPBAR)
+   NAKAMAGAKKOU — NEO-BRUTALISM 3D POP UI (SYNCED WITH MAIN WEB + VIBRANT DARK)
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
@@ -7,6 +7,7 @@
   --surface: #FFFFFF;
   --surface-alt: #F5F2EB;
   --ink: #111111;
+  --ink-badge: #111111;
   --ink-secondary: #2E2E2E;
   --dim: #5A5A5A;
 
@@ -14,6 +15,7 @@
   --pastel-lavender: #E9D5FF;
   --pastel-matcha: #DCFCE7;
   --pastel-amber: #FEF3C7;
+  --pastel-sky: #E0F2FE;
 
   /* Aksen Utama */
   --green-primary: #15803D;
@@ -21,11 +23,12 @@
   --green-light: #22C55E;
 
   /* Border & 3D Hard Shadows */
-  --border-ink: #000000;
+  --border-ink: #111111;
+  --shadow-color: #111111;
   --border-width: 2px;
-  --shadow-hard: 4px 4px 0px 0px #000000;
-  --shadow-hard-sm: 2px 2px 0px 0px #000000;
-  --shadow-hard-lg: 6px 6px 0px 0px #000000;
+  --shadow-hard: 4px 4px 0px 0px var(--shadow-color);
+  --shadow-hard-sm: 2px 2px 0px 0px var(--shadow-color);
+  --shadow-hard-lg: 6px 6px 0px 0px var(--shadow-color);
 
   /* Status Jawaban */
   --c-correct: #15803D;
@@ -42,40 +45,41 @@
   --radius-md: 16px;
   --radius-lg: 20px;
 
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.48, 0.64, 1);
 }
 
-/* ===================== TEMA GELAP (NEO-BRUTALIST DARK) ===================== */
+/* ===================== TEMA GELAP (VIBRANT NEO-BRUTALISM) ===================== */
 [data-theme="dark"] {
-  --bg: #141619;
-  --bg-dot: #FFFFFF12;
-  --surface: #1F2229;
-  --surface-alt: #282C35;
-  --ink: #F8FAFC;
+  --bg: #0F1115;
+  --bg-dot: #FFFFFF14;
+  --surface: #1A1D24;
+  --surface-alt: #242933;
+  --ink: #F3F4F6;
+  --ink-badge: #111111;
   --ink-secondary: #CBD5E1;
-  --dim: #94A3B8;
+  --dim: #9CA3AF;
 
-  --pastel-lavender: #3B2854;
-  --pastel-matcha: #163E29;
-  --pastel-amber: #4A3712;
+  /* Warna Pastel Menyala (Sinkron Web Utama) */
+  --pastel-lavender: #D8B4FE;
+  --pastel-matcha: #86EFAC;
+  --pastel-amber: #FDE047;
+  --pastel-sky: #7DD3FC;
 
   --green-primary: #4ADE80;
   --green-dark: #86EFAC;
-  --green-light: #16A34A;
+  --green-light: #4ADE80;
 
-  --border-ink: #000000;
-  --shadow-hard: 4px 4px 0px 0px #000000;
-  --shadow-hard-sm: 2px 2px 0px 0px #000000;
-  --shadow-hard-lg: 6px 6px 0px 0px #000000;
+  --border-ink: #384152;
+  --shadow-color: #050608;
 
-  --c-correct: #4ADE80;
-  --c-correct-bg: #14432A;
-  --c-wrong: #F87171;
-  --c-wrong-bg: #4C1D1D;
+  --c-correct: #14532D;
+  --c-correct-bg: #86EFAC;
+  --c-wrong: #7F1D1D;
+  --c-wrong-bg: #FDA4AF;
 
-  --canvas-bg: #1F2229;
-  --canvas-grid: #333842;
+  --canvas-bg: #1A1D24;
+  --canvas-grid: #2E3440;
 }
 
 * {
@@ -88,13 +92,13 @@
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg);
-  background-image: radial-gradient(var(--bg-dot) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(var(--bg-dot) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
   color: var(--ink);
   line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+  transition: background-color 0.28s var(--ease), color 0.28s var(--ease);
 }
 
 .hidden {
@@ -102,13 +106,25 @@ body {
 }
 
 #appShell {
-  transition: filter 0.25s var(--ease), transform 0.25s var(--ease);
+  transition: filter 0.25s var(--ease), transform 0.28s var(--ease), opacity 0.25s var(--ease);
 }
 
 body.modal-open #appShell {
   filter: blur(5px);
   pointer-events: none;
   user-select: none;
+}
+
+body.page-leaving .fixed-topbar {
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(-18px) scale(0.98);
+  opacity: 0;
+}
+
+body.page-leaving .main-viewport {
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: scale(0.97);
+  opacity: 0;
 }
 
 /* Font Khusus Jepang */
@@ -127,50 +143,127 @@ body.modal-open #appShell {
 }
 
 /* =========================================================================
-   ANIMASI FADE IN & FADE OUT GLOBAL
+   TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA)
    ========================================================================= */
-@keyframes fadeInView {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.page-transition {
+  --pt-accent: var(--pastel-lavender);
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
 }
 
-@keyframes fadeOutView {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.99);
-  }
+.page-transition.active {
+  visibility: visible;
+  pointer-events: all;
+}
+
+.pt-curtain {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--bg-dot) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  border-top: 4px solid var(--border-ink);
+  transform: translateY(105%);
+  transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-transition.active .pt-curtain {
+  transform: translateY(0%);
+}
+
+.pt-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(22px) scale(0.88);
+  transition: opacity 0.26s var(--ease) 0.12s, transform 0.36s var(--ease-spring) 0.1s;
+}
+
+.page-transition.active .pt-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pt-icon-box {
+  width: 82px;
+  height: 82px;
+  border-radius: 22px;
+  background: var(--pt-accent);
+  border: 2.5px solid var(--border-ink);
+  box-shadow: var(--shadow-hard);
+  display: grid;
+  place-items: center;
+  color: var(--ink-badge);
+}
+
+.pt-icon-box svg {
+  width: 38px;
+  height: 38px;
+}
+
+.pt-label {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  color: var(--ink);
+  border: 2.5px solid var(--border-ink);
+  box-shadow: var(--shadow-hard-sm);
+  padding: 6px 18px;
+  border-radius: 14px;
+}
+
+/* =========================================================================
+   ANIMASI MASUK, KELUAR & PERPINDAHAN TAMPILAN BERARAH
+   ========================================================================= */
+@keyframes navSlideDown {
+  0% { opacity: 0; transform: translateY(-28px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes viewEnterForward {
+  0% { opacity: 0; transform: translateX(26px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes viewEnterBack {
+  0% { opacity: 0; transform: translateX(-26px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes viewLeaveForward {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-22px) scale(0.98); }
+}
+
+@keyframes viewLeaveBack {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(22px) scale(0.98); }
+}
+
+@keyframes fadeInView {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes cellPopIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.94);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(14px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes charSwitchCrossfade {
-  0% {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 @keyframes optionCorrectPop {
@@ -186,17 +279,13 @@ body.modal-open #appShell {
 }
 
 @keyframes soundPulseRing {
-  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
-  70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
+  70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
 
 .fade-switch-enter {
-  animation: charSwitchCrossfade 0.24s var(--ease-spring) forwards;
-}
-
-.fade-out-fast {
-  animation: fadeOutView 0.16s var(--ease) forwards;
+  animation: charSwitchCrossfade 0.28s var(--ease-spring) forwards;
 }
 
 /* =========================================================================
@@ -209,6 +298,7 @@ body.modal-open #appShell {
   max-width: 1020px;
   margin: 14px auto 0;
   padding: 0 18px;
+  animation: navSlideDown 0.55s var(--ease-spring) forwards;
 }
 
 .topbar-capsule {
@@ -221,7 +311,7 @@ body.modal-open #appShell {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  transition: background-color 0.2s var(--ease);
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 
 .topbar-left {
@@ -238,7 +328,7 @@ body.modal-open #appShell {
   background: var(--pastel-amber);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
   display: grid;
   place-items: center;
   text-decoration: none;
@@ -249,7 +339,7 @@ body.modal-open #appShell {
 .nav-back-circle:hover {
   background: var(--pastel-matcha);
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
 
 .logo {
@@ -272,8 +362,8 @@ body.modal-open #appShell {
 .nav-crumb {
   font-size: 0.74rem;
   font-weight: 800;
-  color: var(--ink-secondary);
-  background: var(--surface-alt);
+  color: var(--ink-badge);
+  background: var(--pastel-sky);
   border: 1.5px solid var(--border-ink);
   padding: 3px 10px;
   border-radius: 999px;
@@ -304,7 +394,7 @@ body.modal-open #appShell {
   background: var(--pastel-amber);
   border-color: var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
   transform: translate(-1px, -1px);
 }
 
@@ -312,7 +402,7 @@ body.modal-open #appShell {
   background: var(--pastel-matcha);
   border-color: var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 .topbar-right {
@@ -329,17 +419,21 @@ body.modal-open #appShell {
   border: var(--border-width) solid var(--border-ink);
   background: var(--pastel-lavender);
   box-shadow: var(--shadow-hard-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
   display: grid;
   place-items: center;
   cursor: pointer;
   transition: all 0.14s var(--ease);
 }
 
-.theme-toggle-btn:hover {
+[data-theme="dark"] .theme-toggle-btn {
   background: var(--pastel-amber);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--pastel-sky);
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
 
 .icon-btn {
@@ -349,7 +443,7 @@ body.modal-open #appShell {
   border: var(--border-width) solid var(--border-ink);
   background: var(--pastel-lavender);
   box-shadow: var(--shadow-hard-sm);
-  color: var(--ink);
+  color: var(--ink-badge);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -359,7 +453,7 @@ body.modal-open #appShell {
 .icon-btn:hover {
   background: var(--pastel-amber);
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
 
 [data-theme="light"] .icon-sun { display: none; }
@@ -378,17 +472,30 @@ body.modal-open #appShell {
 
 .view {
   display: none;
-  opacity: 0;
 }
 
 .view.active {
   display: block;
-  opacity: 1;
-  animation: fadeInView 0.26s var(--ease) forwards;
 }
 
-.view.view-leaving {
-  animation: fadeOutView 0.16s var(--ease) forwards;
+.view.enter-forward {
+  animation: viewEnterForward 0.36s var(--ease) both;
+}
+
+.view.enter-back {
+  animation: viewEnterBack 0.36s var(--ease) both;
+}
+
+.view.leave-forward {
+  display: block;
+  animation: viewLeaveForward 0.2s var(--ease) both;
+  pointer-events: none;
+}
+
+.view.leave-back {
+  display: block;
+  animation: viewLeaveBack 0.2s var(--ease) both;
+  pointer-events: none;
 }
 
 /* Baris Kontrol (Tab + Search) */
@@ -432,7 +539,7 @@ body.modal-open #appShell {
 .seg-btn.active {
   background: var(--pastel-matcha);
   border-color: var(--border-ink);
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 /* Search Box 3D */
@@ -448,8 +555,9 @@ body.modal-open #appShell {
 .search-box svg {
   position: absolute;
   left: 12px;
-  color: var(--ink);
+  color: var(--dim);
   pointer-events: none;
+  transition: color 0.14s ease;
 }
 
 .search-box input {
@@ -473,8 +581,17 @@ body.modal-open #appShell {
 
 .search-box input:focus {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px 0px #000;
+  box-shadow: 1px 1px 0px 0px var(--shadow-color);
+}
+
+.search-box input:focus::placeholder {
+  color: #555;
+}
+
+.search-box:focus-within svg {
+  color: var(--ink-badge);
 }
 
 .search-dropdown {
@@ -503,11 +620,12 @@ body.modal-open #appShell {
   font-size: 0.86rem;
   font-weight: 800;
   color: var(--ink);
-  transition: background-color 0.12s var(--ease);
+  transition: background-color 0.12s var(--ease), color 0.12s var(--ease);
 }
 
 .search-item:hover {
   background: var(--pastel-matcha);
+  color: var(--ink-badge);
 }
 
 /* Tombol Neo-Brutalist 3D */
@@ -531,21 +649,17 @@ body.modal-open #appShell {
 
 .btn:hover:not(:disabled) {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px 0px #000000;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
 }
 
 .btn:active:not(:disabled) {
   transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px 0px #000000;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
 
 .btn-primary {
   background: var(--green-light);
-  color: #FFFFFF;
-}
-
-[data-theme="light"] .btn-primary {
-  color: #111111;
+  color: var(--ink-badge);
 }
 
 .btn-outline {
@@ -569,11 +683,12 @@ body.modal-open #appShell {
 
 .is-speaking {
   background-color: var(--pastel-amber) !important;
+  color: var(--ink-badge) !important;
   animation: soundPulseRing 1s infinite;
 }
 
 /* =========================================================================
-   1. TABEL KANA (GOJUON 3D + STAGGERED FADE IN)
+   1. TABEL KANA (GOJUON 3D + STAGGERED SPRING)
    ========================================================================= */
 .table-scroll {
   width: 100%;
@@ -610,7 +725,7 @@ body.modal-open #appShell {
   place-items: center;
   font-size: 0.82rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--ink-badge);
   background: var(--pastel-amber);
   border-radius: 10px;
   border: var(--border-width) solid var(--border-ink);
@@ -629,23 +744,34 @@ body.modal-open #appShell {
   gap: 2px;
   cursor: pointer;
   min-height: 74px;
-  animation: cellPopIn 0.25s var(--ease) backwards;
-  transition: transform 0.14s var(--ease-spring), box-shadow 0.14s var(--ease), background-color 0.14s var(--ease);
+  animation: cellPopIn 0.34s var(--ease-spring) backwards;
+  transition: transform 0.14s var(--ease-spring), box-shadow 0.14s var(--ease), background-color 0.14s var(--ease), color 0.14s var(--ease);
 }
 
 .kana-box:hover {
   background: var(--pastel-matcha);
+  color: var(--ink-badge);
   transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0px 0px #000;
+  box-shadow: 4px 4px 0px 0px var(--shadow-color);
+}
+
+.kana-box:hover .kana-char,
+.kana-box:hover .kana-romaji {
+  color: var(--ink-badge);
 }
 
 .kana-box:active {
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
 
 .kana-box.is-selected {
   background: var(--pastel-matcha);
+}
+
+.kana-box.is-selected .kana-char,
+.kana-box.is-selected .kana-romaji {
+  color: var(--ink-badge);
 }
 
 .kana-empty {
@@ -712,6 +838,7 @@ body.modal-open #appShell {
   align-items: center;
   gap: 14px;
   background: var(--pastel-lavender);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
   border-radius: var(--radius-md);
@@ -728,9 +855,9 @@ body.modal-open #appShell {
   font-weight: 900;
 }
 
-.meta-label { color: var(--ink-secondary); }
-.meta-dot { color: var(--ink); }
-.meta-counter { font-weight: 900; color: var(--ink); }
+.meta-label { color: var(--ink-badge); opacity: 0.85; }
+.meta-dot { color: var(--ink-badge); }
+.meta-counter { font-weight: 900; color: var(--ink-badge); }
 
 .quiz-progress-track {
   flex: 1;
@@ -753,6 +880,7 @@ body.modal-open #appShell {
   font-size: 0.84rem;
   font-weight: 900;
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   padding: 5px 12px;
   border-radius: 10px;
@@ -764,7 +892,6 @@ body.modal-open #appShell {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
   align-items: center;
-  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
 }
 
 .quiz-left-col {
@@ -784,6 +911,7 @@ body.modal-open #appShell {
   display: inline-flex;
   width: fit-content;
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
   font-size: 0.78rem;
@@ -820,7 +948,7 @@ body.modal-open #appShell {
   display: grid;
   place-items: center;
   font-size: 5.5rem;
-  color: var(--ink);
+  color: var(--ink-badge);
   user-select: none;
   cursor: pointer;
   transition: transform 0.15s var(--ease-spring), box-shadow 0.15s var(--ease);
@@ -862,29 +990,29 @@ body.modal-open #appShell {
   cursor: pointer;
   color: var(--ink);
   user-select: none;
-  animation: cellPopIn 0.22s var(--ease-spring) backwards;
-  transition: transform 0.14s var(--ease-spring), box-shadow 0.14s var(--ease), background-color 0.14s var(--ease);
+  animation: cellPopIn 0.24s var(--ease-spring) backwards;
+  transition: transform 0.14s var(--ease-spring), box-shadow 0.14s var(--ease), background-color 0.14s var(--ease), color 0.14s var(--ease);
 }
 
 .quiz-radio-option:hover:not(.disabled) {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px 0px #000000;
+  box-shadow: 6px 6px 0px 0px var(--shadow-color);
 }
 
 .quiz-radio-option:active:not(.disabled) {
   transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0px 0px #000000;
+  box-shadow: 1px 1px 0px 0px var(--shadow-color);
 }
 
-/* Keycap Nomor 1-4 di Kiri Opsi */
 .opt-key-badge {
   width: 30px;
   height: 30px;
   border-radius: 8px;
   background: var(--surface-alt);
   border: var(--border-width) solid var(--border-ink);
-  box-shadow: 2px 2px 0px 0px #000000;
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
   display: grid;
   place-items: center;
   font-family: 'Inter', sans-serif;
@@ -896,10 +1024,10 @@ body.modal-open #appShell {
 }
 
 .quiz-radio-option:hover:not(.disabled) .opt-key-badge {
-  background: var(--surface);
+  background: #FFFFFF;
+  color: #111111;
 }
 
-/* Teks Jawaban di Tengah */
 .opt-main-text {
   flex: 1;
   text-align: center;
@@ -909,7 +1037,6 @@ body.modal-open #appShell {
   line-height: 1.1;
 }
 
-/* Ikon Status Benar/Salah di Kanan Opsi */
 .opt-status-icon {
   width: 26px;
   height: 26px;
@@ -931,14 +1058,14 @@ body.modal-open #appShell {
 }
 
 .quiz-radio-option.correct .opt-key-badge {
-  background: var(--green-light);
+  background: #15803D;
   color: #fff;
 }
 
 .quiz-radio-option.correct .opt-status-icon {
   opacity: 1;
   transform: scale(1);
-  background: var(--green-light);
+  background: #15803D;
   border: 2px solid var(--border-ink);
   color: #fff;
 }
@@ -950,14 +1077,14 @@ body.modal-open #appShell {
 }
 
 .quiz-radio-option.wrong .opt-key-badge {
-  background: var(--c-wrong);
+  background: #DC2626;
   color: #fff;
 }
 
 .quiz-radio-option.wrong .opt-status-icon {
   opacity: 1;
   transform: scale(1);
-  background: var(--c-wrong);
+  background: #DC2626;
   border: 2px solid var(--border-ink);
   color: #fff;
 }
@@ -973,8 +1100,9 @@ body.modal-open #appShell {
   transition: opacity 0.15s var(--ease);
 }
 
-.quiz-feedback.is-correct { color: var(--c-correct); }
-.quiz-feedback.is-wrong { color: var(--c-wrong); }
+.quiz-feedback.is-correct { color: var(--green-primary); }
+.quiz-feedback.is-wrong { color: #F87171; }
+[data-theme="light"] .quiz-feedback.is-wrong { color: #DC2626; }
 
 .quiz-typing-box {
   display: flex;
@@ -996,6 +1124,7 @@ body.modal-open #appShell {
 
 .quiz-typing-box input:focus {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
 }
 
 /* Filter Huruf Kuis */
@@ -1017,6 +1146,7 @@ body.modal-open #appShell {
 
 .selected-badge {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
   padding: 5px 12px;
@@ -1056,6 +1186,7 @@ body.modal-open #appShell {
 .result-tag {
   display: inline-block;
   background: var(--pastel-matcha);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   padding: 4px 12px;
   border-radius: 99px;
@@ -1139,19 +1270,23 @@ body.modal-open #appShell {
 
 .fc-front {
   background: var(--pastel-matcha);
+  color: var(--ink-badge);
 }
 
 .vocab-fc-card .fc-front {
   background: var(--surface);
+  color: var(--ink);
 }
 
 .fc-back {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   transform: rotateY(180deg);
 }
 
 .fc-side-tag {
   background: var(--surface);
+  color: var(--ink);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
   padding: 3px 12px;
@@ -1163,7 +1298,7 @@ body.modal-open #appShell {
 .fc-main-char {
   font-size: 5.8rem;
   line-height: 1;
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 .fc-main-char.is-youon {
@@ -1181,20 +1316,20 @@ body.modal-open #appShell {
   font-size: 2.6rem;
   font-weight: 900;
   line-height: 1.1;
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 .fc-back-meta,
 .vocab-back-word-mini {
   font-size: 1.1rem;
   font-weight: 800;
-  color: var(--ink-secondary);
+  color: #333333;
 }
 
 .vocabMeaningText {
   font-size: 1rem;
   font-weight: 900;
-  color: var(--green-dark);
+  color: var(--green-primary);
   background: var(--surface);
   border: var(--border-width) solid var(--border-ink);
   padding: 6px 16px;
@@ -1233,8 +1368,8 @@ body.modal-open #appShell {
   gap: 12px;
   padding: 12px 18px;
   border-bottom: var(--border-width) solid var(--border-ink);
-  animation: fadeInView 0.22s var(--ease) backwards;
-  transition: background-color 0.14s var(--ease);
+  animation: fadeInView 0.24s var(--ease) backwards;
+  transition: background-color 0.14s var(--ease), color 0.14s var(--ease);
 }
 
 .vocab-row:last-child {
@@ -1243,6 +1378,12 @@ body.modal-open #appShell {
 
 .vocab-row:hover {
   background: var(--pastel-amber);
+}
+
+.vocab-row:hover .vocab-col-word,
+.vocab-row:hover .vocab-col-romaji,
+.vocab-row:hover .vocab-col-meaning {
+  color: var(--ink-badge);
 }
 
 .vocab-col-word {
@@ -1281,13 +1422,13 @@ body.modal-open #appShell {
 }
 
 /* =========================================================================
-   MODAL GORESAN & SUARA (DENGAN TRANSISI FADE IN / OUT & NAVIGASI LANGSUNG)
+   MODAL GORESAN & SUARA
    ========================================================================= */
 .modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(17, 17, 17, 0.65);
+  background: rgba(10, 11, 14, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1308,7 +1449,7 @@ body.modal-open #appShell {
   width: 100%;
   max-width: 600px;
   padding: 24px;
-  animation: fadeInView 0.24s var(--ease-spring);
+  animation: fadeInView 0.28s var(--ease-spring);
   transition: transform 0.22s var(--ease), opacity 0.22s var(--ease);
 }
 
@@ -1341,6 +1482,7 @@ body.modal-open #appShell {
 
 .modal-tag {
   background: var(--pastel-amber);
+  color: var(--ink-badge);
   border: var(--border-width) solid var(--border-ink);
   box-shadow: var(--shadow-hard-sm);
   padding: 4px 12px;
@@ -1375,7 +1517,7 @@ body.modal-open #appShell {
 .intro-big-char {
   font-size: 5.5rem;
   line-height: 1;
-  color: var(--ink);
+  color: var(--ink-badge);
 }
 
 .intro-big-char.is-youon {
@@ -1453,7 +1595,7 @@ body.modal-open #appShell {
   aspect-ratio: 1;
   border: var(--border-width) solid var(--border-ink);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--surface-alt);
   display: grid;
   place-items: center;
   font-size: 1.25rem;
@@ -1479,6 +1621,7 @@ body.modal-open #appShell {
   display: grid;
   place-items: center;
   font-size: 1.15rem;
+  color: var(--ink-badge);
   border-radius: 8px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -1486,7 +1629,7 @@ body.modal-open #appShell {
 }
 
 .group-kana-item:hover {
-  background: var(--surface);
+  background: #FFFFFF;
   border-color: var(--border-ink);
   transform: translateY(-1px);
 }
@@ -1592,12 +1735,13 @@ body.modal-open #appShell {
   gap: 5px;
   font-size: 0.75rem;
   font-weight: 800;
-  transition: transform 0.12s var(--ease);
+  transition: transform 0.12s var(--ease), background-color 0.12s var(--ease), color 0.12s var(--ease);
 }
 
 .stroke-legend-pill:hover {
   transform: translateY(-1px);
   background: var(--pastel-matcha);
+  color: var(--ink-badge);
 }
 
 .stroke-legend-pill .dot {
@@ -1735,5 +1879,12 @@ body.modal-open #appShell {
 
   .modal-char-QuickNav .btn {
     flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

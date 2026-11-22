@@ -1,6 +1,5 @@
 /* =========================================================================
-   NakamaGakkou — Neo-Brutalist 3D Kana Dojo
-   Fitur: Fade In/Out, Native Long Audio, Upgraded Quiz, Seamless Stroke Studio
+   NakamaGakkou — Neo-Brutalist 3D Kana Dojo (Synced Animations & Vibrant Dark)
    ========================================================================= */
 
 const SET_ORDER = ["seion", "dakuon", "handakuon", "youon"];
@@ -12,14 +11,34 @@ const YOON_COLS = ["a", "u", "o"];
 const YOON_HEAD = ["ya", "yu", "yo"];
 
 const STROKE_COLORS = [
-  "#2563EB", "#DC2626", "#059669", "#D97706", "#7C3AED", "#0891B2", "#DB2777"
+  "#38BDF8", "#FB7185", "#4ADE80", "#FBBF24", "#C084FC", "#2DD4BF", "#F472B6"
 ];
 
 function getStrokeColor(index) {
   return STROKE_COLORS[index % STROKE_COLORS.length];
 }
 
-/* ===================== TEMA (LIGHT / DARK MODE) ===================== */
+/* ===================== TEMA & AUDIO POP RINGAN ===================== */
+let popAudioCtx = null;
+function playPopSound(freqStart = 580, freqEnd = 290) {
+  try {
+    if (!popAudioCtx) popAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (popAudioCtx.state === "suspended") popAudioCtx.resume();
+    const osc = popAudioCtx.createOscillator();
+    const gain = popAudioCtx.createGain();
+    osc.type = "sine";
+    const now = popAudioCtx.currentTime;
+    osc.frequency.setValueAtTime(freqStart, now);
+    osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.08);
+    gain.gain.setValueAtTime(0.09, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    osc.connect(gain);
+    gain.connect(popAudioCtx.destination);
+    osc.start(now);
+    osc.stop(now + 0.08);
+  } catch (_) {}
+}
+
 function initTheme() {
   const savedTheme = localStorage.getItem("nakama_theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
@@ -30,6 +49,7 @@ function toggleTheme() {
   const next = current === "dark" ? "light" : "dark";
   document.documentElement.setAttribute("data-theme", next);
   localStorage.setItem("nakama_theme", next);
+  playPopSound();
 }
 
 initTheme();
@@ -37,6 +57,51 @@ const themeToggleBtn = document.getElementById("themeToggleBtn");
 if (themeToggleBtn) {
   themeToggleBtn.addEventListener("click", toggleTheme);
 }
+
+/* ===================== TRANSISI KELUAR KE WEB UTAMA (SINKRON) ===================== */
+const pageTransition = document.getElementById("pageTransition");
+const ptLabel = document.getElementById("ptLabel");
+let isNavigatingOut = false;
+let navOutTimer = null;
+
+function restoreFromCache() {
+  clearTimeout(navOutTimer);
+  isNavigatingOut = false;
+  document.body.classList.remove("page-leaving");
+  pageTransition?.classList.remove("active");
+}
+
+window.addEventListener("pageshow", restoreFromCache);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") restoreFromCache();
+});
+
+function smoothExitToMain(targetUrl, labelText = "Menu Utama") {
+  if (!targetUrl || isNavigatingOut) return;
+  isNavigatingOut = true;
+  clearTimeout(navOutTimer);
+  playPopSound(520, 280);
+
+  if (pageTransition) {
+    if (ptLabel) ptLabel.textContent = labelText;
+    pageTransition.classList.add("active");
+  }
+  document.body.classList.add("page-leaving");
+
+  navOutTimer = setTimeout(() => {
+    window.location.href = encodeURI(targetUrl);
+    setTimeout(restoreFromCache, 650);
+  }, 360);
+}
+
+["backToMainWebBtn", "brandHomeLink"].forEach(id => {
+  const el = document.getElementById(id);
+  el?.addEventListener("click", (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    smoothExitToMain(el.getAttribute("href"), "Menu Utama");
+  });
+});
 
 /* ===================== DATASET BAWAAN (FALLBACK) ===================== */
 const BUILTIN_CHARACTERS = [
@@ -237,7 +302,7 @@ let sessionQueue = [];
 let currentIndex = 0;
 let score = 0;
 let correctCount = 0;
-let currentMode = "h2r"; // h2r | r2h | type | flashcard
+let currentMode = "h2r";
 let currentItem = null;
 let hasAnswered = false;
 
@@ -365,7 +430,16 @@ function speak(text, triggerBtn = null) {
   window.speechSynthesis.speak(ut);
 }
 
-/* ===================== ROUTING MENU DENGAN FADE IN / FADE OUT ===================== */
+/* ===================== ROUTING MENU DENGAN ANIMASI BERARAH ===================== */
+const VIEW_ORDER = {
+  "learn": 0,
+  "quiz": 1,
+  "quiz-setup": 1.5,
+  "result": 1.8,
+  "vocab-read": 2
+};
+
+let currentViewId = "learn";
 let isSwitchingView = false;
 
 function showView(viewId, opts = {}) {
@@ -378,11 +452,20 @@ function showView(viewId, opts = {}) {
     btn.classList.toggle("active", btn.dataset.view === activeNavKey);
   });
 
-  const activateTarget = () => {
+  const fromOrder = VIEW_ORDER[currentViewId] ?? 0;
+  const toOrder = VIEW_ORDER[viewId] ?? 0;
+  const direction = toOrder < fromOrder ? "back" : "forward";
+
+  const activateTarget = (withEnterAnim = true) => {
     document.querySelectorAll(".view").forEach(v => {
-      v.classList.remove("active", "view-leaving");
+      v.classList.remove("active", "enter-forward", "enter-back", "leave-forward", "leave-back");
     });
+
     target.classList.add("active");
+    if (withEnterAnim) {
+      target.classList.add(direction === "back" ? "enter-back" : "enter-forward");
+    }
+    currentViewId = viewId;
 
     if (viewId === "learn") {
       if (opts.category) learnCategory = opts.category;
@@ -402,10 +485,12 @@ function showView(viewId, opts = {}) {
 
   if (currentActive && currentActive !== target && !isSwitchingView) {
     isSwitchingView = true;
-    currentActive.classList.add("view-leaving");
-    setTimeout(activateTarget, 150);
+    playPopSound(direction === "forward" ? 620 : 480, direction === "forward" ? 340 : 260);
+    currentActive.classList.remove("enter-forward", "enter-back", "leave-forward", "leave-back");
+    currentActive.classList.add(direction === "back" ? "leave-back" : "leave-forward");
+    setTimeout(() => activateTarget(true), 190);
   } else {
-    activateTarget();
+    activateTarget(opts.initial !== true);
   }
 }
 
@@ -478,7 +563,7 @@ function renderLearn() {
       const box = document.createElement("div");
       const isYouon = c.set === "youon" || c.character.length > 1;
       box.className = "kana-box";
-      box.style.animationDelay = `${Math.min(animIndex * 12, 240)}ms`;
+      box.style.animationDelay = `${Math.min(animIndex * 14, 280)}ms`;
       animIndex++;
 
       box.innerHTML = `
@@ -494,6 +579,7 @@ function renderLearn() {
 
 document.querySelectorAll("#learnScriptToggle .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     learnCategory = btn.dataset.category;
     renderLearn();
   });
@@ -501,6 +587,7 @@ document.querySelectorAll("#learnScriptToggle .seg-btn").forEach(btn => {
 
 document.querySelectorAll("#subsetTabs .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     learnSet = btn.dataset.set;
     renderLearn();
   });
@@ -544,7 +631,7 @@ if (searchInput && searchResults) {
 }
 
 /* =========================================================================
-   MODAL GORESAN & SUARA (PINDAH HURUF LANGSUNG TANPA KELUAR MODAL)
+   MODAL GORESAN & SUARA
    ========================================================================= */
 const modalOverlay = document.getElementById("charModalOverlay");
 const modalStep1 = document.getElementById("modalStep1");
@@ -726,7 +813,7 @@ function startDrawing(pos) {
   canvasCtx.lineCap = "round";
   canvasCtx.lineJoin = "round";
   canvasCtx.lineWidth = 14;
-  canvasCtx.strokeStyle = "rgba(21, 128, 61, 0.85)";
+  canvasCtx.strokeStyle = "rgba(74, 222, 128, 0.85)";
 }
 function draw(pos) {
   if (!isDrawing) return;
@@ -1043,6 +1130,7 @@ function ensureQuizStarted() {
 
 document.querySelectorAll("#quickModeSwitch .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     document.querySelectorAll("#quickModeSwitch .seg-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     currentMode = btn.dataset.mode;
@@ -1136,6 +1224,7 @@ function renderSetup() {
 
 document.querySelectorAll("#setupScriptToggle .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     setupCategory = btn.dataset.category;
     renderSetup();
   });
@@ -1302,7 +1391,7 @@ quizFcNextBtn?.addEventListener("click", () => {
   else generateQuizItem();
 });
 
-/* Upgraded Pilihan Ganda dengan Keycap 1-4 & Status Icon */
+/* Upgraded Pilihan Ganda */
 function buildChoicesStrict(field) {
   const wrap = document.getElementById("answerOptions");
   wrap.innerHTML = "";
@@ -1396,11 +1485,13 @@ function checkTyped() {
     score += 10;
     correctCount++;
     input.style.backgroundColor = "var(--c-correct-bg)";
+    input.style.color = "var(--c-correct)";
     feedbackEl.textContent = "Benar!";
     feedbackEl.className = "quiz-feedback is-correct";
     speak(currentItem.character);
   } else {
     input.style.backgroundColor = "var(--c-wrong-bg)";
+    input.style.color = "var(--c-wrong)";
     feedbackEl.textContent = `Salah — Jawaban: ${currentItem.romaji}`;
     feedbackEl.className = "quiz-feedback is-wrong";
     speak(currentItem.character);
@@ -1410,6 +1501,7 @@ function checkTyped() {
 
   setTimeout(() => {
     input.style.backgroundColor = "";
+    input.style.color = "";
     currentIndex++;
     if (currentIndex >= sessionQueue.length) finishQuiz();
     else generateQuizItem();
@@ -1448,7 +1540,7 @@ document.getElementById("backToSelectBtn")?.addEventListener("click", () => {
   showView("quiz-setup");
 });
 
-/* ===================== SHORTCUT KEYBOARD GLOBAL (KUIS & MODAL) ===================== */
+/* ===================== SHORTCUT KEYBOARD GLOBAL ===================== */
 document.addEventListener("keydown", (e) => {
   if (modalOverlay && !modalOverlay.classList.contains("hidden")) {
     if (e.key === "Escape") {
@@ -1511,7 +1603,7 @@ function renderVocabList() {
   vocabList.forEach((item, idx) => {
     const row = document.createElement("div");
     row.className = "vocab-row";
-    row.style.animationDelay = `${Math.min(idx * 20, 240)}ms`;
+    row.style.animationDelay = `${Math.min(idx * 22, 260)}ms`;
     row.innerHTML = `
       <div class="vocab-col-word">${item.word}</div>
       <div class="vocab-col-romaji">${item.romaji}</div>
@@ -1543,6 +1635,7 @@ vocabSearchInput?.addEventListener("input", initVocabReading);
 
 document.querySelectorAll("#vocabCategoryFilter .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     document.querySelectorAll("#vocabCategoryFilter .seg-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     vocabFilter = btn.dataset.type;
@@ -1552,6 +1645,7 @@ document.querySelectorAll("#vocabCategoryFilter .seg-btn").forEach(btn => {
 
 document.querySelectorAll("#vocabViewToggle .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+    playPopSound();
     document.querySelectorAll("#vocabViewToggle .seg-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     vocabViewMode = btn.dataset.vmode;
@@ -1588,6 +1682,7 @@ document.getElementById("vocabNextCardBtn")?.addEventListener("click", () => {
 });
 
 document.getElementById("vocabShuffleBtn")?.addEventListener("click", () => {
+  playPopSound();
   vocabList = shuffle(vocabList);
   vocabIndex = 0;
   renderVocabCard();
@@ -1601,7 +1696,7 @@ document.getElementById("vocabAudioBtn")?.addEventListener("click", (e) => {
 /* ===================== INISIALISASI (LANGSUNG TABEL KANA) ===================== */
 async function init() {
   await loadData();
-  showView("learn", { category: "hiragana", set: "seion" });
+  showView("learn", { category: "hiragana", set: "seion", initial: true });
 }
 
 init();

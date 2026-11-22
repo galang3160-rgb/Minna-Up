@@ -11,6 +11,20 @@
 </head>
 <body>
 
+  <!-- TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA) -->
+  <div id="pageTransition" class="page-transition" aria-hidden="true">
+    <div class="pt-curtain"></div>
+    <div class="pt-content">
+      <div class="pt-icon-box" id="ptIconBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="pt-label" id="ptLabel">Menu Utama</span>
+    </div>
+  </div>
+
   <div class="app-shell" id="appShell">
 
     <!-- ===================== TOPBAR KAPSUL IDENTIK WEB UTAMA ===================== -->
@@ -120,7 +134,7 @@
               <div class="quiz-score-badge" id="quizScore">Skor: 0</div>
             </div>
 
-            <!-- Layout Split 2 Kolom Khas Desain Awal (Upgraded Multiple Choice) -->
+            <!-- Layout Split 2 Kolom -->
             <div class="quiz-stage" id="quizStandardLayout">
               <div class="quiz-left-col">
                 <div class="quiz-mode-row">
@@ -273,7 +287,7 @@
     </main>
   </div>
 
-  <!-- ===================== MODAL GORESAN & SUARA (TANPA KELUAR MASUK) ===================== -->
+  <!-- ===================== MODAL GORESAN & SUARA ===================== -->
   <div class="modal-overlay hidden" id="charModalOverlay">
 
     <!-- TAHAP 1: KENALI HURUF -->
@@ -312,7 +326,7 @@
       </div>
     </div>
 
-    <!-- TAHAP 2: STUDIO GORESAN (BISA LANGSUNG PINDAH HURUF TANPA KELUAR) -->
+    <!-- TAHAP 2: STUDIO GORESAN -->
     <div class="modal-box modal-wide hidden" id="modalStep2">
       <div class="modal-header">
         <button type="button" class="btn btn-outline btn-sm" id="modalBackToStep1Btn">&larr; Tahap 1</button>
