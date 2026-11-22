@@ -1,9 +1,12 @@
 /* =========================================================================
    NAKAMAGAKKOU — 2-STAGE MATERIAL & CHAPTER SELECTOR (N5 - N1)
-   Path Otomatis: Data/{Level}/{Kategori}/index.html
+   Path Otomatis: {BASE_DIR}/{Level}/{Kategori}/index.html + Synced Transitions
    ========================================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Ganti ke 'Kotoba' jika folder utamamu bernama Kotoba/N5/..., bukan Data/N5/...
+  const BASE_DIR = 'Data';
 
   const SUB_DATA = {
     N5: {
@@ -11,19 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Minna 1",
         desc: "Kosakata Dasar N5",
         itemLabel: "Bab",
+        paramKey: "bab",
         jsonPrefix: "bab",
         startNum: 1,
         total: 25,
-        htmlPath: "Data/N5/Minna1/index.html"
+        htmlPath: `${BASE_DIR}/N5/Minna1/index.html`
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N5",
         itemLabel: "Part",
+        paramKey: "part",
         jsonPrefix: "Soumatome",
         startNum: 1,
         total: 6,
-        htmlPath: "Data/N5/Soumatome/index.html"
+        htmlPath: `${BASE_DIR}/N5/Soumatome/index.html`
       }
     },
     N4: {
@@ -31,19 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Minna 2",
         desc: "Kosakata Lanjutan N4",
         itemLabel: "Bab",
+        paramKey: "bab",
         jsonPrefix: "bab",
         startNum: 26,
         total: 25,
-        htmlPath: "Data/N4/Minna2/index.html"
+        htmlPath: `${BASE_DIR}/N4/Minna2/index.html`
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N4",
         itemLabel: "Part",
+        paramKey: "part",
         jsonPrefix: "Soumatome",
         startNum: 1,
         total: 6,
-        htmlPath: "Data/N4/Soumatome/index.html"
+        htmlPath: `${BASE_DIR}/N4/Soumatome/index.html`
       }
     },
     N3: {
@@ -51,19 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Mori",
         desc: "Nihongo no Mori N3",
         itemLabel: "Mori",
+        paramKey: "mori",
+        jsonDir: "kode",
         jsonPrefix: "Mori",
         startNum: 1,
         total: 37,
-        htmlPath: "Data/N3/Mori/index.html"
+        htmlPath: `${BASE_DIR}/N3/Mori/index.html`
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N3",
         itemLabel: "Part",
+        paramKey: "part",
         jsonPrefix: "Soumatome",
         startNum: 1,
         total: 36,
-        htmlPath: "Data/N3/Soumatome/index.html"
+        htmlPath: `${BASE_DIR}/N3/Soumatome/index.html`
       }
     },
     N2: {
@@ -71,19 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Mori",
         desc: "Nihongo no Mori N2",
         itemLabel: "Mori",
+        paramKey: "mori",
+        jsonDir: "kode",
         jsonPrefix: "Mori",
         startNum: 1,
         total: 63,
-        htmlPath: "Data/N2/Mori/index.html"
+        htmlPath: `${BASE_DIR}/N2/Mori/index.html`
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N2",
         itemLabel: "Part",
+        paramKey: "part",
         jsonPrefix: "Soumatome",
         startNum: 1,
         total: 47,
-        htmlPath: "Data/N2/Soumatome/index.html"
+        htmlPath: `${BASE_DIR}/N2/Soumatome/index.html`
       }
     },
     N1: {
@@ -91,22 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
         title: "Mori",
         desc: "Nihongo no Mori N1",
         itemLabel: "Mori",
+        paramKey: "mori",
+        jsonDir: "kode",
         jsonPrefix: "Mori",
         startNum: 1,
         total: 69,
-        htmlPath: "Data/N1/Mori/index.html"
+        htmlPath: `${BASE_DIR}/N1/Mori/index.html`
       },
       Soumatome: {
         title: "Soumatome",
         desc: "Rangkuman N1",
         itemLabel: "Part",
+        paramKey: "part",
         jsonPrefix: "Soumatome",
         startNum: 1,
         total: 49,
-        htmlPath: "Data/N1/Soumatome/index.html"
+        htmlPath: `${BASE_DIR}/N1/Soumatome/index.html`
       }
     }
   };
+
+  const HOME_ICON_SVG = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  `;
+
+  const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
   function normalizeLevel(raw) {
     if (!raw) return null;
@@ -138,8 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let cards = [];
   let gridItems = [];
   let jumpPills = [];
+  let isNavigating = false;
+  let navTimeout = null;
+  let stageTimer = null;
 
   // Elemen DOM
+  const pageTransition = document.getElementById('pageTransition');
+  const ptIconBox = document.getElementById('ptIconBox');
+  const ptLabel = document.getElementById('ptLabel');
+
   const bookSelectionStage = document.getElementById('bookSelectionStage');
   const bookBentoGrid = document.getElementById('bookBentoGrid');
   const stageLevelBadge = document.getElementById('stageLevelBadge');
@@ -159,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const backToBookBtn = document.getElementById('backToBookBtn');
   const activeBookLabel = document.getElementById('activeBookLabel');
   const navBackBtn = document.getElementById('navBackBtn');
+  const brandHomeLink = document.getElementById('brandHomeLink');
 
   const nextBtn = document.getElementById('nextBtn');
   const prevBtn = document.getElementById('prevBtn');
@@ -192,19 +225,60 @@ document.addEventListener('DOMContentLoaded', () => {
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.2 6.6L22 9.7l-5 4.9 1.2 6.9L12 18.2 5.8 21.5 7 14.6 2 9.7l6.8-1.1L12 2z"/></svg>`
   ];
 
-  function smoothNavigate(targetUrl) {
-    document.body.classList.add('page-leaving');
-    setTimeout(() => {
-      window.location.href = targetUrl;
-    }, 260);
+  // === HELPER ANIMASI STAGGER & TIRAI PINDAH HALAMAN ===
+  function runStaggerIn(containerEl) {
+    if (!containerEl) return;
+    const targets = containerEl.querySelectorAll('.stagger-item, .book-bento-card');
+    targets.forEach((el, idx) => {
+      el.style.setProperty('--stagger-i', idx);
+      el.classList.remove('stagger-animate');
+      void el.offsetWidth;
+      el.classList.add('stagger-animate');
+    });
   }
 
-  window.addEventListener('pageshow', () => {
+  function restoreFromCache() {
+    clearTimeout(navTimeout);
+    isNavigating = false;
     document.body.classList.remove('page-leaving');
-    initFromUrlOrStorage();
+    pageTransition?.classList.remove('active');
+    document.querySelectorAll('.card-launching, .sibling-dimmed').forEach(el => {
+      el.classList.remove('card-launching', 'sibling-dimmed');
+    });
+  }
+
+  function smoothNavigate(targetUrl, labelText = 'Memuat...', iconHtml = HOME_ICON_SVG) {
+    if (!targetUrl || targetUrl === '#' || isNavigating) return;
+    isNavigating = true;
+    clearTimeout(navTimeout);
+
+    if (pageTransition) {
+      if (ptLabel) ptLabel.textContent = labelText;
+      if (ptIconBox) ptIconBox.innerHTML = iconHtml;
+      pageTransition.classList.add('active');
+    }
+    document.body.classList.add('page-leaving');
+
+    navTimeout = setTimeout(() => {
+      window.location.href = encodeURI(targetUrl);
+      setTimeout(restoreFromCache, 650);
+    }, 380);
+  }
+
+  window.addEventListener('pageshow', (e) => {
+    restoreFromCache();
+    if (e.persisted) {
+      initFromUrlOrStorage();
+    }
   });
 
-  // === 1. LEVEL PILLS ===
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      restoreFromCache();
+    }
+  });
+
+  // === 1. LEVEL PILLS & NAVIGASI ===
   function updateLevelPills() {
     if (!levelPillsContainer) return;
     levelPillsContainer.querySelectorAll('.lvl-pill').forEach(btn => {
@@ -217,10 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const lvl = normalizeLevel(btn.dataset.level);
         if (lvl) {
+          const isFromDeck = currentBookKey !== null;
           currentLevel = lvl;
           localStorage.setItem('nakama_level', currentLevel);
           playPopSound();
-          showBookSelectionStage();
+          showBookSelectionStage(isFromDeck);
         }
       });
     });
@@ -228,33 +303,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (backToBookBtn) {
     backToBookBtn.addEventListener('click', () => {
-      playPopSound();
-      showBookSelectionStage();
+      playPopSound(480, 260);
+      showBookSelectionStage(true);
     });
   }
 
   if (navBackBtn) {
     navBackBtn.addEventListener('click', function (e) {
+      if (isModifiedClick(e)) return;
       e.preventDefault();
       if (currentBookKey !== null) {
-        playPopSound();
-        showBookSelectionStage();
+        playPopSound(480, 260);
+        showBookSelectionStage(true);
       } else {
-        smoothNavigate(this.getAttribute('href'));
+        playPopSound(520, 280);
+        smoothNavigate(this.getAttribute('href'), 'Menu Utama', HOME_ICON_SVG);
+      }
+    });
+  }
+
+  if (brandHomeLink) {
+    brandHomeLink.addEventListener('click', function (e) {
+      if (isModifiedClick(e)) return;
+      if (currentBookKey !== null) {
+        e.preventDefault();
+        playPopSound(480, 260);
+        showBookSelectionStage(true);
       }
     });
   }
 
   // === 2. TAMPILAN 1: KARTU BUKU MINIMALIS ===
-  function showBookSelectionStage() {
+  function renderBookSelectionContent() {
     currentBookKey = null;
     updateLevelPills();
     syncUrlState(currentLevel, null);
 
-    if (chapterCarouselStage) chapterCarouselStage.classList.add('hidden');
+    if (chapterCarouselStage) {
+      chapterCarouselStage.classList.add('hidden');
+      chapterCarouselStage.classList.remove('stage-enter-forward', 'stage-enter-back', 'stage-leave-forward', 'stage-leave-back');
+    }
     if (openModalBtn) openModalBtn.classList.add('hidden');
     if (backToBookBtn) backToBookBtn.classList.add('hidden');
-    if (bookSelectionStage) bookSelectionStage.classList.remove('hidden');
+    if (bookSelectionStage) {
+      bookSelectionStage.classList.remove('hidden', 'stage-leave-forward', 'stage-leave-back');
+    }
 
     if (stageLevelBadge) stageLevelBadge.textContent = `JLPT ${currentLevel}`;
     if (stageMainTitle) stageMainTitle.textContent = `Pilih Materi ${currentLevel}`;
@@ -294,24 +387,43 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       btnCard.addEventListener('click', () => {
-        playPopSound();
-        openChapterCarousel(currentLevel, bookKey);
+        playPopSound(640, 360);
+        bookBentoGrid.querySelectorAll('.book-bento-card').forEach(c => {
+          if (c !== btnCard) c.classList.add('sibling-dimmed');
+        });
+        btnCard.classList.add('card-launching');
+
+        setTimeout(() => {
+          openChapterCarousel(currentLevel, bookKey, true);
+        }, 180);
       });
 
       bookBentoGrid.appendChild(btnCard);
     });
+
+    runStaggerIn(bookSelectionStage);
+  }
+
+  function showBookSelectionStage(animateBack = false) {
+    clearTimeout(stageTimer);
+
+    if (animateBack && chapterCarouselStage && !chapterCarouselStage.classList.contains('hidden')) {
+      chapterCarouselStage.classList.remove('stage-enter-forward', 'stage-enter-back');
+      chapterCarouselStage.classList.add('stage-leave-back');
+
+      stageTimer = setTimeout(() => {
+        renderBookSelectionContent();
+        bookSelectionStage?.classList.remove('stage-enter-forward', 'stage-enter-back');
+        void bookSelectionStage?.offsetWidth;
+        bookSelectionStage?.classList.add('stage-enter-back');
+      }, 200);
+    } else {
+      renderBookSelectionContent();
+    }
   }
 
   // === 3. TAMPILAN 2: LAYERED DECK & QUICK-JUMP ===
-  function openChapterCarousel(level, bookKey) {
-    const validLevel = normalizeLevel(level) || 'N5';
-    const validBookKey = normalizeBookKey(validLevel, bookKey);
-    if (!validBookKey) {
-      currentLevel = validLevel;
-      showBookSelectionStage();
-      return;
-    }
-
+  function renderChapterCarouselContent(validLevel, validBookKey, animateForward = false) {
     currentLevel = validLevel;
     currentBookKey = validBookKey;
     currentIndex = 0;
@@ -322,8 +434,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const book = SUB_DATA[currentLevel][currentBookKey];
 
-    if (bookSelectionStage) bookSelectionStage.classList.add('hidden');
-    if (chapterCarouselStage) chapterCarouselStage.classList.remove('hidden');
+    if (bookSelectionStage) {
+      bookSelectionStage.classList.add('hidden');
+      bookSelectionStage.classList.remove('stage-enter-forward', 'stage-enter-back', 'stage-leave-forward', 'stage-leave-back');
+    }
+    if (chapterCarouselStage) {
+      chapterCarouselStage.classList.remove('hidden', 'stage-leave-forward', 'stage-leave-back', 'stage-enter-forward', 'stage-enter-back');
+      if (animateForward) {
+        void chapterCarouselStage.offsetWidth;
+        chapterCarouselStage.classList.add('stage-enter-forward');
+      }
+    }
     if (openModalBtn) openModalBtn.classList.remove('hidden');
     if (backToBookBtn) backToBookBtn.classList.remove('hidden');
 
@@ -343,15 +464,18 @@ document.addEventListener('DOMContentLoaded', () => {
     gridItems = [];
     jumpPills = [];
 
-    const folderBase = `Data/${currentLevel}/${currentBookKey}`;
+    const folderBase = `${BASE_DIR}/${currentLevel}/${currentBookKey}`;
     const targetHtmlPath = book.htmlPath || `${folderBase}/index.html`;
+    const paramKey = book.paramKey || 'bab';
+    const jsonDir = book.jsonDir ? `${book.jsonDir}/` : 'kode/';
 
     for (let i = 0; i < total; i++) {
       const babNum = startNum + i;
       const paddedNum = babNum < 10 ? `0${babNum}` : babNum;
       const svgIcon = vectorIcons[i % vectorIcons.length];
       const jsonFile = `${book.jsonPrefix}${babNum}.json`;
-      const targetHref = `${targetHtmlPath}?bab=${babNum}&file=${jsonFile}&kode=kode/${jsonFile}&level=${currentLevel}&kategori=${currentBookKey}`;
+      const jsonFullPath = `${jsonDir}${jsonFile}`;
+      const targetHref = `${targetHtmlPath}?${paramKey}=${babNum}&file=${jsonFile}&kode=${jsonFullPath}&level=${currentLevel}&kategori=${currentBookKey}`;
 
       const card = document.createElement('a');
       card.href = targetHref;
@@ -384,8 +508,14 @@ document.addEventListener('DOMContentLoaded', () => {
           currentIndex = i;
           updateCarousel();
         } else {
+          if (isModifiedClick(e)) return;
           e.preventDefault();
-          smoothNavigate(this.getAttribute('href'));
+          playPopSound(640, 360);
+          this.classList.add('card-launching');
+          const label = `${book.title} • ${book.itemLabel} ${babNum}`;
+          setTimeout(() => {
+            smoothNavigate(this.getAttribute('href'), label, svgIcon);
+          }, 150);
         }
       });
 
@@ -425,6 +555,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateCarousel(false);
+  }
+
+  function openChapterCarousel(level, bookKey, animateForward = false) {
+    const validLevel = normalizeLevel(level) || 'N5';
+    const validBookKey = normalizeBookKey(validLevel, bookKey);
+    if (!validBookKey) {
+      currentLevel = validLevel;
+      showBookSelectionStage(false);
+      return;
+    }
+
+    clearTimeout(stageTimer);
+
+    if (animateForward && bookSelectionStage && !bookSelectionStage.classList.contains('hidden')) {
+      bookSelectionStage.classList.remove('stage-enter-forward', 'stage-enter-back');
+      bookSelectionStage.classList.add('stage-leave-forward');
+
+      stageTimer = setTimeout(() => {
+        renderChapterCarouselContent(validLevel, validBookKey, true);
+      }, 200);
+    } else {
+      renderChapterCarouselContent(validLevel, validBookKey, false);
+    }
   }
 
   // === 4. UPDATE DECK & QUICK-JUMP ===
@@ -537,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === 7. AUDIO POP ===
   let audioCtx = null;
-  function playPopSound() {
+  function playPopSound(freqStart = 580, freqEnd = 290) {
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -545,9 +698,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       const now = audioCtx.currentTime;
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(290, now + 0.09);
-      gain.gain.setValueAtTime(0.12, now);
+      osc.frequency.setValueAtTime(freqStart, now);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.09);
+      gain.gain.setValueAtTime(0.11, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -556,22 +709,22 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
-  // === 8. VISUAL FX ===
+  // === 8. VISUAL FX (ON-DEMAND TRAIL & SPARKS) ===
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer: fine)').matches;
 
   if (!reduce) {
     const sun = document.getElementById('sun');
-    if (sun) {
+    if (sun && fine) {
       addEventListener('pointermove', e => {
         sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -36}px, ${(e.clientY / innerHeight - 0.5) * -36}px)`;
-      });
+      }, { passive: true });
     }
 
     const fx = document.getElementById('fx');
     const sparkColors = ['#FDE047', '#FEF3C7', '#EAB308', '#FFFFFF'];
-    addEventListener('pointerdown', e => {
-      if (!fx) return;
+    addEventListener('click', e => {
+      if (!fx || (e.clientX === 0 && e.clientY === 0)) return;
       const pulse = document.createElement('div');
       pulse.className = 'pulse';
       pulse.style.left = e.clientX + 'px';
@@ -604,38 +757,64 @@ document.addEventListener('DOMContentLoaded', () => {
         addEventListener('resize', resize);
 
         let mx = -100, my = -100, x = mx, y = my;
+        let isPointerActive = false;
+        let isLoopRunning = false;
+        let idleTimer = null;
         const pts = [];
 
-        addEventListener('pointermove', e => {
-          mx = e.clientX;
-          my = e.clientY;
-        });
-
-        (function drawTrail() {
-          x += (mx - x) * 0.32;
-          y += (my - y) * 0.32;
-          pts.push({ x, y });
-          if (pts.length > 16) pts.shift();
+        function drawTrail() {
+          if (isPointerActive) {
+            x += (mx - x) * 0.34;
+            y += (my - y) * 0.34;
+            pts.push({ x, y });
+            if (pts.length > 16) pts.shift();
+          } else if (pts.length > 0) {
+            pts.shift();
+          }
 
           ctx.clearRect(0, 0, cv.width, cv.height);
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
 
-          const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+          if (pts.length > 1) {
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            const isDark = htmlEl.getAttribute('data-theme') === 'dark';
 
-          for (let i = 1; i < pts.length; i++) {
-            const t = i / pts.length;
-            ctx.strokeStyle = isDark
-              ? `rgba(234, 179, 8, ${t * 0.24})`
-              : `rgba(17, 17, 17, ${t * 0.16})`;
-            ctx.lineWidth = t * 8;
-            ctx.beginPath();
-            ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-            ctx.lineTo(pts[i].x, pts[i].y);
-            ctx.stroke();
+            for (let i = 1; i < pts.length; i++) {
+              const t = i / pts.length;
+              ctx.strokeStyle = isDark
+                ? `rgba(253, 224, 71, ${t * 0.26})`
+                : `rgba(17, 17, 17, ${t * 0.16})`;
+              ctx.lineWidth = t * 8;
+              ctx.beginPath();
+              ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+              ctx.lineTo(pts[i].x, pts[i].y);
+              ctx.stroke();
+            }
           }
-          requestAnimationFrame(drawTrail);
-        })();
+
+          if (isPointerActive || pts.length > 0) {
+            requestAnimationFrame(drawTrail);
+          } else {
+            isLoopRunning = false;
+          }
+        }
+
+        addEventListener('pointermove', e => {
+          if (!isPointerActive) {
+            x = e.clientX;
+            y = e.clientY;
+          }
+          mx = e.clientX;
+          my = e.clientY;
+          isPointerActive = true;
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
+
+          if (!isLoopRunning) {
+            isLoopRunning = true;
+            requestAnimationFrame(drawTrail);
+          }
+        }, { passive: true });
       }
     }
   }
@@ -650,9 +829,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const paramBook = normalizeBookKey(currentLevel, params.get('buku'));
     if (paramBook) {
-      openChapterCarousel(currentLevel, paramBook);
+      openChapterCarousel(currentLevel, paramBook, false);
     } else {
-      showBookSelectionStage();
+      showBookSelectionStage(false);
     }
   }
 
