@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const JP_CHAR_REGEX = /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf々]/;
 
   // ---------- KONFIGURASI PATH FILE SOUMATOME ----------
-  const DATA_PATH = n => `kode/soumatome${n}.json`;
+  const DATA_PATH = n => `kode/Soumatome${n}.json`;
   const SAVE_KEY = 'nakama:soumatome_part';
   const THEME_KEY = 'nakama_theme';
   const HAFALAN_KEY = 'nakama:soumatome_hafalan_v1';
