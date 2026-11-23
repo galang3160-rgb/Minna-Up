@@ -1,6 +1,6 @@
 /* =========================================================================
    NAKAMAGAKKOU — 2-STAGE MATERIAL & CHAPTER SELECTOR (N5 - N1)
-   Path Otomatis: {BASE_DIR}/{Level}/{Kategori}/index.html + Synced Transitions
+   Refined Motion, Lenis Smooth Scroll, Mobile & iPad Touch Drag
    ========================================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -131,7 +131,45 @@ document.addEventListener('DOMContentLoaded', () => {
     </svg>
   `;
 
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+
+  // === LENIS SMOOTH SCROLL (RINGAN, NATIVE TOUCH DI HP/IPAD, SAFE LIFECYCLE) ===
+  let lenis = null;
+  let lenisRafId = null;
+
+  if (!reduceMotion && typeof window.Lenis === 'function') {
+    lenis = new window.Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      syncTouch: false,
+      wheelMultiplier: 1
+    });
+
+    function lenisRaf(time) {
+      lenis.raf(time);
+      lenisRafId = requestAnimationFrame(lenisRaf);
+    }
+    lenisRafId = requestAnimationFrame(lenisRaf);
+  }
+
+  // === NAVBAR SHRINK ON SCROLL (PASSIVE + RAF) ===
+  const fixedTopbar = document.getElementById('fixedTopbar');
+  if (fixedTopbar) {
+    let scrollTicking = false;
+    const updateTopbarScroll = () => {
+      fixedTopbar.classList.toggle('is-scrolled', window.scrollY > 18);
+      scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(updateTopbarScroll);
+      }
+    }, { passive: true });
+    updateTopbarScroll();
+  }
 
   function normalizeLevel(raw) {
     if (!raw) return null;
@@ -261,8 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navTimeout = setTimeout(() => {
       window.location.href = encodeURI(targetUrl);
-      setTimeout(restoreFromCache, 650);
-    }, 380);
+      setTimeout(restoreFromCache, 600);
+    }, 240);
   }
 
   window.addEventListener('pageshow', (e) => {
@@ -353,8 +391,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stageMainTitle) stageMainTitle.textContent = `Pilih Materi ${currentLevel}`;
 
     if (!bookBentoGrid) return;
-    bookBentoGrid.innerHTML = '';
     const books = SUB_DATA[currentLevel];
+    const frag = document.createDocumentFragment();
 
     Object.keys(books).forEach((bookKey, idx) => {
       const book = books[bookKey];
@@ -395,12 +433,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
           openChapterCarousel(currentLevel, bookKey, true);
-        }, 180);
+        }, 120);
       });
 
-      bookBentoGrid.appendChild(btnCard);
+      frag.appendChild(btnCard);
     });
 
+    bookBentoGrid.innerHTML = '';
+    bookBentoGrid.appendChild(frag);
     runStaggerIn(bookSelectionStage);
   }
 
@@ -416,7 +456,8 @@ document.addEventListener('DOMContentLoaded', () => {
         bookSelectionStage?.classList.remove('stage-enter-forward', 'stage-enter-back');
         void bookSelectionStage?.offsetWidth;
         bookSelectionStage?.classList.add('stage-enter-back');
-      }, 200);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 135);
     } else {
       renderBookSelectionContent();
     }
@@ -457,12 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalTagLabel) modalTagLabel.textContent = `${currentLevel} • ${book.title.toUpperCase()} (${startNum}-${endNum})`;
     if (modalTitleLabel) modalTitleLabel.textContent = `Pilih ${book.itemLabel}`;
 
-    container.innerHTML = '';
-    if (modalGrid) modalGrid.innerHTML = '';
-    if (quickJumpStrip) quickJumpStrip.innerHTML = '';
     cards = [];
     gridItems = [];
     jumpPills = [];
+
+    const cardsFrag = document.createDocumentFragment();
+    const jumpFrag = document.createDocumentFragment();
+    const modalFrag = document.createDocumentFragment();
 
     const folderBase = `${BASE_DIR}/${currentLevel}/${currentBookKey}`;
     const targetHtmlPath = book.htmlPath || `${folderBase}/index.html`;
@@ -503,6 +545,10 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       card.addEventListener('click', function (e) {
+        if (wasSwiping) {
+          e.preventDefault();
+          return;
+        }
         if (!this.classList.contains('active')) {
           e.preventDefault();
           currentIndex = i;
@@ -515,11 +561,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const label = `${book.title} • ${book.itemLabel} ${babNum}`;
           setTimeout(() => {
             smoothNavigate(this.getAttribute('href'), label, svgIcon);
-          }, 150);
+          }, 110);
         }
       });
 
-      container.appendChild(card);
+      cardsFrag.appendChild(card);
       cards.push(card);
 
       if (quickJumpStrip) {
@@ -531,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
           currentIndex = i;
           updateCarousel();
         });
-        quickJumpStrip.appendChild(pill);
+        jumpFrag.appendChild(pill);
         jumpPills.push(pill);
       }
 
@@ -549,9 +595,20 @@ document.addEventListener('DOMContentLoaded', () => {
           updateCarousel();
           closeModal();
         });
-        modalGrid.appendChild(gridBtn);
+        modalFrag.appendChild(gridBtn);
         gridItems.push(gridBtn);
       }
+    }
+
+    container.innerHTML = '';
+    container.appendChild(cardsFrag);
+    if (quickJumpStrip) {
+      quickJumpStrip.innerHTML = '';
+      quickJumpStrip.appendChild(jumpFrag);
+    }
+    if (modalGrid) {
+      modalGrid.innerHTML = '';
+      modalGrid.appendChild(modalFrag);
     }
 
     updateCarousel(false);
@@ -574,7 +631,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       stageTimer = setTimeout(() => {
         renderChapterCarouselContent(validLevel, validBookKey, true);
-      }, 200);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 135);
     } else {
       renderChapterCarouselContent(validLevel, validBookKey, false);
     }
@@ -588,7 +646,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const book = SUB_DATA[currentLevel][currentBookKey];
 
     cards.forEach((card, i) => {
-      card.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right');
+      card.classList.remove('active', 'prev', 'next', 'hidden-left', 'hidden-right', 'is-dragging');
+      card.style.transform = '';
       if (i === currentIndex) card.classList.add('active');
       else if (i === currentIndex - 1) card.classList.add('prev');
       else if (i === currentIndex + 1) card.classList.add('next');
@@ -626,15 +685,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === 5. MODAL ===
+  // === 5. MODAL (TERINTEGRASI DENGAN LENIS STOP/START) ===
   const chapterModal = document.getElementById('chapterModal');
   const closeModalBtn = document.getElementById('closeChapterModal');
 
   function openModal() {
-    if (chapterModal) chapterModal.classList.add('open');
+    if (!chapterModal) return;
+    chapterModal.classList.add('open');
+    document.body.classList.add('modal-open');
+    if (lenis) lenis.stop();
   }
   function closeModal() {
-    if (chapterModal) chapterModal.classList.remove('open');
+    if (!chapterModal) return;
+    chapterModal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    if (lenis) lenis.start();
   }
 
   if (openModalBtn) openModalBtn.addEventListener('click', openModal);
@@ -645,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === 6. NAVIGASI PANAH, KEYBOARD & SWIPE ===
+  // === 6. NAVIGASI PANAH, KEYBOARD & REAL-TIME TOUCH DRAG (HP & IPAD) ===
   function goNext() {
     if (currentBookKey && currentIndex < cards.length - 1) {
       currentIndex++;
@@ -674,21 +739,56 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   let touchStartX = 0;
+  let touchStartY = 0;
+  let touchDeltaX = 0;
+  let isSwiping = false;
+  let wasSwiping = false;
+
   if (container) {
     container.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
+      if (e.touches.length !== 1 || !cards[currentIndex]) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchDeltaX = 0;
+      isSwiping = false;
+      wasSwiping = false;
     }, { passive: true });
 
-    container.addEventListener('touchend', (e) => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) goNext();
-        else goPrev();
+    container.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1 || !cards[currentIndex]) return;
+      const dx = e.touches[0].clientX - touchStartX;
+      const dy = e.touches[0].clientY - touchStartY;
+
+      if (!isSwiping && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+        isSwiping = true;
+        cards[currentIndex].classList.add('is-dragging');
       }
+
+      if (isSwiping) {
+        touchDeltaX = dx;
+        const clamped = Math.max(-120, Math.min(120, dx * 0.65));
+        const rot = clamped * 0.04;
+        cards[currentIndex].style.transform = `translate3d(${clamped}px, 0, 0) rotate(${rot}deg)`;
+      }
+    }, { passive: true });
+
+    container.addEventListener('touchend', () => {
+      if (!cards[currentIndex]) return;
+      cards[currentIndex].classList.remove('is-dragging');
+      cards[currentIndex].style.transform = '';
+
+      if (isSwiping) {
+        wasSwiping = true;
+        setTimeout(() => { wasSwiping = false; }, 60);
+        if (touchDeltaX < -42) goNext();
+        else if (touchDeltaX > 42) goPrev();
+      }
+      isSwiping = false;
+      touchDeltaX = 0;
     }, { passive: true });
   }
 
-  // === 7. AUDIO POP ===
+  // === 7. AUDIO POP RINGAN ===
   let audioCtx = null;
   function playPopSound(freqStart = 580, freqEnd = 290) {
     try {
@@ -699,127 +799,17 @@ document.addEventListener('DOMContentLoaded', () => {
       osc.type = 'sine';
       const now = audioCtx.currentTime;
       osc.frequency.setValueAtTime(freqStart, now);
-      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.09);
-      gain.gain.setValueAtTime(0.11, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.08);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
-      osc.stop(now + 0.09);
+      osc.stop(now + 0.08);
     } catch (_) {}
   }
 
-  // === 8. VISUAL FX (ON-DEMAND TRAIL & SPARKS) ===
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(pointer: fine)').matches;
-
-  if (!reduce) {
-    const sun = document.getElementById('sun');
-    if (sun && fine) {
-      addEventListener('pointermove', e => {
-        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -36}px, ${(e.clientY / innerHeight - 0.5) * -36}px)`;
-      }, { passive: true });
-    }
-
-    const fx = document.getElementById('fx');
-    const sparkColors = ['#FDE047', '#FEF3C7', '#EAB308', '#FFFFFF'];
-    addEventListener('click', e => {
-      if (!fx || (e.clientX === 0 && e.clientY === 0)) return;
-      const pulse = document.createElement('div');
-      pulse.className = 'pulse';
-      pulse.style.left = e.clientX + 'px';
-      pulse.style.top = e.clientY + 'px';
-      pulse.onanimationend = () => pulse.remove();
-      fx.appendChild(pulse);
-
-      for (let i = 0; i < 5; i++) {
-        const angle = (Math.PI * 2 * i) / 5 + Math.random() * 0.4;
-        const dist = 40 + Math.random() * 50;
-        const sp = document.createElement('span');
-        sp.className = 'spark';
-        sp.style.left = e.clientX + 'px';
-        sp.style.top = e.clientY + 'px';
-        sp.style.background = sparkColors[i % sparkColors.length];
-        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
-        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 180}deg`);
-        sp.onanimationend = () => sp.remove();
-        fx.appendChild(sp);
-      }
-    });
-
-    if (fine) {
-      const cv = document.getElementById('trail');
-      if (cv) {
-        const ctx = cv.getContext('2d');
-        const resize = () => { cv.width = innerWidth; cv.height = innerHeight; };
-        resize();
-        addEventListener('resize', resize);
-
-        let mx = -100, my = -100, x = mx, y = my;
-        let isPointerActive = false;
-        let isLoopRunning = false;
-        let idleTimer = null;
-        const pts = [];
-
-        function drawTrail() {
-          if (isPointerActive) {
-            x += (mx - x) * 0.34;
-            y += (my - y) * 0.34;
-            pts.push({ x, y });
-            if (pts.length > 16) pts.shift();
-          } else if (pts.length > 0) {
-            pts.shift();
-          }
-
-          ctx.clearRect(0, 0, cv.width, cv.height);
-
-          if (pts.length > 1) {
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-
-            for (let i = 1; i < pts.length; i++) {
-              const t = i / pts.length;
-              ctx.strokeStyle = isDark
-                ? `rgba(253, 224, 71, ${t * 0.26})`
-                : `rgba(17, 17, 17, ${t * 0.16})`;
-              ctx.lineWidth = t * 8;
-              ctx.beginPath();
-              ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-              ctx.lineTo(pts[i].x, pts[i].y);
-              ctx.stroke();
-            }
-          }
-
-          if (isPointerActive || pts.length > 0) {
-            requestAnimationFrame(drawTrail);
-          } else {
-            isLoopRunning = false;
-          }
-        }
-
-        addEventListener('pointermove', e => {
-          if (!isPointerActive) {
-            x = e.clientX;
-            y = e.clientY;
-          }
-          mx = e.clientX;
-          my = e.clientY;
-          isPointerActive = true;
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
-
-          if (!isLoopRunning) {
-            isLoopRunning = true;
-            requestAnimationFrame(drawTrail);
-          }
-        }, { passive: true });
-      }
-    }
-  }
-
-  // === 9. INISIALISASI DARI URL / LOCALSTORAGE ===
+  // === 8. INISIALISASI DARI URL / LOCALSTORAGE ===
   function initFromUrlOrStorage() {
     const params = new URLSearchParams(window.location.search);
     const paramLevel = normalizeLevel(params.get('level'));

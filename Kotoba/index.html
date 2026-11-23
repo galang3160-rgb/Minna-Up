@@ -2,7 +2,7 @@
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Nakama Gakkou — Pilihan Materi &amp; Bab</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,13 +26,11 @@
     </div>
   </div>
 
-  <!-- AMBIENT & EFEK INTERAKTIF -->
+  <!-- AMBIENT SUBTLE GLOW -->
   <div class="sun" id="sun" aria-hidden="true"></div>
-  <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR -->
-  <header class="fixed-topbar">
+  <!-- TOPBAR FLOATING PILL + SHRINK ON SCROLL -->
+  <header class="fixed-topbar" id="fixedTopbar">
     <div class="topbar-capsule">
 
       <!-- Kiri: Tombol Back & Brand -->
@@ -181,10 +179,12 @@
         </button>
       </div>
 
-      <div class="modal-grid" id="modalChapterGrid"></div>
+      <div class="modal-grid" id="modalChapterGrid" data-lenis-prevent></div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Lenis Smooth Scroll (Ringan + Fallback Native Jika Offline) -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

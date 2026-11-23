@@ -1,0 +1,551 @@
+/* =========================================================================
+   NAKAMAGAKKOU — SSW CLEAN MONOCHROME + AMBER
+   ========================================================================= */
+:root {
+  --bg: #FDFBF7;
+  --surface: #FFFFFF;
+  --surface-soft: #F6F3EC;
+  --ink: #111111;
+  --ink-badge: #111111;
+  --dim: #5A5A5A;
+  --dot-grid: #1111111a;
+
+  /* Aksen Utama: Amber + Netral */
+  --c-amber: #FDE047;
+  --c-amber-soft: #FEF3C7;
+  --jp-accent: #B45309; /* Amber gelap agar kontras & tajam di mode terang */
+  --green-brand: #15803D;
+
+  /* Border & Hard Shadows */
+  --border-color: #111111;
+  --shadow-color: #111111;
+  --border: 2px solid var(--border-color);
+  --border-sm: 2px solid var(--border-color);
+  --shadow: 5px 5px 0px 0px var(--shadow-color);
+  --shadow-sm: 3px 3px 0px 0px var(--shadow-color);
+  --shadow-lg: 8px 8px 0px 0px var(--shadow-color);
+
+  --radius-card: 20px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.48, 0.64, 1);
+}
+
+html[data-theme="dark"] {
+  --bg: #0F1115;
+  --surface: #1A1D24;
+  --surface-soft: #222630;
+  --ink: #F3F4F6;
+  --ink-badge: #0F1115;
+  --dim: #9CA3AF;
+  --dot-grid: #ffffff12;
+
+  --c-amber: #FDE047;
+  --c-amber-soft: #EAB308;
+  --jp-accent: #FDE047; /* Amber cerah di mode gelap */
+  --green-brand: #4ADE80;
+
+  --border-color: #384152;
+  --shadow-color: #050608;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.28s ease, color 0.28s ease;
+}
+
+body.cinema-body {
+  overflow-y: auto;
+}
+
+/* =========================================================================
+   TRANSISI TIRAI PINDAH HALAMAN
+   ========================================================================= */
+.page-transition {
+  --pt-accent: var(--c-amber);
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+}
+
+.page-transition.active {
+  visibility: visible;
+  pointer-events: all;
+}
+
+.pt-curtain {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
+  background-size: 22px 22px;
+  border-top: 4px solid var(--border-color);
+  transform: translateY(105%);
+  transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-transition.active .pt-curtain {
+  transform: translateY(0%);
+}
+
+.pt-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(22px) scale(0.88);
+  transition: opacity 0.26s var(--ease) 0.12s, transform 0.36s var(--ease-spring) 0.1s;
+}
+
+.page-transition.active .pt-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pt-icon-box {
+  width: 82px;
+  height: 82px;
+  border-radius: 22px;
+  background: var(--pt-accent);
+  border: 2.5px solid var(--border-color);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--ink-badge);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.pt-icon-box svg {
+  width: 38px;
+  height: 38px;
+}
+
+.pt-label {
+  font-size: clamp(1.15rem, 4vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  color: var(--ink);
+  border: 2.5px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 6px 18px;
+  border-radius: 14px;
+}
+
+/* =========================================================================
+   AMBIENT ORB, SPARKS & MOUSE TRAIL
+   ========================================================================= */
+.sun {
+  position: fixed;
+  z-index: 0;
+  width: 58vmin;
+  height: 58vmin;
+  left: 50%;
+  top: 52%;
+  margin: -29vmin 0 0 -29vmin;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(254, 243, 199, 0.75), transparent 70%);
+  filter: blur(50px);
+  transition: transform 0.3s ease-out, background 0.3s ease;
+}
+html[data-theme="dark"] .sun {
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.09), transparent 70%);
+}
+
+.fx {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 55;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--ink-badge);
+  border-radius: 3px;
+  background: var(--c-amber);
+  pointer-events: none;
+  animation: sparkFly 0.6s var(--ease) forwards;
+}
+@keyframes sparkFly {
+  0% { transform: translate(-50%, -50%) scale(0.6) rotate(0deg); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--r)); opacity: 0; }
+}
+
+.pulse {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--c-amber);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseOut 0.45s ease-out forwards;
+}
+@keyframes pulseOut {
+  to { width: 68px; height: 68px; opacity: 0; }
+}
+
+/* =========================================================================
+   ANIMASI MASUK & KELUAR
+   ========================================================================= */
+.fixed-topbar {
+  animation: navSlideDown 0.55s var(--ease-spring) forwards;
+}
+@keyframes navSlideDown {
+  0% { opacity: 0; transform: translateY(-28px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stagger-animate {
+  animation: cardStaggerIn 0.48s var(--ease-spring) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 45ms);
+}
+@keyframes cardStaggerIn {
+  0% { opacity: 0; transform: translateY(22px) scale(0.93); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body.page-leaving .fixed-topbar {
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  transform: translateY(-18px) scale(0.98);
+  opacity: 0;
+}
+body.page-leaving .ssw-stage {
+  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* =========================================================================
+   TOPBAR FLOATING DOCK
+   ========================================================================= */
+.fixed-topbar {
+  position: fixed;
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  pointer-events: none;
+  padding: 0 18px;
+}
+
+.topbar-capsule {
+  pointer-events: auto;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-back-circle,
+.theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--ink-badge);
+  background: var(--c-amber);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
+}
+.nav-back-circle:hover,
+.theme-toggle-btn:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px 0px var(--shadow-color);
+}
+.nav-back-circle:active,
+.theme-toggle-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.theme-toggle-btn .icon-sun { display: none; }
+.theme-toggle-btn .icon-moon { display: block; }
+html[data-theme="dark"] .theme-toggle-btn .icon-sun { display: block; }
+html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+}
+.logo-word {
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.logo-word b {
+  color: var(--green-brand);
+}
+
+.ssw-nav-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--bg);
+  color: var(--ink);
+  border: var(--border-sm);
+  padding: 5px 12px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* =========================================================================
+   SSW STAGE & MINIMALIST GRID
+   ========================================================================= */
+.ssw-stage {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 102px 20px 44px;
+}
+
+.stage-shell {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.stage-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.stage-pill {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: var(--c-amber);
+  color: var(--ink-badge);
+  padding: 4px 14px;
+  border-radius: 99px;
+  border: var(--border-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.stage-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+/* Grid 12 Kartu Bidang SSW */
+.ssw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.ssw-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  min-height: 132px;
+  padding: 20px 14px;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s ease, opacity 0.22s ease;
+}
+
+.ssw-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--c-amber);
+}
+
+.ssw-card:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+/* Efek Fokus Saat Kartu Diklik */
+.ssw-card.card-launching {
+  transform: scale(1.04) translateY(-5px) !important;
+  box-shadow: 10px 10px 0px 0px var(--shadow-color) !important;
+  border-color: var(--c-amber) !important;
+  z-index: 15;
+}
+.ssw-card.sibling-dimmed {
+  opacity: 0.35 !important;
+  transform: scale(0.96) !important;
+  pointer-events: none;
+}
+
+/* Judul Bahasa Jepang: Besar & Berwarna */
+.ssw-jp {
+  font-family: 'Noto Sans JP', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--jp-accent);
+  transition: transform 0.2s var(--ease-spring);
+}
+
+.ssw-card:hover .ssw-jp {
+  transform: scale(1.05);
+}
+
+.ssw-jp ruby {
+  ruby-align: center;
+}
+
+.ssw-jp rt {
+  font-size: 0.42em;
+  font-weight: 600;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* Arti Indonesia: Kecil, Menyesuaikan Mode Terang/Gelap */
+.ssw-id {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--dim);
+  line-height: 1.25;
+  transition: color 0.18s ease;
+}
+
+.ssw-card:hover .ssw-id {
+  color: var(--ink);
+}
+
+/* =========================================================================
+   RESPONSIVE DESIGN (TABLET & HP)
+   ========================================================================= */
+@media (max-width: 860px) {
+  .ssw-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fixed-topbar {
+    top: 10px;
+    padding: 0 12px;
+  }
+  .topbar-capsule {
+    padding: 8px 10px;
+  }
+  .nav-back-circle,
+  .theme-toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .logo-word {
+    font-size: 1.02rem;
+  }
+  .ssw-nav-pill {
+    display: none;
+  }
+  .ssw-stage {
+    padding: 88px 14px 36px;
+    align-items: flex-start;
+  }
+  .ssw-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .ssw-card {
+    min-height: 114px;
+    padding: 16px 10px;
+    border-radius: 16px;
+    box-shadow: 4px 4px 0px 0px var(--shadow-color);
+  }
+  .ssw-jp {
+    font-size: 1.45rem;
+  }
+  .ssw-id {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

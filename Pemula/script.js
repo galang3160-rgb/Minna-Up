@@ -1,5 +1,5 @@
 /* =========================================================================
-   NakamaGakkou — Neo-Brutalist 3D Kana Dojo (Synced Animations & Vibrant Dark)
+   NakamaGakkou — Neo-Brutalist 3D Kana Dojo (Refined Motion & Performance)
    ========================================================================= */
 
 const SET_ORDER = ["seion", "dakuon", "handakuon", "youon"];
@@ -16,6 +16,31 @@ const STROKE_COLORS = [
 
 function getStrokeColor(index) {
   return STROKE_COLORS[index % STROKE_COLORS.length];
+}
+
+function debounce(fn, wait = 120) {
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), wait);
+  };
+}
+
+/* ===================== NAVBAR SHRINK ON SCROLL (PASSIVE + RAF) ===================== */
+const fixedTopbar = document.getElementById("fixedTopbar");
+if (fixedTopbar) {
+  let scrollTicking = false;
+  const updateTopbarScroll = () => {
+    fixedTopbar.classList.toggle("is-scrolled", window.scrollY > 18);
+    scrollTicking = false;
+  };
+  window.addEventListener("scroll", () => {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(updateTopbarScroll);
+    }
+  }, { passive: true });
+  updateTopbarScroll();
 }
 
 /* ===================== TEMA & AUDIO POP RINGAN ===================== */
@@ -90,8 +115,8 @@ function smoothExitToMain(targetUrl, labelText = "Menu Utama") {
 
   navOutTimer = setTimeout(() => {
     window.location.href = encodeURI(targetUrl);
-    setTimeout(restoreFromCache, 650);
-  }, 360);
+    setTimeout(restoreFromCache, 600);
+  }, 240);
 }
 
 ["backToMainWebBtn", "brandHomeLink"].forEach(id => {
@@ -317,6 +342,8 @@ let currentStepStrokeIdx = 0;
 
 let canvasEl = null;
 let canvasCtx = null;
+let canvasRect = null;
+let canvasBound = false;
 let isDrawing = false;
 
 /* ===================== LOAD DATA ===================== */
@@ -410,7 +437,7 @@ function speak(text, triggerBtn = null) {
 
   if (triggerBtn) {
     triggerBtn.classList.add("is-speaking");
-    setTimeout(() => triggerBtn.classList.remove("is-speaking"), 1200);
+    setTimeout(() => triggerBtn.classList.remove("is-speaking"), 900);
   }
 
   window.speechSynthesis.cancel();
@@ -488,7 +515,7 @@ function showView(viewId, opts = {}) {
     playPopSound(direction === "forward" ? 620 : 480, direction === "forward" ? 340 : 260);
     currentActive.classList.remove("enter-forward", "enter-back", "leave-forward", "leave-back");
     currentActive.classList.add(direction === "back" ? "leave-back" : "leave-forward");
-    setTimeout(() => activateTarget(true), 190);
+    setTimeout(() => activateTarget(true), 135);
   } else {
     activateTarget(opts.initial !== true);
   }
@@ -544,9 +571,8 @@ function renderLearn() {
   const items = allCharacters.filter(i => i.category === learnCategory && i.set === learnSet);
   const rows = buildChartRows(items, learnSet);
 
-  learnGrid.className = "chart";
-  learnGrid.innerHTML = "";
-  learnGrid.appendChild(chartHeader(learnSet));
+  const frag = document.createDocumentFragment();
+  frag.appendChild(chartHeader(learnSet));
 
   let animIndex = 0;
   rows.forEach(r => {
@@ -563,7 +589,7 @@ function renderLearn() {
       const box = document.createElement("div");
       const isYouon = c.set === "youon" || c.character.length > 1;
       box.className = "kana-box";
-      box.style.animationDelay = `${Math.min(animIndex * 14, 280)}ms`;
+      box.style.animationDelay = `${Math.min(animIndex * 8, 140)}ms`;
       animIndex++;
 
       box.innerHTML = `
@@ -573,8 +599,12 @@ function renderLearn() {
       box.addEventListener("click", () => openKanaFlow(c));
       row.appendChild(box);
     });
-    learnGrid.appendChild(row);
+    frag.appendChild(row);
   });
+
+  learnGrid.className = "chart";
+  learnGrid.innerHTML = "";
+  learnGrid.appendChild(frag);
 }
 
 document.querySelectorAll("#learnScriptToggle .seg-btn").forEach(btn => {
@@ -593,12 +623,12 @@ document.querySelectorAll("#subsetTabs .seg-btn").forEach(btn => {
   });
 });
 
-/* Pencarian Karakter Kana */
+/* Pencarian Karakter Kana (Debounced) */
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 
 if (searchInput && searchResults) {
-  searchInput.addEventListener("input", () => {
+  const handleKanaSearch = debounce(() => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) {
       searchResults.classList.add("hidden");
@@ -610,6 +640,7 @@ if (searchInput && searchResults) {
     if (!matches.length) {
       searchResults.innerHTML = `<div class="search-item"><span>Tidak ada hasil</span></div>`;
     } else {
+      const frag = document.createDocumentFragment();
       matches.forEach(item => {
         const d = document.createElement("div");
         d.className = "search-item";
@@ -619,11 +650,14 @@ if (searchInput && searchResults) {
           searchInput.value = "";
           openKanaFlow(item);
         });
-        searchResults.appendChild(d);
+        frag.appendChild(d);
       });
+      searchResults.appendChild(frag);
     }
     searchResults.classList.remove("hidden");
-  });
+  }, 100);
+
+  searchInput.addEventListener("input", handleKanaSearch);
 
   document.addEventListener("click", e => {
     if (!e.target.closest(".search-box")) searchResults.classList.add("hidden");
@@ -684,7 +718,7 @@ function showStep2(c, autoSpeak = false) {
 
   updateLeftColumnStripAndRow(c);
   loadAndInjectSvg(c);
-  setTimeout(initCanvasDrawing, 40);
+  requestAnimationFrame(initCanvasDrawing);
 
   if (autoSpeak) {
     speak(c.character, document.getElementById("modalSoundBtn"));
@@ -721,7 +755,7 @@ function closeAllKanaModals() {
     modalStep1.classList.add("hidden");
     modalStep2.classList.add("hidden");
     clearUserCanvas();
-  }, 200);
+  }, 180);
 }
 
 document.getElementById("step1CharBox")?.addEventListener("click", () => {
@@ -750,7 +784,7 @@ modalOverlay?.addEventListener("click", (e) => {
   if (e.target === modalOverlay) closeAllKanaModals();
 });
 
-/* Kanvas & Animasi SVG */
+/* Kanvas & Animasi SVG (Cached Rect, Zero Duplicate Listeners) */
 const SVG_NS = "http://www.w3.org/2000/svg";
 const strokeSvgWrapper = document.getElementById("strokeSvgWrapper");
 const noAnimationNotice = document.getElementById("noAnimationNotice");
@@ -775,36 +809,49 @@ function initCanvasDrawing() {
   if (!canvasEl) return;
   canvasCtx = canvasEl.getContext("2d");
 
-  const rect = canvasEl.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  canvasEl.width = (rect.width || 300) * dpr;
-  canvasEl.height = (rect.height || 300) * dpr;
+  canvasRect = canvasEl.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvasEl.width = (canvasRect.width || 300) * dpr;
+  canvasEl.height = (canvasRect.height || 300) * dpr;
   canvasCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   clearUserCanvas();
 
-  canvasEl.onmousedown = (e) => startDrawing(getPos(e));
-  canvasEl.onmousemove = (e) => draw(getPos(e));
-  window.onmouseup = () => stopDrawing();
+  if (!canvasBound) {
+    canvasBound = true;
+    canvasEl.addEventListener("mousedown", (e) => {
+      canvasRect = canvasEl.getBoundingClientRect();
+      startDrawing(getPos(e));
+    });
+    canvasEl.addEventListener("mousemove", (e) => {
+      if (isDrawing) draw(getPos(e));
+    });
+    window.addEventListener("mouseup", stopDrawing);
 
-  canvasEl.ontouchstart = (e) => {
-    e.preventDefault();
-    if (e.touches.length === 1) startDrawing(getTouchPos(e.touches[0]));
-  };
-  canvasEl.ontouchmove = (e) => {
-    e.preventDefault();
-    if (e.touches.length === 1) draw(getTouchPos(e.touches[0]));
-  };
-  window.ontouchend = () => stopDrawing();
+    canvasEl.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        canvasRect = canvasEl.getBoundingClientRect();
+        startDrawing(getTouchPos(e.touches[0]));
+      }
+    }, { passive: false });
+
+    canvasEl.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      if (isDrawing && e.touches.length === 1) {
+        draw(getTouchPos(e.touches[0]));
+      }
+    }, { passive: false });
+
+    window.addEventListener("touchend", stopDrawing, { passive: true });
+  }
 }
 
 function getPos(e) {
-  const rect = canvasEl.getBoundingClientRect();
-  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  return { x: e.clientX - canvasRect.left, y: e.clientY - canvasRect.top };
 }
 function getTouchPos(touch) {
-  const rect = canvasEl.getBoundingClientRect();
-  return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+  return { x: touch.clientX - canvasRect.left, y: touch.clientY - canvasRect.top };
 }
 function startDrawing(pos) {
   isDrawing = true;
@@ -939,14 +986,16 @@ function renderStrokeLegend(count) {
   const container = document.getElementById("modalLegendPills");
   if (!container) return;
   container.innerHTML = "";
+  const frag = document.createDocumentFragment();
   for (let i = 0; i < count; i++) {
     const pill = document.createElement("button");
     pill.type = "button";
     pill.className = "stroke-legend-pill";
     pill.innerHTML = `<span class="dot" style="background-color:${getStrokeColor(i)}"></span> Goresan ${i + 1}`;
     pill.addEventListener("click", () => playSingleAt(i));
-    container.appendChild(pill);
+    frag.appendChild(pill);
   }
+  container.appendChild(frag);
 }
 
 function showUpTo(k) {
@@ -993,13 +1042,13 @@ async function animateStrokeOrder() {
   showUpTo(0);
   isAnimatingStroke = true;
   currentStepStrokeIdx = 0;
-  await sleep(180);
+  await sleep(160);
 
   for (let i = 0; i < strokeItems.length; i++) {
     const ok = await drawStroke(i, token);
     if (!ok) return;
     currentStepStrokeIdx = i + 1;
-    await sleep(200 / SPEEDS[speedIdx]);
+    await sleep(180 / SPEEDS[speedIdx]);
   }
   if (token === animToken) {
     penDot.style.opacity = 0;
@@ -1050,7 +1099,7 @@ async function loadAndInjectSvg(c) {
   const chars = Array.from(c.character);
   modalPlayStrokeBtn.disabled = true;
   modalNextStrokeBtn.disabled = true;
-  strokeSvgWrapper.innerHTML = `<span class="stroke-loading">Memuat goresan...</span>`;
+  strokeSvgWrapper.innerHTML = `<div class="stroke-skeleton" aria-label="Memuat goresan"></div>`;
 
   try {
     const svgTexts = await Promise.all(chars.map(ch => fetchCleanSvg(ch, c.category)));
@@ -1091,6 +1140,7 @@ function updateLeftColumnStripAndRow(c) {
     it => it.category === c.category && it.set === c.set && it.group === c.group
   );
 
+  const frag = document.createDocumentFragment();
   sameGroupList.forEach(item => {
     const itemBtn = document.createElement("div");
     itemBtn.className = `group-kana-item ${item.character === c.character ? "active" : ""}`;
@@ -1098,8 +1148,9 @@ function updateLeftColumnStripAndRow(c) {
     itemBtn.addEventListener("click", () => {
       showStep2(item, true);
     });
-    groupContainer.appendChild(itemBtn);
+    frag.appendChild(itemBtn);
   });
+  groupContainer.appendChild(frag);
 }
 
 document.getElementById("modalSoundBtn")?.addEventListener("click", (e) => {
@@ -1154,7 +1205,8 @@ function renderSetup() {
   });
   const container = document.getElementById("setupCharGroups");
   if (!container) return;
-  container.innerHTML = "";
+
+  const frag = document.createDocumentFragment();
 
   SET_ORDER.forEach(set => {
     const items = allCharacters.filter(i => i.category === setupCategory && i.set === set);
@@ -1213,8 +1265,11 @@ function renderSetup() {
     });
 
     block.appendChild(chart);
-    container.appendChild(block);
+    frag.appendChild(block);
   });
+
+  container.innerHTML = "";
+  container.appendChild(frag);
 
   const totalSelected = selectedChars.size;
   document.getElementById("selectedCount").textContent = `${totalSelected} dipilih`;
@@ -1412,10 +1467,11 @@ function buildChoicesStrict(field) {
   const chosenDistractors = uniqueDistractors.slice(0, 3);
   const finalOptions = shuffle([currentItem, ...chosenDistractors]);
 
+  const frag = document.createDocumentFragment();
   finalOptions.forEach((opt, idx) => {
     const box = document.createElement("div");
     box.className = "quiz-radio-option";
-    box.style.animationDelay = `${idx * 45}ms`;
+    box.style.animationDelay = `${idx * 28}ms`;
     box.dataset.val = opt[field];
     box.dataset.idx = idx + 1;
 
@@ -1426,8 +1482,9 @@ function buildChoicesStrict(field) {
     `;
 
     box.addEventListener("click", () => handleChoice(box, opt[field] === currentItem[field]));
-    wrap.appendChild(box);
+    frag.appendChild(box);
   });
+  wrap.appendChild(frag);
 }
 
 function handleChoice(selectedEl, isCorrect) {
@@ -1468,7 +1525,7 @@ function handleChoice(selectedEl, isCorrect) {
     currentIndex++;
     if (currentIndex >= sessionQueue.length) finishQuiz();
     else generateQuizItem();
-  }, 1050);
+  }, 1000);
 }
 
 function checkTyped() {
@@ -1505,7 +1562,7 @@ function checkTyped() {
     currentIndex++;
     if (currentIndex >= sessionQueue.length) finishQuiz();
     else generateQuizItem();
-  }, 1050);
+  }, 1000);
 }
 
 document.getElementById("submitAnswerBtn")?.addEventListener("click", checkTyped);
@@ -1600,10 +1657,11 @@ function renderVocabList() {
     return;
   }
 
+  const frag = document.createDocumentFragment();
   vocabList.forEach((item, idx) => {
     const row = document.createElement("div");
     row.className = "vocab-row";
-    row.style.animationDelay = `${Math.min(idx * 22, 260)}ms`;
+    row.style.animationDelay = `${Math.min(idx * 12, 140)}ms`;
     row.innerHTML = `
       <div class="vocab-col-word">${item.word}</div>
       <div class="vocab-col-romaji">${item.romaji}</div>
@@ -1614,8 +1672,9 @@ function renderVocabList() {
     `;
     const audioBtn = row.querySelector(".vocab-row-audio");
     audioBtn.addEventListener("click", () => speak(item.word, audioBtn));
-    vocabListBody.appendChild(row);
+    frag.appendChild(row);
   });
+  vocabListBody.appendChild(frag);
 }
 
 function renderVocabCard() {
@@ -1631,7 +1690,7 @@ function renderVocabCard() {
   document.getElementById("vocabFrontTypeTag").textContent = (cur.type || "kana").toUpperCase();
 }
 
-vocabSearchInput?.addEventListener("input", initVocabReading);
+vocabSearchInput?.addEventListener("input", debounce(initVocabReading, 120));
 
 document.querySelectorAll("#vocabCategoryFilter .seg-btn").forEach(btn => {
   btn.addEventListener("click", () => {

@@ -12,11 +12,12 @@
 }
 
 /* =========================================================================
-   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + SPRING MOTION
+   NAKAMAGAKKOU — UNIFIED 8-BLOCK BENTO + JFT + REFINED MOTION
    ========================================================================= */
 :root {
   --bg: #FDFBF7;
   --surface: #FFFFFF;
+  --surface-glass: rgba(255, 255, 255, 0.92);
   --ink: #111111;
   --ink-badge: #111111;
   --dim: #5A5A5A;
@@ -47,7 +48,7 @@
   --radius-card: 24px;
   --radius-icon: 16px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.48, 0.64, 1);
+  --ease-soft: cubic-bezier(0.25, 0.8, 0.25, 1);
   --ease-slider: cubic-bezier(0.25, 1, 0.3, 1);
 }
 
@@ -57,6 +58,7 @@
 html[data-theme="dark"] {
   --bg: #0F1115;
   --surface: #1A1D24;
+  --surface-glass: rgba(26, 29, 36, 0.9);
   --ink: #F3F4F6;
   --ink-badge: #111111;
   --dim: #9CA3AF;
@@ -87,6 +89,7 @@ html[data-theme="dark"] {
 html {
   width: 100%;
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -104,7 +107,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.28s ease, color 0.28s ease;
+  transition: background-color 0.24s ease, color 0.24s ease;
 }
 
 @media (min-width: 961px) {
@@ -121,8 +124,14 @@ body.cinema-mode {
   display: none !important;
 }
 
+/* Focus state untuk aksesibilitas keyboard */
+:focus-visible {
+  outline: 3px solid var(--green-brand);
+  outline-offset: 2px;
+}
+
 /* =========================================================================
-   SPLASH SCREEN
+   SPLASH SCREEN (DIPERCEPAT & LEBIH RINGAN)
    ========================================================================= */
 #splash {
   position: fixed;
@@ -136,11 +145,11 @@ body.cinema-mode {
   align-items: center;
   justify-content: center;
   gap: 18px;
-  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease), visibility 0.45s;
+  transition: opacity 0.32s var(--ease), transform 0.32s var(--ease), visibility 0.32s;
 }
 #splash.hidden {
   opacity: 0;
-  transform: scale(1.04);
+  transform: scale(1.02);
   visibility: hidden;
   pointer-events: none;
 }
@@ -154,11 +163,11 @@ body.cinema-mode {
   box-shadow: var(--shadow);
   display: grid;
   place-items: center;
-  animation: splashPop 0.55s var(--ease-spring) both;
+  animation: splashPop 0.38s var(--ease) both;
 }
 @keyframes splashPop {
-  0% { opacity: 0; transform: scale(0.6) rotate(-10deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  0% { opacity: 0; transform: scale(0.84); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .checkmark-svg { width: 46px; height: 46px; }
@@ -168,7 +177,7 @@ body.cinema-mode {
   stroke-width: 3.5;
   stroke: var(--ink-badge);
   stroke-linecap: round;
-  animation: stroke 0.5s var(--ease) forwards;
+  animation: stroke 0.38s var(--ease) forwards;
 }
 .checkmark-check {
   stroke-dasharray: 48;
@@ -177,7 +186,7 @@ body.cinema-mode {
   stroke: #15803D;
   stroke-linecap: round;
   stroke-linejoin: round;
-  animation: stroke 0.35s var(--ease) 0.35s forwards;
+  animation: stroke 0.28s var(--ease) 0.24s forwards;
 }
 @keyframes stroke { to { stroke-dashoffset: 0; } }
 
@@ -192,14 +201,14 @@ body.cinema-mode {
   padding: 6px 18px;
   border-radius: 14px;
   opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.48s var(--ease-spring) forwards 0.24s;
+  transform: translateY(8px);
+  animation: fadeUp 0.34s var(--ease) forwards 0.16s;
 }
 .splash-title b { color: var(--green-brand); }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
 /* =========================================================================
-   TRANSISI TIRAI PINDAH HALAMAN (NEO-BRUTALISM CURTAIN)
+   TRANSISI TIRAI PINDAH HALAMAN (RINGKAS & SMOOTH)
    ========================================================================= */
 .page-transition {
   --pt-accent: var(--c-matcha);
@@ -224,12 +233,12 @@ body.cinema-mode {
   background-image: radial-gradient(var(--dot-grid) 1.25px, transparent 1.25px);
   background-size: 22px 22px;
   border-top: 4px solid var(--border-color);
-  transform: translateY(105%);
-  transition: transform 0.38s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translate3d(0, 102%, 0);
+  transition: transform 0.26s var(--ease);
 }
 
 .page-transition.active .pt-curtain {
-  transform: translateY(0%);
+  transform: translate3d(0, 0, 0);
 }
 
 .pt-content {
@@ -240,13 +249,13 @@ body.cinema-mode {
   align-items: center;
   gap: 14px;
   opacity: 0;
-  transform: translateY(22px) scale(0.88);
-  transition: opacity 0.26s var(--ease) 0.12s, transform 0.36s var(--ease-spring) 0.1s;
+  transform: translate3d(0, 12px, 0) scale(0.95);
+  transition: opacity 0.2s var(--ease) 0.06s, transform 0.24s var(--ease) 0.05s;
 }
 
 .page-transition.active .pt-content {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .pt-icon-box {
@@ -279,59 +288,28 @@ body.cinema-mode {
 }
 
 /* =========================================================================
-   AMBIENT ORB, CLICK SPARKS & CURSOR TRAIL
+   AMBIENT SUBTLE GLOW (RINGAN UNTUK GPU)
    ========================================================================= */
 .sun {
   position: fixed;
   z-index: 0;
-  width: 58vmin;
-  height: 58vmin;
+  width: 52vmin;
+  height: 52vmin;
   left: 50%;
   top: 52%;
-  margin: -29vmin 0 0 -29vmin;
+  margin: -26vmin 0 0 -26vmin;
   border-radius: 50%;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(254, 243, 199, 0.8), transparent 70%);
-  filter: blur(50px);
-  transition: transform 0.3s ease-out, background 0.3s ease;
+  background: radial-gradient(circle, rgba(254, 243, 199, 0.55), transparent 68%);
+  filter: blur(32px);
+  transition: transform 0.4s var(--ease), background 0.3s ease;
 }
 html[data-theme="dark"] .sun {
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.14), rgba(56, 189, 248, 0.06), transparent 70%);
-}
-
-.fx { position: fixed; inset: 0; z-index: 80; pointer-events: none; overflow: hidden; }
-#trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 55; pointer-events: none; }
-
-.spark {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 2px solid var(--ink-badge);
-  border-radius: 3px;
-  background: var(--c-amber);
-  pointer-events: none;
-  animation: sparkFly 0.65s var(--ease) forwards;
-}
-@keyframes sparkFly {
-  0% { transform: translate(-50%, -50%) scale(0.6) rotate(0deg); opacity: 1; }
-  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(var(--r)); opacity: 0; }
-}
-.pulse {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2.5px solid var(--ink);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: pulseOut 0.5s ease-out forwards;
-}
-@keyframes pulseOut {
-  to { width: 72px; height: 72px; opacity: 0; }
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1), rgba(56, 189, 248, 0.04), transparent 68%);
 }
 
 /* =========================================================================
-   TOPBAR KAPSUL NEO-BRUTALISM
+   TOPBAR KAPSUL NEO-BRUTALISM (FLOATING PILL + SHRINK ON SCROLL)
    ========================================================================= */
 .fixed-topbar {
   position: fixed;
@@ -342,11 +320,11 @@ html[data-theme="dark"] .sun {
   z-index: 60;
   pointer-events: none;
   padding: 0 20px;
-  animation: navSlideDown 0.55s var(--ease-spring) forwards;
+  transition: transform 0.28s var(--ease);
 }
-@keyframes navSlideDown {
-  0% { opacity: 0; transform: translateY(-28px) scale(0.97); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+
+.fixed-topbar.is-scrolled {
+  transform: translate3d(0, -6px, 0);
 }
 
 .topbar-capsule {
@@ -362,7 +340,16 @@ html[data-theme="dark"] .sun {
   background: var(--surface);
   border: var(--border);
   box-shadow: var(--shadow);
-  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: padding 0.24s var(--ease), border-radius 0.24s var(--ease), box-shadow 0.24s var(--ease), background-color 0.24s ease, border-color 0.24s ease;
+}
+
+.fixed-topbar.is-scrolled .topbar-capsule {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-sm);
 }
 
 .topbar-left {
@@ -386,11 +373,11 @@ html[data-theme="dark"] .sun {
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   flex-shrink: 0;
-  animation: chipPopIn 0.3s var(--ease-spring) both;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  animation: chipPopIn 0.22s var(--ease) both;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
 .nav-back-circle:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px) scale(0.97);
   box-shadow: none;
 }
 
@@ -400,6 +387,11 @@ html[data-theme="dark"] .sun {
   text-decoration: none;
   color: var(--ink);
   min-height: 44px;
+  border-radius: 10px;
+  transition: opacity 0.15s ease;
+}
+.logo:active {
+  opacity: 0.78;
 }
 .logo-word {
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
@@ -423,11 +415,11 @@ html[data-theme="dark"] .sun {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 180px;
-  animation: chipPopIn 0.32s var(--ease-spring) both;
+  animation: chipPopIn 0.22s var(--ease) both;
 }
 
 @keyframes chipPopIn {
-  0% { opacity: 0; transform: scale(0.75) translateX(-8px); }
+  0% { opacity: 0; transform: scale(0.9) translateX(-4px); }
   100% { opacity: 1; transform: scale(1) translateX(0); }
 }
 
@@ -451,10 +443,10 @@ html[data-theme="dark"] .sun {
   border: var(--border-sm);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
 .theme-toggle-btn:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px) scale(0.97);
   box-shadow: none;
 }
 .theme-toggle-btn .icon-sun { display: none; }
@@ -476,11 +468,11 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
   gap: 8px;
   cursor: pointer;
   font-family: inherit;
-  animation: chipPopIn 0.32s var(--ease-spring) both;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  animation: chipPopIn 0.22s var(--ease) both;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
 .chapter-trigger-btn:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px) scale(0.97);
   box-shadow: none;
 }
 .trigger-label { font-size: 0.92rem; font-weight: 700; white-space: nowrap; }
@@ -496,7 +488,7 @@ html[data-theme="dark"] .theme-toggle-btn .icon-moon { display: none; }
 }
 
 /* =========================================================================
-   MAIN LAYOUT, VIEW SWITCHING & STAGGERED ENTRANCE
+   MAIN LAYOUT, VIEW SWITCHING & STAGGERED ENTRANCE (REFINED)
    ========================================================================= */
 main {
   position: relative;
@@ -508,13 +500,13 @@ main {
 }
 
 body.page-leaving .fixed-topbar {
-  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
-  transform: translateY(-18px) scale(0.98);
+  transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+  transform: translateY(-10px);
   opacity: 0;
 }
 body.page-leaving main {
-  transition: transform 0.28s var(--ease), opacity 0.25s var(--ease);
-  transform: scale(0.97);
+  transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+  transform: scale(0.985);
   opacity: 0;
 }
 
@@ -526,55 +518,55 @@ body.page-leaving main {
   display: block;
 }
 
-/* Animasi transisi tampilan internal (Maju / Mundur) */
+/* Animasi transisi tampilan internal yang lebih halus dan singkat */
 .view.enter-forward {
-  animation: viewEnterForward 0.38s var(--ease) both;
+  animation: viewEnterForward 0.26s var(--ease) both;
 }
 .view.enter-back {
-  animation: viewEnterBack 0.38s var(--ease) both;
+  animation: viewEnterBack 0.26s var(--ease) both;
 }
 .view.leave-forward {
   display: block;
-  animation: viewLeaveForward 0.22s var(--ease) both;
+  animation: viewLeaveForward 0.14s var(--ease) both;
   pointer-events: none;
 }
 .view.leave-back {
   display: block;
-  animation: viewLeaveBack 0.22s var(--ease) both;
+  animation: viewLeaveBack 0.14s var(--ease) both;
   pointer-events: none;
 }
 
 @keyframes viewEnterForward {
-  0% { opacity: 0; transform: translateX(26px) scale(0.985); }
-  100% { opacity: 1; transform: translateX(0) scale(1); }
+  0% { opacity: 0; transform: translate3d(14px, 0, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes viewEnterBack {
-  0% { opacity: 0; transform: translateX(-26px) scale(0.985); }
-  100% { opacity: 1; transform: translateX(0) scale(1); }
+  0% { opacity: 0; transform: translate3d(-14px, 0, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes viewLeaveForward {
-  0% { opacity: 1; transform: translateX(0) scale(1); }
-  100% { opacity: 0; transform: translateX(-22px) scale(0.98); }
+  0% { opacity: 1; transform: translate3d(0, 0, 0); }
+  100% { opacity: 0; transform: translate3d(-12px, 0, 0); }
 }
 @keyframes viewLeaveBack {
-  0% { opacity: 1; transform: translateX(0) scale(1); }
-  100% { opacity: 0; transform: translateX(22px) scale(0.98); }
+  0% { opacity: 1; transform: translate3d(0, 0, 0); }
+  100% { opacity: 0; transform: translate3d(12px, 0, 0); }
 }
 
-/* Staggered Pop-In untuk kartu & blok konten */
+/* Staggered Entrance yang halus tanpa bounce berlebihan */
 .stagger-animate {
-  animation: cardStaggerIn 0.52s var(--ease-spring) backwards;
-  animation-delay: calc(var(--stagger-i, 0) * 52ms);
+  animation: cardStaggerIn 0.34s var(--ease) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 32ms);
 }
 
 @keyframes cardStaggerIn {
   0% {
     opacity: 0;
-    transform: translateY(26px) scale(0.92);
+    transform: translate3d(0, 14px, 0);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -621,8 +613,7 @@ body.page-leaving main {
   min-height: 225px;
   padding: 20px;
   box-shadow: var(--shadow);
-  transform-style: preserve-3d;
-  transition: transform 0.24s var(--ease), box-shadow 0.22s var(--ease), opacity 0.24s var(--ease), background-color 0.25s ease;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), opacity 0.2s var(--ease), background-color 0.24s ease;
   cursor: pointer;
   overflow: hidden;
 }
@@ -632,12 +623,12 @@ body.page-leaving main {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    260px circle at var(--mx) var(--my),
+    240px circle at var(--mx) var(--my),
     var(--accent),
     transparent 70%
   );
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.24s ease;
   pointer-events: none;
   z-index: 0;
 }
@@ -651,26 +642,16 @@ body.page-leaving main {
 .card-choukai                 { --accent: var(--c-peach); }
 .card-jft                     { --accent: var(--c-lime); }
 
-/* Animasi Fokus Kartu Saat Diklik Menuju Fitur */
+/* Animasi Fokus Kartu Saat Diklik (Subtle) */
 .neo-card.card-launching {
   z-index: 20;
-  transform: scale(1.04) translateY(-6px) !important;
-  box-shadow: 10px 10px 0px 0px var(--shadow-color) !important;
-  border-color: var(--border-color);
-}
-.neo-card.card-launching .icon-box {
-  animation: iconLaunchPop 0.42s var(--ease-spring) forwards;
+  transform: scale(1.02) translateY(-3px) !important;
+  box-shadow: var(--shadow-hover) !important;
 }
 .neo-card.sibling-dimmed {
-  opacity: 0.35 !important;
-  transform: scale(0.95) !important;
+  opacity: 0.45 !important;
+  transform: scale(0.98) !important;
   pointer-events: none;
-}
-
-@keyframes iconLaunchPop {
-  0%   { transform: translateZ(32px) scale(1) rotate(0deg); }
-  45%  { transform: translateZ(40px) scale(1.18) rotate(-8deg); }
-  100% { transform: translateZ(36px) scale(1.08) rotate(6deg); }
 }
 
 /* Kartu Terkunci */
@@ -685,12 +666,12 @@ body.page-leaving main {
 
 @keyframes lockedShake {
   0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px) rotate(-1deg); }
-  50% { transform: translateX(6px) rotate(1deg); }
-  80% { transform: translateX(-3px); }
+  25% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  85% { transform: translateX(-2px); }
 }
 .shake-locked {
-  animation: lockedShake 0.34s ease-in-out;
+  animation: lockedShake 0.26s ease-in-out;
 }
 
 .card-index {
@@ -705,7 +686,6 @@ body.page-leaving main {
   background: var(--accent);
   color: var(--ink-badge);
   border: 2px solid var(--border-color);
-  transform: translateZ(18px);
 }
 
 .icon-box {
@@ -720,8 +700,7 @@ body.page-leaving main {
   box-shadow: var(--shadow-sm);
   display: grid;
   place-items: center;
-  transform: translateZ(32px);
-  transition: transform 0.28s var(--ease-spring), box-shadow 0.25s var(--ease);
+  transition: transform 0.22s var(--ease), box-shadow 0.2s var(--ease);
 }
 .icon-box svg {
   width: 36px;
@@ -738,7 +717,6 @@ body.page-leaving main {
   gap: 10px;
   padding-top: 12px;
   border-top: 2px dashed var(--dashed-line);
-  transform: translateZ(22px);
 }
 
 .card-title {
@@ -760,7 +738,7 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  transition: transform 0.22s var(--ease-spring), background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s var(--ease), background-color 0.18s ease, color 0.18s ease;
 }
 .card-arrow svg {
   width: 17px;
@@ -788,18 +766,18 @@ body.page-leaving main {
     box-shadow: var(--shadow-hover);
   }
   .neo-card:not(.is-locked):hover::before {
-    opacity: 0.35;
+    opacity: 0.26;
   }
   html[data-theme="dark"] .neo-card:not(.is-locked):hover::before {
-    opacity: 0.14;
+    opacity: 0.12;
   }
   .neo-card:not(.is-locked):hover .icon-box {
-    transform: translateZ(36px) scale(1.08) rotate(-4deg);
+    transform: scale(1.05) rotate(-2deg);
   }
   .neo-card:not(.is-locked):hover .card-arrow {
     background: var(--accent);
     color: var(--ink-badge);
-    transform: translate(2px, -2px) scale(1.05);
+    transform: translate(2px, -2px);
   }
   .jft-cta-btn:hover {
     background: var(--c-amber);
@@ -808,9 +786,14 @@ body.page-leaving main {
   }
 }
 
+/* Touch & Press Feedback di Desktop dan Mobile */
 .neo-card:not(.is-locked):active {
-  transform: translate(3px, 3px) !important;
+  transform: translate(2px, 2px) scale(0.985) !important;
   box-shadow: 2px 2px 0px 0px var(--shadow-color) !important;
+}
+.neo-card:not(.is-locked):active .card-arrow {
+  background: var(--accent);
+  color: var(--ink-badge);
 }
 
 /* =========================================================================
@@ -920,12 +903,12 @@ body.page-leaving main {
 }
 
 .jft-workspace-panel.panel-refresh {
-  animation: panelPopRefresh 0.36s var(--ease-spring) both;
+  animation: panelPopRefresh 0.24s var(--ease) both;
 }
 
 @keyframes panelPopRefresh {
-  0% { opacity: 0.6; transform: translateY(10px) scale(0.985); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% { opacity: 0.72; transform: translate3d(0, 6px, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 .jft-workspace-header {
@@ -961,7 +944,7 @@ body.page-leaving main {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
+  min-height: 44px;
   padding: 8px 16px;
   border-radius: 12px;
   background: var(--c-matcha);
@@ -971,10 +954,10 @@ body.page-leaving main {
   text-decoration: none;
   font-size: 0.86rem;
   font-weight: 700;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
 }
 .jft-cta-btn:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px) scale(0.98);
   box-shadow: none;
 }
 
@@ -1029,10 +1012,10 @@ body.page-leaving main {
   place-items: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s ease, color 0.15s ease;
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease, color 0.14s ease;
 }
 .nav-arrow-btn:active {
-  transform: translate(4px, 4px);
+  transform: translate(3px, 3px) scale(0.97);
   box-shadow: none;
 }
 
@@ -1064,7 +1047,7 @@ body.page-leaving main {
   color: var(--ink);
   text-decoration: none;
   box-shadow: var(--shadow);
-  transition: transform 0.52s var(--ease-slider), opacity 0.52s var(--ease-slider), filter 0.52s var(--ease-slider), box-shadow 0.2s ease, background-color 0.25s ease;
+  transition: transform 0.38s var(--ease-slider), opacity 0.38s var(--ease-slider), box-shadow 0.2s ease, background-color 0.24s ease;
   user-select: none;
 }
 
@@ -1077,34 +1060,33 @@ body.page-leaving main {
   transform: translateX(0) scale(1) translateZ(0);
   opacity: 1;
   z-index: 10;
-  filter: blur(0);
   cursor: pointer;
   pointer-events: auto;
 }
 
 .chapter-flashcard.prev {
-  transform: translateX(-72%) scale(0.8) translateZ(-80px) rotate(-4deg);
+  transform: translateX(-72%) scale(0.82) translateZ(-80px) rotate(-3deg);
   opacity: 0.55;
   z-index: 5;
   cursor: pointer;
 }
 
 .chapter-flashcard.next {
-  transform: translateX(72%) scale(0.8) translateZ(-80px) rotate(4deg);
+  transform: translateX(72%) scale(0.82) translateZ(-80px) rotate(3deg);
   opacity: 0.55;
   z-index: 5;
   cursor: pointer;
 }
 
 .chapter-flashcard.hidden-left {
-  transform: translateX(-130%) scale(0.55);
+  transform: translateX(-125%) scale(0.6);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
 }
 
 .chapter-flashcard.hidden-right {
-  transform: translateX(130%) scale(0.55);
+  transform: translateX(125%) scale(0.6);
   opacity: 0;
   z-index: 1;
   pointer-events: none;
@@ -1145,7 +1127,7 @@ body.page-leaving main {
   box-shadow: var(--shadow-sm);
   display: grid;
   place-items: center;
-  transition: transform 0.25s var(--ease);
+  transition: transform 0.22s var(--ease);
 }
 .chapter-icon-box svg {
   width: 40px;
@@ -1184,7 +1166,7 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   border: 2px solid var(--border-color);
-  transition: transform 0.2s var(--ease), background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.18s var(--ease), background-color 0.18s ease, color 0.18s ease;
 }
 
 @media (hover: hover) {
@@ -1199,14 +1181,14 @@ body.page-leaving main {
   }
   .chapter-flashcard.prev:hover {
     opacity: 0.85;
-    transform: translateX(-72%) scale(0.83) translateZ(-50px) rotate(-2deg);
+    transform: translateX(-72%) scale(0.84) translateZ(-50px) rotate(-2deg);
   }
   .chapter-flashcard.next:hover {
     opacity: 0.85;
-    transform: translateX(72%) scale(0.83) translateZ(-50px) rotate(2deg);
+    transform: translateX(72%) scale(0.84) translateZ(-50px) rotate(2deg);
   }
   .chapter-flashcard.active:hover .chapter-icon-box {
-    transform: scale(1.06) rotate(-3deg);
+    transform: scale(1.05) rotate(-2deg);
   }
   .chapter-flashcard.active:hover .action-icon-circle {
     background: var(--card-accent);
@@ -1222,14 +1204,14 @@ body.page-leaving main {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(10, 11, 14, 0.72);
+  background: rgba(10, 11, 14, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.28s var(--ease), visibility 0.28s;
+  transition: opacity 0.22s var(--ease), visibility 0.22s;
 }
 .modal-backdrop.open {
   opacity: 1;
@@ -1243,12 +1225,12 @@ body.page-leaving main {
   border-radius: var(--radius-card);
   width: 100%;
   max-width: 720px;
-  max-height: 85vh;
+  max-height: 85dvh;
   display: flex;
   flex-direction: column;
   padding: 24px;
-  transform: scale(0.92) translateY(18px);
-  transition: transform 0.34s var(--ease-spring), background-color 0.25s ease;
+  transform: scale(0.96) translateY(10px);
+  transition: transform 0.24s var(--ease), background-color 0.24s ease;
   overflow: hidden;
 }
 .modal-backdrop.open .modal-sheet {
@@ -1294,7 +1276,11 @@ body.page-leaving main {
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
+}
+.modal-close-btn:active {
+  transform: translate(2px, 2px) scale(0.97);
+  box-shadow: none;
 }
 
 .modal-grid {
@@ -1302,6 +1288,7 @@ body.page-leaving main {
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 4px 6px 6px 2px;
 }
 
@@ -1319,6 +1306,10 @@ body.page-leaving main {
   cursor: pointer;
   font-family: inherit;
   transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease), background-color 0.14s ease;
+}
+.chapter-grid-item:active {
+  transform: translate(2px, 2px) scale(0.97);
+  box-shadow: none;
 }
 
 @media (hover: hover) {
@@ -1379,6 +1370,7 @@ body.page-leaving main {
 @media (max-width: 768px) {
   .fixed-topbar { padding: 0 14px; top: 12px; }
   .topbar-capsule { padding: 8px 12px; border-radius: 16px; }
+  .fixed-topbar.is-scrolled .topbar-capsule { padding: 6px 12px; }
   main { padding: 86px 14px 32px; }
 
   .grid-8,
@@ -1511,6 +1503,10 @@ body.page-leaving main {
     height: 56px;
     margin: 6px 0;
   }
+  .jft-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
 
   .nav-crumb {
     max-width: 110px;
@@ -1573,8 +1569,12 @@ body.page-leaving main {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
