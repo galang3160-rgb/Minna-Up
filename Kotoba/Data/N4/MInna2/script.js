@@ -1,22 +1,13 @@
 /**
- * NAKAMA GAKKOU — REFINED TACTILE LEARNING ENGINE (BAB 26-50 + STATUS HAFALAN + JP VOICE ENGINE v2)
- * Koneksi Tetap: Minna2/Bab/kode/bab${n}.json (fallback otomatis ke kode/bab${n}.json), localStorage 'nihonggo:bab', ?bab=, Modal Bab 26-50
- * Interval Pengulangan "Belum": 1 menit -> 5 menit -> 15 menit (tanpa notif pop-up)
- *
- * AUDIO v2 (satu-satunya bagian yang diubah):
- *  - selectBestJapaneseVoice(): skor fleksibel (bahasa + kualitas + perkiraan gender), bukan daftar nama saja
- *  - voiceschanged + retry berkala agar voice tidak gagal dimuat saat halaman pertama dibuka
- *  - speakJapanese(text): satu kanal audio, antrean dibatalkan otomatis -> tidak ada suara ganda
- *  - Arsitektur AI TTS opsional via endpoint proxy milik Anda (API key HANYA di server, bukan di frontend)
- *  - Jika endpoint kosong / gagal -> otomatis memakai SpeechSynthesis browser
- *
- * KONFIGURASI TTS EKSTERNAL (opsional) — pilih salah satu, sebelum script ini dimuat:
- *   <meta name="nakama-tts-endpoint" content="/api/tts">
- *   atau  <script>window.NAKAMA_TTS_CONFIG = { endpoint: '/api/tts', voiceId: '', style: 'cute' };</script>
- *
- * KONTRAK ENDPOINT:
- *   POST  { text, lang: 'ja-JP', gender: 'female', style, voiceId }
- *   Balasan salah satu: audio biner (Content-Type: audio/*)  ATAU  JSON { audioUrl } / { audioBase64, mimeType }
+ * NAKAMA GAKKOU — MINNA BAB 26-50 CLEAN FLASHCARD ENGINE (TANPA ANIMASI GESER)
+ * - Koneksi Tetap: Minna2/Bab/kode/bab${n}.json (fallback otomatis ke kode/bab${n}.json), localStorage 'nihonggo:bab', ?bab=, Modal Bab 26-50.
+ * - Pergantian kartu langsung & bersih tanpa animasi slide/miring.
+ * - Flip kartu 3D tetap halus, balik kartu (JP) hanya Kanji & Furigana.
+ * - Custom ukuran teks kartu (- dan +) tersimpan otomatis.
+ * - Again ("Belum"): pindah ke posisi paling belakang antrean sesi (FIFO adil).
+ * - Done ("Sudah"): dikeluarkan dari antrean aktif sesi & tersimpan.
+ * - Audio Engine v2.2: Prioritas Neural/Natural/Enhanced untuk iPad, Tablet, dan Komputer.
+ * - Shortcut: B = Belum, K = Sudah, ArrowLeft/Right = Navigasi, Spasi = Flip, R = Acak, J = Kanji, F = Furigana.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return r;
   };
+
+  function debounce(fn, wait = 120) {
+    let t = null;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), wait);
+    };
+  }
 
   const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf々]/;
 
@@ -53,16 +52,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---------- KONFIGURASI DATA & MODAL (BAB 26 - 50) ----------
+  // ---------- CUSTOM UKURAN TEKS FLASHCARD (- / +) ----------
+  const FC_SCALE_KEY = 'nakama:fc_scale';
+  const FC_MIN_SCALE = 0.65;
+  const FC_MAX_SCALE = 1.35;
+  const FC_STEP_SCALE = 0.1;
+
+  let fcScale = parseFloat(localStorage.getItem(FC_SCALE_KEY)) || 1.0;
+  fcScale = Math.max(FC_MIN_SCALE, Math.min(FC_MAX_SCALE, fcScale));
+
+  const btnCardZoomOut = $('btnCardZoomOut');
+  const btnCardZoomIn = $('btnCardZoomIn');
+
+  function applyFlashcardScale() {
+    document.documentElement.style.setProperty('--fc-scale', fcScale.toFixed(2));
+    try { localStorage.setItem(FC_SCALE_KEY, fcScale.toFixed(2)); } catch (e) {}
+    if (btnCardZoomOut) btnCardZoomOut.disabled = fcScale <= FC_MIN_SCALE + 0.01;
+    if (btnCardZoomIn) btnCardZoomIn.disabled = fcScale >= FC_MAX_SCALE - 0.01;
+  }
+
+  btnCardZoomOut?.addEventListener('click', () => {
+    if (fcScale > FC_MIN_SCALE) {
+      fcScale = Math.max(FC_MIN_SCALE, +(fcScale - FC_STEP_SCALE).toFixed(2));
+      applyFlashcardScale();
+      playTone('pop');
+    }
+  });
+
+  btnCardZoomIn?.addEventListener('click', () => {
+    if (fcScale < FC_MAX_SCALE) {
+      fcScale = Math.min(FC_MAX_SCALE, +(fcScale + FC_STEP_SCALE).toFixed(2));
+      applyFlashcardScale();
+      playTone('pop');
+    }
+  });
+
+  applyFlashcardScale();
+
+  // ---------- KONFIGURASI DATA & MODAL (BAB 26 - 50 — TIDAK DIUBAH) ----------
   const DATA_PATH = n => `Minna2/Bab/kode/bab${n}.json`;
   const FALLBACK_PATH = n => `kode/bab${n}.json`;
   const START_CHAPTER = 26;
   const END_CHAPTER = 50;
   const SAVE_KEY = 'nihonggo:bab';
   const HAFALAN_KEY = 'nakama:bab_hafalan_v1';
-
-  // Interval Spaced Repetition dalam menit (1 menit, 5 menit, 15 menit)
-  const SR_INTERVALS_MIN = [1, 5, 15];
 
   // ---------- STATE UTAMA ----------
   let currentBab = START_CHAPTER;
@@ -78,6 +111,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let isReversedCard = false;
 
   let quizPool = [], qi = 0, qScore = 0, answered = false, runId = 0, loadId = 0;
+
+  // ---------- COMPACT TOPBAR SAAT SCROLL LIST ----------
+  const fixedTopbar = $('fixedTopbar');
+  const checklistGridEl = $('checklistGrid');
+  if (fixedTopbar && checklistGridEl) {
+    let listTicking = false;
+    checklistGridEl.addEventListener('scroll', () => {
+      if (!listTicking) {
+        listTicking = true;
+        requestAnimationFrame(() => {
+          fixedTopbar.classList.toggle('is-compact', checklistGridEl.scrollTop > 16);
+          listTicking = false;
+        });
+      }
+    }, { passive: true });
+  }
 
   // ---------- PENYIMPANAN STATUS HAFALAN (LOCALSTORAGE) ----------
   let hafalanStore = {};
@@ -108,12 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function isItemMastered(item) {
     const rec = getItemHafalan(item);
-    return rec && rec.status === 'sudah';
-  }
-
-  function isItemDue(item, now = Date.now()) {
-    const rec = getItemHafalan(item);
-    return rec && rec.status === 'belum' && rec.nextReview && rec.nextReview <= now;
+    return !!(rec && rec.status === 'sudah');
   }
 
   function updateHafalanSummary() {
@@ -125,11 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =====================================================================
-  //  AUDIO ENGINE v2 — SUARA JEPANG (SpeechSynthesis + opsi AI TTS via proxy)
+  //  AUDIO ENGINE v2.2 — KUALITAS TINGGI UNTUK IPAD, TABLET & KOMPUTER
   // =====================================================================
   let actx = null;
+  const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+  const isAppleTouch = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-  // ---- Konfigurasi TTS eksternal (tanpa secret di frontend) ----
   const TTS_CONFIG = (() => {
     const meta = document.querySelector('meta[name="nakama-tts-endpoint"]');
     const user = window.NAKAMA_TTS_CONFIG || {};
@@ -138,23 +184,19 @@ document.addEventListener('DOMContentLoaded', () => {
       voiceId: user.voiceId || '',
       style: user.style || 'cute',
       timeoutMs: user.timeoutMs || 6000,
-      cacheMax: user.cacheMax || 80,
+      cacheMax: user.cacheMax || 100,
       failCooldownMs: user.failCooldownMs || 60000
     };
   })();
 
-  // ---- State suara ----
   let jpVoice = null;
   let jpVoiceInfo = { tier: 'none', femaleHint: 'unknown', name: '' };
   let voiceRetryTimers = [];
 
-  // Petunjuk gender dari nama/URI voice. Browser TIDAK menyediakan properti gender,
-  // jadi ini hanya heuristik; hasilnya bisa meleset di perangkat tertentu.
-  const FEMALE_HINT = /(female|woman|girl|kyoko|o-?ren|haruka|ayumi|sayaka|nanami|aoi|mayu|shiori|mizuki|ichika|momo|sakura|yui|hina|ja-jp-x-(htm|jab)|google (日本語|japanese))/;
-  const MALE_HINT = /(\bmale\b|\bman\b|keita|otoya|ichiro|daichi|naoki|hattori|takumi|kenji|ryo\b|ja-jp-x-(jac|jad))/;
-
-  // Kata kunci kualitas (bukan jaminan, hanya indikator)
-  const QUALITY_HIGH = /(neural|natural|premium|enhanced|high[\s-]?quality|wavenet|studio|online|siri)/;
+  const FEMALE_HINT = /(female|woman|girl|kyoko|o-?ren|haruka|ayumi|sayaka|nanami|aoi|mayu|shiori|mizuki|ichika|momo|sakura|yui|hina|ja-jp-x-(htm|jab|jaf)|google (日本語|japanese))/;
+  const MALE_HINT = /(\bmale\b|\bman\b|keita|otoya|ichiro|daichi|naoki|hattori|takumi|kenji|ryo\b|ja-jp-x-(jac|jad|jae))/;
+  const QUALITY_ULTRA = /(neural|natural|premium|enhanced|wavenet|studio|siri)/;
+  const QUALITY_HIGH = /(online|network|high[\s-]?quality)/;
   const QUALITY_LOW = /(compact|espeak|novelty|robot)/;
 
   const normLang = l => String(l || '').toLowerCase().replace('_', '-');
@@ -164,32 +206,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = normLang(v.lang);
     let s = 0;
 
-    // Bahasa
     if (lang === 'ja-jp') s += 60;
     else if (lang.startsWith('ja')) s += 45;
     else return -Infinity;
 
-    // Perkiraan gender (cewek diutamakan)
     const looksFemale = FEMALE_HINT.test(name);
     const looksMale = MALE_HINT.test(name);
-    if (looksMale && !looksFemale) s -= 200;
-    else if (looksFemale) s += 90;
+    if (looksMale && !looksFemale) s -= 220;
+    else if (looksFemale) s += 100;
 
-    // Kualitas
-    if (QUALITY_HIGH.test(name)) s += 70;
-    if (QUALITY_LOW.test(name)) s -= 60;
-    if (!v.localService) s += 25;            // voice online/jaringan umumnya lebih natural
-    if (/microsoft/.test(name) && /online|natural/.test(name)) s += 30;
-    if (/google/.test(name)) s += 20;
-    if (v.default) s += 3;
+    if (QUALITY_ULTRA.test(name)) s += 95;
+    else if (QUALITY_HIGH.test(name)) s += 65;
+    if (QUALITY_LOW.test(name)) s -= 70;
+
+    if (!v.localService) s += 30;
+    if (/nanami/.test(name) && /online|natural/.test(name)) s += 45;
+    if (/kyoko/.test(name) && /premium|enhanced/.test(name)) s += 45;
+    if (/google/.test(name)) s += 25;
+    if (v.default) s += 4;
 
     return s;
   }
 
   function tierOf(v) {
     const name = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
-    if (QUALITY_HIGH.test(name)) return 'high';
-    if (!v.localService) return 'good';
+    if (QUALITY_ULTRA.test(name)) return 'ultra';
+    if (QUALITY_HIGH.test(name) || !v.localService) return 'high';
     return 'basic';
   }
 
@@ -216,8 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return jpVoice;
   }
 
-  // Muat voice dengan benar: langsung, via voiceschanged, dan retry berkala
-  // (Chrome sering mengisi daftar voice secara asinkron).
   function initVoices() {
     if (!('speechSynthesis' in window)) return;
     const synth = window.speechSynthesis;
@@ -231,52 +271,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     voiceRetryTimers.forEach(clearTimeout);
-    voiceRetryTimers = [250, 600, 1200, 2500, 5000].map(ms =>
+    voiceRetryTimers = [200, 600, 1400, 2800].map(ms =>
       setTimeout(() => { if (!jpVoice) selectBestJapaneseVoice(); }, ms)
     );
   }
   initVoices();
 
-  // Gesture pertama pengguna: segarkan daftar voice (membantu Chrome Android)
   window.addEventListener('pointerdown', () => {
     if (!jpVoice) selectBestJapaneseVoice();
   }, { once: true, passive: true });
 
-  // ---- Profil suara: lembut, jernih, sedikit tinggi tapi tetap natural ----
   function getVoiceProfile() {
-    if (jpVoiceInfo.tier === 'high') {
-      // Voice neural/natural sudah ekspresif: jangan dipaksa terlalu tinggi
-      return { rate: 0.92, pitch: 1.08, volume: 1.0 };
-    }
     if (jpVoiceInfo.femaleHint === 'male') {
-      // Hanya voice cowok yang tersedia: naikkan pitch sedikit (hasil tetap terbatas)
-      return { rate: 0.93, pitch: 1.35, volume: 1.0 };
+      return { rate: 0.92, pitch: 1.22, volume: 1.0 };
     }
-    return { rate: 0.9, pitch: 1.18, volume: 1.0 };
+    if (jpVoiceInfo.tier === 'ultra') {
+      return { rate: 0.94, pitch: 1.02, volume: 1.0 };
+    }
+    if (jpVoiceInfo.tier === 'high' || isAppleDevice) {
+      return { rate: 0.91, pitch: 1.05, volume: 1.0 };
+    }
+    return { rate: 0.9, pitch: 1.08, volume: 1.0 };
   }
 
-  // ---- Persiapan teks agar pelafalan lebih akurat ----
-  // Pemanggil sudah mengirim furigana (bacaan), jadi kanji tidak salah dibaca.
   function prepareSpeechText(text) {
     let t = String(text == null ? '' : text)
-      .replace(/[（(][^）)]*[）)]/g, ' ')   // buang keterangan dalam kurung
-      .replace(/[〜～~]/g, '')               // tanda "sampai/pola"
-      .replace(/[\/／]/g, '、')              // pemisah varian -> jeda
+      .replace(/[（(][^）)]*[）)]/g, ' ')
+      .replace(/[〜～~]/g, '')
+      .replace(/[\/／]/g, '、')
       .replace(/\s+/g, ' ')
       .trim();
     if (!t) return '';
-    if (!/[。！？!?、.]$/.test(t)) t += '。';  // akhiran memberi intonasi turun yang natural
+    if (!/[。！？!?、.]$/.test(t)) t += '。';
     return t;
   }
 
-  // ---- Kanal audio tunggal (anti suara ganda) ----
   let speakToken = 0;
-  let currentUtterance = null;      // referensi agar tidak di-GC (bug Chrome)
-  let audioEl = null;               // satu elemen <audio> dipakai ulang
+  let currentUtterance = null;
+  let audioEl = null;
   let remoteAbort = null;
   let remoteFailUntil = 0;
   let lastSpoken = { text: '', at: 0 };
-  const remoteCache = new Map();    // teks -> URL audio
+  const remoteCache = new Map();
 
   function stopPlayback() {
     if (remoteAbort) { try { remoteAbort.abort(); } catch (e) {} remoteAbort = null; }
@@ -362,12 +398,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (remoteAbort === ctrl) remoteAbort = null;
     }
 
-    if (token !== speakToken || !audioOn) return;   // sudah digantikan permintaan baru
+    if (token !== speakToken || !audioOn) return;
 
     if (!audioEl) audioEl = new Audio();
     audioEl.src = url;
     audioEl.volume = 1.0;
-    await audioEl.play();                           // gagal -> fallback ke browser TTS
+    await audioEl.play();
   }
 
   function speakWithBrowser(text, token) {
@@ -375,10 +411,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const synth = window.speechSynthesis;
     if (!jpVoice) selectBestJapaneseVoice();
 
-    try { synth.cancel(); } catch (e) {}
+    const wasSpeaking = synth.speaking || synth.pending;
+    if (wasSpeaking) {
+      try { synth.cancel(); } catch (e) {}
+    }
 
-    // Jeda singkat setelah cancel() mencegah Chrome menelan utterance berikutnya
-    setTimeout(() => {
+    const doSpeak = () => {
       if (token !== speakToken || !audioOn) return;
 
       const ut = new SpeechSynthesisUtterance(text);
@@ -396,40 +434,45 @@ document.addEventListener('DOMContentLoaded', () => {
       currentUtterance = ut;
       try { if (synth.paused) synth.resume(); } catch (e) {}
       synth.speak(ut);
-    }, 60);
+    };
+
+    if (isAppleTouch || !wasSpeaking) {
+      doSpeak();
+    } else {
+      setTimeout(doSpeak, 40);
+    }
   }
 
-  // API publik lama dipertahankan: speakJapanese(text)
   function speakJapanese(text) {
     if (!audioOn || !text) return;
 
     const spoken = prepareSpeechText(text);
     if (!spoken) return;
 
-    // Abaikan ketukan beruntun untuk teks yang sama (<250 ms)
     const t = (typeof performance !== 'undefined' ? performance.now() : Date.now());
     if (spoken === lastSpoken.text && t - lastSpoken.at < 250) return;
     lastSpoken = { text: spoken, at: t };
 
-    stopPlayback();                 // hentikan suara sebelumnya -> tidak ada tumpang tindih
+    if (remoteAbort) { try { remoteAbort.abort(); } catch (e) {} remoteAbort = null; }
+    if (audioEl) { try { audioEl.pause(); audioEl.currentTime = 0; } catch (e) {} }
+
     const token = ++speakToken;
 
     if (remoteAvailable()) {
+      if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
       speakWithRemote(spoken, token).catch(() => {
-        if (token !== speakToken) return;                 // sengaja dibatalkan
+        if (token !== speakToken) return;
         remoteFailUntil = Date.now() + TTS_CONFIG.failCooldownMs;
-        speakWithBrowser(spoken, token);                  // fallback otomatis
+        speakWithBrowser(spoken, token);
       });
     } else {
       speakWithBrowser(spoken, token);
     }
   }
 
-  // Hentikan suara saat tab disembunyikan / halaman ditutup
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeech(); });
   window.addEventListener('pagehide', stopSpeech);
 
-  // Info diagnostik (opsional, untuk Console): NakamaVoice.info()
   window.NakamaVoice = {
     info: () => ({
       voice: jpVoiceInfo.name || '(tidak ada voice Jepang terdeteksi)',
@@ -444,13 +487,13 @@ document.addEventListener('DOMContentLoaded', () => {
     stop: stopSpeech
   };
 
-  // ---------- EFEK SUARA UI (Web Audio, hanya untuk bunyi klik/benar/salah) ----------
+  // ---------- EFEK SUARA UI ----------
   const TONES = {
-    pop: ['sine', 560, 290, 0.08, 0.1],
-    correct: ['sine', 580, 1160, 0.18, 0.16],
-    wrong: ['sawtooth', 280, 150, 0.18, 0.12],
+    pop: ['sine', 560, 290, 0.08, 0.09],
+    correct: ['sine', 580, 1160, 0.16, 0.14],
+    wrong: ['sawtooth', 280, 150, 0.16, 0.1],
     flip: ['sine', 420, 240, 0.07, 0.08],
-    win: ['triangle', 523, 1046, 0.35, 0.16]
+    win: ['triangle', 523, 1046, 0.3, 0.14]
   };
 
   function playTone(type) {
@@ -477,92 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ---------- VISUAL FX ----------
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(pointer: fine)').matches;
-
-  if (!reduce) {
-    const sun = $('sun');
-    if (sun && fine) {
-      addEventListener('pointermove', e => {
-        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -30}px, ${(e.clientY / innerHeight - 0.5) * -30}px)`;
-      });
-    }
-
-    const fx = $('fx');
-    const sparkColors = ['#D8F5E0', '#DFF2FE', '#FEF0C7', '#EDE4FF'];
-    addEventListener('pointerdown', e => {
-      if (!fx || e.target.closest('button, input, a')) return;
-      const pulse = document.createElement('div');
-      pulse.className = 'pulse';
-      pulse.style.left = e.clientX + 'px';
-      pulse.style.top = e.clientY + 'px';
-      pulse.onanimationend = () => pulse.remove();
-      fx.appendChild(pulse);
-
-      for (let i = 0; i < 4; i++) {
-        const angle = (Math.PI * 2 * i) / 4 + Math.random() * 0.5;
-        const dist = 32 + Math.random() * 40;
-        const sp = document.createElement('span');
-        sp.className = 'spark';
-        sp.style.left = e.clientX + 'px';
-        sp.style.top = e.clientY + 'px';
-        sp.style.background = sparkColors[i % sparkColors.length];
-        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
-        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 160}deg`);
-        sp.onanimationend = () => sp.remove();
-        fx.appendChild(sp);
-      }
-    });
-
-    const canvas = $('mouseTrail');
-    if (canvas && fine) {
-      const cctx = canvas.getContext('2d');
-      const resizeCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      };
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-
-      let mx = -100, my = -100, x = mx, y = my;
-      const pts = [];
-
-      window.addEventListener('pointermove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-
-      (function drawTrail() {
-        x += (mx - x) * 0.32;
-        y += (my - y) * 0.32;
-        pts.push({ x, y });
-        if (pts.length > 14) pts.shift();
-
-        cctx.clearRect(0, 0, canvas.width, canvas.height);
-        cctx.lineCap = 'round';
-        cctx.lineJoin = 'round';
-
-        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-
-        for (let i = 1; i < pts.length; i++) {
-          const t = i / pts.length;
-          cctx.strokeStyle = isDark
-            ? `rgba(110, 231, 183, ${t * 0.24})`
-            : `rgba(21, 128, 61, ${t * 0.18})`;
-          cctx.lineWidth = t * 8;
-          cctx.beginPath();
-          cctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-          cctx.lineTo(pts[i].x, pts[i].y);
-          cctx.stroke();
-        }
-        requestAnimationFrame(drawTrail);
-      })();
-    }
-  }
-
-  // ---------- NOTIFIKASI STATUS DATA (HANYA UNTUK ERROR / PERINGATAN) ----------
+  // ---------- NOTIFIKASI STATUS DATA ----------
   let noticeTimer = null;
   function showNotice(msg, autoHide = 0) {
     const n = $('dataNotice');
@@ -581,6 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentChapterDisplay = $('currentChapterDisplay');
   const gridButtons = [];
 
+  const modalFrag = document.createDocumentFragment();
   for (let babNum = START_CHAPTER; babNum <= END_CHAPTER; babNum++) {
     const padded = babNum < 10 ? `0${babNum}` : babNum;
 
@@ -598,9 +557,10 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal();
     });
 
-    modalGrid.appendChild(btn);
+    modalFrag.appendChild(btn);
     gridButtons.push(btn);
   }
+  modalGrid.appendChild(modalFrag);
 
   function openModal() { chapterModal.classList.add('open'); }
   function closeModal() { chapterModal.classList.remove('open'); }
@@ -653,14 +613,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleCardDirection() {
     isReversedCard = !isReversedCard;
     $('swapDirectionLabel').textContent = isReversedCard ? 'JP ➔ ID' : 'ID ➔ JP';
-    Carousel.render(Carousel.index);
+    Carousel.render();
     playTone('flip');
   }
 
   function handleShuffleCards() {
     if (activeVocab.length <= 1) return;
     activeVocab = shuffle(activeVocab);
-    Carousel.render(0);
+    Carousel.index = 0;
+    Carousel.render();
     playTone('pop');
   }
 
@@ -669,27 +630,28 @@ document.addEventListener('DOMContentLoaded', () => {
   $('swapDirectionBtn').addEventListener('click', toggleCardDirection);
   $('shuffleBtn').addEventListener('click', handleShuffleCards);
 
-  // ---------- PRIORITAS ANTREAN SPACED REPETITION ----------
-  function prioritizeVocab(list) {
-    const now = Date.now();
-    return [...list].sort((a, b) => {
-      const aDue = isItemDue(a, now) ? 1 : 0;
-      const bDue = isItemDue(b, now) ? 1 : 0;
-      if (aDue !== bDue) return bDue - aDue;
+  // ---------- PEMBANGUNAN ANTREAN AWAL (TANPA DUPLIKASI) ----------
+  function buildQueueFromSelection(list) {
+    const seen = new Set();
+    const fresh = [];
+    const again = [];
 
-      const recA = getItemHafalan(a);
-      const recB = getItemHafalan(b);
-      const aBelum = recA && recA.status === 'belum' ? 1 : 0;
-      const bBelum = recB && recB.status === 'belum' ? 1 : 0;
-
-      if (aBelum && bBelum) {
-        return (recA.nextReview || 0) - (recB.nextReview || 0);
+    list.forEach(item => {
+      if (seen.has(item.id)) return;
+      seen.add(item.id);
+      const rec = getItemHafalan(item);
+      if (rec && rec.status === 'belum') {
+        again.push({ item, order: rec.updatedAt || 0 });
+      } else {
+        fresh.push(item);
       }
-      return a.id - b.id;
     });
+
+    again.sort((a, b) => a.order - b.order);
+    return [...fresh, ...again.map(x => x.item)];
   }
 
-  // ---------- PENCARIAN & CHECKLIST ----------
+  // ---------- PENCARIAN (DEBOUNCED) & CHECKLIST ----------
   const searchInput = $('searchInput');
   const btnClearSearch = $('btnClearSearch');
 
@@ -706,13 +668,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return arti.includes(query) || furi.includes(query) || kanji.includes(query);
     });
 
-    activeVocab = prioritizeVocab(filtered);
+    activeVocab = buildQueueFromSelection(filtered);
 
     $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
     updateHafalanSummary();
 
     if (mode === 'carousel') {
-      Carousel.render(preserveIndex);
+      Carousel.index = activeVocab.length ? Math.max(0, Math.min(preserveIndex, activeVocab.length - 1)) : 0;
+      Carousel.render();
     } else if (mode === 'list') {
       renderChecklist();
     } else if (mode === 'mc' || mode === 'typing') {
@@ -726,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  searchInput.addEventListener('input', () => syncActiveVocab(0));
+  searchInput.addEventListener('input', debounce(() => syncActiveVocab(0), 120));
   btnClearSearch.addEventListener('click', () => {
     searchInput.value = '';
     syncActiveVocab(0);
@@ -735,8 +698,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderChecklist() {
     const grid = $('checklistGrid');
-    grid.innerHTML = '';
-
     const query = searchInput.value.trim().toLowerCase();
     const listToShow = !query
       ? rawChapterVocab
@@ -746,6 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
           item.kanji.toLowerCase().includes(query)
         );
 
+    const frag = document.createDocumentFragment();
     listToShow.forEach(item => {
       const isChecked = selectedIds.has(item.id);
       const mastered = isItemMastered(item);
@@ -792,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playTone('pop');
         $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
         const q = searchInput.value.trim().toLowerCase();
-        activeVocab = prioritizeVocab(
+        activeVocab = buildQueueFromSelection(
           rawChapterVocab.filter(v =>
             selectedIds.has(v.id) &&
             (!q || v.arti.toLowerCase().includes(q) || v.furigana.toLowerCase().includes(q) || v.kanji.toLowerCase().includes(q))
@@ -800,8 +762,11 @@ document.addEventListener('DOMContentLoaded', () => {
         );
       });
 
-      grid.appendChild(tile);
+      frag.appendChild(tile);
     });
+
+    grid.innerHTML = '';
+    grid.appendChild(frag);
   }
 
   $('selectAllBtn').addEventListener('click', () => {
@@ -844,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
     syncActiveVocab(0);
   });
 
-  // ---------- AKSI STATUS HAFALAN: "SUDAH" & "BELUM" (TANPA NOTIF) ----------
+  // ---------- AKSI STATUS HAFALAN (LANGSUNG & BERSIH) ----------
   const btnStatusBelum = $('btnStatusBelum');
   const btnStatusSudah = $('btnStatusSudah');
 
@@ -862,8 +827,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const store = getBabStore();
     store[getItemKey(item)] = {
       status: 'sudah',
-      level: 0,
-      nextReview: null,
       updatedAt: Date.now()
     };
     saveHafalanStore();
@@ -871,8 +834,12 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedIds.delete(item.id);
     playTone('correct');
 
-    const nextIdx = Math.min(Carousel.index, Math.max(0, activeVocab.length - 2));
-    syncActiveVocab(nextIdx);
+    activeVocab.splice(Carousel.index, 1);
+    Carousel.index = activeVocab.length ? Math.min(Carousel.index, activeVocab.length - 1) : 0;
+
+    $('selectedCountBadge').textContent = `${selectedIds.size} / ${rawChapterVocab.length} Terpilih`;
+    updateHafalanSummary();
+    Carousel.render();
   }
 
   function markCurrentBelum() {
@@ -881,18 +848,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!item) return;
 
     const store = getBabStore();
-    const key = getItemKey(item);
-    const prev = store[key];
-
-    const nextLevel = (prev && prev.status === 'belum')
-      ? Math.min((prev.level || 0) + 1, SR_INTERVALS_MIN.length - 1)
-      : 0;
-    const delayMin = SR_INTERVALS_MIN[nextLevel];
-
-    store[key] = {
+    store[getItemKey(item)] = {
       status: 'belum',
-      level: nextLevel,
-      nextReview: Date.now() + delayMin * 60 * 1000,
       updatedAt: Date.now()
     };
     saveHafalanStore();
@@ -903,234 +860,187 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeVocab.length > 1) {
       const [moved] = activeVocab.splice(Carousel.index, 1);
       activeVocab.push(moved);
-      const nextIdx = Carousel.index >= activeVocab.length ? 0 : Carousel.index;
-      Carousel.render(nextIdx);
-    } else {
-      Carousel.render(0);
+      if (Carousel.index >= activeVocab.length) Carousel.index = 0;
     }
+    Carousel.render();
   }
 
   btnStatusSudah?.addEventListener('click', markCurrentSudah);
   btnStatusBelum?.addEventListener('click', markCurrentBelum);
 
-  // Pemeriksa Otomatis Spaced Repetition (tanpa notif pop-up)
-  setInterval(() => {
-    if (mode !== 'carousel' || !activeVocab.length) return;
-    const now = Date.now();
-    const dueIdx = activeVocab.findIndex((item, idx) => idx !== Carousel.index && isItemDue(item, now));
-    if (dueIdx !== -1) {
-      const [dueItem] = activeVocab.splice(dueIdx, 1);
-      const insertPos = Math.min(Carousel.index + 1, activeVocab.length);
-      activeVocab.splice(insertPos, 0, dueItem);
-
-      const currentCardEl = $('carouselContainer')?.children[Carousel.index];
-      const isFlipped = currentCardEl && currentCardEl.classList.contains('is-flipped');
-      if (!isFlipped) {
-        Carousel.render(insertPos);
-      }
-    }
-  }, 5000);
-
-  // ---------- FLASHCARD KOSAKATA ----------
-  function buildJapaneseContentHTML(v, includeSubArti = false) {
+  // ---------- FLASHCARD ENGINE (BIASA SAJA — INSTAN & RINGAN) ----------
+  function buildJapaneseContentHTML(v) {
     if (v.hasKanji) {
       return `
         <span class="c-kanji furigana-font">${esc(v.kanji)}</span>
         <span class="c-furigana-pill furigana-font">${esc(v.furigana)}</span>
-        ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
       `;
     }
-    return `
-      <span class="c-kana-only furigana-font">${esc(v.furigana)}</span>
-      ${includeSubArti ? `<span class="c-arti-sub">${esc(v.arti)}</span>` : ''}
-    `;
+    return `<span class="c-kana-only furigana-font">${esc(v.furigana)}</span>`;
   }
+
+  let wasSwiping = false;
 
   const Carousel = {
     index: 0,
-    render(startIndex = 0) {
+    activeCardEl: null,
+
+    render() {
       const container = $('carouselContainer');
-      container.innerHTML = '';
+      const n = activeVocab.length;
+      $('carouselCounter').textContent = n ? `${Math.min(this.index + 1, n)} / ${n}` : '0 / 0';
       updateCardVisibilityUI();
       updateStatusButtonsState();
 
-      if (!activeVocab.length) {
-        $('carouselCounter').textContent = '0 / 0';
+      container.innerHTML = '';
+
+      if (!n) {
         const allDone = rawChapterVocab.length > 0 && rawChapterVocab.every(isItemMastered);
-        container.innerHTML = `
-          <div class="chapter-flashcard center">
-            <div class="carousel-card-inner">
-              <div class="carousel-face front">
-                <div class="face-top-bar"><span class="c-tag">${allDone ? 'Selesai' : 'Info'}</span></div>
-                <div class="face-center-content"><span class="c-arti">${allDone ? 'Semua Sudah Hafal!' : 'Tidak Ada Kata Aktif'}</span></div>
-                <div class="face-bottom-hint">${allDone ? 'Buka "Pilih Kata" untuk mengulang materi lagi' : 'Pilih kata di menu "Pilih Kata" atau ubah pencarian'}</div>
-              </div>
-            </div>
-          </div>`;
-        return;
-      }
-
-      const now = Date.now();
-      activeVocab.forEach((v, i) => {
         const card = document.createElement('div');
-        card.className = `chapter-flashcard hidden ${v.hasKanji ? 'has-kanji' : 'kana-only-card'}`;
-
-        const rec = getItemHafalan(v);
-        const srBadge = (rec && rec.status === 'belum')
-          ? `<span class="sr-badge">${rec.nextReview <= now ? 'Ulang Sekarang' : 'Perlu Diulang'}</span>`
-          : '';
-
-        const frontTag = isReversedCard ? 'Bahasa Jepang' : 'Bahasa Indonesia';
-        const backTag = isReversedCard ? 'Bahasa Indonesia' : 'Bahasa Jepang';
-
-        const frontContent = isReversedCard
-          ? buildJapaneseContentHTML(v, false)
-          : `<span class="c-arti">${esc(v.arti)}</span>`;
-
-        const backContent = isReversedCard
-          ? `<span class="c-arti">${esc(v.arti)}</span>`
-          : buildJapaneseContentHTML(v, true);
-
-        const frontHint = isReversedCard
-          ? 'Ketuk kartu untuk melihat arti &rarr;'
-          : 'Ketuk kartu untuk melihat bahasa Jepang &rarr;';
-
+        card.className = 'chapter-flashcard';
         card.innerHTML = `
           <div class="carousel-card-inner">
             <div class="carousel-face front">
-              <div class="face-top-bar">
-                <div class="face-tags-left">
-                  <span class="c-tag">${frontTag}</span>
-                  ${srBadge}
-                </div>
-                <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Bahasa Jepang">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="face-center-content">
-                ${frontContent}
-              </div>
-              <div class="face-bottom-hint">${frontHint}</div>
+              <div class="face-top-bar"><span class="c-tag">${allDone ? 'Selesai' : 'Info'}</span></div>
+              <div class="face-center-content"><span class="c-arti">${allDone ? 'Semua Sudah Hafal!' : 'Tidak Ada Kata Aktif'}</span></div>
+              <div class="face-bottom-hint">${allDone ? 'Buka "Pilih Kata" untuk mengulang materi lagi' : 'Pilih kata di menu "Pilih Kata" atau ubah pencarian'}</div>
             </div>
-
-            <div class="carousel-face back">
-              <div class="face-top-bar">
-                <div class="face-tags-left">
-                  <span class="c-tag">${backTag}</span>
-                  ${srBadge}
-                </div>
-                <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Pengucapan">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="face-center-content">
-                ${backContent}
-              </div>
-              <div class="face-bottom-hint">Ketuk untuk membalik kartu</div>
-            </div>
-          </div>
-        `;
-
-        card.querySelectorAll('.btn-card-speak').forEach(btn => {
-          btn.addEventListener('click', e => {
-            e.stopPropagation();
-            speakJapanese(btn.dataset.speak);
-          });
-        });
-
-        card.addEventListener('click', () => {
-          if (i === this.index) {
-            const willFlipToBack = !card.classList.contains('is-flipped');
-            card.classList.toggle('is-flipped');
-            playTone('flip');
-            if (willFlipToBack) speakJapanese(v.furigana);
-          } else {
-            this.index = i;
-            this.update();
-            playTone('pop');
-          }
-        });
-
+          </div>`;
         container.appendChild(card);
+        this.activeCardEl = card;
+        return;
+      }
+
+      this.index = Math.max(0, Math.min(this.index, n - 1));
+      const v = activeVocab[this.index];
+
+      const rec = getItemHafalan(v);
+      const srBadge = (rec && rec.status === 'belum')
+        ? `<span class="sr-badge">Perlu Diulang</span>`
+        : '';
+
+      const frontTag = isReversedCard ? 'Bahasa Jepang' : 'Bahasa Indonesia';
+      const backTag = isReversedCard ? 'Bahasa Indonesia' : 'Bahasa Jepang';
+
+      const frontContent = isReversedCard
+        ? buildJapaneseContentHTML(v)
+        : `<span class="c-arti">${esc(v.arti)}</span>`;
+
+      const backContent = isReversedCard
+        ? `<span class="c-arti">${esc(v.arti)}</span>`
+        : buildJapaneseContentHTML(v);
+
+      const frontHint = isReversedCard
+        ? 'Ketuk kartu untuk melihat arti &rarr;'
+        : 'Ketuk kartu untuk melihat bahasa Jepang &rarr;';
+
+      const card = document.createElement('div');
+      card.className = `chapter-flashcard ${v.hasKanji ? 'has-kanji' : 'kana-only-card'}`;
+
+      card.innerHTML = `
+        <div class="carousel-card-inner">
+          <div class="carousel-face front">
+            <div class="face-top-bar">
+              <div class="face-tags-left">
+                <span class="c-tag">${frontTag}</span>
+                ${srBadge}
+              </div>
+              <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Bahasa Jepang">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </button>
+            </div>
+            <div class="face-center-content">
+              ${frontContent}
+            </div>
+            <div class="face-bottom-hint">${frontHint}</div>
+          </div>
+
+          <div class="carousel-face back">
+            <div class="face-top-bar">
+              <div class="face-tags-left">
+                <span class="c-tag">${backTag}</span>
+                ${srBadge}
+              </div>
+              <button type="button" class="btn-card-speak" data-speak="${esc(v.furigana)}" title="Dengarkan Pengucapan">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </button>
+            </div>
+            <div class="face-center-content">
+              ${backContent}
+            </div>
+            <div class="face-bottom-hint">Ketuk untuk membalik kartu</div>
+          </div>
+        </div>
+      `;
+
+      card.querySelectorAll('.btn-card-speak').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          speakJapanese(btn.dataset.speak);
+        });
       });
 
-      this.index = Math.max(0, Math.min(startIndex, activeVocab.length - 1));
-      this.update();
-    },
-    update() {
-      const cards = $('carouselContainer').children;
-      const n = activeVocab.length;
-      $('carouselCounter').textContent = n ? `${Math.min(this.index + 1, n)} / ${n}` : '0 / 0';
-      updateStatusButtonsState();
-      if (!n) return;
-
-      [...cards].forEach((c, i) => {
-        c.style.transform = '';
-        if (i === this.index) {
-          c.classList.remove('hidden');
-          c.classList.add('center');
-        } else {
-          c.classList.remove('center', 'is-flipped');
-          c.classList.add('hidden');
-        }
+      card.addEventListener('click', () => {
+        if (wasSwiping) return;
+        const willFlipToBack = !card.classList.contains('is-flipped');
+        card.classList.add('is-flipping');
+        card.classList.toggle('is-flipped');
+        playTone('flip');
+        if (willFlipToBack) speakJapanese(v.furigana);
+        setTimeout(() => card.classList.remove('is-flipping'), 420);
       });
+
+      container.appendChild(card);
+      this.activeCardEl = card;
     },
+
     flipCurrent() {
-      if (!activeVocab.length) return;
-      const cards = $('carouselContainer').children;
-      const activeCard = cards[this.index];
-      if (activeCard) activeCard.click();
+      if (!activeVocab.length || !this.activeCardEl) return;
+      this.activeCardEl.click();
     },
+
     go(dir) {
-      if (!activeVocab.length) return;
+      if (activeVocab.length <= 1) return;
       this.index = (this.index + dir + activeVocab.length) % activeVocab.length;
-      this.update();
       playTone('pop');
+      this.render();
     }
   };
 
-  $('btnCarouselNext').addEventListener('click', () => Carousel.go(1));
-  $('btnCarouselPrev').addEventListener('click', () => Carousel.go(-1));
-
-  // Swipe Jari Kiri/Kanan di Flashcard HP
+  // ---------- SWIPE DETECTOR SEDERHANA DI HP & IPAD (TANPA ANIMASI GESER) ----------
   let touchStartX = 0;
-  let touchDeltaX = 0;
+  let touchStartY = 0;
   const carouselEl = $('carouselContainer');
 
   if (carouselEl) {
     carouselEl.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchDeltaX = 0;
+      if (e.touches.length !== 1 || activeVocab.length <= 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      wasSwiping = false;
     }, { passive: true });
 
-    carouselEl.addEventListener('touchmove', e => {
-      const activeCard = carouselEl.children[Carousel.index];
-      if (!activeCard) return;
-      touchDeltaX = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(touchDeltaX) > 10) {
-        const clamped = Math.max(-70, Math.min(70, touchDeltaX * 0.45));
-        activeCard.style.transform = `translateX(${clamped}px) rotate(${clamped * 0.05}deg)`;
-      }
-    }, { passive: true });
+    carouselEl.addEventListener('touchend', e => {
+      if (activeVocab.length <= 1 || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
 
-    carouselEl.addEventListener('touchend', () => {
-      const activeCard = carouselEl.children[Carousel.index];
-      if (activeCard) activeCard.style.transform = '';
-      if (Math.abs(touchDeltaX) > 40) {
-        if (touchDeltaX < 0) Carousel.go(1);
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        wasSwiping = true;
+        setTimeout(() => { wasSwiping = false; }, 80);
+        if (dx < 0) Carousel.go(1);
         else Carousel.go(-1);
       }
-      touchDeltaX = 0;
     }, { passive: true });
   }
 
-  // ---------- ZOOM UKURAN TEKS ----------
+  // ---------- ZOOM UKURAN TEKS KUIS ----------
   function updateVocabFontSize() {
     document.documentElement.style.setProperty('--vocab-font-size', `${vocabZoomRem}rem`);
   }
@@ -1148,6 +1058,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function setMode(newMode) {
     mode = newMode;
     runId++;
+    fixedTopbar?.classList.remove('is-compact');
 
     document.querySelectorAll('.dock-item').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.mode === newMode);
@@ -1162,7 +1073,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('mode-typing').hidden = (newMode !== 'typing');
 
     if (newMode === 'carousel') {
-      Carousel.render(Carousel.index);
+      Carousel.render();
     } else if (newMode === 'list') {
       renderChecklist();
     } else {
@@ -1186,7 +1097,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('btnAudioToggle').addEventListener('click', function () {
     audioOn = !audioOn;
-    if (!audioOn) stopSpeech();   // [AUDIO v2] matikan suara yang sedang berjalan saat OFF
+    if (!audioOn) stopSpeech();
     this.querySelector('.icon-unmuted').style.display = audioOn ? 'block' : 'none';
     this.querySelector('.icon-muted').style.display = audioOn ? 'none' : 'block';
   });
@@ -1262,6 +1173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionsBox = $('mcOptions');
     optionsBox.innerHTML = '';
 
+    const frag = document.createDocumentFragment();
     shuffle([q, ...wrongs]).forEach((item, i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -1297,8 +1209,9 @@ document.addEventListener('DOMContentLoaded', () => {
         $('btnMcNext').focus();
       });
 
-      optionsBox.appendChild(btn);
+      frag.appendChild(btn);
     });
+    optionsBox.appendChild(frag);
   }
 
   $('btnMcNext').addEventListener('click', () => {
@@ -1378,21 +1291,36 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btnRetryQuiz').addEventListener('click', () => setMode(mode));
   $('btnResultCards').addEventListener('click', () => setMode('carousel'));
 
-  // Pintasan Keyboard Desktop
+  // Pintasan Keyboard Desktop / iPad Keyboard
+  // Flashcard: B = Belum, K = Sudah, ArrowLeft/Right = Navigasi, Spasi = Flip, R = Acak, J = Kanji, F = Furigana
   window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-    if (e.target.matches('input, textarea, select')) return;
+    if (e.key === 'Escape') {
+      closeModal();
+      return;
+    }
+    if (chapterModal.classList.contains('open')) return;
+    if (e.target.matches('input, textarea, select') || e.target.isContentEditable) return;
 
-    if (e.code === 'KeyK') {
+    if (e.code === 'KeyJ') {
       e.preventDefault();
       toggleKanjiVisibility();
     } else if (e.code === 'KeyF') {
       e.preventDefault();
       toggleFuriVisibility();
     } else if (mode === 'carousel') {
-      if (e.key === 'ArrowRight') Carousel.go(1);
-      else if (e.key === 'ArrowLeft') Carousel.go(-1);
-      else if (e.code === 'KeyR') {
+      if (e.code === 'KeyB') {
+        e.preventDefault();
+        markCurrentBelum();
+      } else if (e.code === 'KeyK') {
+        e.preventDefault();
+        markCurrentSudah();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        Carousel.go(1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        Carousel.go(-1);
+      } else if (e.code === 'KeyR') {
         e.preventDefault();
         handleShuffleCards();
       } else if (e.key === ' ') {
@@ -1505,7 +1433,6 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', url);
     } catch (e) {}
 
-    // Otomatis hanya mencentang kosakata yang BELUM berstatus "sudah"
     selectedIds = new Set(
       rawChapterVocab
         .filter(v => !isItemMastered(v))

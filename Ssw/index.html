@@ -2,15 +2,44 @@
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Nakama Gakkou — Materi SSW (Tokutei Ginou)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="cinema-body">
+
+  <!-- LOADING MASUK RINGAN & LUCU -->
+  <div id="entryLoader" class="entry-loader" role="status" aria-live="polite" aria-label="Memuat halaman SSW">
+    <div class="loader-wrap">
+      <div class="loader-mascot" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <!-- Pipi merona -->
+          <circle cx="17" cy="36" r="4.5" fill="#FDA4AF" opacity="0.85"/>
+          <circle cx="47" cy="36" r="4.5" fill="#FDA4AF" opacity="0.85"/>
+          <!-- Mata berkedip -->
+          <g class="mascot-eyes">
+            <circle cx="22" cy="27" r="3.8" fill="#111111"/>
+            <circle cx="42" cy="27" r="3.8" fill="#111111"/>
+            <circle cx="23.2" cy="25.6" r="1.2" fill="#FFFFFF"/>
+            <circle cx="43.2" cy="25.6" r="1.2" fill="#FFFFFF"/>
+          </g>
+          <!-- Senyum -->
+          <path d="M25 36.5c2.2 3.2 11.8 3.2 14 0" stroke="#111111" stroke-width="3.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="loader-shadow" aria-hidden="true"></div>
+      <div class="loader-pill">
+        <span>Menyiapkan SSW</span>
+        <span class="loader-dots" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+      </div>
+    </div>
+  </div>
 
   <!-- TRANSISI TIRAI PINDAH HALAMAN (SINKRON WEB UTAMA) -->
   <div id="pageTransition" class="page-transition" aria-hidden="true">
@@ -26,13 +55,11 @@
     </div>
   </div>
 
-  <!-- AMBIENT & EFEK INTERAKTIF -->
+  <!-- AMBIENT SUBTLE GLOW -->
   <div class="sun" id="sun" aria-hidden="true"></div>
-  <div class="fx" id="fx" aria-hidden="true"></div>
-  <canvas id="trail" aria-hidden="true"></canvas>
 
-  <!-- TOPBAR -->
-  <header class="fixed-topbar">
+  <!-- TOPBAR FLOATING PILL + SHRINK ON SCROLL -->
+  <header class="fixed-topbar" id="fixedTopbar">
     <div class="topbar-capsule">
 
       <!-- Kiri: Tombol Back & Brand -->
@@ -47,13 +74,22 @@
         </a>
       </div>
 
-      <!-- Tengah: Penanda Halaman SSW -->
+      <!-- Tengah: Filter Bidang SSW -->
       <div class="topbar-center">
-        <span class="ssw-nav-pill">SSW • 特定技能</span>
+        <div class="filter-pills" id="filterPills" role="tablist" aria-label="Filter Bidang SSW">
+          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+            Semua <span class="pill-count" id="countAll">12</span>
+          </button>
+          <button type="button" class="filter-pill" data-filter="active" role="tab" aria-selected="false">
+            Tersedia <span class="pill-count" id="countActive">3</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Kanan: Mode Malam -->
+      <!-- Kanan: Badge SSW & Mode Malam -->
       <div class="topbar-right">
+        <span class="ssw-nav-pill" aria-label="Tokutei Ginou">SSW • 特定技能</span>
+
         <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Ganti Tema" title="Ganti Mode Siang/Malam">
           <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -79,16 +115,51 @@
   <main class="ssw-stage" id="sswStage">
     <div class="stage-shell">
       <div class="stage-heading stagger-item">
-        <span class="stage-pill">TOKUTEI GINOU</span>
+        <div class="stage-badges">
+          <span class="stage-pill">TOKUTEI GINOU</span>
+          <span class="stage-jp-pill" lang="ja">特定技能</span>
+        </div>
         <h1 class="stage-title">Pilih Bidang SSW</h1>
+      </div>
+
+      <!-- Kolom Pencarian -->
+      <div class="search-bar-wrap stagger-item">
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input
+            type="search"
+            id="sswSearchInput"
+            class="search-input"
+            placeholder="Cari bidang, kanji, atau hiragana..."
+            autocomplete="off"
+            aria-label="Cari bidang SSW"
+          >
+          <button type="button" id="searchClearBtn" class="search-clear-btn hidden" aria-label="Hapus pencarian" title="Hapus">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="ssw-grid" id="sswGrid">
         <!-- 12 Kartu Bidang SSW di-generate otomatis oleh JS -->
       </div>
+
+      <!-- Tampilan Jika Pencarian Tidak Ditemukan -->
+      <div class="empty-state hidden" id="emptyState">
+        <p class="empty-title">Bidang tidak ditemukan</p>
+        <p class="empty-desc">Coba kata kunci lain seperti <b>Kaigo</b>, <b>Perikanan</b>, atau <b>PM</b>.</p>
+        <button type="button" id="resetSearchBtn" class="reset-search-btn">Reset Pencarian</button>
+      </div>
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

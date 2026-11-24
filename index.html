@@ -11,23 +11,29 @@
 </head>
 <body>
 
-  <!-- SPLASH SCREEN -->
-  <div id="splash">
-    <div class="splash-box">
-      <svg class="checkmark-svg" viewBox="0 0 52 52">
-        <circle class="checkmark-circle" cx="26" cy="26" r="22" fill="none"/>
-        <path class="checkmark-check" fill="none" d="M15 27l7 7 15-15"/>
-      </svg>
-    </div>
-    <h1 class="splash-title">Nakama<b>Gakkou</b></h1>
-  </div>
-
-  <!-- TRANSISI TIRAI PINDAH HALAMAN -->
-  <div id="pageTransition" class="page-transition" aria-hidden="true">
-    <div class="pt-curtain"></div>
-    <div class="pt-content">
-      <div class="pt-icon-box" id="ptIconBox"></div>
-      <span class="pt-label" id="ptLabel">Memuat...</span>
+  <!-- LOADING RINGAN & LUCU -->
+  <div id="entryLoader" class="entry-loader" role="status" aria-live="polite" aria-label="Memuat halaman">
+    <div class="loader-wrap">
+      <div class="loader-mascot" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <circle cx="17" cy="36" r="4.5" fill="#FDA4AF" opacity="0.85"/>
+          <circle cx="47" cy="36" r="4.5" fill="#FDA4AF" opacity="0.85"/>
+          <g class="mascot-eyes">
+            <circle cx="22" cy="27" r="3.8" fill="#111111"/>
+            <circle cx="42" cy="27" r="3.8" fill="#111111"/>
+            <circle cx="23.2" cy="25.6" r="1.2" fill="#FFFFFF"/>
+            <circle cx="43.2" cy="25.6" r="1.2" fill="#FFFFFF"/>
+          </g>
+          <path d="M25 36.5c2.2 3.2 11.8 3.2 14 0" stroke="#111111" stroke-width="3.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="loader-shadow" aria-hidden="true"></div>
+      <div class="loader-pill">
+        <span id="loaderText">Nakama Gakkou</span>
+        <span class="loader-dots" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -51,8 +57,33 @@
         <span class="nav-crumb hidden-el" id="navCrumbTag">Kotoba</span>
       </div>
 
-      <!-- Kanan: Tombol Mode Malam & Pemicu Modal Bab -->
+      <!-- Tengah: Filter Menu Utama (Tampil di Beranda) -->
+      <div class="topbar-center" id="topbarCenter">
+        <div class="filter-pills" id="filterPills" role="tablist" aria-label="Filter Materi">
+          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+            Semua <span class="pill-count" id="countAll">8</span>
+          </button>
+          <button type="button" class="filter-pill" data-filter="active" role="tab" aria-selected="false">
+            Aktif <span class="pill-count" id="countActive">4</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Kanan: Tombol Suara, Mode Malam & Pemicu Modal Bab -->
       <div class="topbar-right">
+        <button type="button" id="soundToggleBtn" class="sound-toggle-btn" aria-label="Suara Klik" title="Suara Efek Klik">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          <svg class="icon-sound-off" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
         <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Ganti Tema" title="Ganti Mode Siang/Malam">
           <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -282,7 +313,7 @@
 
     <!-- VIEW 3: HALAMAN KHUSUS JFT (DENGAN HREF EKSPLISIT PER MODUL) -->
     <section class="view" id="viewJft">
-      <div class="jft-hero-banner stagger-item">
+      <div class="jft-hero-banner">
         <div class="jft-hero-top">
           <span class="jft-badge">JFT-BASIC • LEVEL A2</span>
           <span class="jft-jp-tag japanese-text">国際交流基金日本語基礎テスト</span>
@@ -384,7 +415,7 @@
       </div>
 
       <!-- Panel Detail / Workspace JFT + Tombol Buka Modul (href dinamis) -->
-      <div class="jft-workspace-panel stagger-item" id="jftWorkspacePanel">
+      <div class="jft-workspace-panel" id="jftWorkspacePanel">
         <div class="jft-workspace-header">
           <div>
             <span class="jft-workspace-tag" id="jftWorkspaceTag">STATUS MODUL</span>

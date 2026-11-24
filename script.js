@@ -2,8 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
 
   // =========================================================================
-  // 0. KONFIGURASI AKTIVASI FITUR (8 BLOK UTAMA)
+  // 0. KONFIGURASI AKTIVASI FITUR & DURASI LOADING (MS)
   // =========================================================================
+  const LOADER_ENTRY_DURATION = 1200; // Durasi loading saat masuk halaman (1,2 detik)
+  const LOADER_NAV_DURATION   = 450;  // Durasi loading saat klik pindah halaman (0,45 detik)
+
   const FEATURE_CONFIG = {
     angka:   'ACTIVE',
     kanji:   'LOCKED',
@@ -12,13 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     bunpou:  'LOCKED',
     ssw:     'ACTIVE',
     choukai: 'LOCKED',
-    jft:     'ACTIVE'
+    jft:     'LOCKED'
   };
 
   const isFeatureActive = key => FEATURE_CONFIG[key] === 'ACTIVE';
   const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
-  document.querySelectorAll('[data-feature]').forEach(card => {
+  const featureCards = Array.from(document.querySelectorAll('#mainBentoGrid [data-feature]'));
+
+  featureCards.forEach(card => {
     const key = card.getAttribute('data-feature');
     if (!isFeatureActive(key)) {
       card.classList.add('is-locked');
@@ -37,8 +42,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 1. NAVBAR SHRINK ON SCROLL (PASSIVE + RAF THROTTLED)
+  // 1. FILTER HEADBAR (SEMUA / AKTIF) & NAVBAR SHRINK ON SCROLL
   // =========================================================================
+  const topbarCenter = $('topbarCenter');
+  const filterPills = $('filterPills');
+  const countAllEl = $('countAll');
+  const countActiveEl = $('countActive');
+  let currentFilter = 'all';
+
+  const activeCount = featureCards.filter(c => isFeatureActive(c.getAttribute('data-feature'))).length;
+  if (countAllEl) countAllEl.textContent = featureCards.length;
+  if (countActiveEl) countActiveEl.textContent = activeCount;
+
+  function applyMainFilter(filterType) {
+    currentFilter = filterType;
+    featureCards.forEach(card => {
+      const isAct = isFeatureActive(card.getAttribute('data-feature'));
+      const hide = filterType === 'active' && !isAct;
+      card.classList.toggle('hidden-el', hide);
+    });
+  }
+
+  if (filterPills) {
+    filterPills.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nextFilter = btn.dataset.filter;
+        if (!nextFilter || nextFilter === currentFilter) return;
+
+        filterPills.querySelectorAll('.filter-pill').forEach(p => {
+          const isAct = p === btn;
+          p.classList.toggle('active', isAct);
+          p.setAttribute('aria-selected', String(isAct));
+        });
+
+        playPopSound();
+        applyMainFilter(nextFilter);
+      });
+    });
+  }
+
   const fixedTopbar = $('fixedTopbar');
   if (fixedTopbar) {
     let scrollTicking = false;
@@ -58,49 +100,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 2. HELPER ANIMASI STAGGER & ANTI BLANK SCREEN (BFCACHE / BACK BUTTON)
+  // 2. LOADING RINGAN & ANTI STUCK (BFCACHE / BACK BUTTON)
   // =========================================================================
-  let navTimeout = null;
+  const entryLoader = $('entryLoader');
+  const loaderText = $('loaderText');
   let isNavigating = false;
+  let navTimeout = null;
 
-  const pageTransition = $('pageTransition');
-  const ptIconBox = $('ptIconBox');
-  const ptLabel = $('ptLabel');
+  function showLoader(label = 'Memuat') {
+    if (!entryLoader) return;
+    if (loaderText) loaderText.textContent = label;
+    entryLoader.style.display = 'grid';
+    entryLoader.classList.remove('is-done');
+  }
 
-  function runStaggerIn(containerEl) {
-    if (!containerEl) return;
-    const targets = containerEl.querySelectorAll('.neo-card, .stagger-item');
-    targets.forEach((el, idx) => {
-      el.style.setProperty('--stagger-i', idx);
-      el.classList.remove('stagger-animate');
-      void el.offsetWidth;
-      el.classList.add('stagger-animate');
-    });
+  function hideLoader(immediate = false) {
+    if (!entryLoader) return;
+    entryLoader.classList.add('is-done');
+    if (immediate) {
+      entryLoader.style.display = 'none';
+    } else {
+      setTimeout(() => {
+        if (entryLoader.classList.contains('is-done')) {
+          entryLoader.style.display = 'none';
+        }
+      }, 240);
+    }
   }
 
   function restorePageFromCache() {
     clearTimeout(navTimeout);
     isNavigating = false;
-    document.body.classList.remove('page-leaving');
-    pageTransition?.classList.remove('active');
-
-    const splash = $('splash');
-    if (splash && sessionStorage.getItem('nakama_splash_seen') === '1') {
-      splash.classList.add('hidden');
-      splash.style.display = 'none';
-    }
-
+    hideLoader(true);
     document.querySelectorAll('.neo-card').forEach(card => {
-      card.classList.remove('card-launching', 'sibling-dimmed');
       card.style.transform = '';
     });
   }
 
-  window.addEventListener('pageshow', (e) => {
-    restorePageFromCache();
-    if (e.persisted && currentView) {
-      runStaggerIn(currentView);
+  if (entryLoader) {
+    if (sessionStorage.getItem('nakama_loader_seen') === '1') {
+      hideLoader(true);
+    } else {
+      sessionStorage.setItem('nakama_loader_seen', '1');
+      setTimeout(() => hideLoader(false), LOADER_ENTRY_DURATION);
     }
+  }
+
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) restorePageFromCache();
   });
 
   document.addEventListener('visibilitychange', () => {
@@ -110,25 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 3. SPLASH SCREEN & TEMA SIANG/MALAM
+  // 3. TEMA SIANG / MALAM & TOGGLE SUARA KLIK
   // =========================================================================
-  const splash = $('splash');
-  const viewMain = $('viewMain');
-
-  if (splash) {
-    if (sessionStorage.getItem('nakama_splash_seen') === '1') {
-      splash.classList.add('hidden');
-      splash.style.display = 'none';
-    } else {
-      sessionStorage.setItem('nakama_splash_seen', '1');
-      setTimeout(() => {
-        splash.classList.add('hidden');
-        runStaggerIn(currentView || viewMain);
-        setTimeout(() => { splash.style.display = 'none'; }, 350);
-      }, 620);
-    }
-  }
-
   const htmlEl = document.documentElement;
   const themeToggleBtn = $('themeToggleBtn');
   const savedTheme = localStorage.getItem('nakama_theme');
@@ -146,11 +176,30 @@ document.addEventListener('DOMContentLoaded', () => {
     playPopSound();
   });
 
+  const soundToggleBtn = $('soundToggleBtn');
+  let soundEnabled = localStorage.getItem('nakama_sound') !== 'off';
+
+  function syncSoundButton() {
+    if (!soundToggleBtn) return;
+    soundToggleBtn.classList.toggle('is-muted', !soundEnabled);
+    soundToggleBtn.setAttribute('aria-pressed', String(soundEnabled));
+    soundToggleBtn.title = soundEnabled ? 'Matikan Suara Klik' : 'Aktifkan Suara Klik';
+  }
+  syncSoundButton();
+
+  soundToggleBtn?.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('nakama_sound', soundEnabled ? 'on' : 'off');
+    syncSoundButton();
+    if (soundEnabled) playPopSound(620, 340);
+  });
+
   // =========================================================================
-  // 4. AUDIO POP & NAVIGASI HALAMAN DENGAN TIRAI TRANSISI (CEPAT)
+  // 4. AUDIO POP & NAVIGASI LANGSUNG DENGAN LOADING IMUT
   // =========================================================================
   let audioCtx = null;
   function playPopSound(freqStart = 580, freqEnd = 290) {
+    if (!soundEnabled) return;
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -169,41 +218,22 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
-  function smoothNavigate(targetUrl, sourceEl = null) {
+  function navigateWithLoader(targetUrl, sourceEl = null) {
     if (!targetUrl || targetUrl === '#' || isNavigating) return;
     isNavigating = true;
     clearTimeout(navTimeout);
 
-    if (pageTransition && ptIconBox && ptLabel) {
-      const accent = sourceEl
-        ? getComputedStyle(sourceEl).getPropertyValue('--accent').trim() || 'var(--c-matcha)'
-        : 'var(--c-matcha)';
-      const titleText =
-        sourceEl?.querySelector('.card-title')?.textContent?.trim() ||
-        sourceEl?.querySelector('.chapter-title')?.textContent?.trim() ||
-        sourceEl?.querySelector('span')?.textContent?.trim() ||
-        'Nakama Gakkou';
-      const iconSvg =
-        sourceEl?.querySelector('.icon-box')?.innerHTML ||
-        sourceEl?.querySelector('.chapter-icon-box')?.innerHTML ||
-        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
+    const titleText =
+      sourceEl?.querySelector('.card-title')?.textContent?.trim() ||
+      sourceEl?.querySelector('.chapter-title')?.textContent?.trim() ||
+      sourceEl?.querySelector('span')?.textContent?.trim() ||
+      'Memuat';
 
-      pageTransition.style.setProperty('--pt-accent', accent);
-      ptIconBox.innerHTML = iconSvg;
-      ptLabel.textContent = titleText;
-      pageTransition.classList.add('active');
-    }
-
-    document.body.classList.add('page-leaving');
+    showLoader(`Membuka ${titleText}`);
 
     navTimeout = setTimeout(() => {
       window.location.href = encodeURI(targetUrl);
-      setTimeout(() => {
-        isNavigating = false;
-        document.body.classList.remove('page-leaving');
-        pageTransition?.classList.remove('active');
-      }, 600);
-    }, 240);
+    }, LOADER_NAV_DURATION);
   }
 
   // =========================================================================
@@ -276,8 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // =========================================================================
-  // 6. VIEW SWITCHING, HISTORY API & ANTI BACK-LOOP
+  // 6. VIEW SWITCHING (INSTAN), HISTORY API & ANTI BACK-LOOP
   // =========================================================================
+  const viewMain = $('viewMain');
   const viewKanji = $('viewKanji');
   const viewJft = $('viewJft');
   const viewKotobaBooks = $('viewKotobaBooks');
@@ -298,7 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentView = viewMain;
   let selectedLevel = 'N5';
   let selectedBook = null;
-  let swapTimer = null;
   let internalNavDepth = 0;
 
   function updateTopbarState(targetView) {
@@ -306,38 +336,42 @@ document.addEventListener('DOMContentLoaded', () => {
       globalBackBtn?.classList.add('hidden-el');
       navCrumbTag?.classList.add('hidden-el');
       openModalBtn?.classList.add('hidden-el');
+      topbarCenter?.classList.remove('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewKanji) {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = 'Kanji';
       openModalBtn?.classList.add('hidden-el');
+      topbarCenter?.classList.add('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewJft) {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = 'JFT-Basic';
       openModalBtn?.classList.add('hidden-el');
+      topbarCenter?.classList.add('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewKotobaBooks) {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = `Kotoba • ${selectedLevel}`;
       openModalBtn?.classList.add('hidden-el');
+      topbarCenter?.classList.add('hidden-el');
       document.body.classList.remove('cinema-mode');
     } else if (targetView === viewChapters) {
       globalBackBtn?.classList.remove('hidden-el');
       navCrumbTag?.classList.remove('hidden-el');
       navCrumbTag.textContent = `${selectedLevel} • ${selectedBook ? selectedBook.title : ''}`;
       openModalBtn?.classList.remove('hidden-el');
+      topbarCenter?.classList.add('hidden-el');
       document.body.classList.add('cinema-mode');
     }
   }
 
-  function swapView(fromEl, toEl, pushHistory = true, withSound = true, direction = 'forward') {
+  function swapView(fromEl, toEl, pushHistory = true, withSound = true) {
     if (!toEl || fromEl === toEl) return;
-    clearTimeout(swapTimer);
-    if (withSound) playPopSound(direction === 'forward' ? 620 : 480, direction === 'forward' ? 340 : 260);
+    if (withSound) playPopSound(580, 310);
 
     if (pushHistory) {
       const viewId = toEl.id || 'viewMain';
@@ -346,33 +380,18 @@ document.addEventListener('DOMContentLoaded', () => {
       internalNavDepth++;
     }
 
-    const leaveClass = direction === 'back' ? 'leave-back' : 'leave-forward';
-    const enterClass = direction === 'back' ? 'enter-back' : 'enter-forward';
+    Object.values(viewMap).forEach(v => {
+      if (v && v !== toEl) v.classList.remove('active');
+    });
 
-    if (fromEl) {
-      fromEl.classList.remove('enter-forward', 'enter-back', 'leave-forward', 'leave-back');
-      fromEl.classList.add(leaveClass);
-    }
+    document.querySelectorAll('.neo-card').forEach(c => {
+      c.style.transform = '';
+    });
 
-    swapTimer = setTimeout(() => {
-      Object.values(viewMap).forEach(v => {
-        if (v && v !== toEl) {
-          v.classList.remove('active', 'enter-forward', 'enter-back', 'leave-forward', 'leave-back');
-        }
-      });
-
-      document.querySelectorAll('.neo-card').forEach(c => {
-        c.classList.remove('card-launching', 'sibling-dimmed');
-        c.style.transform = '';
-      });
-
-      toEl.classList.remove('leave-forward', 'leave-back', 'enter-forward', 'enter-back');
-      toEl.classList.add('active', enterClass);
-      currentView = toEl;
-      updateTopbarState(toEl);
-      runStaggerIn(toEl);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 150);
+    toEl.classList.add('active');
+    currentView = toEl;
+    updateTopbarState(toEl);
+    window.scrollTo({ top: 0 });
   }
 
   function handleHistoryPopState(e) {
@@ -381,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetId = (e.state && e.state.viewId) ? e.state.viewId : (viewMap[hashId] ? hashId : 'viewMain');
     const targetEl = viewMap[targetId] || viewMain;
     if (currentView !== targetEl) {
-      swapView(currentView, targetEl, false, false, 'back');
+      swapView(currentView, targetEl, false, false);
     }
   }
 
@@ -409,19 +428,15 @@ document.addEventListener('DOMContentLoaded', () => {
     history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
   }
 
-  if (!splash || splash.classList.contains('hidden')) {
-    runStaggerIn(currentView);
-  }
-
   globalBackBtn?.addEventListener('click', () => {
     if (internalNavDepth > 0) {
       history.back();
       return;
     }
     if (currentView === viewChapters) {
-      swapView(viewChapters, viewKotobaBooks, false, true, 'back');
+      swapView(viewChapters, viewKotobaBooks, false, true);
     } else {
-      swapView(currentView, viewMain, false, true, 'back');
+      swapView(currentView, viewMain, false, true);
       history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
     }
   });
@@ -434,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         history.go(-internalNavDepth);
         internalNavDepth = 0;
       } else {
-        swapView(currentView, viewMain, false, true, 'back');
+        swapView(currentView, viewMain, false, true);
         history.replaceState({ viewId: 'viewMain' }, '', location.pathname + location.search);
       }
     }
@@ -447,18 +462,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cardEl.classList.add('shake-locked');
   }
 
-  function animateCardLaunch(cardEl, callback) {
-    const parentGrid = cardEl.closest('.bento-grid');
-    if (parentGrid) {
-      parentGrid.querySelectorAll('.neo-card').forEach(c => {
-        if (c !== cardEl) c.classList.add('sibling-dimmed');
-      });
-    }
-    cardEl.classList.add('card-launching');
-    playPopSound(640, 360);
-    setTimeout(callback, 120);
-  }
-
   $('btnKanji')?.addEventListener('click', function (e) {
     if (!isFeatureActive('kanji')) {
       e.preventDefault();
@@ -467,9 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    animateCardLaunch(this, () => {
-      swapView(viewMain, viewKanji, true, false, 'forward');
-    });
+    swapView(viewMain, viewKanji, true, true);
   });
 
   $('btnJft')?.addEventListener('click', function (e) {
@@ -480,9 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (isModifiedClick(e)) return;
     e.preventDefault();
-    animateCardLaunch(this, () => {
-      swapView(viewMain, viewJft, true, false, 'forward');
-    });
+    swapView(viewMain, viewJft, true, true);
   });
 
   // Interaksi 4 Modul di dalam Halaman JFT
@@ -526,12 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .join('');
       }
 
-      if (jftWorkspacePanel) {
-        jftWorkspacePanel.classList.remove('panel-refresh');
-        void jftWorkspacePanel.offsetWidth;
-        jftWorkspacePanel.classList.add('panel-refresh');
-        jftWorkspacePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
+      jftWorkspacePanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   });
 
@@ -539,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isModifiedClick(e)) return;
     e.preventDefault();
     playPopSound(640, 360);
-    smoothNavigate(this.getAttribute('href'), activeJftCard || this);
+    navigateWithLoader(this.getAttribute('href'), activeJftCard || this);
   });
 
   document.querySelectorAll('.tile-link').forEach(card => {
@@ -556,9 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const href = this.getAttribute('href');
-      animateCardLaunch(this, () => {
-        if (href && href !== '#') smoothNavigate(href, this);
-      });
+      playPopSound(640, 360);
+      if (href && href !== '#') navigateWithLoader(href, this);
     });
   });
 
@@ -635,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           if (isModifiedClick(e)) return;
           e.preventDefault();
-          smoothNavigate(this.getAttribute('href'), this);
+          navigateWithLoader(this.getAttribute('href'), this);
         }
       });
 
@@ -750,12 +743,12 @@ document.addEventListener('DOMContentLoaded', () => {
       let rafId = null;
 
       card.addEventListener('pointerenter', () => {
-        if (card.classList.contains('is-locked') || card.classList.contains('card-launching')) return;
+        if (card.classList.contains('is-locked')) return;
         rect = card.getBoundingClientRect();
       });
 
       card.addEventListener('pointermove', e => {
-        if (!rect || card.classList.contains('is-locked') || card.classList.contains('card-launching')) return;
+        if (!rect || card.classList.contains('is-locked')) return;
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
@@ -772,7 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.addEventListener('pointerleave', () => {
         rect = null;
         if (rafId) cancelAnimationFrame(rafId);
-        if (card.classList.contains('is-locked') || card.classList.contains('card-launching')) return;
+        if (card.classList.contains('is-locked')) return;
         card.style.transform = '';
       });
     });

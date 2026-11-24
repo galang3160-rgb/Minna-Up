@@ -1,25 +1,42 @@
 /* =========================================================================
    NAKAMAGAKKOU — SSW CATEGORY GRID SELECTOR
-   Struktur Path: kategori/{NamaFolder}/index.html + Synced Transitions
+   Cute Entry Loader, Native Scroll, Search, Filter Pills & Touch Feedback
    ========================================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
   const BASE_DIR = 'kategori';
 
-  // Daftar 12 bidang sesuai nama folder persis di dalam Ssw/kategori/
+  // Konfigurasi Aktivasi Bidang SSW (Ubah ke 'ACTIVE' jika materi sudah siap)
+  const SSW_FEATURE_CONFIG = {
+    'Cleaning':           'LOCKED',
+    'Driver':             'LOCKED',
+    'Hotel':              'LOCKED',
+    'Kaigo':              'ACTIVE',
+    'Konstruksi':         'LOCKED',
+    'Otomotif':           'LOCKED',
+    'Penerbangan':        'LOCKED',
+    'Pengolahan Makanan': 'ACTIVE',
+    'Perikanan':          'ACTIVE',
+    'Perkayuan':          'LOCKED',
+    'Pertanian':          'LOCKED',
+    'Resto':              'LOCKED'
+  };
+
+  const isCategoryActive = folder => SSW_FEATURE_CONFIG[folder] === 'ACTIVE';
+
   const SSW_CATEGORIES = [
-    { folder: 'Cleaning',           jp: '清掃',     furi: 'せいそう',         arti: 'Cleaning',           json: 'cleaning.json' },
-    { folder: 'Driver',             jp: '運転',     furi: 'うんてん',         arti: 'Driver',             json: 'driver.json' },
-    { folder: 'Hotel',              jp: '宿泊',     furi: 'しゅくはく',       arti: 'Hotel',              json: 'hotel.json' },
-    { folder: 'Kaigo',              jp: '介護',     furi: 'かいご',           arti: 'Kaigo',              json: 'kaigo.json' },
-    { folder: 'Konstruksi',         jp: '建設',     furi: 'けんせつ',         arti: 'Konstruksi',         json: 'konstruksi.json' },
-    { folder: 'Otomotif',           jp: '整備',     furi: 'せいび',           arti: 'Otomotif',           json: 'otomotif.json' },
-    { folder: 'Penerbangan',        jp: '航空',     furi: 'こうくう',         arti: 'Penerbangan',        json: 'penerbangan.json' },
-    { folder: 'Pengolahan Makanan', jp: '食品製造', furi: 'しょくひんせいぞう', arti: 'Pengolahan Makanan', json: 'pengolahan_makanan.json' },
-    { folder: 'Perikanan',          jp: '漁業',     furi: 'ぎょぎょう',       arti: 'Perikanan',          json: 'perikanan.json' },
-    { folder: 'Perkayuan',          jp: '木材',     furi: 'もくざい',         arti: 'Perkayuan',          json: 'perkayuan.json' },
-    { folder: 'Pertanian',          jp: '農業',     furi: 'のうぎょう',       arti: 'Pertanian',          json: 'pertanian.json' },
-    { folder: 'Resto',              jp: '外食',     furi: 'がいしょく',       arti: 'Resto',              json: 'resto.json' }
+    { folder: 'Cleaning',           jp: '清掃',     furi: 'せいそう',         romaji: 'seisou',           arti: 'Cleaning',           alias: 'kebersihan', json: 'cleaning.json' },
+    { folder: 'Driver',             jp: '運転',     furi: 'うんてん',         romaji: 'unten',            arti: 'Driver',             alias: 'supir',      json: 'driver.json' },
+    { folder: 'Hotel',              jp: '宿泊',     furi: 'しゅくはく',       romaji: 'shukuhaku',        arti: 'Hotel',              alias: 'penginapan', json: 'hotel.json' },
+    { folder: 'Kaigo',              jp: '介護',     furi: 'かいご',           romaji: 'kaigo',            arti: 'Kaigo',              alias: 'perawat lansia', json: 'kaigo.json' },
+    { folder: 'Konstruksi',         jp: '建設',     furi: 'けんせつ',         romaji: 'kensetsu',         arti: 'Konstruksi',         alias: 'bangunan',   json: 'konstruksi.json' },
+    { folder: 'Otomotif',           jp: '整備',     furi: 'せいび',           romaji: 'seibi',            arti: 'Otomotif',           alias: 'mekanik',    json: 'otomotif.json' },
+    { folder: 'Penerbangan',        jp: '航空',     furi: 'こうくう',         romaji: 'koukuu',           arti: 'Penerbangan',        alias: 'bandara',    json: 'penerbangan.json' },
+    { folder: 'Pengolahan Makanan', jp: '食品製造', furi: 'しょくひんせいぞう', romaji: 'shokuhin seizou', arti: 'Pengolahan Makanan', alias: 'pm makanan', json: 'pengolahan_makanan.json' },
+    { folder: 'Perikanan',          jp: '漁業',     furi: 'ぎょぎょう',       romaji: 'gyogyou',          arti: 'Perikanan',          alias: 'ikan laut',  json: 'perikanan.json' },
+    { folder: 'Perkayuan',          jp: '木材',     furi: 'もくざい',         romaji: 'mokuzai',          arti: 'Perkayuan',          alias: 'kayu',       json: 'perkayuan.json' },
+    { folder: 'Pertanian',          jp: '農業',     furi: 'のうぎょう',       romaji: 'nougyou',          arti: 'Pertanian',          alias: 'tani',       json: 'pertanian.json' },
+    { folder: 'Resto',              jp: '外食',     furi: 'がいしょく',       romaji: 'gaishoku',         arti: 'Resto',              alias: 'restoran',   json: 'resto.json' }
   ];
 
   const HOME_ICON_SVG = `
@@ -29,18 +46,42 @@ document.addEventListener('DOMContentLoaded', () => {
     </svg>
   `;
 
+  const ARROW_ICON_SVG = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 17L17 7M7 7h10v10"/>
+    </svg>
+  `;
+
+  const LOCK_ICON_SVG = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+  `;
+
   const isModifiedClick = e => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
+  let currentFilter = 'all';
+  let searchQuery = '';
   let isNavigating = false;
   let navTimeout = null;
 
   // Elemen DOM
+  const entryLoader = document.getElementById('entryLoader');
   const pageTransition = document.getElementById('pageTransition');
   const ptIconBox = document.getElementById('ptIconBox');
   const ptLabel = document.getElementById('ptLabel');
   const sswStage = document.getElementById('sswStage');
   const sswGrid = document.getElementById('sswGrid');
+  const emptyState = document.getElementById('emptyState');
   const navBackBtn = document.getElementById('navBackBtn');
+  const fixedTopbar = document.getElementById('fixedTopbar');
+  const filterPills = document.getElementById('filterPills');
+  const countAllEl = document.getElementById('countAll');
+  const countActiveEl = document.getElementById('countActive');
+  const searchInput = document.getElementById('sswSearchInput');
+  const searchClearBtn = document.getElementById('searchClearBtn');
+  const resetSearchBtn = document.getElementById('resetSearchBtn');
 
   // === 1. TEMA SIANG / MALAM ===
   const htmlEl = document.documentElement;
@@ -62,7 +103,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === 2. ANIMASI STAGGER & TIRAI PINDAH HALAMAN ===
+  // === 2. LOADING MASUK RINGAN ===
+  function dismissEntryLoader() {
+    if (!entryLoader) return;
+    entryLoader.classList.add('is-done');
+    runStaggerIn(sswStage);
+    setTimeout(() => {
+      entryLoader.style.display = 'none';
+    }, 300);
+  }
+
+  // === 3. NAVBAR SHRINK ON SCROLL (NATIVE, PASSIVE + RAF) ===
+  if (fixedTopbar) {
+    let scrollTicking = false;
+    const updateTopbarScroll = () => {
+      fixedTopbar.classList.toggle('is-scrolled', window.scrollY > 18);
+      scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(updateTopbarScroll);
+      }
+    }, { passive: true });
+    updateTopbarScroll();
+  }
+
+  // === 4. ANIMASI STAGGER & TIRAI PINDAH HALAMAN ===
   function runStaggerIn(containerEl) {
     if (!containerEl) return;
     const targets = containerEl.querySelectorAll('.stagger-item, .ssw-card');
@@ -79,8 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
     isNavigating = false;
     document.body.classList.remove('page-leaving');
     pageTransition?.classList.remove('active');
-    document.querySelectorAll('.card-launching, .sibling-dimmed').forEach(el => {
-      el.classList.remove('card-launching', 'sibling-dimmed');
+    if (entryLoader) {
+      entryLoader.classList.add('is-done');
+      entryLoader.style.display = 'none';
+    }
+    document.querySelectorAll('.card-launching, .sibling-dimmed, .is-pressed').forEach(el => {
+      el.classList.remove('card-launching', 'sibling-dimmed', 'is-pressed');
     });
   }
 
@@ -98,13 +170,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navTimeout = setTimeout(() => {
       window.location.href = encodeURI(targetUrl);
-      setTimeout(restoreFromCache, 650);
-    }, 360);
+      setTimeout(restoreFromCache, 600);
+    }, 240);
   }
 
-  window.addEventListener('pageshow', restoreFromCache);
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) restoreFromCache();
+  });
+
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') restoreFromCache();
+    if (document.visibilityState === 'visible') {
+      document.body.classList.remove('page-leaving');
+      pageTransition?.classList.remove('active');
+      isNavigating = false;
+    }
   });
 
   if (navBackBtn) {
@@ -116,26 +195,170 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === 3. RENDER 12 KARTU GRID SSW ===
-  function renderSswGrid() {
-    if (!sswGrid) return;
-    sswGrid.innerHTML = '';
+  function triggerLockedFeedback(cardEl) {
+    playPopSound(260, 180);
+    cardEl.classList.remove('shake-locked');
+    void cardEl.offsetWidth;
+    cardEl.classList.add('shake-locked');
+  }
 
-    SSW_CATEGORIES.forEach((item) => {
-      // Path menuju: kategori/{NamaFolder}/index.html?kategori=...&file=...
+  // === 5. FILTER TAB & PENCARIAN ===
+  const activeCount = SSW_CATEGORIES.filter(item => isCategoryActive(item.folder)).length;
+  if (countAllEl) countAllEl.textContent = SSW_CATEGORIES.length;
+  if (countActiveEl) countActiveEl.textContent = activeCount;
+
+  if (filterPills) {
+    filterPills.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nextFilter = btn.dataset.filter;
+        if (!nextFilter || nextFilter === currentFilter) return;
+
+        currentFilter = nextFilter;
+        filterPills.querySelectorAll('.filter-pill').forEach(p => {
+          const isAct = p === btn;
+          p.classList.toggle('active', isAct);
+          p.setAttribute('aria-selected', String(isAct));
+        });
+
+        playPopSound();
+        renderSswGrid(true);
+      });
+    });
+  }
+
+  function updateSearchClearVisibility() {
+    if (!searchClearBtn) return;
+    searchClearBtn.classList.toggle('hidden', searchQuery.length === 0);
+  }
+
+  function resetSearchAndFilter() {
+    searchQuery = '';
+    if (searchInput) searchInput.value = '';
+    updateSearchClearVisibility();
+
+    if (currentFilter !== 'all' && filterPills) {
+      currentFilter = 'all';
+      filterPills.querySelectorAll('.filter-pill').forEach(p => {
+        const isAll = p.dataset.filter === 'all';
+        p.classList.toggle('active', isAll);
+        p.setAttribute('aria-selected', String(isAll));
+      });
+    }
+
+    playPopSound();
+    renderSswGrid(true);
+    searchInput?.focus();
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      updateSearchClearVisibility();
+      renderSswGrid(false);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && searchQuery) {
+        searchQuery = '';
+        searchInput.value = '';
+        updateSearchClearVisibility();
+        renderSswGrid(false);
+      }
+    });
+  }
+
+  if (searchClearBtn) {
+    searchClearBtn.addEventListener('click', () => {
+      searchQuery = '';
+      if (searchInput) {
+        searchInput.value = '';
+        searchInput.focus();
+      }
+      updateSearchClearVisibility();
+      playPopSound(480, 280);
+      renderSswGrid(false);
+    });
+  }
+
+  if (resetSearchBtn) {
+    resetSearchBtn.addEventListener('click', resetSearchAndFilter);
+  }
+
+  // === 6. RENDER GRID BIDANG SSW ===
+  function matchesSearch(item, q) {
+    if (!q) return true;
+    const haystack = `${item.arti} ${item.folder} ${item.jp} ${item.furi} ${item.romaji} ${item.alias}`.toLowerCase();
+    return haystack.includes(q);
+  }
+
+  function renderSswGrid(animate = true) {
+    if (!sswGrid) return;
+
+    const list = SSW_CATEGORIES.filter(item => {
+      const passTab = currentFilter === 'active' ? isCategoryActive(item.folder) : true;
+      return passTab && matchesSearch(item, searchQuery);
+    });
+
+    if (list.length === 0) {
+      sswGrid.innerHTML = '';
+      sswGrid.classList.add('hidden');
+      emptyState?.classList.remove('hidden');
+      return;
+    }
+
+    sswGrid.classList.remove('hidden');
+    emptyState?.classList.add('hidden');
+
+    const frag = document.createDocumentFragment();
+
+    list.forEach((item, idx) => {
+      const isActive = isCategoryActive(item.folder);
+      const numLabel = String(idx + 1).padStart(2, '0');
       const targetUrl = `${BASE_DIR}/${item.folder}/index.html?kategori=${encodeURIComponent(item.folder)}&file=${item.json}`;
 
       const card = document.createElement('a');
-      card.href = encodeURI(targetUrl);
-      card.className = 'ssw-card';
+      card.href = isActive ? encodeURI(targetUrl) : '#';
+      card.className = isActive ? 'ssw-card' : 'ssw-card is-locked';
+      if (!isActive) card.setAttribute('aria-disabled', 'true');
+
       card.innerHTML = `
-        <span class="ssw-jp">
-          <ruby>${item.jp}<rt>${item.furi}</rt></ruby>
-        </span>
-        <span class="ssw-id">${item.arti}</span>
+        <div class="ssw-card-top">
+          <span class="ssw-index">${numLabel}</span>
+          ${isActive
+            ? `<span class="ssw-status-dot">Aktif</span>`
+            : `<span class="ssw-lock-badge">${LOCK_ICON_SVG}<span>Segera</span></span>`
+          }
+        </div>
+
+        <div class="ssw-card-body">
+          <span class="ssw-jp" lang="ja">
+            <ruby>${item.jp}<rt>${item.furi}</rt></ruby>
+          </span>
+        </div>
+
+        <div class="ssw-card-footer">
+          <span class="ssw-id">${item.arti}</span>
+          <span class="ssw-arrow" aria-hidden="true">
+            ${isActive ? ARROW_ICON_SVG : LOCK_ICON_SVG}
+          </span>
+        </div>
       `;
 
+      // Highlight instan saat ditekan di layar sentuh (HP & iPad)
+      if (isActive) {
+        const clearPressed = () => card.classList.remove('is-pressed');
+        card.addEventListener('touchstart', () => card.classList.add('is-pressed'), { passive: true });
+        card.addEventListener('touchend', clearPressed, { passive: true });
+        card.addEventListener('touchcancel', clearPressed, { passive: true });
+      }
+
       card.addEventListener('click', (e) => {
+        if (!isActive) {
+          e.preventDefault();
+          triggerLockedFeedback(card);
+          return;
+        }
+
         if (isModifiedClick(e)) return;
         e.preventDefault();
         playPopSound(640, 360);
@@ -145,20 +368,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         card.classList.add('card-launching');
 
-        // Tampilkan kanji pendek di kotak ikon tirai saat pindah halaman
         const shortKanji = item.jp.slice(0, 2);
         setTimeout(() => {
           smoothNavigate(targetUrl, item.arti, shortKanji);
-        }, 160);
+        }, 120);
       });
 
-      sswGrid.appendChild(card);
+      frag.appendChild(card);
     });
 
-    runStaggerIn(sswStage);
+    sswGrid.innerHTML = '';
+    sswGrid.appendChild(frag);
+    if (animate) runStaggerIn(sswStage);
   }
 
-  // === 4. AUDIO POP ===
+  // === 7. AUDIO POP RINGAN ===
   let audioCtx = null;
   function playPopSound(freqStart = 580, freqEnd = 290) {
     try {
@@ -169,125 +393,17 @@ document.addEventListener('DOMContentLoaded', () => {
       osc.type = 'sine';
       const now = audioCtx.currentTime;
       osc.frequency.setValueAtTime(freqStart, now);
-      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.09);
-      gain.gain.setValueAtTime(0.11, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.08);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(now);
-      osc.stop(now + 0.09);
+      osc.stop(now + 0.08);
     } catch (_) {}
   }
 
-  // === 5. VISUAL FX (AMBIENT ORB, SPARKS & MOUSE TRAIL) ===
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(pointer: fine)').matches;
-
-  if (!reduce) {
-    const sun = document.getElementById('sun');
-    if (sun && fine) {
-      addEventListener('pointermove', e => {
-        sun.style.transform = `translate(${(e.clientX / innerWidth - 0.5) * -36}px, ${(e.clientY / innerHeight - 0.5) * -36}px)`;
-      }, { passive: true });
-    }
-
-    const fx = document.getElementById('fx');
-    const sparkColors = ['#FDE047', '#FEF3C7', '#EAB308', '#FFFFFF'];
-    addEventListener('click', e => {
-      if (!fx || (e.clientX === 0 && e.clientY === 0)) return;
-      const pulse = document.createElement('div');
-      pulse.className = 'pulse';
-      pulse.style.left = e.clientX + 'px';
-      pulse.style.top = e.clientY + 'px';
-      pulse.onanimationend = () => pulse.remove();
-      fx.appendChild(pulse);
-
-      for (let i = 0; i < 5; i++) {
-        const angle = (Math.PI * 2 * i) / 5 + Math.random() * 0.4;
-        const dist = 40 + Math.random() * 50;
-        const sp = document.createElement('span');
-        sp.className = 'spark';
-        sp.style.left = e.clientX + 'px';
-        sp.style.top = e.clientY + 'px';
-        sp.style.background = sparkColors[i % sparkColors.length];
-        sp.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
-        sp.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-        sp.style.setProperty('--r', `${(Math.random() - 0.5) * 180}deg`);
-        sp.onanimationend = () => sp.remove();
-        fx.appendChild(sp);
-      }
-    });
-
-    if (fine) {
-      const cv = document.getElementById('trail');
-      if (cv) {
-        const ctx = cv.getContext('2d');
-        const resize = () => { cv.width = innerWidth; cv.height = innerHeight; };
-        resize();
-        addEventListener('resize', resize);
-
-        let mx = -100, my = -100, x = mx, y = my;
-        let isPointerActive = false;
-        let isLoopRunning = false;
-        let idleTimer = null;
-        const pts = [];
-
-        function drawTrail() {
-          if (isPointerActive) {
-            x += (mx - x) * 0.34;
-            y += (my - y) * 0.34;
-            pts.push({ x, y });
-            if (pts.length > 16) pts.shift();
-          } else if (pts.length > 0) {
-            pts.shift();
-          }
-
-          ctx.clearRect(0, 0, cv.width, cv.height);
-
-          if (pts.length > 1) {
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-
-            for (let i = 1; i < pts.length; i++) {
-              const t = i / pts.length;
-              ctx.strokeStyle = isDark
-                ? `rgba(253, 224, 71, ${t * 0.26})`
-                : `rgba(17, 17, 17, ${t * 0.16})`;
-              ctx.lineWidth = t * 8;
-              ctx.beginPath();
-              ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-              ctx.lineTo(pts[i].x, pts[i].y);
-              ctx.stroke();
-            }
-          }
-
-          if (isPointerActive || pts.length > 0) {
-            requestAnimationFrame(drawTrail);
-          } else {
-            isLoopRunning = false;
-          }
-        }
-
-        addEventListener('pointermove', e => {
-          if (!isPointerActive) {
-            x = e.clientX;
-            y = e.clientY;
-          }
-          mx = e.clientX;
-          my = e.clientY;
-          isPointerActive = true;
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(() => { isPointerActive = false; }, 160);
-
-          if (!isLoopRunning) {
-            isLoopRunning = true;
-            requestAnimationFrame(drawTrail);
-          }
-        }, { passive: true });
-      }
-    }
-  }
-
-  renderSswGrid();
+  // Render awal di belakang loader, lalu buka layar dengan halus
+  renderSswGrid(false);
+  setTimeout(dismissEntryLoader, 560);
 });
